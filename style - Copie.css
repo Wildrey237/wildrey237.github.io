@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    src: url(https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap);
+}
+section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-color: red;
+}
+article {
+    align-items: end;
+    border-color: red;
+}
+header {
+    height: 10vh;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.fondhead{
+    max-width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: transparent;
+    height: 60vh;
+}
+body{
+    background-image: url("https://f.hellowork.com/blogdumoderateur/2014/12/fond-ecran-noel-geek-600x399.jpg");
+    max-width: 100%;
+    filter: blur(1px);
+
+}
+span{
+    display: flex;
+    margin: 10px;
+    font-size: 20px;
+    text-align:right;
+    align-items: center;
+    color: black;
+}
+.texte_head{
+    color: rgb(6, 247, 86);
+    text-shadow: 4px 4px 4px black;
+    font-size: 20px;
+}
+.principale{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+.img{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.boutton{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: gray;
+    opacity: 80%;
+    justify-content: space-between;
+}
+.boutton_p{
+    width: 100%;
+    height: 15%;
+}
+.boutton_g{
+    width: 100%;
+    height: 8%;
+}
+.tete{
+    display: flex;
+    width: 11%;
+    justify-content: space-evenly;
+}
+.head_items{
+    border-radius: 50%;
+    padding: 0.25rem;
+    background-color: #fff;
+    max-width: 100%;
+    height: auto;
+}
+.fond{
+   align-items: center;
+   justify-content: center;
+}
+.bg{
+    background: center;
+    max-width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
