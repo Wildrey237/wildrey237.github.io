@@ -1,7 +1,10 @@
-import Route from "./route/route";
+import Redirection from "./route/route";
 
 function App() {
-  return ( Route );
+  // eslint-disable-next-line react/jsx-no-undef
+  return (
+        <Redirection />
+  );
 }
 
 export default App;

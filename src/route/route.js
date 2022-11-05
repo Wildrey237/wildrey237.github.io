@@ -7,19 +7,22 @@ import {
   Routes,
 } from 'react-router-dom'
 import Myskill from '../myskill';
-import './App.css';
-import Home from '../home';
+import Home from "../home";
+import Work from "../work";
+import Contact from "../contact";
 
 
-function Route () {
+function Redirection(){
     return (
       <Router>
           <Routes>
-                <Route exact path="/" component={Home} />
-                <Route path="/myskills" component={Myskill} />
+                <Route path="/" element={<Home />} />
+                <Route path="/myskills" element={<Myskill />} />
+                <Route path="/work" element={<Work />} />
+                <Route path="/contact" element={<Contact />} />
           </Routes>
       </Router>
     );
 }
 
-export default Route;
+export default Redirection;
