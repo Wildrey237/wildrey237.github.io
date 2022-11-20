@@ -2,10 +2,14 @@
 
 function Navbar() {
     const logo = "https://cdn.discordapp.com/attachments/958463954206732298/1039670138556915803/Black_White_Minimalist_Elegant_Letter_Initial_Name_Monogram_Logo.png"
+    const lien_logo_git = "https://cdn.discordapp.com/attachments/958463954206732298/1039216848895479838/pngegg.png"
+    const lien_logo_link = "https://cdn.discordapp.com/attachments/958463954206732298/1038061605272952864/kisspng-computer-icons-linkedin-desktop-wallpaper-white-5abcebad15e7c5.1517199115223305410897.png"
+    const lien_Profile_link = "https://www.linkedin.com/in/wilfried-bemelingue"
+    const Lien_github = "https://github.com/Wildrey237";
     return (
         <div className>
             <div className="div-logo">
-                <img className={"img-logo"} src={logo}></img>
+                <a href="/"><img className={"img-logo"} src={logo}></img></a>
             </div>
             <ul>
                 <li className="Navbar_element"><a href="/">About</a></li>
@@ -13,6 +17,10 @@ function Navbar() {
                 <li className="Navbar_element"><a href="/work">Work</a></li>
                 <li className="Navbar_element"><a href="/contact">Contact</a></li>
             </ul>
+            <div className={"div-logo"}>
+                <a href={lien_Profile_link}><img className={"logo-navbar"} src={lien_logo_link}/></a>
+                <a href={Lien_github}><img className={"logo-navbar"} src={lien_logo_git}/></a>
+            </div>
         </div>
     );
 }
