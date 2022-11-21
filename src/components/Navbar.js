@@ -1,4 +1,9 @@
-
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 function Navbar() {
     const logo = "https://cdn.discordapp.com/attachments/958463954206732298/1039670138556915803/Black_White_Minimalist_Elegant_Letter_Initial_Name_Monogram_Logo.png"
@@ -12,10 +17,10 @@ function Navbar() {
                 <a href="/"><img className={"img-logo"} src={logo}></img></a>
             </div>
             <ul>
-                <li className="Navbar_element"><a href="/">About</a></li>
-                <li className="Navbar_element"><a href="/myskills">MySkills</a></li>
-                <li className="Navbar_element"><a href="/work">Work</a></li>
-                <li className="Navbar_element"><a href="/contact">Contact</a></li>
+                <li className="Navbar_element"><Link to="/">About</Link></li>
+                <li className="Navbar_element"><Link to="/myskills">MySkills</Link></li>
+                <li className="Navbar_element"><Link to="/work">Work</Link></li>
+                <li className="Navbar_element"><Link to="/contact">Contact</Link></li>
             </ul>
             <div className={"div-logo"}>
                 <a href={lien_Profile_link}><img className={"logo-navbar"} src={lien_logo_link}/></a>
