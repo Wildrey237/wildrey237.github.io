@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.83eb8de5.css",
-    "main.js": "/static/js/main.c303ef25.js",
+    "main.js": "/static/js/main.e3fb8ea1.js",
     "static/media/PTSans-Bold.ttf": "/static/media/PTSans-Bold.610bc32a7e32c292ce59.ttf",
     "static/media/PTSans-Regular.ttf": "/static/media/PTSans-Regular.77e92507394e2309d837.ttf",
     "static/media/GreatVibes-Regular.ttf": "/static/media/GreatVibes-Regular.6d246c3b51d7eb58b13a.ttf",
     "index.html": "/index.html",
     "main.83eb8de5.css.map": "/static/css/main.83eb8de5.css.map",
-    "main.c303ef25.js.map": "/static/js/main.c303ef25.js.map"
+    "main.e3fb8ea1.js.map": "/static/js/main.e3fb8ea1.js.map"
   },
   "entrypoints": [
     "static/css/main.83eb8de5.css",
-    "static/js/main.c303ef25.js"
+    "static/js/main.e3fb8ea1.js"
   ]
 }
