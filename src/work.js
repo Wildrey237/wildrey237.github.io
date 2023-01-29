@@ -1,4 +1,5 @@
 import Navbar from "./components/Navbar";
+import {useState} from "react";
 
 
 function Work() {
@@ -6,9 +7,10 @@ function Work() {
     const image_projet_TDA_2 = "https://cdn.discordapp.com/attachments/958463954206732298/1039664085622603866/image.png"
     const image_projet_TDA_3 = ""
     const image_projet_TDA_4 = ""
-  return (
+    const [navbar, setNavbar] = useState(true);
+    const [navbarMobile, setNavbarMobile] = useState(true);
+    return (
     <div className="page">
-
       <div className="main">
           <div>
               <h1>Experience</h1>
@@ -63,14 +65,25 @@ function Work() {
               <br></br>
               <br /><br />
           </div>
-
         </div>
-      <div className="navbar_container">
-        <Navbar/>
-      </div>
-      <div className="navbar_mobile_container">
-        <Navbar/>
-      </div>
+        <div className={"navbar_container"}>
+            <Navbar/>
+        </div>
+        <div className={"navbar-bottom"}>
+            {navbar ? (
+                <div onClick={()=>{
+                    setNavbar(false);
+                }
+                }>Navbar</div>
+            ) : (
+                <div className={"navbar_mobile_container"}>
+                    <div onClick={()=>{
+                        setNavbar(true);
+                    }
+                    }>Close</div>
+                    <Navbar/>
+                </div>) }
+        </div>
     </div>
   );
 }
