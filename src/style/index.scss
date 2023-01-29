@@ -1,13 +1,15 @@
 @import './settings.scss';
 @import './Navbar.scss';
 @import "./Style.scss";
+@import "./skills.scss";
+//@import "oldStyle.scss";
 
 body{
-  box-sizing: border-box;
+  margin: 0;
+  background-color: $color-1;
 }
 
 #root{
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;

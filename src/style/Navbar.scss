@@ -3,7 +3,7 @@
     left: 0;
     height: 100vh;
     width: 10.5%;
-    position: sticky;
+    position: fixed;
     background-color: $color-3;
 }
 ul{
@@ -47,8 +47,20 @@ ul{
     color: $color-5;
 }
 
+.navbar_mobile_container {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 70%;
+    position: fixed;
+    background-color: $color-3;
+}
+
 @media screen and(min-width: 768px){
     .navbar_mobile_container{
+        display: none;
+    }
+    .icon-menu{
         display: none;
     }
 }
@@ -57,14 +69,8 @@ ul{
     .navbar_container{
         display: none;
     }
-    /*
-    .navbar_mobile_container{
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100vw;
-        position: absolute;
-        background-color: $color-3;
+    .icon-menu{
+        display: none;
     }
-    */
+
 }

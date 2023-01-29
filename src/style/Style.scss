@@ -1,8 +1,8 @@
-.page {
+.page-home {
   //position: absolute;
   width: 100%;
   background-color: $color-1;
-  &:before {
+  &:before{
     content: '<body>';
     color: $color-2;
     position: absolute;
@@ -16,7 +16,7 @@
     position: absolute;
     font-size: 1.2rem;
     left: 10.5rem;
-    margin-top: -2.5rem;
+    margin-top: 42rem;
     font-family: $font-3;
   }
 }
@@ -70,7 +70,6 @@ section{
   &:before {
     content: '<p>';
     color: $color-2;
-    position: absolute;
     font-size: 1.2rem;
     margin-top: -1rem;
     left: 3.5rem;
@@ -79,7 +78,6 @@ section{
   &:after {
     content: '</p>';
     color: $color-2;
-    position: absolute;
     font-size: 1.2rem;
     left: 3.5rem;
     margin-top: 2.5rem;
