@@ -3,7 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - work   # 👉 à chaque push sur la branche work
+      - work          # 👉 uniquement depuis la branche work
+    tags:
+      - 'deploy-*'    # 👉 uniquement si le tag commence par deploy-
 
 jobs:
   build-and-deploy:
@@ -18,7 +20,7 @@ jobs:
       - name: Setup Node.js ⚙️
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # adapte si besoin
+          node-version: '18'
 
       # 3. Installer les dépendances
       - name: Install dependencies 📦
@@ -32,5 +34,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: main          # Branche cible (celle qui sert à GitHub Pages)
-          folder: dist          # Dossier de build généré par Vite
+          branch: main
+          folder: dist

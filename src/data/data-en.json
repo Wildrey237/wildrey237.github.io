@@ -136,6 +136,143 @@
         "name": "CI/CD with GitLab and GitHub",
         "desc": "Implementation of continuous integration and deployment pipelines."
       }
+    ],
+    "quantum": [
+      {
+        "name": "Quantum Mathematics",
+        "desc": "Foundational mathematical concepts applied to quantum computing and system modeling."
+      },
+      {
+        "name": "Quantum Computing",
+        "desc": "Strong interest in quantum computing principles, algorithms, and emerging technologies in this field."
+      }
     ]
-  }
+  },
+  "education": [
+    {
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "degree": "Majeure Smart Computing for Artificial Graphs (4ᵉ et 5ᵉ années, dernière année en cours)",
+      "years": "2024 – 2025",
+      "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Elle couvre la data‑viz, le big data, le machine learning, les systèmes distribués et les algorithmes de recommandation, avec des projets complexes et une forte orientation vers la recherche et l’innovation.",
+      "website": "https://www.epita.fr",
+      "projects": [
+        {
+          "title": "Analyse et prédiction des accidents de la route",
+          "description": "Projet combinant data‑viz, big data et machine learning : traitement et analyse de données d’accidents, modélisation supervisée et non supervisée, évaluation de modèles et interprétation des résultats."
+        },
+        {
+          "title": "Projet TinyX (INFO8)",
+          "description": "Implémentation d’une architecture micro‑services en Java (Quarkus) avec bases NoSQL (MongoDB, Elasticsearch, Neo4j), files de messages Redis et déploiement Kubernetes."
+        },
+        {
+          "title": "Programmation différentiable",
+          "description": "Reconstruction d’une librairie de deep learning type PyTorch pour comprendre le calcul différentiel automatique et la rétropropagation."
+        },
+        {
+          "title": "Deep Learning – Classification de galaxies",
+          "description": "Conception d’un réseau de neurones pour classifier des galaxies (jeu de données Galaxy10‑DECals), entraînement et évaluation des performances."
+        },
+        {
+          "title": "NLP – Filtre intelligent de CV",
+          "description": "Création d’un outil de filtrage automatique de CV pour les recruteurs utilisant des techniques NLP avancées."
+        },
+        {
+          "title": "Recommender Systems",
+          "description": "Mise en œuvre d’algorithmes de recommandation et introduction de diversité dans les recommandations (ItemKNN, UserKNN, SVD et techniques de diversification)."
+        }
+      ]
+    },
+    {
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "degree": "Diplôme d’ingénieur en Informatique (3ᵉ année, accrédité par la CTI)",
+      "years": "Depuis septembre 2023",
+      "details": "En 3ᵉ année du cycle ingénieur, les étudiants suivent des piscines intensives (séances de programmation de plusieurs jours, parfois nocturnes), ainsi que des projets collectifs et des challenges « rush ». Cette pédagogie immersive vise à renforcer les compétences fondamentales, développer la robustesse et simuler des environnements professionnels exigeants.",
+      "website": "https://www.epita.fr",
+      "projects": [
+        {
+          "title": "Mini Shell en C",
+          "description": "Conception et développement d’un mini shell."
+        },
+        {
+          "title": "Compilateur en C++",
+          "description": "Création d’un compilateur complet en C++."
+        },
+        {
+          "title": "Jeux vidéo",
+          "description": "Création de jeux : Zorks en C++, Creeps en Java, Eplace en JavaScript."
+        },
+        {
+          "title": "Éditeur de code",
+          "description": "Développement d’un éditeur de code en Java et React."
+        },
+        {
+          "title": "Étude opérationnelle du déneigement de Montréal",
+          "description": "Analyse et modélisation en Python."
+        },
+        {
+          "title": "Medical Data Classification",
+          "description": "Design and training of machine learning models in Python to classify medical data. Includes exploratory data analysis, advanced preprocessing, implementation of supervised algorithms (regressions, random forests, neural networks), and performance evaluation with appropriate metrics."
+        }
+      ]
+    },
+    {
+      "school": "ECE Paris",
+      "degree": "2ᵉ année Bachelor RNCP",
+      "years": "Septembre 2022 – Avril 2023",
+      "details": "Formation orientée développement logiciel et analyse de données, avec mise en pratique sur des projets concrets.",
+      "website": "https://www.ece.fr",
+      "projects": [
+        {
+          "title": "Applications web PHP",
+          "description": "Conception et développement d’applications web en PHP."
+        },
+        {
+          "title": "Portfolio React.js",
+          "description": "Réalisation d’un portfolio en React.js."
+        },
+        {
+          "title": "Applications Java",
+          "description": "Développement d’applications complètes en Java."
+        },
+        {
+          "title": "Analyse de données",
+          "description": "Traitement et analyse de données avec Python (Pandas, NumPy)."
+        }
+      ]
+    },
+    {
+      "school": "EPSI Rennes",
+      "degree": "1ʳᵉ année Bachelor RNCP",
+      "years": "Septembre 2021 – Avril 2022",
+      "details": "Première approche des systèmes informatiques et du développement web et objet, avec de nombreux projets techniques.",
+      "website": "https://www.epsi.fr",
+      "projects": [
+        {
+          "title": "Serveur web Linux",
+          "description": "Création, virtualisation et administration de serveurs web sous Linux."
+        },
+        {
+          "title": "Applications Flask/PHP/Python",
+          "description": "Développement d’applications web et objets avec Flask, PHP et Django."
+        },
+        {
+          "title": "Administration réseau",
+          "description": "Mise en place et gestion d’infrastructures réseau."
+        }
+      ]
+    },
+    {
+      "school": "Université Saint Jean – Yaoundé CMR",
+      "degree": "Classe préparatoire ingénieur",
+      "years": "Octobre 2020 – Juin 2021",
+      "details": "Préparation intensive en mathématiques, physique et robotique pour intégrer une école d’ingénieur.",
+      "website": "https://institutsaintjean.org",
+      "projects": [
+        {
+          "title": "Projets Arduino",
+          "description": "Réalisation de prototypes robotiques et électroniques."
+        }
+      ]
+    }
+  ]
 }
