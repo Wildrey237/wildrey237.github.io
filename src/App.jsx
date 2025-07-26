@@ -1,33 +1,33 @@
-import { Box, useColorMode } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import {Box, useColorMode} from "@chakra-ui/react";
+import {useTranslation} from "react-i18next";
 import Navbar from "./components/Navbar";
 import SkillsSection from "./components/SkillsSection";
 import ExperienceSection from "./components/ExperienceSection";
 import Footer from "./components/Footer";
-import ProfileSection from "./components/ProfileSection"; // ➡️ Nouveau composant profil
+import ProfileSection from "./components/ProfileSection";
 
 function App() {
-    const { colorMode } = useColorMode();
+    const {colorMode} = useColorMode();
 
     return (
         <Box minH="100vh" bg={colorMode === "light" ? "gray.50" : "gray.800"}>
             {/* Navbar */}
-            <Navbar />
+            <Navbar/>
 
             {/* Contenu principal avec un padding-bottom pour laisser place au footer */}
             <Box mt="80px" pb="80px">
                 {/* Section Profil */}
-                <ProfileSection />
+                <ProfileSection/>
 
                 {/* Section Compétences */}
-                <SkillsSection />
+                <SkillsSection/>
 
                 {/* Section Expériences */}
-                <ExperienceSection />
+                <ExperienceSection/>
             </Box>
 
             {/* Footer fixe */}
-            <Footer />
+            <Footer/>
         </Box>
     );
 }

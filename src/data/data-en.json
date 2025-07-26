@@ -16,57 +16,126 @@
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "dates": "September 2024 – February 2025",
       "description": "Migrated scripts to Airflow on AWS, optimized Python scripts and SQL queries, implemented a JSON-based retry system, created KPIs for BI dashboards, improved GitLab CI/CD pipelines.",
-      "tags": ["Python", "Airflow", "AWS", "SQL", "CI/CD"]
+      "tags": [
+        "Python",
+        "Airflow",
+        "AWS",
+        "SQL",
+        "CI/CD"
+      ]
     },
     {
       "title": "Software Developer Intern",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "April 2023 – July 2023",
       "description": "Developed Import/Export monitoring applications using JavaScript and ObjectScript, data visualization with Iris Intersystem and Python.",
-      "tags": ["JavaScript", "ObjectScript", "DataViz", "Python"]
+      "tags": [
+        "JavaScript",
+        "ObjectScript",
+        "DataViz",
+        "Python"
+      ]
     },
     {
       "title": "Intern",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "May 2022 – June 2022",
       "description": "Created an air freight display application via REST API and JavaScript.",
-      "tags": ["JavaScript", "REST API"]
+      "tags": [
+        "JavaScript",
+        "REST API"
+      ]
     },
     {
       "title": "Intern",
       "company": "INNOVATECH Yaoundé",
       "dates": "June 2019 – August 2019",
       "description": "Arduino and mechatronics training, built a Smart Parking system and a remote-controlled car.",
-      "tags": ["Arduino", "Mechatronics", "IoT"]
+      "tags": [
+        "Arduino",
+        "Mechatronics",
+        "IoT"
+      ]
     }
   ],
   "skills": {
     "development": [
-      { "name": "HTML, CSS, JavaScript, TypeScript", "desc": "Core web technologies used to build modern, responsive user interfaces." },
-      { "name": "React, Node.js", "desc": "Framework and runtime for building dynamic client and server applications." },
-      { "name": "Python (NumPy, Pandas, PyTorch)", "desc": "Versatile language for data science, AI, and machine learning." },
-      { "name": "Java, PHP, C/C++", "desc": "Languages for backend, embedded systems, and complex software development." }
+      {
+        "name": "HTML, CSS, JavaScript, TypeScript",
+        "desc": "Core web technologies used to build modern, responsive user interfaces."
+      },
+      {
+        "name": "React, Node.js",
+        "desc": "Framework and runtime for building dynamic client and server applications."
+      },
+      {
+        "name": "Python (NumPy, Pandas, PyTorch)",
+        "desc": "Versatile language for data science, AI, and machine learning."
+      },
+      {
+        "name": "Java, PHP, C/C++",
+        "desc": "Languages for backend, embedded systems, and complex software development."
+      }
     ],
     "environments": [
-      { "name": "Docker", "desc": "Containerization technology to package and deploy applications." },
-      { "name": "Kubernetes", "desc": "Container orchestration for managing large-scale applications." },
-      { "name": "Linux (administration and scripting)", "desc": "System environment widely used for development and production." }
+      {
+        "name": "Docker",
+        "desc": "Containerization technology to package and deploy applications."
+      },
+      {
+        "name": "Kubernetes",
+        "desc": "Container orchestration for managing large-scale applications."
+      },
+      {
+        "name": "Linux (administration and scripting)",
+        "desc": "System environment widely used for development and production."
+      }
     ],
     "databases": [
-      { "name": "SQL (MySQL, PostgreSQL)", "desc": "Query languages for interacting with relational databases." },
-      { "name": "NoSQL", "desc": "Flexible databases to handle unstructured data." },
-      { "name": "Neo4j (graph databases)", "desc": "Database optimized for managing and querying graph-based relationships." }
+      {
+        "name": "SQL (MySQL, PostgreSQL)",
+        "desc": "Query languages for interacting with relational databases."
+      },
+      {
+        "name": "NoSQL",
+        "desc": "Flexible databases to handle unstructured data."
+      },
+      {
+        "name": "Neo4j (graph databases)",
+        "desc": "Database optimized for managing and querying graph-based relationships."
+      }
     ],
     "ai": [
-      { "name": "Machine Learning & Deep Learning", "desc": "Design and training of intelligent models from data." },
-      { "name": "Graph Neural Networks", "desc": "Neural networks designed to process graph-structured data." },
-      { "name": "Reinforcement Learning", "desc": "Learning by interaction to optimize sequential decisions." },
-      { "name": "Explainable AI (SHAP, LIME)", "desc": "Techniques to explain and interpret AI model decisions." }
+      {
+        "name": "Machine Learning & Deep Learning",
+        "desc": "Design and training of intelligent models from data."
+      },
+      {
+        "name": "Graph Neural Networks",
+        "desc": "Neural networks designed to process graph-structured data."
+      },
+      {
+        "name": "Reinforcement Learning",
+        "desc": "Learning by interaction to optimize sequential decisions."
+      },
+      {
+        "name": "Explainable AI (SHAP, LIME)",
+        "desc": "Techniques to explain and interpret AI model decisions."
+      }
     ],
     "bigdata": [
-      { "name": "Hadoop, Spark, MapReduce", "desc": "Tools for distributed processing of large-scale data." },
-      { "name": "Airflow on AWS", "desc": "Workflow orchestration and automation in the cloud." },
-      { "name": "CI/CD with GitLab and GitHub", "desc": "Implementation of continuous integration and deployment pipelines." }
+      {
+        "name": "Hadoop, Spark, MapReduce",
+        "desc": "Tools for distributed processing of large-scale data."
+      },
+      {
+        "name": "Airflow on AWS",
+        "desc": "Workflow orchestration and automation in the cloud."
+      },
+      {
+        "name": "CI/CD with GitLab and GitHub",
+        "desc": "Implementation of continuous integration and deployment pipelines."
+      }
     ]
   }
 }

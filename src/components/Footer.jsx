@@ -5,17 +5,17 @@ import {
     Button,
     useColorMode,
 } from "@chakra-ui/react";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import {FaGithub, FaLinkedin, FaEnvelope} from "react-icons/fa";
+import {useTranslation} from "react-i18next";
+import {motion} from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
 
 const MotionIconButton = motion(IconButton);
 
 export default function Footer() {
-    const { colorMode } = useColorMode();
-    const { t, i18n } = useTranslation();
+    const {colorMode} = useColorMode();
+    const {t, i18n} = useTranslation();
 
     const data = i18n.language === "fr" ? frData : enData;
 
@@ -45,12 +45,12 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Email"
-                    icon={<FaEnvelope />}
+                    icon={<FaEnvelope/>}
                     variant="ghost"
                     size="lg"
                     color={colorMode === "light" ? "gray.800" : "white"}
-                    whileHover={{ scale: 1.2, color: "#319795" }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{scale: 1.2, color: "#319795"}}
+                    whileTap={{scale: 0.95}}
                 />
                 {/* Icône GitHub */}
                 <MotionIconButton
@@ -59,12 +59,12 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub"
-                    icon={<FaGithub />}
+                    icon={<FaGithub/>}
                     variant="ghost"
                     size="lg"
                     color={colorMode === "light" ? "gray.800" : "white"}
-                    whileHover={{ scale: 1.2, color: "#319795" }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{scale: 1.2, color: "#319795"}}
+                    whileTap={{scale: 0.95}}
                 />
                 {/* Icône LinkedIn */}
                 <MotionIconButton
@@ -73,12 +73,12 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn"
-                    icon={<FaLinkedin />}
+                    icon={<FaLinkedin/>}
                     variant="ghost"
                     size="lg"
                     color={colorMode === "light" ? "gray.800" : "white"}
-                    whileHover={{ scale: 1.2, color: "#319795" }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{scale: 1.2, color: "#319795"}}
+                    whileTap={{scale: 0.95}}
                 />
             </HStack>
 

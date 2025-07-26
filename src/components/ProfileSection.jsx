@@ -7,16 +7,16 @@ import {
     HStack,
     useColorMode,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
-import { MdLocationOn, MdEmail } from "react-icons/md";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
-import { Typewriter } from "react-simple-typewriter";
+import {MdLocationOn, MdEmail} from "react-icons/md";
+import {FaLinkedin, FaGithub} from "react-icons/fa";
+import {Typewriter} from "react-simple-typewriter";
 
 export default function ProfileSection() {
-    const { i18n } = useTranslation();
-    const { colorMode } = useColorMode();
+    const {i18n} = useTranslation();
+    const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
     return (
@@ -74,24 +74,24 @@ export default function ProfileSection() {
                 color={colorMode === "light" ? "gray.700" : "gray.200"}
             >
                 <HStack spacing={2}>
-                    <MdLocationOn size={18} />
+                    <MdLocationOn size={18}/>
                     <Text>{data.profile.location}</Text>
                 </HStack>
                 <HStack spacing={2}>
-                    <MdEmail size={18} />
-                    <Link href={`mailto:${data.profile.email}`} _hover={{ color: "teal.500" }}>
+                    <MdEmail size={18}/>
+                    <Link href={`mailto:${data.profile.email}`} _hover={{color: "teal.500"}}>
                         {data.profile.email}
                     </Link>
                 </HStack>
                 <HStack spacing={2}>
-                    <FaLinkedin size={18} />
-                    <Link href={data.profile.linkedin} target="_blank" _hover={{ color: "teal.500" }}>
+                    <FaLinkedin size={18}/>
+                    <Link href={data.profile.linkedin} target="_blank" _hover={{color: "teal.500"}}>
                         LinkedIn
                     </Link>
                 </HStack>
                 <HStack spacing={2}>
-                    <FaGithub size={18} />
-                    <Link href={data.profile.github} target="_blank" _hover={{ color: "teal.500" }}>
+                    <FaGithub size={18}/>
+                    <Link href={data.profile.github} target="_blank" _hover={{color: "teal.500"}}>
                         GitHub
                     </Link>
                 </HStack>

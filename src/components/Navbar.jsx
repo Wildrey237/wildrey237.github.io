@@ -7,26 +7,26 @@ import {
     useColorMode,
     useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import {HamburgerIcon, CloseIcon, SunIcon, MoonIcon} from "@chakra-ui/icons";
+import {useTranslation} from "react-i18next";
+import {useEffect, useState} from "react";
 
 export default function Navbar() {
-    const { colorMode, toggleColorMode } = useColorMode();
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const { t, i18n } = useTranslation();
+    const {colorMode, toggleColorMode} = useColorMode();
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const {t, i18n} = useTranslation();
 
     const [activeSection, setActiveSection] = useState("home");
 
     const scrollToId = (id) => {
         if (id === "home") {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({top: 0, behavior: "smooth"});
             onClose();
             return;
         }
         const section = document.getElementById(id);
         if (section) {
-            section.scrollIntoView({ behavior: "smooth" });
+            section.scrollIntoView({behavior: "smooth"});
             onClose();
         }
     };
@@ -61,7 +61,7 @@ export default function Navbar() {
                     onClick={() => scrollToId(id)}
                     variant="ghost"
                     color={colorMode === "light" ? "gray.800" : "white"}
-                    _hover={{ color: "teal.500" }}
+                    _hover={{color: "teal.500"}}
                 >
                     {label}
                 </Button>
@@ -106,15 +106,15 @@ export default function Navbar() {
                     fontWeight="bold"
                     fontSize="xl"
                     cursor="pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
                     color={colorMode === "light" ? "gray.800" : "white"}
-                    _hover={{ color: "teal.500" }}
+                    _hover={{color: "teal.500"}}
                 >
                     {t("brand")}
                 </Box>
 
                 {/* Menu Desktop */}
-                <Flex display={{ base: "none", md: "flex" }} gap="6" align="center">
+                <Flex display={{base: "none", md: "flex"}} gap="6" align="center">
                     {renderButton("home", t("home"))}
                     {renderButton("skills", t("skills"))}
                     {renderButton(
@@ -127,11 +127,11 @@ export default function Navbar() {
                 <Flex align="center">
                     <IconButton
                         aria-label="Toggle theme"
-                        icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                        icon={colorMode === "light" ? <MoonIcon/> : <SunIcon/>}
                         onClick={toggleColorMode}
                         mr={2}
                         color={colorMode === "light" ? "gray.800" : "white"}
-                        _hover={{ color: "teal.500" }}
+                        _hover={{color: "teal.500"}}
                     />
                     <Button
                         onClick={() =>
@@ -145,11 +145,11 @@ export default function Navbar() {
                     </Button>
                     <IconButton
                         aria-label="Menu"
-                        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                        display={{ base: "inline-flex", md: "none" }}
+                        icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
+                        display={{base: "inline-flex", md: "none"}}
                         onClick={isOpen ? onClose : onOpen}
                         color={colorMode === "light" ? "gray.800" : "white"}
-                        _hover={{ color: "teal.500" }}
+                        _hover={{color: "teal.500"}}
                     />
                 </Flex>
             </Flex>
@@ -165,7 +165,7 @@ export default function Navbar() {
                     bg={colorMode === "light" ? "whiteAlpha.900" : "gray.800"}
                     backdropFilter="blur(8px)"
                     p={4}
-                    display={{ md: "none" }}
+                    display={{md: "none"}}
                     spacing={3}
                 >
                     {renderButton("home", t("home"))}
