@@ -1,0 +1,72 @@
+{
+  "profile": {
+    "name": "BEMELINGUE Wilfried",
+    "title": "Étudiant en génie informatique spécialisé en IA, Deep Learning et Machine Learning",
+    "summary": "Actuellement à la recherche d’un stage de fin d’études (6 mois) dans le domaine de l’intelligence artificielle, du Deep Learning et du Machine Learning. Je réside en France, en Île-de-France, et je suis parfaitement bilingue en français et possède un anglais courant (TOEIC en cours).",
+    "location": "Île-de-France, France",
+    "email": "wilfriedbemelingue@gmail.com",
+    "phone": "07 76 34 90 99",
+    "linkedin": "https://www.linkedin.com/in/wilfried-bemelingue",
+    "github": "https://github.com/Wildrey237",
+    "cvLink": "https://cvdesignr.com/p/66d4f70d4fe1c?hl=fr_FR"
+  },
+  "experiences": [
+    {
+      "title": "Stagiaire – Optimisation et migration de scripts",
+      "company": "COMUTITRES (Île-de-France Mobilités)",
+      "dates": "Septembre 2024 – Février 2025",
+      "description": "Migration de scripts vers Airflow sur AWS, optimisation de scripts Python et requêtes SQL, mise en place d’un système de relance automatique basé sur JSON, création de KPI pour la BI, amélioration des pipelines CI/CD sous GitLab.",
+      "tags": ["Python", "Airflow", "AWS", "SQL", "CI/CD"]
+    },
+    {
+      "title": "Stagiaire Développeur",
+      "company": "TDA CERMAI Villiers-le-Bel",
+      "dates": "Avril 2023 – Juillet 2023",
+      "description": "Développement d'applications de monitoring Import/Export en JavaScript et ObjectScript, dataviz avec Iris Intersystem et Python.",
+      "tags": ["JavaScript", "ObjectScript", "DataViz", "Python"]
+    },
+    {
+      "title": "Stagiaire",
+      "company": "TDA CERMAI Villiers-le-Bel",
+      "dates": "Mai 2022 – Juin 2022",
+      "description": "Application d'affichage des frets aériens via REST API et JavaScript.",
+      "tags": ["JavaScript", "REST API"]
+    },
+    {
+      "title": "Stagiaire",
+      "company": "INNOVATECH Yaoundé",
+      "dates": "Juin 2019 – Août 2019",
+      "description": "Formation Arduino et mécatronique, réalisation d'un Smart Parking et d'une voiture télécommandée.",
+      "tags": ["Arduino", "Mécatronique", "IoT"]
+    }
+  ],
+  "skills": {
+    "development": [
+      { "name": "HTML, CSS, JavaScript, TypeScript", "desc": "Technologies de base pour créer des interfaces web modernes et responsives." },
+      { "name": "React, Node.js", "desc": "Framework et runtime pour créer des applications web dynamiques côté client et serveur." },
+      { "name": "Python (NumPy, Pandas, PyTorch)", "desc": "Langage polyvalent pour le data science, l'IA et le machine learning." },
+      { "name": "Java, PHP, C/C++", "desc": "Langages pour le développement back-end, embarqué et logiciels complexes." }
+    ],
+    "environments": [
+      { "name": "Docker", "desc": "Création et gestion de conteneurs pour déployer des applications de façon portable." },
+      { "name": "Kubernetes", "desc": "Orchestration de conteneurs pour gérer des applications à grande échelle." },
+      { "name": "Linux (administration et scripting)", "desc": "Environnement système utilisé pour le développement et la mise en production." }
+    ],
+    "databases": [
+      { "name": "SQL (MySQL, PostgreSQL)", "desc": "Langages de requête pour interroger et gérer des bases de données relationnelles." },
+      { "name": "NoSQL", "desc": "Bases de données flexibles pour gérer des données non structurées." },
+      { "name": "Neo4j (bases de données graphes)", "desc": "Base de données optimisée pour les relations complexes entre entités." }
+    ],
+    "ai": [
+      { "name": "Machine Learning & Deep Learning", "desc": "Conception et entraînement de modèles intelligents à partir de données." },
+      { "name": "Graph Neural Networks", "desc": "Réseaux de neurones conçus pour traiter des données sous forme de graphes." },
+      { "name": "Reinforcement Learning", "desc": "Apprentissage par interaction pour optimiser des décisions séquentielles." },
+      { "name": "IA Explicable (SHAP, LIME)", "desc": "Techniques permettant d’expliquer les décisions des modèles d’IA." }
+    ],
+    "bigdata": [
+      { "name": "Hadoop, Spark, MapReduce", "desc": "Outils pour le traitement distribué de données volumineuses." },
+      { "name": "Airflow sur AWS", "desc": "Orchestration et automatisation de workflows dans le cloud." },
+      { "name": "CI/CD avec GitLab et GitHub", "desc": "Mise en place de pipelines de déploiement et d’intégration continue." }
+    ]
+  }
+}
