@@ -10,16 +10,16 @@ import {
     Wrap,
     WrapItem,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 const MotionBox = motion(Box);
 
 export default function ExperienceSection() {
-    const { i18n } = useTranslation();
-    const { colorMode } = useColorMode();
+    const {i18n} = useTranslation();
+    const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
     return (
@@ -74,10 +74,10 @@ export default function ExperienceSection() {
                             bg={colorMode === "light" ? "white" : "gray.700"}
                             borderRadius="xl"
                             boxShadow="lg"
-                            initial={{ opacity: 0, x: idx % 2 === 0 ? -80 : 80 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
+                            initial={{opacity: 0, x: idx % 2 === 0 ? -80 : 80}}
+                            whileInView={{opacity: 1, x: 0}}
+                            viewport={{once: true, amount: 0.2}}
+                            transition={{duration: 0.6, delay: idx * 0.1, ease: "easeOut"}}
                             whileHover={{
                                 scale: 1.03,
                                 boxShadow: `0 0 15px ${
@@ -122,7 +122,7 @@ export default function ExperienceSection() {
                                                 variant="subtle"
                                                 borderRadius="full"
                                                 transition="transform 0.2s ease"
-                                                _hover={{ transform: "scale(1.1)" }}
+                                                _hover={{transform: "scale(1.1)"}}
                                             >
                                                 {tag}
                                             </Tag>

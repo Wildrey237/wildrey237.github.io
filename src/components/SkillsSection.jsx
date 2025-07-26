@@ -13,12 +13,12 @@ import {
     useBreakpointValue,
     HStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
-import { FaCode } from "react-icons/fa";
+import {FaCode} from "react-icons/fa";
 
-function CategoryCard({ title, items, colorMode, triggerMode }) {
+function CategoryCard({title, items, colorMode, triggerMode}) {
     return (
         <Box
             borderWidth="1px"
@@ -59,7 +59,7 @@ function CategoryCard({ title, items, colorMode, triggerMode }) {
                                 cursor: "pointer",
                             }}
                         >
-                            <FaCode />
+                            <FaCode/>
                             <Text as="span">{skill.name}</Text>
                         </HStack>
                     </PopoverTrigger>
@@ -71,8 +71,8 @@ function CategoryCard({ title, items, colorMode, triggerMode }) {
                         maxW="220px"
                         fontSize="sm"
                     >
-                        <PopoverArrow />
-                        <PopoverCloseButton />
+                        <PopoverArrow/>
+                        <PopoverCloseButton/>
                         <PopoverBody>{skill.desc}</PopoverBody>
                     </PopoverContent>
                 </Popover>
@@ -82,10 +82,10 @@ function CategoryCard({ title, items, colorMode, triggerMode }) {
 }
 
 export default function SkillsSection() {
-    const { colorMode } = useColorMode();
-    const { i18n } = useTranslation();
+    const {colorMode} = useColorMode();
+    const {i18n} = useTranslation();
     const data = i18n.language === "fr" ? frData : enData;
-    const triggerMode = useBreakpointValue({ base: "click", md: "hover" });
+    const triggerMode = useBreakpointValue({base: "click", md: "hover"});
 
     return (
         <Box
