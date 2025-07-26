@@ -150,64 +150,64 @@
   },
   "education": [
     {
-      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
-      "degree": "Majeure Smart Computing for Artificial Graphs (4ᵉ et 5ᵉ années, dernière année en cours)",
+      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress)",
       "years": "2024 – 2025",
-      "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Elle couvre la data‑viz, le big data, le machine learning, les systèmes distribués et les algorithmes de recommandation, avec des projets complexes et une forte orientation vers la recherche et l’innovation.",
+      "details": "The SCIA‑G major trains engineers to design and apply artificial intelligence on graph-structured data. It covers data visualization, big data, machine learning, distributed systems, and recommendation algorithms, with complex projects and a strong focus on research and innovation.",
       "website": "https://www.epita.fr",
       "projects": [
         {
-          "title": "Analyse et prédiction des accidents de la route",
-          "description": "Projet combinant data‑viz, big data et machine learning : traitement et analyse de données d’accidents, modélisation supervisée et non supervisée, évaluation de modèles et interprétation des résultats."
+          "title": "Analysis and Prediction of Road Accidents",
+          "description": "Project combining data visualization, big data, and machine learning: processing and analysis of accident data, supervised and unsupervised modeling, model evaluation, and result interpretation."
         },
         {
-          "title": "Projet TinyX (INFO8)",
-          "description": "Implémentation d’une architecture micro‑services en Java (Quarkus) avec bases NoSQL (MongoDB, Elasticsearch, Neo4j), files de messages Redis et déploiement Kubernetes."
+          "title": "TinyX Project (INFO8)",
+          "description": "Implementation of a microservices architecture in Java (Quarkus) with NoSQL databases (MongoDB, Elasticsearch, Neo4j), Redis message queues, and Kubernetes deployment."
         },
         {
-          "title": "Programmation différentiable",
-          "description": "Reconstruction d’une librairie de deep learning type PyTorch pour comprendre le calcul différentiel automatique et la rétropropagation."
+          "title": "Differentiable Programming",
+          "description": "Rebuilding a deep learning library similar to PyTorch to understand automatic differentiation and backpropagation."
         },
         {
-          "title": "Deep Learning – Classification de galaxies",
-          "description": "Conception d’un réseau de neurones pour classifier des galaxies (jeu de données Galaxy10‑DECals), entraînement et évaluation des performances."
+          "title": "Deep Learning – Galaxy Classification",
+          "description": "Design of a neural network to classify galaxies (Galaxy10-DECals dataset), training and performance evaluation."
         },
         {
-          "title": "NLP – Filtre intelligent de CV",
-          "description": "Création d’un outil de filtrage automatique de CV pour les recruteurs utilisant des techniques NLP avancées."
+          "title": "NLP – Smart Resume Filter",
+          "description": "Creation of an automatic resume filtering tool for recruiters using advanced NLP techniques."
         },
         {
           "title": "Recommender Systems",
-          "description": "Mise en œuvre d’algorithmes de recommandation et introduction de diversité dans les recommandations (ItemKNN, UserKNN, SVD et techniques de diversification)."
+          "description": "Implementation of recommendation algorithms and introduction of diversity in recommendations (ItemKNN, UserKNN, SVD, and diversification techniques)."
         }
       ]
     },
     {
       "school": "EPITA Le Kremlin‑Bicêtre",
-      "degree": "Diplôme d’ingénieur en Informatique (3ᵉ année, accrédité par la CTI)",
-      "years": "Depuis septembre 2023",
-      "details": "En 3ᵉ année du cycle ingénieur, les étudiants suivent des piscines intensives (séances de programmation de plusieurs jours, parfois nocturnes), ainsi que des projets collectifs et des challenges « rush ». Cette pédagogie immersive vise à renforcer les compétences fondamentales, développer la robustesse et simuler des environnements professionnels exigeants.",
+      "degree": "Engineering Degree in Computer Science (3rd year, accredited by CTI)",
+      "years": "Since September 2023",
+      "details": "In the 3rd year of the engineering cycle, students follow intensive programming bootcamps (piscines), collective projects, and 'rush' challenges. This immersive pedagogy strengthens core skills, builds resilience, and simulates demanding professional environments.",
       "website": "https://www.epita.fr",
       "projects": [
         {
-          "title": "Mini Shell en C",
-          "description": "Conception et développement d’un mini shell."
+          "title": "Mini Shell in C",
+          "description": "Design and development of a mini shell."
         },
         {
-          "title": "Compilateur en C++",
-          "description": "Création d’un compilateur complet en C++."
+          "title": "Compiler in C++",
+          "description": "Creation of a full compiler in C++."
         },
         {
-          "title": "Jeux vidéo",
-          "description": "Création de jeux : Zorks en C++, Creeps en Java, Eplace en JavaScript."
+          "title": "Video Games",
+          "description": "Development of games: Zorks in C++, Creeps in Java, Eplace in JavaScript."
         },
         {
-          "title": "Éditeur de code",
-          "description": "Développement d’un éditeur de code en Java et React."
+          "title": "Code Editor",
+          "description": "Development of a code editor in Java and React."
         },
         {
-          "title": "Étude opérationnelle du déneigement de Montréal",
-          "description": "Analyse et modélisation en Python."
+          "title": "Operational Study of Montreal Snow Removal",
+          "description": "Analysis and modeling in Python."
         },
         {
           "title": "Medical Data Classification",
@@ -217,60 +217,60 @@
     },
     {
       "school": "ECE Paris",
-      "degree": "2ᵉ année Bachelor RNCP",
-      "years": "Septembre 2022 – Avril 2023",
-      "details": "Formation orientée développement logiciel et analyse de données, avec mise en pratique sur des projets concrets.",
+      "degree": "2nd year Bachelor RNCP",
+      "years": "September 2022 – April 2023",
+      "details": "Training focused on software development and data analysis, with hands-on projects.",
       "website": "https://www.ece.fr",
       "projects": [
         {
-          "title": "Applications web PHP",
-          "description": "Conception et développement d’applications web en PHP."
+          "title": "PHP Web Applications",
+          "description": "Design and development of web applications in PHP."
         },
         {
-          "title": "Portfolio React.js",
-          "description": "Réalisation d’un portfolio en React.js."
+          "title": "React.js Portfolio",
+          "description": "Creation of a portfolio in React.js."
         },
         {
-          "title": "Applications Java",
-          "description": "Développement d’applications complètes en Java."
+          "title": "Java Applications",
+          "description": "Development of complete applications in Java."
         },
         {
-          "title": "Analyse de données",
-          "description": "Traitement et analyse de données avec Python (Pandas, NumPy)."
+          "title": "Data Analysis",
+          "description": "Processing and analysis of data with Python (Pandas, NumPy)."
         }
       ]
     },
     {
       "school": "EPSI Rennes",
-      "degree": "1ʳᵉ année Bachelor RNCP",
-      "years": "Septembre 2021 – Avril 2022",
-      "details": "Première approche des systèmes informatiques et du développement web et objet, avec de nombreux projets techniques.",
+      "degree": "1st year Bachelor RNCP",
+      "years": "September 2021 – April 2022",
+      "details": "First introduction to IT systems and web/object-oriented development, with numerous technical projects.",
       "website": "https://www.epsi.fr",
       "projects": [
         {
-          "title": "Serveur web Linux",
-          "description": "Création, virtualisation et administration de serveurs web sous Linux."
+          "title": "Linux Web Server",
+          "description": "Creation, virtualization, and administration of web servers on Linux."
         },
         {
-          "title": "Applications Flask/PHP/Python",
-          "description": "Développement d’applications web et objets avec Flask, PHP et Django."
+          "title": "Flask/PHP/Python Applications",
+          "description": "Development of web and object-oriented applications with Flask, PHP, and Django."
         },
         {
-          "title": "Administration réseau",
-          "description": "Mise en place et gestion d’infrastructures réseau."
+          "title": "Network Administration",
+          "description": "Setup and management of network infrastructures."
         }
       ]
     },
     {
-      "school": "Université Saint Jean – Yaoundé CMR",
-      "degree": "Classe préparatoire ingénieur",
-      "years": "Octobre 2020 – Juin 2021",
-      "details": "Préparation intensive en mathématiques, physique et robotique pour intégrer une école d’ingénieur.",
+      "school": "Université Saint Jean – Yaoundé, Cameroon",
+      "degree": "Preparatory Class for Engineering",
+      "years": "October 2020 – June 2021",
+      "details": "Intensive preparation in mathematics, physics, and robotics to join an engineering school.",
       "website": "https://institutsaintjean.org",
       "projects": [
         {
-          "title": "Projets Arduino",
-          "description": "Réalisation de prototypes robotiques et électroniques."
+          "title": "Arduino Projects",
+          "description": "Development of robotic and electronic prototypes."
         }
       ]
     }
