@@ -1,32 +1,59 @@
 import {Box, useColorMode} from "@chakra-ui/react";
-import {useTranslation} from "react-i18next";
+import {motion} from "framer-motion";
 import Navbar from "./components/Navbar";
 import SkillsSection from "./components/SkillsSection";
 import ExperienceSection from "./components/ExperienceSection";
+import EducationSection from "./components/EducationSection";
 import Footer from "./components/Footer";
 import ProfileSection from "./components/ProfileSection";
+import ScrollProgressBar from "./components/ScrollProgressBar"; // <== ajoute ce composant
+
+// Boîte animée pour les sections
+const MotionBox = motion(Box);
 
 function App() {
     const {colorMode} = useColorMode();
 
+    // animation pour chaque section
+    const sectionAnim = {
+        initial: {opacity: 0, y: 50},
+        whileInView: {opacity: 1, y: 0},
+        viewport: {once: true, amount: 0.2},
+        transition: {duration: 0.6, ease: "easeOut"},
+    };
+
     return (
         <Box minH="100vh" bg={colorMode === "light" ? "gray.50" : "gray.800"}>
+            {/* Barre de progression du scroll */}
+            <ScrollProgressBar/>
+
             {/* Navbar */}
             <Navbar/>
 
-            {/* Contenu principal avec un padding-bottom pour laisser place au footer */}
+            {/* Contenu principal */}
             <Box mt="80px" pb="80px">
                 {/* Section Profil */}
-                <ProfileSection/>
+                <MotionBox {...sectionAnim}>
+                    <ProfileSection/>
+                </MotionBox>
 
                 {/* Section Compétences */}
-                <SkillsSection/>
+                <MotionBox {...sectionAnim}>
+                    <SkillsSection/>
+                </MotionBox>
 
                 {/* Section Expériences */}
-                <ExperienceSection/>
+                <MotionBox {...sectionAnim}>
+                    <ExperienceSection/>
+                </MotionBox>
+
+                {/* Section Éducation */}
+                <MotionBox {...sectionAnim}>
+                    <EducationSection/>
+                </MotionBox>
             </Box>
 
-            {/* Footer fixe */}
+            {/* Footer */}
             <Footer/>
         </Box>
     );

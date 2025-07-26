@@ -18,7 +18,10 @@ export default function Footer() {
     const {t, i18n} = useTranslation();
 
     const data = i18n.language === "fr" ? frData : enData;
-
+    console.log("EMAIL:", data.profile.email);
+    console.log("GITHUB:", data.profile.github);
+    console.log("LINKEDIN:", data.profile.linkedin);
+    console.log("CV:", data.profile.cvLink);
     return (
         <Box
             as="footer"

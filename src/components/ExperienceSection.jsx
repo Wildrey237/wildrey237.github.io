@@ -16,6 +16,7 @@ import enData from "../data/data-en.json";
 import {useTranslation} from "react-i18next";
 
 const MotionBox = motion(Box);
+const MotionTag = motion(Tag);
 
 export default function ExperienceSection() {
     const {i18n} = useTranslation();
@@ -35,6 +36,7 @@ export default function ExperienceSection() {
                 textAlign="center"
                 fontSize={["2xl", "3xl", "4xl"]}
                 color={colorMode === "light" ? "gray.800" : "white"}
+                fontFamily="monospace"
             >
                 {i18n.language === "fr" ? "Expériences professionnelles" : "Work Experiences"}
             </Heading>
@@ -62,12 +64,15 @@ export default function ExperienceSection() {
                         zIndex={1}
                         flexDirection={["row", idx % 2 === 0 ? "row" : "row-reverse"]}
                     >
+                        {/* Point sur la timeline */}
                         <Circle
                             size="16px"
                             bg={colorMode === "light" ? "teal.400" : "teal.300"}
                             mt={2}
                             flexShrink={0}
                         />
+
+                        {/* Carte expérience animée */}
                         <MotionBox
                             p={6}
                             flex="1"
@@ -80,8 +85,8 @@ export default function ExperienceSection() {
                             transition={{duration: 0.6, delay: idx * 0.1, ease: "easeOut"}}
                             whileHover={{
                                 scale: 1.03,
-                                boxShadow: `0 0 15px ${
-                                    colorMode === "light" ? "teal.400" : "teal.200"
+                                boxShadow: `0 0 20px ${
+                                    colorMode === "light" ? "rgba(49,151,149,0.4)" : "rgba(129,230,217,0.6)"
                                 }`,
                             }}
                         >
@@ -116,16 +121,16 @@ export default function ExperienceSection() {
                                 <Wrap spacing={3}>
                                     {exp.tags.map((tag, tagIdx) => (
                                         <WrapItem key={tagIdx}>
-                                            <Tag
+                                            <MotionTag
                                                 size="md"
                                                 colorScheme="teal"
                                                 variant="subtle"
                                                 borderRadius="full"
-                                                transition="transform 0.2s ease"
-                                                _hover={{transform: "scale(1.1)"}}
+                                                whileHover={{scale: 1.15, rotate: 3}}
+                                                whileTap={{scale: 0.95}}
                                             >
                                                 {tag}
-                                            </Tag>
+                                            </MotionTag>
                                         </WrapItem>
                                     ))}
                                 </Wrap>

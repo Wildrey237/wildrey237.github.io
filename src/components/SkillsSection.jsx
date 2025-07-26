@@ -13,20 +13,28 @@ import {
     useBreakpointValue,
     HStack,
 } from "@chakra-ui/react";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
-import {FaCode} from "react-icons/fa";
+import { FaCode } from "react-icons/fa";
 
-function CategoryCard({title, items, colorMode, triggerMode}) {
+const MotionBox = motion(Box);
+const MotionHStack = motion(HStack);
+
+function CategoryCard({ title, items, colorMode, triggerMode, idx }) {
     return (
-        <Box
+        <MotionBox
             borderWidth="1px"
             borderRadius="lg"
             p={5}
             bg={colorMode === "light" ? "white" : "gray.700"}
             boxShadow="md"
-            transition="transform 0.2s ease, box-shadow 0.2s ease"
+            sx={{ transition: "transform 0.2s ease, box-shadow 0.2s ease" }} // CSS ici au lieu de prop
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
             _hover={{
                 transform: "translateY(-4px)",
                 boxShadow:
@@ -43,25 +51,23 @@ function CategoryCard({title, items, colorMode, triggerMode}) {
             >
                 {title}
             </Heading>
-            {items.map((skill, idx) => (
-                <Popover key={idx} trigger={triggerMode} placement="top">
+            {items.map((skill, sIdx) => (
+                <Popover key={sIdx} trigger={triggerMode} placement="top">
                     <PopoverTrigger>
-                        <HStack
+                        <MotionHStack
                             spacing={2}
                             fontFamily="monospace"
                             fontSize="sm"
                             mb={1}
                             color={colorMode === "light" ? "gray.700" : "gray.100"}
                             transition="color 0.2s ease"
-                            _hover={{
-                                color: "teal.400",
-                                textDecoration: "none",
-                                cursor: "pointer",
-                            }}
+                            whileHover={{ scale: 1.08, color: "#319795" }}
+                            whileTap={{ scale: 0.95 }}
+                            style={{ cursor: "pointer" }}
                         >
-                            <FaCode/>
+                            <FaCode />
                             <Text as="span">{skill.name}</Text>
-                        </HStack>
+                        </MotionHStack>
                     </PopoverTrigger>
                     <PopoverContent
                         bg="teal.600"
@@ -71,28 +77,34 @@ function CategoryCard({title, items, colorMode, triggerMode}) {
                         maxW="220px"
                         fontSize="sm"
                     >
-                        <PopoverArrow/>
-                        <PopoverCloseButton/>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
                         <PopoverBody>{skill.desc}</PopoverBody>
                     </PopoverContent>
                 </Popover>
             ))}
-        </Box>
+        </MotionBox>
     );
 }
 
 export default function SkillsSection() {
-    const {colorMode} = useColorMode();
-    const {i18n} = useTranslation();
+    const { colorMode } = useColorMode();
+    const { i18n } = useTranslation();
     const data = i18n.language === "fr" ? frData : enData;
-    const triggerMode = useBreakpointValue({base: "click", md: "hover"});
+    const triggerMode = useBreakpointValue({ base: "click", md: "hover" });
+
+    const categories = Object.keys(data.skills);
 
     return (
-        <Box
+        <MotionBox
             id="skills"
             px={[4, 8]}
             py={12}
             bg={colorMode === "light" ? "gray.100" : "gray.800"}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <Heading
                 mb={12}
@@ -105,37 +117,23 @@ export default function SkillsSection() {
             </Heading>
 
             <SimpleGrid columns={[1, 2, 3]} spacing={6}>
-                <CategoryCard
-                    title={i18n.language === "fr" ? "Développement" : "Development"}
-                    items={data.skills.development}
-                    colorMode={colorMode}
-                    triggerMode={triggerMode}
-                />
-                <CategoryCard
-                    title={i18n.language === "fr" ? "Environnements" : "Environments"}
-                    items={data.skills.environments}
-                    colorMode={colorMode}
-                    triggerMode={triggerMode}
-                />
-                <CategoryCard
-                    title={i18n.language === "fr" ? "Bases de données" : "Databases"}
-                    items={data.skills.databases}
-                    colorMode={colorMode}
-                    triggerMode={triggerMode}
-                />
-                <CategoryCard
-                    title="AI / ML"
-                    items={data.skills.ai}
-                    colorMode={colorMode}
-                    triggerMode={triggerMode}
-                />
-                <CategoryCard
-                    title="Big Data"
-                    items={data.skills.bigdata}
-                    colorMode={colorMode}
-                    triggerMode={triggerMode}
-                />
+                {categories.map((categoryKey, idx) => {
+                    const formattedTitle = categoryKey
+                        .replace(/_/g, " ")
+                        .replace(/^\w/, (c) => c.toUpperCase());
+
+                    return (
+                        <CategoryCard
+                            key={categoryKey}
+                            title={formattedTitle}
+                            items={data.skills[categoryKey]}
+                            colorMode={colorMode}
+                            triggerMode={triggerMode}
+                            idx={idx}
+                        />
+                    );
+                })}
             </SimpleGrid>
-        </Box>
+        </MotionBox>
     );
 }
