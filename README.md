@@ -3,7 +3,7 @@
 ![Build and Deploy](https://github.com/Wildrey237/wildrey237.github.io/actions/workflows/deploy.yml/badge.svg)
 
 Ce projet est un portfolio personnel développé en **React avec Vite** et stylisé avec **Chakra UI**.  
-Il permet de présenter votre profil, vos compétences et vos expériences de manière professionnelle, responsive et bilingue (français/anglais).
+Il permet de présenter votre profil, vos compétences et vos expériences de manière professionnelle, responsive et bilingue (français/anglais). Le site détecte automatiquement la langue de l'utilisateur et bascule en anglais par défaut si la langue détectée n'est pas prise en charge.
 
 **URL du site déployé :** [https://wildrey237.github.io/](https://wildrey237.github.io/)
 
@@ -20,7 +20,6 @@ Il permet de présenter votre profil, vos compétences et vos expériences de ma
 9. [Déploiement automatique (recommandé)](#déploiement-automatique-recommandé)
 10. [Déploiement manuel (optionnel)](#déploiement-manuel-optionnel)
 11. [Points importants et avertissements](#points-importants-et-avertissements)
-12. [Captures d'écran](#captures-décran)
 13. [Contact](#contact)
 14. [Licence](#licence)
 
@@ -45,12 +44,15 @@ git --version
 
 Ce portfolio présente les fonctionnalités suivantes :
 
-- **Profil :** Nom avec effet machine à écrire, titre, résumé, localisation et liens cliquables (email, LinkedIn, GitHub)
+- **Profil dynamique :** Nom avec effet machine à écrire, titre, résumé, localisation et liens cliquables (email, LinkedIn, GitHub)
 - **Compétences :** Présentées sous forme de cartes avec icônes, description affichée en popover (hover desktop ou clic mobile)
 - **Expériences :** Affichées en timeline animée, avec tags techniques interactifs
+- **Parcours scolaire :** Affichage sous forme d'accordéon enrichi de badges et liens vers les sites officiels
+- **Multilingue :** Détection automatique FR/EN (anglais par défaut) avec possibilité de changer manuellement
 - **Navbar :** Fixe, transparente, avec indicateur actif, changement de langue (FR/EN), switch clair/sombre
 - **Footer :** Fixe, discret, liens vers les réseaux et bouton pour télécharger le CV (adapté à la langue)
-- **Déploiement automatique :** Via GitHub Actions, chaque push sur `work` déclenche un build et met à jour la branche `main` servie par GitHub Pages
+- **Design responsive et mode clair/sombre**
+- **Déploiement automatique :** Via GitHub Actions, chaque tag `deploy-*` sur `work` déclenche un build et met à jour la branche `main` servie par GitHub Pages
 
 ---
 
@@ -69,8 +71,8 @@ Ce portfolio présente les fonctionnalités suivantes :
 Contient tout le code source React :
 
 - **`src/main.jsx`** - Point d'entrée de l'application (montage du composant App)
-- **`src/App.jsx`** - Composant racine qui assemble la Navbar, les sections (Profil, Skills, Experiences) et le Footer
-- **`src/i18n.js`** - Configuration d'i18next pour la gestion des langues FR/EN
+- **`src/App.jsx`** - Composant racine qui assemble la Navbar, les sections (Profil, Skills, Experiences, Education) et le Footer
+- **`src/i18n.js`** - Configuration d'i18next pour la gestion des langues FR/EN avec détection automatique
 
 #### `src/components/`
 
@@ -80,14 +82,15 @@ Contient les composants modulaires :
 - **`ProfileSection.jsx`** - Affiche le profil avec effet machine à écrire et liens
 - **`SkillsSection.jsx`** - Affiche les compétences par catégories avec popovers
 - **`ExperienceSection.jsx`** - Affiche la timeline des expériences
+- **`EducationSection.jsx`** - Affiche le parcours scolaire sous forme d'accordéon
 - **`Footer.jsx`** - Pied de page avec icônes et bouton de téléchargement du CV
 
 #### `src/data/`
 
 Contient les données multilingues au format JSON :
 
-- **`data-fr.json`** - Profil, compétences et expériences en français
-- **`data-en.json`** - Profil, compétences et expériences en anglais
+- **`data-fr.json`** - Profil, compétences, expériences et parcours scolaire en français
+- **`data-en.json`** - Profil, compétences, expériences et parcours scolaire en anglais
 
 ### Autres répertoires
 
@@ -131,16 +134,27 @@ Contient les données multilingues au format JSON :
 - Timeline animée (Framer Motion) alternant gauche/droite
 - Tags techniques interactifs
 
+### Parcours scolaire
+- Affichage sous forme d'accordéon enrichi
+- Badges pour chaque formation
+- Liens vers les sites officiels des établissements
+
 ### Navbar
 - Fixe et responsive, transparente
 - Boutons vers les sections avec indicateur actif animé
 - Logo et bouton Home ramenant en haut de page
-- Bouton FR/EN et clair/sombre
+- Bouton FR/EN avec détection automatique de la langue
+- Switch mode clair/sombre
 
 ### Footer
 - Fixe et discret
 - Icônes mail / LinkedIn / GitHub
 - Bouton de téléchargement du CV (FR ou EN selon la langue)
+
+### Internationalisation
+- Détection automatique de la langue de l'utilisateur
+- Fallback en anglais si la langue détectée n'est pas prise en charge
+- Possibilité de changer manuellement la langue
 
 ---
 
@@ -148,7 +162,7 @@ Contient les données multilingues au format JSON :
 
 - **Frontend :** React (Vite), Chakra UI
 - **Animations :** Framer Motion
-- **Internationalisation :** i18next
+- **Internationalisation :** i18next + i18next-browser-languagedetector
 - **Effets :** react-simple-typewriter
 - **Icônes :** react-icons
 - **Déploiement :** GitHub Pages, GitHub Actions
@@ -204,6 +218,14 @@ git commit -m "Description du commit"
 git push origin work
 ```
 
+### Déploiement via tags
+
+```bash
+# Créer un tag pour déclencher le déploiement
+git tag deploy-v1.0.0
+git push origin deploy-v1.0.0
+```
+
 ### Mettre à jour votre branche locale
 
 ```bash
@@ -218,7 +240,7 @@ git push origin work
 
 Le déploiement est automatisé via un workflow GitHub Actions :
 
-- Chaque push sur `work` déclenche un build
+- Chaque tag `deploy-*` poussé sur `work` déclenche un build
 - Le dossier `dist` est déployé automatiquement sur la branche `main`
 - GitHub Pages sert la branche `main`
 
@@ -266,18 +288,9 @@ git push origin main
   - `src/data/data-fr.json`
   - `src/data/data-en.json`
 
-- **Workflow automatique :** Le déploiement se fait automatiquement, pas besoin d'intervention manuelle
+- **Fichiers statiques :** Vérifiez que le favicon et les liens (CV, réseaux) sont valides avant le déploiement
 
----
-
-## Captures d'écran
-
-*(À ajouter si besoin pour illustrer le portfolio)*
-
-- Page d'accueil avec profil et effet machine à écrire
-- Section compétences avec cartes interactives
-- Section expériences avec timeline animée
-- Navigation responsive et multilingue
+- **Workflow automatique :** Le déploiement se fait via tags `deploy-*`, pas sur chaque push
 
 ---
 
