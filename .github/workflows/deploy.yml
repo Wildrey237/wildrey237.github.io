@@ -2,10 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - work          # 👉 uniquement depuis la branche work
     tags:
-      - 'deploy-*'    # 👉 uniquement si le tag commence par deploy-
+      - 'deploy-*'
 
 jobs:
   build-and-deploy:
