@@ -1,5 +1,6 @@
 import i18n from "i18next";
-import {initReactI18next} from "react-i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 const resources = {
     fr: {
@@ -25,11 +26,16 @@ const resources = {
 };
 
 i18n
+    .use(LanguageDetector)
     .use(initReactI18next)
     .init({
         resources,
-        lng: "fr", // langue par défaut
-        fallbackLng: "fr",
+        fallbackLng: "en",
+        detection: {
+            // ordre de détection
+            order: ["querystring", "localStorage", "cookie", "navigator", "htmlTag"],
+            caches: ["localStorage", "cookie"], // mémorise la langue choisie
+        },
         interpolation: {
             escapeValue: false
         }
