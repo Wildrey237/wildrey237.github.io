@@ -93,12 +93,15 @@ export default function Footer() {
                 colorScheme="teal"
                 size="sm"
                 onClick={() => {
-                    if (window.gtag) {
-                        window.gtag('event', 'download_cv', {
-                            event_category: 'engagement',
-                            event_label: 'Footer Button',
-                            value: 1
+                    if (typeof window.gtag === "function") {
+                        window.gtag("event", "download_cv", {
+                            event_category: "engagement",
+                            event_label: "CV Download Button",
+                            value: 1,
                         });
+                        console.log("CV download tracked"); // debug
+                    } else {
+                        console.warn("gtag not loaded yet"); // debug
                     }
                 }}
             >
