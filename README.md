@@ -20,6 +20,7 @@ Il permet de présenter votre profil, vos compétences et vos expériences de ma
 9. [Déploiement automatique (recommandé)](#déploiement-automatique-recommandé)
 10. [Déploiement manuel (optionnel)](#déploiement-manuel-optionnel)
 11. [Points importants et avertissements](#points-importants-et-avertissements)
+12. [Intégration Google Analytics](#intégration-google-analytics)
 13. [Contact](#contact)
 14. [Licence](#licence)
 
@@ -150,6 +151,13 @@ Contient les données multilingues au format JSON :
 - Fixe et discret
 - Icônes mail / LinkedIn / GitHub
 - Bouton de téléchargement du CV (FR ou EN selon la langue)
+- Tracking Google Analytics pour le téléchargement du CV
+
+### Analytics et tracking
+- **Google Analytics (GA4)** intégré pour le suivi des performances
+- Tracking automatique des pages vues et interactions
+- Événements personnalisés pour le téléchargement du CV
+- Configuration respectueuse de la vie privée
 
 ### Internationalisation
 - Détection automatique de la langue de l'utilisateur
@@ -165,6 +173,7 @@ Contient les données multilingues au format JSON :
 - **Internationalisation :** i18next + i18next-browser-languagedetector
 - **Effets :** react-simple-typewriter
 - **Icônes :** react-icons
+- **Analytics :** Google Analytics (GA4)
 - **Déploiement :** GitHub Pages, GitHub Actions
 
 ---
@@ -291,6 +300,45 @@ git push origin main
 - **Fichiers statiques :** Vérifiez que le favicon et les liens (CV, réseaux) sont valides avant le déploiement
 
 - **Workflow automatique :** Le déploiement se fait via tags `deploy-*`, pas sur chaque push
+
+- **Google Analytics :** Le site utilise GA4 (ID: G-QSFT7C8DBJ) pour analyser le trafic et les interactions
+
+---
+
+## Intégration Google Analytics
+
+### Configuration mise en place
+
+Le portfolio intègre **Google Analytics 4 (GA4)** pour analyser les performances et l'engagement des utilisateurs :
+
+#### Fichiers modifiés
+- **`index.html`** - Script GA4 intégré dans le `<head>`
+- **`Footer.jsx`** - Événement de tracking pour le téléchargement du CV
+
+#### Métriques trackées
+- **Pages vues** automatiques
+- **Téléchargements du CV** avec événement personnalisé `download_cv`
+- **Sessions utilisateur** et données démographiques
+- **Sources de trafic** et comportement utilisateur
+
+#### Code d'événement CV
+```javascript
+// Dans Footer.jsx - bouton téléchargement CV
+onClick={() => {
+    if (window.gtag) {
+        window.gtag('event', 'download_cv', {
+            event_category: 'engagement',
+            event_label: 'Footer Button',
+            value: 1
+        });
+    }
+}}
+```
+
+#### Configuration GA4
+- **ID de mesure :** `G-QSFT7C8DBJ`
+- **Respect de la vie privée :** Pas de cookies tiers, données anonymisées
+- **Événements personnalisés :** Tracking des actions importantes (téléchargement CV)
 
 ---
 

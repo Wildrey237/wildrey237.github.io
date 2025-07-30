@@ -92,6 +92,15 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 colorScheme="teal"
                 size="sm"
+                onClick={() => {
+                    if (window.gtag) {
+                        window.gtag('event', 'download_cv', {
+                            event_category: 'engagement',
+                            event_label: 'Footer Button',
+                            value: 1
+                        });
+                    }
+                }}
             >
                 {t("downloadCv")}
             </Button>
