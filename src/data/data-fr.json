@@ -28,22 +28,29 @@
       "title": "Stagiaire Développeur",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "Avril 2023 – Juillet 2023",
-      "description": "Développement d'applications de monitoring Import/Export en JavaScript et ObjectScript, dataviz avec Iris Intersystem et Python.",
+      "description": "Amélioration et finalisation de l'application d'affichage des frets aériens initiée lors du stage précédent. Développement de modules de monitoring avancés pour les opérations Import/Export, intégration de données en temps réel avec ObjectScript, visualisation dynamique via Iris Intersystems et Python. Participation à l’optimisation des performances, à l'interface utilisateur et à la documentation technique.",
       "tags": [
         "JavaScript",
         "ObjectScript",
+        "Iris Intersystems",
         "DataViz",
-        "Python"
+        "Python",
+        "Monitoring",
+        "Optimisation",
+        "Documentation"
       ]
     },
     {
-      "title": "Stagiaire",
+      "title": "Stagiaire – Développement d’interfaces API",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "Mai 2022 – Juin 2022",
-      "description": "Application d'affichage des frets aériens via REST API et JavaScript.",
+      "description": "Participation à la création d’une application web affichant les flux de fret aérien, connectée à une API REST. Intégration dynamique des données en JavaScript, amélioration de la lisibilité des interfaces, tests fonctionnels, et contribution à la documentation technique.",
       "tags": [
         "JavaScript",
-        "REST API"
+        "REST API",
+        "Développement web",
+        "Documentation",
+        "Tests fonctionnels"
       ]
     },
     {
