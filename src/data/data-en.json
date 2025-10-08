@@ -25,25 +25,32 @@
       ]
     },
     {
-      "title": "Software Developer Intern",
+      "title": "Developer Intern",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "April 2023 – July 2023",
-      "description": "Developed Import/Export monitoring applications using JavaScript and ObjectScript, data visualization with Iris Intersystem and Python.",
+      "description": "Improvement and completion of the air freight display application initiated during the previous internship. Developed advanced monitoring modules for Import/Export operations, integrated real-time data using ObjectScript, and built dynamic visualizations with Iris Intersystems and Python. Contributed to performance optimization, UI enhancements, and technical documentation.",
       "tags": [
         "JavaScript",
         "ObjectScript",
+        "Iris Intersystems",
         "DataViz",
-        "Python"
+        "Python",
+        "Monitoring",
+        "Optimization",
+        "Documentation"
       ]
     },
     {
-      "title": "Intern",
+      "title": "Intern – API Interface Development",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "May 2022 – June 2022",
-      "description": "Created an air freight display application via REST API and JavaScript.",
+      "description": "Contributed to the development of a web application for visualizing air freight flows, powered by a REST API. Implemented dynamic data integration using JavaScript, improved UI readability, performed functional testing, and helped write technical documentation.",
       "tags": [
         "JavaScript",
-        "REST API"
+        "REST API",
+        "Web Development",
+        "Documentation",
+        "Functional Testing"
       ]
     },
     {
