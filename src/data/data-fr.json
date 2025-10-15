@@ -12,32 +12,37 @@
   },
   "experiences": [
     {
-      "title": "Stagiaire – Optimisation et migration de scripts",
+      "title": "Stagiaire – Data Engineer (équipe DataFactory)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "dates": "Septembre 2024 – Février 2025",
-      "description": "Migration de scripts vers Airflow sur AWS, optimisation de scripts Python et requêtes SQL, mise en place d’un système de relance automatique basé sur JSON, création de KPI pour la BI, amélioration des pipelines CI/CD sous GitLab.",
+      "description": "Stagiaire au sein de l’équipe DataFactory chez COMUTITRES (Île-de-France Mobilités), j’ai contribué à la refonte des pipelines de traitement de données.\n\nMissions :\n• Migration de scripts vers Apache Airflow déployé sur AWS\n• Automatisation de tâches via des fichiers JSON\n• Optimisation de scripts Python et requêtes SQL\n• Conception d’indicateurs de performance (KPI) pour la BI\n• Renforcement des pipelines CI/CD avec GitLab\n\nCette immersion dans un environnement data agile m’a permis d’approfondir mes compétences en data engineering, cloud computing et orchestration de workflows.",
       "tags": [
         "Python",
+        "SQL",
         "Airflow",
         "AWS",
-        "SQL",
-        "CI/CD"
+        "JSON",
+        "CI/CD",
+        "GitLab",
+        "Business Intelligence",
+        "Data Engineering"
       ]
     },
     {
-      "title": "Stagiaire Développeur",
-      "company": "TDA CERMAI Villiers-le-Bel",
+      "title": "Stagiaire – Développement d’application de suivi logistique",
+      "company": "TDA CERMAI (Toullec Dancoing & Associés)",
       "dates": "Avril 2023 – Juillet 2023",
-      "description": "Amélioration et finalisation de l'application d'affichage des frets aériens initiée lors du stage précédent. Développement de modules de monitoring avancés pour les opérations Import/Export, intégration de données en temps réel avec ObjectScript, visualisation dynamique via Iris Intersystems et Python. Participation à l’optimisation des performances, à l'interface utilisateur et à la documentation technique.",
+      "description": "Participation à l’amélioration et à la finalisation d’une application web de suivi des frets aériens (import/export).\n\nMissions :\n• Migration de la base de données d’InterSystems Caché vers InterSystems IRIS\n• Développement d’une interface front-end pour l’affichage des statistiques logistiques\n• Création d’API REST en ObjectScript et Python, avec intégration directe à la base IRIS\n• Administration et configuration du serveur InterSystems IRIS\n• Migration des outils internes vers des solutions de nouvelle génération\n• Rédaction de la documentation technique à destination des équipes internes et des clients",
       "tags": [
         "JavaScript",
         "ObjectScript",
-        "Iris Intersystems",
-        "DataViz",
+        "InterSystems IRIS",
+        "API REST",
         "Python",
-        "Monitoring",
-        "Optimisation",
-        "Documentation"
+        "Base de données",
+        "Documentation",
+        "Front-end",
+        "DataViz"
       ]
     },
     {
@@ -77,11 +82,15 @@
       },
       {
         "name": "Python (NumPy, Pandas, PyTorch)",
-        "desc": "Langage polyvalent pour le data science, l'IA et le machine learning."
+        "desc": "Langage polyvalent pour le data science, l'IA et le machine learning, utilisé pour la modélisation, le traitement de données et la création de pipelines d’apprentissage automatique."
       },
       {
         "name": "Java, PHP, C/C++",
         "desc": "Langages pour le développement back-end, embarqué et logiciels complexes."
+      },
+      {
+        "name": "R",
+        "desc": "Utilisé pour les statistiques avancées et les visualisations analytiques dans un contexte de data science."
       }
     ],
     "environments": [
@@ -96,6 +105,10 @@
       {
         "name": "Linux (administration et scripting)",
         "desc": "Environnement système utilisé pour le développement et la mise en production."
+      },
+      {
+        "name": "MLOps (MLflow, CI/CD)",
+        "desc": "Mise en production de modèles, traçabilité des expériences, et intégration continue pour les pipelines ML."
       }
     ],
     "databases": [
@@ -104,44 +117,58 @@
         "desc": "Langages de requête pour interroger et gérer des bases de données relationnelles."
       },
       {
-        "name": "NoSQL",
-        "desc": "Bases de données flexibles pour gérer des données non structurées."
+        "name": "NoSQL (MongoDB, Elasticsearch)",
+        "desc": "Bases de données flexibles pour gérer des données non structurées ou distribuées."
       },
       {
         "name": "Neo4j (bases de données graphes)",
-        "desc": "Base de données optimisée pour les relations complexes entre entités."
+        "desc": "Base de données optimisée pour les relations complexes entre entités, utilisée dans les projets GNN."
       }
     ],
     "ai": [
       {
         "name": "Machine Learning & Deep Learning",
-        "desc": "Conception et entraînement de modèles intelligents à partir de données."
+        "desc": "Modélisation supervisée et non supervisée, réseaux de neurones, régressions, arbres de décision, etc."
       },
       {
-        "name": "Graph Neural Networks",
-        "desc": "Réseaux de neurones conçus pour traiter des données sous forme de graphes."
+        "name": "Graph Neural Networks (GNN)",
+        "desc": "Modélisation de données structurées sous forme de graphes, propagation de messages, convolution sur graphes."
       },
       {
         "name": "Reinforcement Learning",
-        "desc": "Apprentissage par interaction pour optimiser des décisions séquentielles."
+        "desc": "Méthodes basées sur la récompense et l’exploration/exploitation (Q-learning, politiques, exploration)."
       },
       {
-        "name": "IA Explicable (SHAP, LIME)",
-        "desc": "Techniques permettant d’expliquer les décisions des modèles d’IA."
+        "name": "Explainable AI (XAI)",
+        "desc": "Techniques d’interprétabilité comme SHAP et LIME, évaluations de robustesse, fidélité et justesse des explications."
+      },
+      {
+        "name": "IA Médicale",
+        "desc": "Prétraitement de données médicales (imagerie DICOM, METS), classification, segmentation avec MONAI et PyTorch, métriques médicales (dice, recall, etc.)."
       }
     ],
     "bigdata": [
       {
         "name": "Hadoop, Spark, MapReduce",
-        "desc": "Outils pour le traitement distribué de données volumineuses."
+        "desc": "Traitement distribué de grandes quantités de données à travers des clusters."
       },
       {
-        "name": "Airflow sur AWS",
-        "desc": "Orchestration et automatisation de workflows dans le cloud."
+        "name": "Apache Airflow sur AWS",
+        "desc": "Orchestration et planification de workflows de données dans le cloud."
       },
       {
-        "name": "CI/CD avec GitLab et GitHub",
-        "desc": "Mise en place de pipelines de déploiement et d’intégration continue."
+        "name": "CI/CD (GitLab/GitHub)",
+        "desc": "Déploiement automatisé et tests continus pour les projets logiciels et IA."
+      }
+    ],
+    "dataviz": [
+      {
+        "name": "Tableau, Power BI",
+        "desc": "Création de tableaux de bord interactifs pour l’analyse métier."
+      },
+      {
+        "name": "Bibliothèques Python (Matplotlib, Seaborn, Plotly)",
+        "desc": "Visualisation de données, explorations graphiques et production de dashboards en Python."
       }
     ],
     "quantum": [
@@ -160,7 +187,7 @@
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon) FR",
       "degree": "Majeure Smart Computing for Artificial Graphs (4ᵉ et 5ᵉ années, dernière année en cours, accréditée par la CTI)",
       "years": "2024 – 2025",
-      "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Elle couvre la data‑viz, le big data, le machine learning, les systèmes distribués et les algorithmes de recommandation, avec des projets complexes et une forte orientation vers la recherche et l’innovation.",
+      "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Le cursus inclut l’apprentissage automatique avancé, les réseaux de neurones sur graphes (GNN), l’IA explicable (XAI), le reinforcement learning, le traitement de données médicales, le MLOps, la modélisation stochastique et l’optimisation continue. Une pédagogie projetée par cas concrets et défis de recherche est privilégiée.",
       "website": "https://www.epita.fr",
       "projects": [
         {
@@ -176,16 +203,28 @@
           "description": "Reconstruction d’une librairie de deep learning type PyTorch pour comprendre le calcul différentiel automatique et la rétropropagation."
         },
         {
-          "title": "Deep Learning – Classification de galaxies",
-          "description": "Conception d’un réseau de neurones pour classifier des galaxies (jeu de données Galaxy10‑DECals), entraînement et évaluation des performances."
+          "title": "Classification de galaxies",
+          "description": "Réseau CNN entraîné sur Galaxy10‑DECals pour explorer les performances de modèles convolutionnels sur données astronomiques."
         },
         {
-          "title": "NLP – Filtre intelligent de CV",
-          "description": "Création d’un outil de filtrage automatique de CV pour les recruteurs utilisant des techniques NLP avancées."
+          "title": "Filtre NLP de CV",
+          "description": "Création d’un outil de filtrage automatique de CV pour les recruteurs, combinant NLP, machine learning, et prétraitement avancé des textes."
         },
         {
-          "title": "Recommender Systems",
-          "description": "Mise en œuvre d’algorithmes de recommandation et introduction de diversité dans les recommandations (ItemKNN, UserKNN, SVD et techniques de diversification)."
+          "title": "Systèmes de recommandation",
+          "description": "Implémentation d’algorithmes de filtrage collaboratif (ItemKNN, UserKNN, SVD) et introduction de techniques de diversification."
+        },
+        {
+          "title": "Medical ML",
+          "description": "Classification de données médicales, segmentation d’images, manipulation de formats DICOM/METS, métriques médicales (dice score, recall)."
+        },
+        {
+          "title": "Explainable AI",
+          "description": "Évaluation de la robustesse et de la fidélité d’outils explicatifs (SHAP, LIME), étude des biais et des incertitudes."
+        },
+        {
+          "title": "Reinforcement Learning",
+          "description": "Applications du Q-learning et politiques stochastiques à des environnements de simulation : jeux, planification et agents autonomes."
         }
       ]
     },
