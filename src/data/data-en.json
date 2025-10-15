@@ -1,50 +1,55 @@
 {
   "profile": {
     "name": "BEMELINGUE Wilfried",
-    "title": "Computer Engineering student specialized in AI, Deep Learning and Machine Learning",
-    "summary": "Currently seeking a 6‑month final internship in AI, Deep Learning and Machine Learning. Open to international opportunities. Based in Île-de-France, France, bilingual in French and fluent in English (TOEIC in progress).",
+    "title": "Computer Engineering Student specialized in AI, Deep Learning, and Machine Learning",
+    "summary": "Currently seeking a 6-month end-of-studies internship in Artificial Intelligence, Deep Learning, or Machine Learning. Based in Île-de-France, France. Fully bilingual in French and fluent in English (TOEIC in progress).",
     "location": "Île-de-France, France",
     "email": "wilfriedbemelingue@gmail.com",
     "phone": "+33 7 76 34 90 99",
     "linkedin": "https://www.linkedin.com/in/wilfried-bemelingue",
     "github": "https://github.com/Wildrey237",
-    "cvLink": "https://drive.google.com/file/d/14dsylg78-LVt-91E-y4rVe0y2ZG4T93B/view?usp=share_link"
+    "cvLink": "https://drive.google.com/file/d/1yQDQyEmey_TYXdFwEm-sIHMLacKJD_Jk/view?usp=share_link"
   },
   "experiences": [
     {
-      "title": "Intern – Script Optimization and Migration",
+      "title": "Intern – Data Engineer (DataFactory Team)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "dates": "September 2024 – February 2025",
-      "description": "Migrated scripts to Airflow on AWS, optimized Python scripts and SQL queries, implemented a JSON-based retry system, created KPIs for BI dashboards, improved GitLab CI/CD pipelines.",
+      "description": "As a DataFactory team intern at COMUTITRES (Île-de-France Mobilités), I contributed to the redesign of data processing pipelines.\n\nMain missions:\n• Migration of data processing scripts to Apache Airflow deployed on AWS\n• Task automation using JSON-based workflows\n• Optimization of Python scripts and SQL queries\n• Design of performance indicators (KPI) for Business Intelligence\n• Reinforcement of CI/CD pipelines using GitLab\n\nThis experience in an agile data environment strengthened my skills in data engineering, cloud computing, and workflow orchestration.",
       "tags": [
         "Python",
+        "SQL",
         "Airflow",
         "AWS",
-        "SQL",
-        "CI/CD"
+        "JSON",
+        "CI/CD",
+        "GitLab",
+        "Business Intelligence",
+        "Data Engineering"
       ]
     },
     {
-      "title": "Developer Intern",
-      "company": "TDA CERMAI Villiers-le-Bel",
+      "title": "Intern – Web Application for Logistics Tracking",
+      "company": "TDA CERMAI (Toullec Dancoing & Associés)",
       "dates": "April 2023 – July 2023",
-      "description": "Improvement and completion of the air freight display application initiated during the previous internship. Developed advanced monitoring modules for Import/Export operations, integrated real-time data using ObjectScript, and built dynamic visualizations with Iris Intersystems and Python. Contributed to performance optimization, UI enhancements, and technical documentation.",
+      "description": "Contributed to the enhancement and finalization of a web application for monitoring air freight logistics (import/export).\n\nMain missions:\n• Migration of the database from InterSystems Caché to InterSystems IRIS\n• Development of a front-end interface for displaying logistics statistics\n• Creation of REST APIs in ObjectScript and Python, directly integrated with the IRIS database\n• Administration and configuration of the InterSystems IRIS server\n• Migration of internal tools to next-generation technologies\n• Drafting of technical documentation for internal teams and clients",
       "tags": [
         "JavaScript",
         "ObjectScript",
-        "Iris Intersystems",
-        "DataViz",
+        "InterSystems IRIS",
+        "REST API",
         "Python",
-        "Monitoring",
-        "Optimization",
-        "Documentation"
+        "Database",
+        "Documentation",
+        "Front-end",
+        "Data Visualization"
       ]
     },
     {
       "title": "Intern – API Interface Development",
       "company": "TDA CERMAI Villiers-le-Bel",
       "dates": "May 2022 – June 2022",
-      "description": "Contributed to the development of a web application for visualizing air freight flows, powered by a REST API. Implemented dynamic data integration using JavaScript, improved UI readability, performed functional testing, and helped write technical documentation.",
+      "description": "Participated in the development of a web application displaying air freight flows connected to a REST API. Integrated real-time data using JavaScript, improved interface usability, conducted functional tests, and contributed to technical documentation.",
       "tags": [
         "JavaScript",
         "REST API",
@@ -57,7 +62,7 @@
       "title": "Intern",
       "company": "INNOVATECH Yaoundé",
       "dates": "June 2019 – August 2019",
-      "description": "Arduino and mechatronics training, built a Smart Parking system and a remote-controlled car.",
+      "description": "Arduino and mechatronics training. Designed and built a Smart Parking system and a remote-controlled car.",
       "tags": [
         "Arduino",
         "Mechatronics",
@@ -69,215 +74,157 @@
     "development": [
       {
         "name": "HTML, CSS, JavaScript, TypeScript",
-        "desc": "Core web technologies used to build modern, responsive user interfaces."
+        "desc": "Core technologies for building modern, responsive web interfaces."
       },
       {
         "name": "React, Node.js",
-        "desc": "Framework and runtime for building dynamic client and server applications."
+        "desc": "Framework and runtime for building dynamic web applications on both client and server sides."
       },
       {
         "name": "Python (NumPy, Pandas, PyTorch)",
-        "desc": "Versatile language for data science, AI, and machine learning."
+        "desc": "Versatile programming language for data science, AI, and ML. Used for modeling, data preprocessing, and pipeline automation."
       },
       {
         "name": "Java, PHP, C/C++",
-        "desc": "Languages for backend, embedded systems, and complex software development."
+        "desc": "Languages for backend, embedded, and complex software development."
+      },
+      {
+        "name": "R",
+        "desc": "Used for advanced statistics and analytical visualizations in data science contexts."
       }
     ],
     "environments": [
       {
         "name": "Docker",
-        "desc": "Containerization technology to package and deploy applications."
+        "desc": "Containerization for consistent, portable application deployment."
       },
       {
         "name": "Kubernetes",
-        "desc": "Container orchestration for managing large-scale applications."
+        "desc": "Container orchestration for scalable, distributed applications."
       },
       {
-        "name": "Linux (administration and scripting)",
-        "desc": "System environment widely used for development and production."
+        "name": "Linux (Administration & Scripting)",
+        "desc": "System environment for development and production deployment."
+      },
+      {
+        "name": "MLOps (MLflow, CI/CD)",
+        "desc": "Model deployment, experiment tracking, and CI/CD integration for ML workflows."
       }
     ],
     "databases": [
       {
         "name": "SQL (MySQL, PostgreSQL)",
-        "desc": "Query languages for interacting with relational databases."
+        "desc": "Query languages for managing relational databases."
       },
       {
-        "name": "NoSQL",
-        "desc": "Flexible databases to handle unstructured data."
+        "name": "NoSQL (MongoDB, Elasticsearch)",
+        "desc": "Flexible databases for managing unstructured or distributed data."
       },
       {
-        "name": "Neo4j (graph databases)",
-        "desc": "Database optimized for managing and querying graph-based relationships."
+        "name": "Neo4j (Graph Databases)",
+        "desc": "Graph-based data modeling for relationship-heavy datasets, used in GNN projects."
       }
     ],
     "ai": [
       {
         "name": "Machine Learning & Deep Learning",
-        "desc": "Design and training of intelligent models from data."
+        "desc": "Supervised and unsupervised modeling, neural networks, regressions, decision trees, and clustering."
       },
       {
-        "name": "Graph Neural Networks",
-        "desc": "Neural networks designed to process graph-structured data."
+        "name": "Graph Neural Networks (GNN)",
+        "desc": "Deep neural architectures for graph-structured data: message passing, link prediction, graph convolution, and embeddings."
       },
       {
         "name": "Reinforcement Learning",
-        "desc": "Learning by interaction to optimize sequential decisions."
+        "desc": "Reward-based learning through exploration/exploitation methods such as Q-learning and policy iteration."
       },
       {
-        "name": "Explainable AI (SHAP, LIME)",
-        "desc": "Techniques to explain and interpret AI model decisions."
+        "name": "Explainable AI (XAI)",
+        "desc": "Model interpretability techniques such as SHAP and LIME, with emphasis on robustness and fairness analysis."
+      },
+      {
+        "name": "Medical AI",
+        "desc": "Processing of medical imaging data (DICOM, METS) using MONAI and PyTorch for classification, segmentation, and metric evaluation (dice, recall)."
       }
     ],
     "bigdata": [
       {
         "name": "Hadoop, Spark, MapReduce",
-        "desc": "Tools for distributed processing of large-scale data."
+        "desc": "Distributed data processing frameworks for large-scale datasets."
       },
       {
-        "name": "Airflow on AWS",
-        "desc": "Workflow orchestration and automation in the cloud."
+        "name": "Apache Airflow on AWS",
+        "desc": "Workflow orchestration and scheduling for cloud-based data processing pipelines."
       },
       {
-        "name": "CI/CD with GitLab and GitHub",
-        "desc": "Implementation of continuous integration and deployment pipelines."
+        "name": "CI/CD (GitLab/GitHub)",
+        "desc": "Automated deployment and continuous integration pipelines for software and ML projects."
+      }
+    ],
+    "dataviz": [
+      {
+        "name": "Tableau, Power BI",
+        "desc": "Creation of interactive dashboards for business and analytical insights."
+      },
+      {
+        "name": "Python Libraries (Matplotlib, Seaborn, Plotly)",
+        "desc": "Data visualization, exploratory analysis, and interactive dashboards in Python."
       }
     ],
     "quantum": [
       {
         "name": "Quantum Mathematics",
-        "desc": "Foundational mathematical concepts applied to quantum computing and system modeling."
+        "desc": "Mathematical foundations applied to quantum computing and system modeling."
       },
       {
         "name": "Quantum Computing",
-        "desc": "Strong interest in quantum computing principles, algorithms, and emerging technologies in this field."
+        "desc": "Strong interest in quantum algorithms, principles of quantum information, and emerging quantum technologies."
       }
     ]
   },
   "education": [
     {
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
-      "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress, accredited by CTI)",
+      "school": "EPITA – Specialization SCIA‑G (Lyon Campus) FR",
+      "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress, CTI accredited)",
       "years": "2024 – 2025",
-      "details": "The SCIA‑G major trains engineers to design and apply artificial intelligence on graph-structured data. It covers data visualization, big data, machine learning, distributed systems, and recommendation algorithms, with complex projects and a strong focus on research and innovation.",
+      "details": "The SCIA‑G major trains engineers to design and implement artificial intelligence systems on graph-structured data. The curriculum includes advanced machine learning, graph neural networks (GNN), explainable AI (XAI), reinforcement learning, medical data processing, MLOps, stochastic modeling, and continuous optimization. The pedagogy is based on real-world projects and research-oriented challenges.",
       "website": "https://www.epita.fr",
       "projects": [
         {
-          "title": "Analysis and Prediction of Road Accidents",
-          "description": "Project combining data visualization, big data, and machine learning: processing and analysis of accident data, supervised and unsupervised modeling, model evaluation, and result interpretation."
+          "title": "Traffic Accident Prediction and Analysis",
+          "description": "Data‑viz, big data, and machine learning project analyzing and modeling accident data to detect risk factors and predict accident probability."
         },
         {
           "title": "TinyX Project (INFO8)",
-          "description": "Implementation of a microservices architecture in Java (Quarkus) with NoSQL databases (MongoDB, Elasticsearch, Neo4j), Redis message queues, and Kubernetes deployment."
+          "description": "Implementation of a microservices architecture in Java (Quarkus) using NoSQL databases (MongoDB, Elasticsearch, Neo4j), Redis messaging queues, and Kubernetes deployment."
         },
         {
           "title": "Differentiable Programming",
-          "description": "Rebuilding a deep learning library similar to PyTorch to understand automatic differentiation and backpropagation."
+          "description": "Recreation of a PyTorch‑like deep learning library to understand automatic differentiation and backpropagation mechanisms."
         },
         {
-          "title": "Deep Learning – Galaxy Classification",
-          "description": "Design of a neural network to classify galaxies (Galaxy10-DECals dataset), training and performance evaluation."
+          "title": "Galaxy Classification",
+          "description": "CNN‑based image classification project using the Galaxy10‑DECals dataset to evaluate model accuracy and performance."
         },
         {
-          "title": "NLP – Smart Resume Filter",
-          "description": "Creation of an automatic resume filtering tool for recruiters using advanced NLP techniques."
+          "title": "NLP CV Filter",
+          "description": "Automated CV filtering system for recruiters using NLP and ML techniques for text parsing and scoring."
         },
         {
           "title": "Recommender Systems",
-          "description": "Implementation of recommendation algorithms and introduction of diversity in recommendations (ItemKNN, UserKNN, SVD, and diversification techniques)."
-        }
-      ]
-    },
-    {
-      "school": "EPITA Le Kremlin‑Bicêtre",
-      "degree": "Engineering Degree in Computer Science (3rd year, accredited by CTI)",
-      "years": "Since September 2023",
-      "details": "In the 3rd year of the engineering cycle, students follow intensive programming bootcamps (piscines), collective projects, and 'rush' challenges. This immersive pedagogy strengthens core skills, builds resilience, and simulates demanding professional environments.",
-      "website": "https://www.epita.fr",
-      "projects": [
-        {
-          "title": "Mini Shell in C",
-          "description": "Design and development of a mini shell."
+          "description": "Implementation of collaborative filtering algorithms (ItemKNN, UserKNN, SVD) with diversification mechanisms."
         },
         {
-          "title": "Compiler in C++",
-          "description": "Creation of a full compiler in C++."
+          "title": "Medical ML",
+          "description": "Medical data classification and segmentation using MONAI and PyTorch, metric evaluation (dice score, recall)."
         },
         {
-          "title": "Video Games",
-          "description": "Development of games: Zorks in C++, Creeps in Java, Eplace in JavaScript."
+          "title": "Explainable AI",
+          "description": "Evaluation of model explainability tools (SHAP, LIME) with robustness and uncertainty analysis."
         },
         {
-          "title": "Code Editor",
-          "description": "Development of a code editor in Java and React."
-        },
-        {
-          "title": "Operational Study of Montreal Snow Removal",
-          "description": "Analysis and modeling in Python."
-        },
-        {
-          "title": "Medical Data Classification",
-          "description": "Design and training of machine learning models in Python to classify medical data. Includes exploratory data analysis, advanced preprocessing, implementation of supervised algorithms (regressions, random forests, neural networks), and performance evaluation with appropriate metrics."
-        }
-      ]
-    },
-    {
-      "school": "ECE Paris",
-      "degree": "2nd year Bachelor RNCP",
-      "years": "September 2022 – April 2023",
-      "details": "Training focused on software development and data analysis, with hands-on projects.",
-      "website": "https://www.ece.fr",
-      "projects": [
-        {
-          "title": "PHP Web Applications",
-          "description": "Design and development of web applications in PHP."
-        },
-        {
-          "title": "React.js Portfolio",
-          "description": "Creation of a portfolio in React.js."
-        },
-        {
-          "title": "Java Applications",
-          "description": "Development of complete applications in Java."
-        },
-        {
-          "title": "Data Analysis",
-          "description": "Processing and analysis of data with Python (Pandas, NumPy)."
-        }
-      ]
-    },
-    {
-      "school": "EPSI Rennes",
-      "degree": "1st year Bachelor RNCP",
-      "years": "September 2021 – April 2022",
-      "details": "First introduction to IT systems and web/object-oriented development, with numerous technical projects.",
-      "website": "https://www.epsi.fr",
-      "projects": [
-        {
-          "title": "Linux Web Server",
-          "description": "Creation, virtualization, and administration of web servers on Linux."
-        },
-        {
-          "title": "Flask/PHP/Python Applications",
-          "description": "Development of web and object-oriented applications with Flask, PHP, and Django."
-        },
-        {
-          "title": "Network Administration",
-          "description": "Setup and management of network infrastructures."
-        }
-      ]
-    },
-    {
-      "school": "Université Saint Jean – Yaoundé, Cameroon",
-      "degree": "Preparatory Class for Engineering",
-      "years": "October 2020 – June 2021",
-      "details": "Intensive preparation in mathematics, physics, and robotics to join an engineering school.",
-      "website": "https://institutsaintjean.org",
-      "projects": [
-        {
-          "title": "Arduino Projects",
-          "description": "Development of robotic and electronic prototypes."
+          "title": "Reinforcement Learning",
+          "description": "Q‑learning and stochastic policy implementations for simulation environments, games, and autonomous agents."
         }
       ]
     }
