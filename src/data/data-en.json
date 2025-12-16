@@ -14,7 +14,7 @@
       "title": "Intern – Data Engineer (DataFactory Team)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "dates": "September 2024 – February 2025",
-      "description": "Intern in the DataFactory team at COMUTITRES (Île-de-France Mobilités), where I contributed to the overhaul of data processing pipelines.\n\nMain tasks:\n• Migrating scripts to Apache Airflow deployed on AWS\n• Automating tasks via JSON files\n• Optimizing Python scripts and SQL queries\n• Designing performance indicators (KPIs) for BI\n• Strengthening CI/CD pipelines with GitLab\n\nThis immersion in an agile data environment allowed me to deepen my skills in data engineering, cloud computing, and workflow orchestration.",
+      "description": "Intern in the DataFactory team at COMUTITRES (Île-de-France Mobilités). I architected and migrated legacy ETL data pipelines to Apache Airflow on AWS, significantly improving processing efficiency.\n\nKey achievements:\n• Engineered and migrated Python/SQL scripts to Airflow/AWS environment\n• Developed automated retry mechanisms using JSON configurations to enhance pipeline reliability\n• Designed and deployed KPI dashboards to support Business Intelligence decision-making\n• Optimized SQL queries and Python processing scripts\n• Strengthened CI/CD pipelines using GitLab for automated deployment",
       "tags": [
         "Python",
         "SQL",
@@ -31,7 +31,7 @@
       "title": "Intern – Logistics Tracking App Development",
       "company": "TDA CERMAI (Toullec Dancoing & Associates)",
       "dates": "April 2023 – July 2023",
-      "description": "Contributed to improving and finalizing a web application for tracking air cargo (import/export).\n\nMain tasks:\n• Migrated database from InterSystems Caché to InterSystems IRIS\n• Developed a front-end interface for displaying logistics statistics\n• Created REST APIs in ObjectScript and Python, directly integrated with IRIS\n• Administered and configured the InterSystems IRIS server\n• Migrated internal tools to next-generation solutions\n• Wrote technical documentation for internal teams and clients",
+      "description": "Spearheaded the development and migration of a logistics tracking web application for air cargo.\n\nKey achievements:\n• Led the database migration from InterSystems Caché to InterSystems IRIS\n• Developed a full-stack solution with a JavaScript front-end and ObjectScript/Python back-end\n• Designed and integrated REST APIs for real-time air freight tracking\n• Administered and configured the InterSystems IRIS server\n• Authored comprehensive technical documentation for internal teams and clients",
       "tags": [
         "JavaScript",
         "ObjectScript",
@@ -189,6 +189,14 @@
       "details": "The SCIA‑G major trains engineers to design and apply AI on graph-structured data. The program includes advanced ML, GNNs, XAI, reinforcement learning, medical data processing, MLOps, stochastic modeling, and continuous optimization. Learning is driven by real-world cases and research challenges.",
       "website": "https://www.epita.fr",
       "projects": [
+        {
+          "title": "Stock Market Forecasting via GNN (Graph Transformer)",
+          "description": "Implemented a Differential Graph Transformer (based on Stanford CS224W) to model inter-stock dependencies. Adapted the architecture to a new dataset and performed comparative performance analysis."
+        },
+        {
+          "title": "Black-Scholes Modeling (Quant Finance)",
+          "description": "Numerical implementation of the stochastic differential equation (SDE) for asset price forecasting. Developed dynamic estimation of drift and volatility using sliding windows to calibrate the Geometric Brownian Motion."
+        },
         {
           "title": "Road Accident Analysis & Prediction",
           "description": "Project combining data-viz, big data, and ML: data preprocessing, supervised/unsupervised modeling, performance evaluation, and interpretation."

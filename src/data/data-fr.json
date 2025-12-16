@@ -14,7 +14,7 @@
       "title": "Stagiaire – Data Engineer (équipe DataFactory)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "dates": "Septembre 2024 – Février 2025",
-      "description": "Stagiaire au sein de l’équipe DataFactory chez COMUTITRES (Île-de-France Mobilités), j’ai contribué à la refonte des pipelines de traitement de données.\n\nMissions :\n• Migration de scripts vers Apache Airflow déployé sur AWS\n• Automatisation de tâches via des fichiers JSON\n• Optimisation de scripts Python et requêtes SQL\n• Conception d’indicateurs de performance (KPI) pour la BI\n• Renforcement des pipelines CI/CD avec GitLab\n\nCette immersion dans un environnement data agile m’a permis d’approfondir mes compétences en data engineering, cloud computing et orchestration de workflows.",
+      "description": "Stagiaire au sein de l’équipe DataFactory chez COMUTITRES (Île-de-France Mobilités), j'ai piloté la refonte et l'optimisation des pipelines de données.\n\nRéalisations clés :\n• Conception et migration de scripts ETL vers une architecture Apache Airflow sur AWS, améliorant l'efficacité des traitements\n• Développement de mécanismes de relance automatique (fichiers de configuration JSON) pour fiabiliser les flux de données\n• Création et déploiement de tableaux de bord KPI pour le pilotage de la Business Intelligence\n• Optimisation de scripts Python et de requêtes SQL complexes\n• Renforcement des pipelines CI/CD sous GitLab pour automatiser les déploiements",
       "tags": [
         "Python",
         "SQL",
@@ -31,7 +31,7 @@
       "title": "Stagiaire – Développement d’application de suivi logistique",
       "company": "TDA CERMAI (Toullec Dancoing & Associés)",
       "dates": "Avril 2023 – Juillet 2023",
-      "description": "Participation à l’amélioration et à la finalisation d’une application web de suivi des frets aériens (import/export).\n\nMissions :\n• Migration de la base de données d’InterSystems Caché vers InterSystems IRIS\n• Développement d’une interface front-end pour l’affichage des statistiques logistiques\n• Création d’API REST en ObjectScript et Python, avec intégration directe à la base IRIS\n• Administration et configuration du serveur InterSystems IRIS\n• Migration des outils internes vers des solutions de nouvelle génération\n• Rédaction de la documentation technique à destination des équipes internes et des clients",
+      "description": "J'ai mené le développement et la modernisation d’une application critique de suivi de fret aérien.\n\nRéalisations clés :\n• Pilotage de la migration de la base de données d’InterSystems Caché vers InterSystems IRIS\n• Développement full-stack : interface front-end réactive et back-end en ObjectScript/Python\n• Conception et intégration d'API REST pour l'affichage en temps réel des flux logistiques\n• Administration et configuration complète du serveur InterSystems IRIS\n• Rédaction de la documentation technique détaillée pour les équipes internes et les clients",
       "tags": [
         "JavaScript",
         "ObjectScript",
@@ -139,7 +139,7 @@
       },
       {
         "name": "Explainable AI (XAI)",
-        "desc": "Techniques d’interprétabilité comme SHAP et LIME, évaluations de robustesse, fidélité et justesse des explications."
+        "desc": "Techniques d’interprétabilité comme SHAP and LIME, évaluations de robustesse, fidélité et justesse des explications."
       },
       {
         "name": "IA Médicale",
@@ -189,6 +189,14 @@
       "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Le cursus inclut l’apprentissage automatique avancé, les réseaux de neurones sur graphes (GNN), l’IA explicable (XAI), le reinforcement learning, le traitement de données médicales, le MLOps, la modélisation stochastique et l’optimisation continue. Une pédagogie projetée par cas concrets et défis de recherche est privilégiée.",
       "website": "https://www.epita.fr",
       "projects": [
+        {
+          "title": "Prévision Boursière via GNN (Graph Transformer)",
+          "description": "Implémentation d'un Differential Graph Transformer (basé sur Stanford CS224W) pour modéliser les dépendances inter-actions. Adaptation de l'architecture à un nouveau jeu de données et analyse comparative des performances."
+        },
+        {
+          "title": "Modélisation Black-Scholes (Quant Finance)",
+          "description": "Implémentation numérique de l'équation différentielle stochastique (EDS) pour la prévision de prix. Estimation dynamique du drift et de la volatilité par fenêtre glissante pour calibrer le mouvement brownien géométrique."
+        },
         {
           "title": "Analyse et prédiction des accidents de la route",
           "description": "Projet combinant data‑viz, big data et machine learning : traitement et analyse de données d’accidents, modélisation supervisée et non supervisée, évaluation de modèles et interprétation des résultats."
