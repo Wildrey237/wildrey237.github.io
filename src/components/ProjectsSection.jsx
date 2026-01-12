@@ -94,10 +94,16 @@ const ProjectsSection = () => {
     const scrollContainerRef2 = useRef(null);
     const scrollIntervalRef = useRef(null);
 
+    // Dynamically import the correct data file based on language
     useEffect(() => {
         const loadData = async () => {
-            const json = await import(`../data/data-${i18n.language}.json`);
-            setData(json.default);
+            try {
+                const json = await import(`../data/data-${i18n.language}.json`);
+                setData(json.default);
+            } catch (error) {
+                console.error("Erreur lors du chargement des projets :", error);
+                setData({ projects: [] }); // fallback to empty
+            }
         };
         loadData();
     }, [i18n.language]);
@@ -129,7 +135,11 @@ const ProjectsSection = () => {
     }, []);
 
     if (!data) {
-        return <Spinner size="xl" thickness="4px" speed="0.65s" color="teal.400" />;
+        return (
+            <Box py={20} textAlign="center">
+                <Spinner size="xl" color="teal.400" />
+            </Box>
+        );
     }
 
     const allProjects = data.projects;
@@ -138,7 +148,8 @@ const ProjectsSection = () => {
 
     const filteredProjects = allProjects.filter((p) => {
         const matchSchool = schoolFilter ? p.school === schoolFilter : true;
-        const matchTags = tagFilter.length > 0 ? tagFilter.some((tag) => p.tags?.includes(tag)) : true;
+        const matchTags =
+            tagFilter.length > 0 ? tagFilter.some((tag) => p.tags?.includes(tag)) : true;
         return matchSchool && matchTags;
     });
 
@@ -147,7 +158,8 @@ const ProjectsSection = () => {
     const secondLineProjects = filteredProjects.slice(midIndex);
 
     return (
-        <Box id="projects" py={10} px={{ base: 4, md: 10 }}>
+        <Box id="projects" py={10} px={{ base: 4, md: 10 }} key={i18n.language}>
+            {/* Filters */}
             <HStack spacing={4} mb={6} justify="center" flexWrap="wrap">
                 <Select
                     placeholder={t("projects.filterBySchool")}
@@ -182,15 +194,31 @@ const ProjectsSection = () => {
                 </Menu>
             </HStack>
 
+            {/* Navigation buttons */}
             <HStack justify="center" mb={4} spacing={6}>
-                <Button onClick={() => { scroll(scrollContainerRef1, "left"); scroll(scrollContainerRef2, "left"); }} leftIcon={<ChevronLeft />} variant="ghost">
+                <Button
+                    onClick={() => {
+                        scroll(scrollContainerRef1, "left");
+                        scroll(scrollContainerRef2, "left");
+                    }}
+                    leftIcon={<ChevronLeft />}
+                    variant="ghost"
+                >
                     {t("projects.previous")}
                 </Button>
-                <Button onClick={() => { scroll(scrollContainerRef1, "right"); scroll(scrollContainerRef2, "right"); }} rightIcon={<ChevronRight />} variant="ghost">
+                <Button
+                    onClick={() => {
+                        scroll(scrollContainerRef1, "right");
+                        scroll(scrollContainerRef2, "right");
+                    }}
+                    rightIcon={<ChevronRight />}
+                    variant="ghost"
+                >
                     {t("projects.next")}
                 </Button>
             </HStack>
 
+            {/* Carousels */}
             {[firstLineProjects, secondLineProjects].map((lineProjects, i) => (
                 <Box
                     key={i}
