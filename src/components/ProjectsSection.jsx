@@ -1,46 +1,51 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import {
-    Box, Text, VStack, HStack, Icon, Wrap, WrapItem, Select,
-    Button, Menu, MenuButton, MenuList, Checkbox, CheckboxGroup,
-    useColorModeValue, Spinner
+    Box,
+    Text,
+    VStack,
+    HStack,
+    Icon,
+    Wrap,
+    WrapItem,
+    Select,
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    Checkbox,
+    CheckboxGroup,
+    useColorModeValue,
+    Spinner,
+    SimpleGrid,
 } from "@chakra-ui/react";
 import * as LucideIcons from "lucide-react";
 import {motion} from "framer-motion";
 import {useTranslation} from "react-i18next";
-import {ChevronLeft, ChevronRight} from "lucide-react";
-
-import dataFr from "../data/data-fr.json";
-import dataEn from "../data/data-en.json";
 
 const MotionBox = motion(Box);
 const MotionTag = motion(Box);
 
-const ProjectCard = ({project}) => {
+const ProjectCard = ({project, index}) => {
     const IconComponent = LucideIcons[project.icon] || LucideIcons["FileText"];
     const cardBg = useColorModeValue("gray.100", "gray.700");
     const cardColor = useColorModeValue("gray.800", "white");
 
     return (
         <MotionBox
-            minW="300px"
-            maxW="300px"
-            minH="250px"
-            maxH="auto"
             p={5}
-            mx={2}
+            borderRadius="xl"
             bg={cardBg}
             color={cardColor}
-            borderRadius="xl"
             boxShadow="md"
             whileHover={{scale: 1.03, boxShadow: "lg"}}
             initial={{opacity: 0, y: 20}}
             animate={{opacity: 1, y: 0}}
-            transition={{duration: 0.4}}
+            transition={{duration: 0.4, delay: index * 0.05}}
         >
             <VStack align="start" spacing={3} h="100%">
                 <HStack spacing={2}>
                     <Icon as={IconComponent} boxSize={5} color="teal.400"/>
-                    <Text fontWeight="bold" fontSize="md">{project.title}</Text>
+                    <Text fontWeight="bold">{project.title}</Text>
                 </HStack>
                 <Text fontSize="sm" color="gray.500">{project.school}</Text>
                 <Text fontSize="sm" noOfLines={4}>{project.description}</Text>
@@ -49,9 +54,12 @@ const ProjectCard = ({project}) => {
                         {project.tags.map((tag, i) => (
                             <WrapItem key={i}>
                                 <MotionTag
-                                    px={3} py={1} fontSize="xs"
+                                    px={3}
+                                    py={1}
+                                    fontSize="xs"
                                     borderRadius="md"
-                                    bg="teal.100" color="teal.800"
+                                    bg="teal.100"
+                                    color="teal.800"
                                     whileHover={{scale: 1.1}}
                                 >
                                     {tag}
@@ -69,39 +77,15 @@ const ProjectsSection = () => {
     const {t, i18n} = useTranslation();
     const [schoolFilter, setSchoolFilter] = useState("");
     const [tagFilter, setTagFilter] = useState([]);
-
-    const scrollContainerRef1 = useRef(null);
-    const scrollContainerRef2 = useRef(null);
-    const scrollIntervalRef = useRef(null);
-
-    const scroll = (ref, direction) => {
-        if (ref.current) {
-            ref.current.scrollBy({
-                left: direction === "left" ? -300 : 300,
-                behavior: "smooth",
-            });
-        }
-    };
-
-    const startAutoScroll = () => {
-        stopAutoScroll();
-        scrollIntervalRef.current = setInterval(() => {
-            scroll(scrollContainerRef1, "right");
-            scroll(scrollContainerRef2, "right");
-        }, 5000);
-    };
-
-    const stopAutoScroll = () => {
-        if (scrollIntervalRef.current) clearInterval(scrollIntervalRef.current);
-    };
+    const [data, setData] = useState(null);
 
     useEffect(() => {
-        startAutoScroll();
-        return stopAutoScroll;
-    }, []);
-
-    // Choisir le bon fichier JSON en fonction de la langue
-    const data = i18n.language === "fr" ? dataFr : dataEn;
+        const loadData = async () => {
+            const json = await import(`../data/data-${i18n.language}.json`);
+            setData(json.default);
+        };
+        loadData();
+    }, [i18n.language]);
 
     if (!data) {
         return <Spinner size="xl" thickness="4px" speed="0.65s" color="teal.400"/>;
@@ -117,36 +101,35 @@ const ProjectsSection = () => {
         return matchSchool && matchTags;
     });
 
-    const midIndex = Math.ceil(filteredProjects.length / 2);
-    const firstLineProjects = filteredProjects.slice(0, midIndex);
-    const secondLineProjects = filteredProjects.slice(midIndex);
-
     return (
         <Box id="projects" py={10} px={{base: 4, md: 10}}>
-            {/* Filtres */}
             <HStack spacing={4} mb={6} justify="center" flexWrap="wrap">
                 <Select
-                    placeholder={t("projects.filterBySchool")}
+                    placeholder={t("projects.filterBySchool", "Filtrer par école")}
                     maxW="250px"
                     value={schoolFilter}
                     onChange={(e) => setSchoolFilter(e.target.value)}
                 >
                     {schools.map((school, idx) => (
-                        <option key={idx} value={school}>{school}</option>
+                        <option key={idx} value={school}>
+                            {school}
+                        </option>
                     ))}
                 </Select>
 
                 <Menu closeOnSelect={false}>
                     <MenuButton as={Button} maxW="250px">
                         {tagFilter.length > 0
-                            ? `${t("projects.tagsSelected")} (${tagFilter.length})`
-                            : t("projects.filterByTags")}
+                            ? `${t("projects.tagsSelected", "Compétences sélectionnées")} (${tagFilter.length})`
+                            : t("projects.filterByTags", "Filtrer par compétences")}
                     </MenuButton>
                     <MenuList maxH="300px" overflowY="auto" p={2}>
                         <CheckboxGroup value={tagFilter} onChange={setTagFilter}>
                             <VStack align="start" spacing={2}>
                                 {tags.map((tag, idx) => (
-                                    <Checkbox key={idx} value={tag}>{tag}</Checkbox>
+                                    <Checkbox key={idx} value={tag}>
+                                        {tag}
+                                    </Checkbox>
                                 ))}
                             </VStack>
                         </CheckboxGroup>
@@ -154,40 +137,11 @@ const ProjectsSection = () => {
                 </Menu>
             </HStack>
 
-            {/* Contrôles */}
-            <HStack justify="center" mb={4} spacing={6}>
-                <Button onClick={() => {
-                    scroll(scrollContainerRef1, "left");
-                    scroll(scrollContainerRef2, "left");
-                }} leftIcon={<ChevronLeft/>} variant="ghost">
-                    {t("projects.previous")}
-                </Button>
-                <Button onClick={() => {
-                    scroll(scrollContainerRef1, "right");
-                    scroll(scrollContainerRef2, "right");
-                }} rightIcon={<ChevronRight/>} variant="ghost">
-                    {t("projects.next")}
-                </Button>
-            </HStack>
-
-            {/* Carrousels */}
-            {[firstLineProjects, secondLineProjects].map((lineProjects, i) => (
-                <Box
-                    key={i}
-                    overflowX="auto"
-                    ref={i === 0 ? scrollContainerRef1 : scrollContainerRef2}
-                    onMouseEnter={stopAutoScroll}
-                    onMouseLeave={startAutoScroll}
-                    css={{scrollbarWidth: "none"}}
-                    mb={6}
-                >
-                    <HStack spacing={4} minW="full" pb={4}>
-                        {lineProjects.map((project, index) => (
-                            <ProjectCard key={index} project={project}/>
-                        ))}
-                    </HStack>
-                </Box>
-            ))}
+            <SimpleGrid columns={{base: 1, sm: 2, md: 3}} spacing={6}>
+                {filteredProjects.map((project, index) => (
+                    <ProjectCard key={index} project={project} index={index}/>
+                ))}
+            </SimpleGrid>
         </Box>
     );
 };
