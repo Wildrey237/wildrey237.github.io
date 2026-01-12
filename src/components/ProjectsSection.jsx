@@ -1,31 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {
-    Box,
-    Text,
-    VStack,
-    HStack,
-    Icon,
-    Wrap,
-    WrapItem,
-    Select,
-    Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    Checkbox,
-    CheckboxGroup,
-    useColorModeValue,
-    Spinner,
+    Box, Text, VStack, HStack, Icon, Wrap, WrapItem, Select,
+    Button, Menu, MenuButton, MenuList, Checkbox, CheckboxGroup,
+    useColorModeValue, Spinner
 } from "@chakra-ui/react";
 import * as LucideIcons from "lucide-react";
-import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {motion} from "framer-motion";
+import {useTranslation} from "react-i18next";
+import {ChevronLeft, ChevronRight} from "lucide-react";
+
+import dataFr from "../data/data-fr.json";
+import dataEn from "../data/data-en.json";
 
 const MotionBox = motion(Box);
 const MotionTag = motion(Box);
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({project}) => {
     const IconComponent = LucideIcons[project.icon] || LucideIcons["FileText"];
     const cardBg = useColorModeValue("gray.100", "gray.700");
     const cardColor = useColorModeValue("gray.800", "white");
@@ -42,36 +32,27 @@ const ProjectCard = ({ project }) => {
             color={cardColor}
             borderRadius="xl"
             boxShadow="md"
-            whileHover={{ scale: 1.03, boxShadow: "lg" }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            whileHover={{scale: 1.03, boxShadow: "lg"}}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.4}}
         >
             <VStack align="start" spacing={3} h="100%">
                 <HStack spacing={2}>
-                    <Icon as={IconComponent} boxSize={5} color="teal.400" />
-                    <Text fontWeight="bold" fontSize="md">
-                        {project.title}
-                    </Text>
+                    <Icon as={IconComponent} boxSize={5} color="teal.400"/>
+                    <Text fontWeight="bold" fontSize="md">{project.title}</Text>
                 </HStack>
-                <Text fontSize="sm" color="gray.500">
-                    {project.school}
-                </Text>
-                <Text fontSize="sm" noOfLines={4}>
-                    {project.description}
-                </Text>
+                <Text fontSize="sm" color="gray.500">{project.school}</Text>
+                <Text fontSize="sm" noOfLines={4}>{project.description}</Text>
                 {project.tags && (
                     <Wrap pt={2} spacing={2}>
                         {project.tags.map((tag, i) => (
                             <WrapItem key={i}>
                                 <MotionTag
-                                    px={3}
-                                    py={1}
-                                    fontSize="xs"
+                                    px={3} py={1} fontSize="xs"
                                     borderRadius="md"
-                                    bg="teal.100"
-                                    color="teal.800"
-                                    whileHover={{ scale: 1.1 }}
+                                    bg="teal.100" color="teal.800"
+                                    whileHover={{scale: 1.1}}
                                 >
                                     {tag}
                                 </MotionTag>
@@ -85,28 +66,13 @@ const ProjectCard = ({ project }) => {
 };
 
 const ProjectsSection = () => {
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
     const [schoolFilter, setSchoolFilter] = useState("");
     const [tagFilter, setTagFilter] = useState([]);
-    const [data, setData] = useState(null);
 
     const scrollContainerRef1 = useRef(null);
     const scrollContainerRef2 = useRef(null);
     const scrollIntervalRef = useRef(null);
-
-    // Dynamically import the correct data file based on language
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                const json = await import(`../data/data-${i18n.language}.json`);
-                setData(json.default);
-            } catch (error) {
-                console.error("Erreur lors du chargement des projets :", error);
-                setData({ projects: [] }); // fallback to empty
-            }
-        };
-        loadData();
-    }, [i18n.language]);
 
     const scroll = (ref, direction) => {
         if (ref.current) {
@@ -134,12 +100,11 @@ const ProjectsSection = () => {
         return stopAutoScroll;
     }, []);
 
+    // Choisir le bon fichier JSON en fonction de la langue
+    const data = i18n.language === "fr" ? dataFr : dataEn;
+
     if (!data) {
-        return (
-            <Box py={20} textAlign="center">
-                <Spinner size="xl" color="teal.400" />
-            </Box>
-        );
+        return <Spinner size="xl" thickness="4px" speed="0.65s" color="teal.400"/>;
     }
 
     const allProjects = data.projects;
@@ -148,8 +113,7 @@ const ProjectsSection = () => {
 
     const filteredProjects = allProjects.filter((p) => {
         const matchSchool = schoolFilter ? p.school === schoolFilter : true;
-        const matchTags =
-            tagFilter.length > 0 ? tagFilter.some((tag) => p.tags?.includes(tag)) : true;
+        const matchTags = tagFilter.length > 0 ? tagFilter.some((tag) => p.tags?.includes(tag)) : true;
         return matchSchool && matchTags;
     });
 
@@ -158,8 +122,8 @@ const ProjectsSection = () => {
     const secondLineProjects = filteredProjects.slice(midIndex);
 
     return (
-        <Box id="projects" py={10} px={{ base: 4, md: 10 }} key={i18n.language}>
-            {/* Filters */}
+        <Box id="projects" py={10} px={{base: 4, md: 10}}>
+            {/* Filtres */}
             <HStack spacing={4} mb={6} justify="center" flexWrap="wrap">
                 <Select
                     placeholder={t("projects.filterBySchool")}
@@ -168,9 +132,7 @@ const ProjectsSection = () => {
                     onChange={(e) => setSchoolFilter(e.target.value)}
                 >
                     {schools.map((school, idx) => (
-                        <option key={idx} value={school}>
-                            {school}
-                        </option>
+                        <option key={idx} value={school}>{school}</option>
                     ))}
                 </Select>
 
@@ -184,9 +146,7 @@ const ProjectsSection = () => {
                         <CheckboxGroup value={tagFilter} onChange={setTagFilter}>
                             <VStack align="start" spacing={2}>
                                 {tags.map((tag, idx) => (
-                                    <Checkbox key={idx} value={tag}>
-                                        {tag}
-                                    </Checkbox>
+                                    <Checkbox key={idx} value={tag}>{tag}</Checkbox>
                                 ))}
                             </VStack>
                         </CheckboxGroup>
@@ -194,31 +154,23 @@ const ProjectsSection = () => {
                 </Menu>
             </HStack>
 
-            {/* Navigation buttons */}
+            {/* Contrôles */}
             <HStack justify="center" mb={4} spacing={6}>
-                <Button
-                    onClick={() => {
-                        scroll(scrollContainerRef1, "left");
-                        scroll(scrollContainerRef2, "left");
-                    }}
-                    leftIcon={<ChevronLeft />}
-                    variant="ghost"
-                >
+                <Button onClick={() => {
+                    scroll(scrollContainerRef1, "left");
+                    scroll(scrollContainerRef2, "left");
+                }} leftIcon={<ChevronLeft/>} variant="ghost">
                     {t("projects.previous")}
                 </Button>
-                <Button
-                    onClick={() => {
-                        scroll(scrollContainerRef1, "right");
-                        scroll(scrollContainerRef2, "right");
-                    }}
-                    rightIcon={<ChevronRight />}
-                    variant="ghost"
-                >
+                <Button onClick={() => {
+                    scroll(scrollContainerRef1, "right");
+                    scroll(scrollContainerRef2, "right");
+                }} rightIcon={<ChevronRight/>} variant="ghost">
                     {t("projects.next")}
                 </Button>
             </HStack>
 
-            {/* Carousels */}
+            {/* Carrousels */}
             {[firstLineProjects, secondLineProjects].map((lineProjects, i) => (
                 <Box
                     key={i}
@@ -226,12 +178,12 @@ const ProjectsSection = () => {
                     ref={i === 0 ? scrollContainerRef1 : scrollContainerRef2}
                     onMouseEnter={stopAutoScroll}
                     onMouseLeave={startAutoScroll}
-                    css={{ scrollbarWidth: "none" }}
+                    css={{scrollbarWidth: "none"}}
                     mb={6}
                 >
                     <HStack spacing={4} minW="full" pb={4}>
                         {lineProjects.map((project, index) => (
-                            <ProjectCard key={index} project={project} />
+                            <ProjectCard key={index} project={project}/>
                         ))}
                     </HStack>
                 </Box>
