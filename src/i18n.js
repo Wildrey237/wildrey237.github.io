@@ -10,7 +10,15 @@ const resources = {
             experiences: "Expériences",
             downloadCv: "Télécharger mon CV",
             welcome: "Bienvenue sur mon portfolio !",
-            brand: "Mon Portfolio"
+            brand: "Mon Portfolio",
+            projects: {
+                title: "Projets réalisés",
+                previous: "Précédent",
+                next: "Suivant",
+                filterBySchool: "Filtrer par école",
+                filterByTags: "Filtrer par compétences",
+                tagsSelected: "Compétences sélectionnées"
+            }
         }
     },
     en: {
@@ -20,7 +28,15 @@ const resources = {
             experiences: "Experiences",
             downloadCv: "Download my CV",
             welcome: "Welcome to my portfolio!",
-            brand: "My Portfolio"
+            brand: "My Portfolio",
+            projects: {
+                title: "Completed Projects",
+                previous: "Previous",
+                next: "Next",
+                filterBySchool: "Filter by school",
+                filterByTags: "Filter by skills",
+                tagsSelected: "Skills selected"
+            }
         }
     }
 };
@@ -32,9 +48,8 @@ i18n
         resources,
         fallbackLng: "en",
         detection: {
-            // ordre de détection
             order: ["querystring", "localStorage", "cookie", "navigator", "htmlTag"],
-            caches: ["localStorage", "cookie"], // mémorise la langue choisie
+            caches: ["localStorage", "cookie"],
         },
         interpolation: {
             escapeValue: false

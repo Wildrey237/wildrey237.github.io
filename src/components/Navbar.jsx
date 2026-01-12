@@ -33,7 +33,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ["home", "skills", "experiences", "education"];
+            const sections = ["home", "skills", "experiences", "education", "projects"];
             let current = "home";
             sections.forEach((sec) => {
                 const element = document.getElementById(sec);
@@ -63,7 +63,7 @@ export default function Navbar() {
                     color={colorMode === "light" ? "gray.800" : "white"}
                     _hover={{ color: "teal.500" }}
                     aria-current={isActive ? "page" : undefined}
-                    aria-label={`Aller à la section ${label}`}
+                    aria-label={`Go to section ${label}`}
                 >
                     {label}
                 </Button>
@@ -126,6 +126,10 @@ export default function Navbar() {
                     {renderButton(
                         "education",
                         i18n.language === "fr" ? "Éducation" : "Education"
+                    )}
+                    {renderButton(
+                        "projects",
+                        i18n.language === "fr" ? "Projets" : "Projects"
                     )}
                 </Flex>
 
@@ -192,6 +196,10 @@ export default function Navbar() {
                     {renderButton(
                         "education",
                         i18n.language === "fr" ? "Éducation" : "Education"
+                    )}
+                    {renderButton(
+                        "projects",
+                        i18n.language === "fr" ? "Projets" : "Projects"
                     )}
                 </Stack>
             )}

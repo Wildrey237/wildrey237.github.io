@@ -4,17 +4,16 @@ import Navbar from "./components/Navbar";
 import SkillsSection from "./components/SkillsSection";
 import ExperienceSection from "./components/ExperienceSection";
 import EducationSection from "./components/EducationSection";
+import ProjectsSection from "./components/ProjectsSection";
 import Footer from "./components/Footer";
 import ProfileSection from "./components/ProfileSection";
-import ScrollProgressBar from "./components/ScrollProgressBar"; // <== ajoute ce composant
+import ScrollProgressBar from "./components/ScrollProgressBar";
 
-// Boîte animée pour les sections
 const MotionBox = motion(Box);
 
 function App() {
     const {colorMode} = useColorMode();
 
-    // animation pour chaque section
     const sectionAnim = {
         initial: {opacity: 0, y: 50},
         whileInView: {opacity: 1, y: 0},
@@ -24,36 +23,25 @@ function App() {
 
     return (
         <Box minH="100vh" bg={colorMode === "light" ? "gray.50" : "gray.800"}>
-            {/* Barre de progression du scroll */}
             <ScrollProgressBar/>
-
-            {/* Navbar */}
             <Navbar/>
-
-            {/* Contenu principal */}
             <Box mt="80px" pb="80px">
-                {/* Section Profil */}
                 <MotionBox {...sectionAnim}>
                     <ProfileSection/>
                 </MotionBox>
-
-                {/* Section Compétences */}
                 <MotionBox {...sectionAnim}>
                     <SkillsSection/>
                 </MotionBox>
-
-                {/* Section Expériences */}
                 <MotionBox {...sectionAnim}>
                     <ExperienceSection/>
                 </MotionBox>
-
-                {/* Section Éducation */}
                 <MotionBox {...sectionAnim}>
                     <EducationSection/>
                 </MotionBox>
+                <MotionBox {...sectionAnim}>
+                    <ProjectsSection/>
+                </MotionBox>
             </Box>
-
-            {/* Footer */}
             <Footer/>
         </Box>
     );
