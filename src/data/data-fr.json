@@ -187,145 +187,389 @@
       "degree": "Majeure Smart Computing for Artificial Graphs (4ᵉ et 5ᵉ années, dernière année en cours, accréditée par la CTI)",
       "years": "2024 – 2025",
       "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Le cursus inclut l’apprentissage automatique avancé, les réseaux de neurones sur graphes (GNN), l’IA explicable (XAI), le reinforcement learning, le traitement de données médicales, le MLOps, la modélisation stochastique et l’optimisation continue. Une pédagogie projetée par cas concrets et défis de recherche est privilégiée.",
-      "website": "https://www.epita.fr",
-      "projects": [
-        {
-          "title": "Prévision Boursière via GNN (Graph Transformer)",
-          "description": "Implémentation d'un Differential Graph Transformer (basé sur Stanford CS224W) pour modéliser les dépendances inter-actions. Adaptation de l'architecture à un nouveau jeu de données et analyse comparative des performances."
-        },
-        {
-          "title": "Modélisation Black-Scholes (Quant Finance)",
-          "description": "Implémentation numérique de l'équation différentielle stochastique (EDS) pour la prévision de prix. Estimation dynamique du drift et de la volatilité par fenêtre glissante pour calibrer le mouvement brownien géométrique."
-        },
-        {
-          "title": "Analyse et prédiction des accidents de la route",
-          "description": "Projet combinant data‑viz, big data et machine learning : traitement et analyse de données d’accidents, modélisation supervisée et non supervisée, évaluation de modèles et interprétation des résultats."
-        },
-        {
-          "title": "Projet TinyX (INFO8)",
-          "description": "Implémentation d’une architecture micro‑services en Java (Quarkus) avec bases NoSQL (MongoDB, Elasticsearch, Neo4j), files de messages Redis et déploiement Kubernetes."
-        },
-        {
-          "title": "Programmation différentiable",
-          "description": "Reconstruction d’une librairie de deep learning type PyTorch pour comprendre le calcul différentiel automatique et la rétropropagation."
-        },
-        {
-          "title": "Classification de galaxies",
-          "description": "Réseau CNN entraîné sur Galaxy10‑DECals pour explorer les performances de modèles convolutionnels sur données astronomiques."
-        },
-        {
-          "title": "Filtre NLP de CV",
-          "description": "Création d’un outil de filtrage automatique de CV pour les recruteurs, combinant NLP, machine learning, et prétraitement avancé des textes."
-        },
-        {
-          "title": "Systèmes de recommandation",
-          "description": "Implémentation d’algorithmes de filtrage collaboratif (ItemKNN, UserKNN, SVD) et introduction de techniques de diversification."
-        },
-        {
-          "title": "Medical ML",
-          "description": "Classification de données médicales, segmentation d’images, manipulation de formats DICOM/METS, métriques médicales (dice score, recall)."
-        },
-        {
-          "title": "Explainable AI",
-          "description": "Évaluation de la robustesse et de la fidélité d’outils explicatifs (SHAP, LIME), étude des biais et des incertitudes."
-        },
-        {
-          "title": "Reinforcement Learning",
-          "description": "Applications du Q-learning et politiques stochastiques à des environnements de simulation : jeux, planification et agents autonomes."
-        }
-      ]
+      "website": "https://www.epita.fr"
     },
     {
       "school": "EPITA Le Kremlin‑Bicêtre FR",
       "degree": "Diplôme d’ingénieur en Informatique (3ᵉ année, accrédité par la CTI)",
       "years": "Depuis septembre 2023",
       "details": "En 3ᵉ année du cycle ingénieur, les étudiants suivent des piscines intensives (séances de programmation de plusieurs jours, parfois nocturnes), ainsi que des projets collectifs et des challenges « rush ». Cette pédagogie immersive vise à renforcer les compétences fondamentales, développer la robustesse et simuler des environnements professionnels exigeants.",
-      "website": "https://www.epita.fr",
-      "projects": [
-        {
-          "title": "Mini Shell en C",
-          "description": "Conception et développement d’un mini shell."
-        },
-        {
-          "title": "Compilateur en C++",
-          "description": "Création d’un compilateur complet en C++."
-        },
-        {
-          "title": "Jeux vidéo",
-          "description": "Création de jeux : Zorks en C++, Creeps en Java, Eplace en JavaScript."
-        },
-        {
-          "title": "Éditeur de code",
-          "description": "Développement d’un éditeur de code en Java et React."
-        },
-        {
-          "title": "Étude opérationnelle du déneigement de Montréal",
-          "description": "Analyse et modélisation en Python."
-        },
-        {
-          "title": "Classification de données médicales",
-          "description": "Conception et entraînement de modèles de machine learning en Python pour classifier des données médicales. Mise en œuvre d’analyses exploratoires, d’un prétraitement avancé, d’algorithmes supervisés (régressions, forêts aléatoires, réseaux de neurones) et évaluation des performances avec des métriques adaptées."
-        }
-      ]
+      "website": "https://www.epita.fr"
     },
     {
       "school": "ECE Paris FR",
       "degree": "2ᵉ année Bachelor RNCP",
       "years": "Septembre 2022 – Avril 2023",
       "details": "Formation orientée développement logiciel et analyse de données, avec mise en pratique sur des projets concrets.",
-      "website": "https://www.ece.fr",
-      "projects": [
-        {
-          "title": "Applications web PHP",
-          "description": "Conception et développement d’applications web en PHP."
-        },
-        {
-          "title": "Portfolio React.js",
-          "description": "Réalisation d’un portfolio en React.js."
-        },
-        {
-          "title": "Applications Java",
-          "description": "Développement d’applications complètes en Java."
-        },
-        {
-          "title": "Analyse de données",
-          "description": "Traitement et analyse de données avec Python (Pandas, NumPy)."
-        }
-      ]
+      "website": "https://www.ece.fr"
     },
     {
       "school": "EPSI Rennes FR",
       "degree": "1ʳᵉ année Bachelor RNCP",
       "years": "Septembre 2021 – Avril 2022",
       "details": "Première approche des systèmes informatiques et du développement web et objet, avec de nombreux projets techniques.",
-      "website": "https://www.epsi.fr",
-      "projects": [
-        {
-          "title": "Serveur web Linux",
-          "description": "Création, virtualisation et administration de serveurs web sous Linux."
-        },
-        {
-          "title": "Applications Flask/PHP/Python",
-          "description": "Développement d’applications web et objets avec Flask, PHP et Django."
-        },
-        {
-          "title": "Administration réseau",
-          "description": "Mise en place et gestion d’infrastructures réseau."
-        }
-      ]
+      "website": "https://www.epsi.fr"
     },
     {
       "school": "Université Saint Jean – Yaoundé CMR",
       "degree": "Classe préparatoire ingénieur",
       "years": "Octobre 2020 – Juin 2021",
       "details": "Préparation intensive en mathématiques, physique et robotique pour intégrer une école d’ingénieur.",
-      "website": "https://institutsaintjean.org",
-      "projects": [
-        {
-          "title": "Projets Arduino",
-          "description": "Réalisation de prototypes robotiques et électroniques."
-        }
-      ]
+      "website": "https://institutsaintjean.org"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Prévision boursière et gestion du risque par GNN",
+      "description": "Extension d’un Differential Graph Transformer (inspiré du projet Stanford CS224W) vers une architecture multi-tâche prédictive. Le modèle anticipe simultanément les rendements et la volatilité future afin d’alimenter une stratégie de gestion du risque et d’allocation de portefeuille. Étude d’ablation complète sur les topologies de graphe (local, global, dual) et backtesting quantitatif.",
+      "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
+      "icon": "LineChart",
+      "tags": [
+        "Python",
+        "Deep Learning",
+        "Graph Neural Networks",
+        "Graph Transformer",
+        "Multi-Task Learning",
+        "Risk Management",
+        "Quantitative Finance",
+        "Backtesting"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Modélisation Black-Scholes (Finance Quantitative)",
+      "description": "Implémentation numérique des EDS avec calibration dynamique du drift/volatilité et simulations de Monte Carlo (Euler-Maruyama).",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "TrendingUp",
+      "tags": [
+        "Python",
+        "Finance Quantitative",
+        "Monte Carlo",
+        "Équations différentielles stochastiques",
+        "Modélisation mathématique"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Analyse et Prédiction des Accidents Routiers",
+      "description": "Pipeline Data Science complet. Clustering géographique (K-Means) et prédiction de gravité avec Random Forest & XGBoost.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Car",
+      "tags": [
+        "Python",
+        "Data Science",
+        "Apprentissage supervisé",
+        "Clustering",
+        "XGBoost"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Plateforme Microservices TinyX",
+      "description": "Architecture microservices en Java (Quarkus) avec MongoDB, Neo4j, Elasticsearch, Redis et Kubernetes.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Boxes",
+      "tags": [
+        "Java",
+        "Microservices",
+        "Kubernetes",
+        "NoSQL",
+        "DevOps",
+        "Architecture logicielle"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Moteur de Programmation Différentiable",
+      "description": "Reconstruction d’un framework de deep learning type PyTorch pour comprendre l’autograd et la rétropropagation.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Brain",
+      "tags": [
+        "Python",
+        "Deep Learning",
+        "Autograd",
+        "Backpropagation"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Classification d'Images de Galaxies",
+      "description": "Entraînement d’un CNN sur le dataset Galaxy10‑DECals pour l’analyse d’images astronomiques.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Satellite",
+      "tags": [
+        "Python",
+        "CNN",
+        "Vision par ordinateur",
+        "Classification d’images"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Filtrage de CV via NLP",
+      "description": "Outil automatisé de filtrage de CV basé sur le NLP, l’extraction de mots-clés et le scoring.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "FileText",
+      "tags": [
+        "Python",
+        "NLP",
+        "Text Mining",
+        "Machine Learning",
+        "Traitement du langage"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Systèmes de Recommandation",
+      "description": "Implémentation d’algorithmes de filtrage collaboratif (ItemKNN, UserKNN, SVD).",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Star",
+      "tags": [
+        "Python",
+        "Systèmes de recommandation",
+        "Filtrage collaboratif",
+        "KNN",
+        "SVD"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "IA Médicale – Segmentation 3D",
+      "description": "Segmentation 3D de vaisseaux hépatiques et tumeurs sur volumes CT. Pipeline complet en PyTorch/MONAI : preprocessing, entraînement patch-based d’un UNet 3D, inférence sliding-window et évaluation par métriques Dice. Comparaison avec une approche classique ITK.",
+      "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
+      "icon": "HeartPulse",
+      "tags": [
+        "Python",
+        "PyTorch",
+        "MONAI",
+        "ITK",
+        "Segmentation 3D",
+        "Imagerie médicale"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "IA Explicable (XAI)",
+      "description": "Évaluation de la robustesse et de la fidélité des explications SHAP & LIME.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Eye",
+      "tags": [
+        "Python",
+        "XAI",
+        "SHAP",
+        "LIME",
+        "Équité algorithmique"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Agents d'Apprentissage par Renforcement",
+      "description": "Environnements simulés avec Q-learning et politiques stochastiques.",
+      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "icon": "Bot",
+      "tags": [
+        "Reinforcement Learning",
+        "Q-Learning",
+        "Agents autonomes",
+        "Simulation"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Machine de Turing Électromécanique",
+      "description": "Machine de Turing physique avec Arduino, FSM et moteurs pas-à-pas.",
+      "school": "EPITA – Projet Technique",
+      "icon": "Cpu",
+      "tags": [
+        "Systèmes embarqués",
+        "Arduino",
+        "Automates",
+        "FPGA",
+        "Électronique",
+        "IoT",
+        "Raspberry Pi"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Mini Shell en C",
+      "description": "Développement d’un shell personnalisé en C avec gestion des processus.",
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "icon": "Terminal",
+      "tags": [
+        "C",
+        "Programmation système",
+        "Unix",
+        "Shell"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Compilateur en C++",
+      "description": "Création d’un compilateur complet avec analyse lexicale et syntaxique.",
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "icon": "Code2",
+      "tags": [
+        "C++",
+        "Compilateur",
+        "Analyse syntaxique",
+        "AST"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Projets de Jeux Vidéo",
+      "description": "Zorks (C++), Creeps (Java), Eplace (JavaScript).",
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "icon": "Gamepad2",
+      "tags": [
+        "Jeux vidéo",
+        "C++",
+        "Java",
+        "JavaScript"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Éditeur de Code (Java/React)",
+      "description": "Éditeur de code avec backend Java et interface React.",
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "icon": "FileEdit",
+      "tags": [
+        "Java",
+        "React",
+        "IDE",
+        "Frontend",
+        "Backend"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Modélisation du Déneigement de Montréal",
+      "description": "Projet d’optimisation et de simulation en Python.",
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "icon": "Snowflake",
+      "tags": [
+        "Python",
+        "Recherche opérationnelle",
+        "Simulation",
+        "Optimisation"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Classification de Données Médicales",
+      "description": "Modèles supervisés pour données médicales anonymisées.",
+      "school": "EPITA Le Kremlin‑Bicêtre",
+      "icon": "HeartPulse",
+      "tags": [
+        "Machine Learning",
+        "Santé",
+        "Classification",
+        "Python"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Applications Web PHP",
+      "description": "Développement d’applications web réactives en PHP.",
+      "school": "ECE Paris",
+      "icon": "Globe",
+      "tags": [
+        "PHP",
+        "Développement Web",
+        "Backend"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Portfolio React.js",
+      "description": "Site personnel construit avec React.js.",
+      "school": "ECE Paris",
+      "icon": "User",
+      "tags": [
+        "React",
+        "Frontend",
+        "Portfolio"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Applications Java",
+      "description": "Développement full-stack d’applications Java.",
+      "school": "ECE Paris",
+      "icon": "Coffee",
+      "tags": [
+        "Java",
+        "Full Stack",
+        "Développement Web"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Projet d’Analyse de Données",
+      "description": "Exploration et visualisation de données avec Python.",
+      "school": "ECE Paris",
+      "icon": "PieChart",
+      "tags": [
+        "Python",
+        "Analyse de données",
+        "Visualisation",
+        "Pandas"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Serveur Web Linux",
+      "description": "Installation et administration de serveurs Linux.",
+      "school": "EPSI Rennes",
+      "icon": "Server",
+      "tags": [
+        "Linux",
+        "DevOps",
+        "Administration système",
+        "Serveurs"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Applications Flask/PHP/Python",
+      "description": "Applications web avec Flask, PHP et Django.",
+      "school": "EPSI Rennes",
+      "icon": "Laptop",
+      "tags": [
+        "Python",
+        "Flask",
+        "Django",
+        "PHP",
+        "Web"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Administration Réseau",
+      "description": "Gestion des infrastructures et protocoles réseau.",
+      "school": "EPSI Rennes",
+      "icon": "Network",
+      "tags": [
+        "Réseaux",
+        "Infrastructure",
+        "Administration"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Projets Arduino",
+      "description": "Prototypage électronique et robotique avec Arduino.",
+      "school": "Université Saint Jean – Yaoundé CMR",
+      "icon": "Cpu",
+      "tags": [
+        "Arduino",
+        "Électronique",
+        "IoT",
+        "Systèmes embarqués"
+      ],
+      "link": "#"
     }
   ]
 }
