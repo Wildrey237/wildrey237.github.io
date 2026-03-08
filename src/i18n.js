@@ -17,7 +17,8 @@ const resources = {
                 next: "Suivant",
                 filterBySchool: "Filtrer par école",
                 filterByTags: "Filtrer par compétences",
-                tagsSelected: "Compétences sélectionnées"
+                tagsSelected: "Compétences sélectionnées",
+                viewMore: "Voir plus"
             }
         }
     },
@@ -35,7 +36,8 @@ const resources = {
                 next: "Next",
                 filterBySchool: "Filter by school",
                 filterByTags: "Filter by skills",
-                tagsSelected: "Skills selected"
+                tagsSelected: "Skills selected",
+                viewMore: "View more"
             }
         }
     }
