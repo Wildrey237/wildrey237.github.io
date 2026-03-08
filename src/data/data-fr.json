@@ -265,6 +265,21 @@
       "link": "#"
     },
     {
+      "title": "AI Job Tracker – ATS Personnel Intelligent",
+      "description": "Système d'automatisation complet pour la recherche d'emploi via Google Apps Script et Gemini 1.5 Flash. Pipeline de traitement NLP pour l'extraction de candidatures depuis Gmail, mise à jour dynamique des statuts par analyse de sentiments des réponses RH, et moteur de sourcing d'offres par scan sémantique de newsletters.",
+      "school": "Projet Personnel / Engineering",
+      "icon": "Briefcase",
+      "tags": [
+        "JavaScript",
+        "Google Apps Script",
+        "Gemini AI",
+        "NLP",
+        "Automation",
+        "Gmail API"
+      ],
+      "link": "https://github.com/Wildrey237/gemini-ai-job-tracker"
+    },
+    {
       "title": "Plateforme Microservices TinyX",
       "description": "Architecture microservices en Java (Quarkus) avec MongoDB, Neo4j, Elasticsearch, Redis et Kubernetes.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",

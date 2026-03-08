@@ -249,6 +249,21 @@
       "link": "#"
     },
     {
+      "title": "AI Job Tracker – Intelligent Personal ATS",
+      "description": "Full-stack automation system for job hunting built with Google Apps Script and Gemini 1.5 Flash. Developed an NLP pipeline to extract applications from Gmail, dynamic status tracking via sentiment analysis of recruiter replies, and an automated job sourcing engine using semantic scanning of newsletters.",
+      "school": "Personal Project / Engineering",
+      "icon": "Briefcase",
+      "tags": [
+        "JavaScript",
+        "Google Apps Script",
+        "Gemini AI",
+        "NLP",
+        "Automation",
+        "Gmail API"
+      ],
+      "link": "https://github.com/Wildrey237/gemini-ai-job-tracker"
+    },
+    {
       "title": "Traffic Accident Analysis & Prediction",
       "description": "End-to-end Data Science pipeline with K-Means clustering and Random Forest/XGBoost prediction optimized for class imbalance.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
