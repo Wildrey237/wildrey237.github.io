@@ -70,114 +70,108 @@
     }
   ],
   "skills": {
-    "development": [
+    "ai": [
       {
-        "name": "HTML, CSS, JavaScript, TypeScript",
-        "desc": "Core technologies for building modern and responsive web interfaces."
+        "name": "Machine Learning & Deep Learning",
+        "desc": "Supervised and unsupervised modeling, neural networks, optimization and evaluation on complex datasets."
       },
       {
-        "name": "React, Node.js",
-        "desc": "Framework and runtime for building dynamic client-side and server-side applications."
+        "name": "Graph Neural Networks (GNN)",
+        "desc": "Modeling relational data as graphs, message passing and advanced architectures for structured and dynamic data."
       },
       {
-        "name": "Python (NumPy, Pandas, PyTorch)",
-        "desc": "Versatile language used in data science, AI, and ML for modeling, data processing, and building ML pipelines."
+        "name": "Reinforcement Learning",
+        "desc": "Design of decision-making agents using reward-based learning (Q-learning, policy gradients, PPO)."
       },
       {
-        "name": "Java, PHP, C/C++",
-        "desc": "Languages used for back-end, embedded, and complex software development."
+        "name": "Explainable AI (XAI)",
+        "desc": "Interpretability techniques (SHAP, LIME), robustness analysis and model validation."
+      },
+      {
+        "name": "Medical AI",
+        "desc": "Processing medical data (DICOM, METS), classification and segmentation using MONAI and PyTorch, with domain-specific metrics."
       },
       {
         "name": "R",
-        "desc": "Used for advanced statistics and data visualization in data science."
+        "desc": "Advanced statistical modeling, data analysis and quantitative methods applied to data science research."
       }
     ],
-    "environments": [
+    "data_engineering": [
+      {
+        "name": "Python (NumPy, Pandas, PyTorch)",
+        "desc": "Data manipulation, transformation and modeling, building machine learning pipelines."
+      },
+      {
+        "name": "Apache Airflow on AWS",
+        "desc": "Workflow orchestration and automation of ETL/ML pipelines in cloud environments."
+      },
+      {
+        "name": "Hadoop, Spark, MapReduce",
+        "desc": "Distributed processing of large-scale data and performance optimization on clusters."
+      }
+    ],
+    "software_engineering": [
+      {
+        "name": "Python, Java, C/C++",
+        "desc": "Robust software development, complex systems and performance optimization."
+      },
+      {
+        "name": "JavaScript, TypeScript",
+        "desc": "Modern web application development with scalable and maintainable architectures."
+      },
+      {
+        "name": "React, Node.js",
+        "desc": "Full-stack application development and dynamic user interfaces."
+      },
+      {
+        "name": "REST APIs",
+        "desc": "Design and integration of backend services for distributed systems."
+      }
+    ],
+    "cloud_mlop": [
       {
         "name": "Docker",
-        "desc": "Container creation and management for portable application deployment."
+        "desc": "Containerization for portability and reproducibility."
       },
       {
         "name": "Kubernetes",
-        "desc": "Container orchestration to manage large-scale applications."
+        "desc": "Container orchestration for scalable distributed applications."
       },
       {
-        "name": "Linux (administration and scripting)",
-        "desc": "System environment used for development and production."
+        "name": "AWS",
+        "desc": "Cloud services for deployment, storage and data processing."
       },
       {
         "name": "MLOps (MLflow, CI/CD)",
-        "desc": "Model deployment, experiment tracking, and CI for ML pipelines."
+        "desc": "Model lifecycle management, experiment tracking and ML pipeline automation."
+      },
+      {
+        "name": "Linux",
+        "desc": "System administration and scripting for production environments."
       }
     ],
     "databases": [
       {
         "name": "SQL (MySQL, PostgreSQL)",
-        "desc": "Query languages to manage relational databases."
+        "desc": "Relational database design and querying."
       },
       {
         "name": "NoSQL (MongoDB, Elasticsearch)",
-        "desc": "Flexible databases for managing unstructured or distributed data."
+        "desc": "Handling unstructured data in distributed systems."
       },
       {
-        "name": "Neo4j (graph databases)",
-        "desc": "Graph-optimized DB used in GNN-related projects."
-      }
-    ],
-    "ai": [
-      {
-        "name": "Machine Learning & Deep Learning",
-        "desc": "Supervised/unsupervised modeling, neural networks, regression, decision trees, etc."
-      },
-      {
-        "name": "Graph Neural Networks (GNN)",
-        "desc": "Graph-structured data modeling, message passing, and graph convolutions."
-      },
-      {
-        "name": "Reinforcement Learning",
-        "desc": "Reward-based learning and exploration/exploitation (Q-learning, policies, etc.)."
-      },
-      {
-        "name": "Explainable AI (XAI)",
-        "desc": "Interpretability tools such as SHAP and LIME, robustness, and bias evaluation."
-      },
-      {
-        "name": "Medical AI",
-        "desc": "Medical data preprocessing (DICOM, METS), classification/segmentation with MONAI, metric evaluation (dice, recall)."
-      }
-    ],
-    "bigdata": [
-      {
-        "name": "Hadoop, Spark, MapReduce",
-        "desc": "Distributed processing of large-scale data on clusters."
-      },
-      {
-        "name": "Apache Airflow on AWS",
-        "desc": "Cloud-based orchestration and scheduling of data workflows."
-      },
-      {
-        "name": "CI/CD (GitLab/GitHub)",
-        "desc": "Automated deployment and continuous integration for software and ML projects."
+        "name": "Neo4j",
+        "desc": "Graph database for modeling complex relationships (GNN use cases)."
       }
     ],
     "dataviz": [
       {
         "name": "Tableau, Power BI",
-        "desc": "Interactive dashboards for business data visualization."
+        "desc": "Interactive dashboards for business and analytical insights."
       },
       {
-        "name": "Python libraries (Matplotlib, Seaborn, Plotly)",
-        "desc": "Data visualization and dashboarding in Python."
-      }
-    ],
-    "quantum": [
-      {
-        "name": "Quantum Mathematics",
-        "desc": "Mathematical foundations applied to quantum computing and system modeling."
-      },
-      {
-        "name": "Quantum Computing",
-        "desc": "Strong interest in quantum principles, algorithms, and emerging technologies."
+        "name": "Matplotlib, Seaborn, Plotly",
+        "desc": "Data visualization and analytical reporting."
       }
     ]
   },
