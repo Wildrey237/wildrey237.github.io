@@ -70,114 +70,108 @@
     }
   ],
   "skills": {
-    "development": [
+    "ai": [
       {
-        "name": "HTML, CSS, JavaScript, TypeScript",
-        "desc": "Technologies de base pour créer des interfaces web modernes et responsives."
+        "name": "Machine Learning & Deep Learning",
+        "desc": "Modélisation supervisée et non supervisée, réseaux de neurones, optimisation et évaluation de modèles sur des données complexes."
       },
       {
-        "name": "React, Node.js",
-        "desc": "Framework et runtime pour créer des applications web dynamiques côté client et serveur."
+        "name": "Graph Neural Networks (GNN)",
+        "desc": "Modélisation de données relationnelles sous forme de graphes, propagation de messages et architectures avancées pour données structurées et dynamiques."
       },
       {
-        "name": "Python (NumPy, Pandas, PyTorch)",
-        "desc": "Langage polyvalent pour le data science, l'IA et le machine learning, utilisé pour la modélisation, le traitement de données et la création de pipelines d’apprentissage automatique."
+        "name": "Reinforcement Learning",
+        "desc": "Conception d’agents décisionnels basés sur la récompense (Q-learning, policy gradient, PPO), avec gestion exploration/exploitation."
       },
       {
-        "name": "Java, PHP, C/C++",
-        "desc": "Langages pour le développement back-end, embarqué et logiciels complexes."
+        "name": "Explainable AI (XAI)",
+        "desc": "Techniques d’interprétabilité (SHAP, LIME), analyse de robustesse et validation des modèles."
+      },
+      {
+        "name": "IA Médicale",
+        "desc": "Traitement de données médicales (DICOM, METS), classification et segmentation avec MONAI et PyTorch, métriques spécifiques (Dice, Recall)."
       },
       {
         "name": "R",
-        "desc": "Utilisé pour les statistiques avancées et les visualisations analytiques dans un contexte de data science."
+        "desc": "Modélisation statistique avancée, analyse de données et méthodes quantitatives appliquées à la recherche en data science."
       }
     ],
-    "environments": [
+    "data_engineering": [
+      {
+        "name": "Python (NumPy, Pandas, PyTorch)",
+        "desc": "Manipulation, transformation et modélisation de données, développement de pipelines de machine learning."
+      },
+      {
+        "name": "Apache Airflow sur AWS",
+        "desc": "Orchestration et automatisation de workflows de données et pipelines ETL/ML dans le cloud."
+      },
+      {
+        "name": "Hadoop, Spark, MapReduce",
+        "desc": "Traitement distribué de grandes quantités de données et optimisation des performances sur clusters."
+      }
+    ],
+    "software_engineering": [
+      {
+        "name": "Python, Java, C/C++",
+        "desc": "Développement de logiciels robustes, systèmes complexes et optimisation des performances."
+      },
+      {
+        "name": "JavaScript, TypeScript",
+        "desc": "Développement d’applications web modernes avec typage fort et architectures maintenables."
+      },
+      {
+        "name": "React, Node.js",
+        "desc": "Développement d’applications full-stack et interfaces dynamiques."
+      },
+      {
+        "name": "REST APIs",
+        "desc": "Conception et intégration de services backend pour systèmes distribués."
+      }
+    ],
+    "cloud_mlop": [
       {
         "name": "Docker",
-        "desc": "Création et gestion de conteneurs pour déployer des applications de façon portable."
+        "desc": "Conteneurisation pour garantir portabilité et reproductibilité."
       },
       {
         "name": "Kubernetes",
-        "desc": "Orchestration de conteneurs pour gérer des applications à grande échelle."
+        "desc": "Orchestration de conteneurs pour applications distribuées à grande échelle."
       },
       {
-        "name": "Linux (administration et scripting)",
-        "desc": "Environnement système utilisé pour le développement et la mise en production."
+        "name": "AWS",
+        "desc": "Utilisation de services cloud pour le déploiement et le traitement de données."
       },
       {
         "name": "MLOps (MLflow, CI/CD)",
-        "desc": "Mise en production de modèles, traçabilité des expériences, et intégration continue pour les pipelines ML."
+        "desc": "Gestion du cycle de vie des modèles et automatisation des workflows ML."
+      },
+      {
+        "name": "Linux",
+        "desc": "Administration système et scripting pour environnements de production."
       }
     ],
     "databases": [
       {
         "name": "SQL (MySQL, PostgreSQL)",
-        "desc": "Langages de requête pour interroger et gérer des bases de données relationnelles."
+        "desc": "Conception et interrogation de bases de données relationnelles."
       },
       {
         "name": "NoSQL (MongoDB, Elasticsearch)",
-        "desc": "Bases de données flexibles pour gérer des données non structurées ou distribuées."
+        "desc": "Gestion de données non structurées dans des systèmes distribués."
       },
       {
-        "name": "Neo4j (bases de données graphes)",
-        "desc": "Base de données optimisée pour les relations complexes entre entités, utilisée dans les projets GNN."
-      }
-    ],
-    "ai": [
-      {
-        "name": "Machine Learning & Deep Learning",
-        "desc": "Modélisation supervisée et non supervisée, réseaux de neurones, régressions, arbres de décision, etc."
-      },
-      {
-        "name": "Graph Neural Networks (GNN)",
-        "desc": "Modélisation de données structurées sous forme de graphes, propagation de messages, convolution sur graphes."
-      },
-      {
-        "name": "Reinforcement Learning",
-        "desc": "Méthodes basées sur la récompense et l’exploration/exploitation (Q-learning, politiques, exploration)."
-      },
-      {
-        "name": "Explainable AI (XAI)",
-        "desc": "Techniques d’interprétabilité comme SHAP and LIME, évaluations de robustesse, fidélité et justesse des explications."
-      },
-      {
-        "name": "IA Médicale",
-        "desc": "Prétraitement de données médicales (imagerie DICOM, METS), classification, segmentation avec MONAI et PyTorch, métriques médicales (dice, recall, etc.)."
-      }
-    ],
-    "bigdata": [
-      {
-        "name": "Hadoop, Spark, MapReduce",
-        "desc": "Traitement distribué de grandes quantités de données à travers des clusters."
-      },
-      {
-        "name": "Apache Airflow sur AWS",
-        "desc": "Orchestration et planification de workflows de données dans le cloud."
-      },
-      {
-        "name": "CI/CD (GitLab/GitHub)",
-        "desc": "Déploiement automatisé et tests continus pour les projets logiciels et IA."
+        "name": "Neo4j",
+        "desc": "Base de données graphe pour modélisation de relations complexes (GNN)."
       }
     ],
     "dataviz": [
       {
         "name": "Tableau, Power BI",
-        "desc": "Création de tableaux de bord interactifs pour l’analyse métier."
+        "desc": "Création de dashboards interactifs pour analyse métier."
       },
       {
-        "name": "Bibliothèques Python (Matplotlib, Seaborn, Plotly)",
-        "desc": "Visualisation de données, explorations graphiques et production de dashboards en Python."
-      }
-    ],
-    "quantum": [
-      {
-        "name": "Mathématiques quantiques",
-        "desc": "Bases mathématiques appliquées à l’informatique quantique et à la modélisation de systèmes."
-      },
-      {
-        "name": "Informatique quantique",
-        "desc": "Fort intérêt pour les principes de calcul quantique, les algorithmes et les technologies émergentes dans ce domaine."
+        "name": "Matplotlib, Seaborn, Plotly",
+        "desc": "Visualisation de données et communication de résultats analytiques."
       }
     ]
   },
