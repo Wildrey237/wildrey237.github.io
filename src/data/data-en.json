@@ -128,7 +128,7 @@
         "desc": "Design and integration of backend services for distributed systems."
       }
     ],
-    "cloud_mlop": [
+    "cloud_mlops": [
       {
         "name": "Docker",
         "desc": "Containerization for portability and reproducibility."
