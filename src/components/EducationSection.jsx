@@ -8,53 +8,69 @@ import {
     AccordionIcon,
     Text,
     useColorMode,
-    Stack,
     HStack,
     Tag,
     Link,
     useColorModeValue,
     Icon,
 } from "@chakra-ui/react";
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {FaGraduationCap} from "react-icons/fa";
-import {useTranslation} from "react-i18next";
-import {motion} from "framer-motion";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { FaGraduationCap } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
 
 const MotionBox = motion(Box);
 
 export default function EducationSection() {
-    const {i18n} = useTranslation();
-    const {colorMode} = useColorMode();
+    const { i18n } = useTranslation();
+    const { colorMode } = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
     const isDark = colorMode === "dark";
 
     const bgMain = useColorModeValue("gray.50", "#050816");
     const titleColor = useColorModeValue("teal.600", "teal.300");
-    const cardBg = useColorModeValue("white", "#243147");
+    const cardBg = useColorModeValue("white", "#0f1b3d");
     const cardBorder = useColorModeValue("gray.200", "whiteAlpha.200");
     const textMain = useColorModeValue("gray.800", "white");
     const textSoft = useColorModeValue("gray.600", "gray.300");
-    const subCardBg = useColorModeValue("gray.50", "#1B2436");
     const iconColor = useColorModeValue("teal.500", "teal.300");
+    const expandedBg = useColorModeValue("teal.50", "#1B2436");
+    const subCardBg = useColorModeValue("gray.100", "#1B2436");
 
     const getCampusBadge = (schoolName) => {
         if (!schoolName) return null;
         const name = schoolName.toLowerCase();
 
         if (name.includes("lyon")) {
-            return <Tag colorScheme="teal" size="sm">Lyon</Tag>;
+            return (
+                <Tag colorScheme="teal" size="sm">
+                    Lyon
+                </Tag>
+            );
         }
         if (name.includes("paris") || name.includes("kremlin")) {
-            return <Tag colorScheme="blue" size="sm">Paris</Tag>;
+            return (
+                <Tag colorScheme="blue" size="sm">
+                    Paris
+                </Tag>
+            );
         }
         if (name.includes("rennes")) {
-            return <Tag colorScheme="purple" size="sm">Rennes</Tag>;
+            return (
+                <Tag colorScheme="purple" size="sm">
+                    Rennes
+                </Tag>
+            );
         }
         if (name.includes("yaoundé") || name.includes("yaounde")) {
-            return <Tag colorScheme="red" size="sm">Yaoundé</Tag>;
+            return (
+                <Tag colorScheme="red" size="sm">
+                    Yaoundé
+                </Tag>
+            );
         }
         return null;
     };
@@ -62,7 +78,7 @@ export default function EducationSection() {
     return (
         <Box
             id="education"
-            px={{base: 4, md: 8}}
+            px={{ base: 4, md: 8 }}
             py={16}
             bg={bgMain}
             position="relative"
@@ -109,10 +125,14 @@ export default function EducationSection() {
                     data.education.map((edu, idx) => (
                         <MotionBox
                             key={idx}
-                            initial={{opacity: 0, y: 30}}
-                            whileInView={{opacity: 1, y: 0}}
-                            viewport={{once: true, amount: 0.2}}
-                            transition={{duration: 0.4, delay: idx * 0.1, ease: "easeOut"}}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.2 }}
+                            transition={{
+                                duration: 0.4,
+                                delay: idx * 0.1,
+                                ease: "easeOut",
+                            }}
                         >
                             <AccordionItem
                                 border="1px solid"
@@ -138,13 +158,22 @@ export default function EducationSection() {
                                         px={5}
                                         py={4}
                                         _expanded={{
-                                            bg: isDark ? "#1B2436" : "teal.50",
+                                            bg: expandedBg,
                                             color: textMain,
                                         }}
                                     >
-                                        <HStack flex="1" textAlign="left" spacing={3} align="start">
+                                        <HStack
+                                            flex="1"
+                                            textAlign="left"
+                                            spacing={3}
+                                            align="start"
+                                        >
                                             <Box pt="2px">
-                                                <Icon as={FaGraduationCap} color={iconColor} boxSize={5}/>
+                                                <Icon
+                                                    as={FaGraduationCap}
+                                                    color={iconColor}
+                                                    boxSize={5}
+                                                />
                                             </Box>
 
                                             <Box flex="1">
@@ -152,54 +181,60 @@ export default function EducationSection() {
                                                     {edu.degree}
                                                 </Text>
 
-                                                <HStack spacing={2} flexWrap="wrap" mt={1}>
+                                                <HStack
+                                                    spacing={2}
+                                                    flexWrap="wrap"
+                                                    mt={1}
+                                                >
                                                     <Text fontSize="sm" color={textSoft}>
                                                         {edu.school} • {edu.years}
                                                     </Text>
 
                                                     {getCampusBadge(edu.school)}
 
-                                                    {edu.website && edu.website.trim() !== "" && (
-                                                        <Link
-                                                            href={edu.website}
-                                                            isExternal
-                                                            color={textSoft}
-                                                            _hover={{color: "teal.400"}}
-                                                        >
-                                                            <ExternalLinkIcon mb="3px"/>
-                                                        </Link>
-                                                    )}
+                                                    {edu.website &&
+                                                        edu.website.trim() !== "" && (
+                                                            <Link
+                                                                href={edu.website}
+                                                                isExternal
+                                                                color={textSoft}
+                                                                _hover={{
+                                                                    color: "teal.400",
+                                                                }}
+                                                            >
+                                                                <ExternalLinkIcon mb="3px" />
+                                                            </Link>
+                                                        )}
                                                 </HStack>
                                             </Box>
                                         </HStack>
 
-                                        <AccordionIcon color={iconColor}/>
+                                        <AccordionIcon color={iconColor} />
                                     </AccordionButton>
                                 </h2>
 
                                 <AccordionPanel pb={5} px={5}>
-                                    <Text
-                                        fontSize="sm"
-                                        color={textSoft}
-                                        mb={4}
-                                    >
+                                    <Text fontSize="sm" color={textSoft} mb={4}>
                                         {edu.details}
                                     </Text>
 
                                     {edu.projects && edu.projects.length > 0 && (
-                                        <Stack spacing={3}>
+                                        <Box>
                                             {edu.projects.map((proj, pIdx) => (
                                                 <Box
                                                     key={pIdx}
                                                     p={4}
+                                                    mb={3}
                                                     borderRadius="lg"
                                                     bg={subCardBg}
                                                     border="1px solid"
                                                     borderColor={cardBorder}
-                                                    boxShadow="sm"
+                                                    boxShadow={isDark ? "sm" : "sm"}
                                                     _hover={{
                                                         transform: "translateY(-2px)",
-                                                        borderColor: isDark ? "teal.400" : "teal.300",
+                                                        borderColor: isDark
+                                                            ? "teal.400"
+                                                            : "teal.300",
                                                     }}
                                                     transition="all 0.2s ease"
                                                 >
@@ -210,12 +245,15 @@ export default function EducationSection() {
                                                     >
                                                         {proj.title}
                                                     </Text>
-                                                    <Text fontSize="sm" color={textSoft}>
+                                                    <Text
+                                                        fontSize="sm"
+                                                        color={textSoft}
+                                                    >
                                                         {proj.description}
                                                     </Text>
                                                 </Box>
                                             ))}
-                                        </Stack>
+                                        </Box>
                                     )}
                                 </AccordionPanel>
                             </AccordionItem>
