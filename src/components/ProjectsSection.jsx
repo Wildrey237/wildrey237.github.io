@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
     Box,
     Text,
@@ -24,20 +24,27 @@ import {
     ModalBody,
     ModalFooter,
     useDisclosure,
+    Heading,
 } from "@chakra-ui/react";
 import * as LucideIcons from "lucide-react";
-import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
+import {motion} from "framer-motion";
+import {useTranslation} from "react-i18next";
 import dataFr from "../data/data-fr.json";
 import dataEn from "../data/data-en.json";
 
 const MotionBox = motion(Box);
 const MotionTag = motion(Box);
 
-const ProjectCard = ({ project, index, onOpenProject, t }) => {
+const ProjectCard = ({project, index, onOpenProject, t, isDark}) => {
     const IconComponent = LucideIcons[project.icon] || LucideIcons["FileText"];
-    const cardBg = useColorModeValue("gray.100", "gray.700");
+
+    const cardBg = useColorModeValue("white", "#243147");
     const cardColor = useColorModeValue("gray.800", "white");
+    const borderColor = useColorModeValue("gray.200", "whiteAlpha.200");
+    const schoolColor = useColorModeValue("gray.500", "gray.300");
+    const tagBg = useColorModeValue("teal.50", "whiteAlpha.100");
+    const tagColor = useColorModeValue("teal.700", "teal.200");
+    const tagBorder = useColorModeValue("teal.200", "whiteAlpha.200");
 
     return (
         <MotionBox
@@ -45,25 +52,39 @@ const ProjectCard = ({ project, index, onOpenProject, t }) => {
             borderRadius="xl"
             bg={cardBg}
             color={cardColor}
-            boxShadow="md"
+            border="1px solid"
+            borderColor={borderColor}
+            boxShadow={
+                isDark
+                    ? "0 0 0 1px rgba(255,255,255,0.04), 0 10px 40px rgba(0,0,0,0.25)"
+                    : "md"
+            }
             cursor="pointer"
-            whileHover={{ scale: 1.03, boxShadow: "lg", y: -4 }}
-            whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
+            whileHover={{
+                scale: 1.02,
+                y: -4,
+                borderColor: isDark ? "#4FD1C5" : "#81E6D9",
+                boxShadow: isDark
+                    ? "0 0 0 1px rgba(255,255,255,0.06), 0 14px 36px rgba(0,0,0,0.35)"
+                    : "0 10px 24px rgba(0,0,0,0.12)",
+            }}
+            whileTap={{scale: 0.98}}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true, amount: 0.2}}
+            transition={{duration: 0.4, delay: index * 0.05}}
             height="100%"
             onClick={() => onOpenProject(project)}
         >
             <VStack align="start" spacing={3} h="100%">
                 <HStack spacing={2} align="start">
-                    <Icon as={IconComponent} boxSize={5} color="teal.400" mt={1} />
+                    <Icon as={IconComponent} boxSize={5} color="teal.400" mt={1}/>
                     <Text fontWeight="bold" fontSize="lg" noOfLines={2}>
                         {project.title}
                     </Text>
                 </HStack>
 
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color={schoolColor}>
                     {project.school}
                 </Text>
 
@@ -80,9 +101,11 @@ const ProjectCard = ({ project, index, onOpenProject, t }) => {
                                     py={1}
                                     fontSize="xs"
                                     borderRadius="md"
-                                    bg="teal.100"
-                                    color="teal.800"
-                                    whileHover={{ scale: 1.08 }}
+                                    bg={tagBg}
+                                    color={tagColor}
+                                    border="1px solid"
+                                    borderColor={tagBorder}
+                                    whileHover={{scale: 1.05}}
                                 >
                                     {tag}
                                 </MotionTag>
@@ -105,14 +128,14 @@ const ProjectCard = ({ project, index, onOpenProject, t }) => {
 };
 
 const ProjectsSection = () => {
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
     const data = i18n.language === "fr" ? dataFr : dataEn;
 
     const [schoolFilter, setSchoolFilter] = useState("");
     const [tagFilter, setTagFilter] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
     const allProjects = data.projects;
     const schools = [...new Set(allProjects.map((p) => p.school))];
@@ -142,18 +165,82 @@ const ProjectsSection = () => {
             ? LucideIcons[selectedProject.icon]
             : LucideIcons.FileText;
 
-    const modalBg = useColorModeValue("white", "gray.800");
+    const isDark = useColorModeValue(false, true);
+
+    const bgMain = useColorModeValue("gray.50", "#050816");
+    const cardBg = useColorModeValue("white", "#243147");
+    const borderColor = useColorModeValue("gray.200", "whiteAlpha.200");
+    const modalBg = useColorModeValue("white", "#243147");
     const modalText = useColorModeValue("gray.800", "white");
     const modalSubText = useColorModeValue("gray.600", "gray.300");
+    const titleColor = useColorModeValue("teal.600", "teal.300");
+    const inputBg = useColorModeValue("white", "#243147");
+    const tagBg = useColorModeValue("teal.50", "whiteAlpha.100");
+    const tagColor = useColorModeValue("teal.700", "teal.200");
+    const tagBorder = useColorModeValue("teal.200", "whiteAlpha.200");
 
     return (
-        <Box id="projects" py={10} px={{ base: 4, md: 10 }}>
-            <HStack spacing={4} mb={8} justify="center" flexWrap="wrap">
+        <Box
+            id="projects"
+            py={16}
+            px={{base: 4, md: 8}}
+            bg={bgMain}
+            position="relative"
+            overflow="hidden"
+        >
+            {isDark && (
+                <>
+                    <Box
+                        position="absolute"
+                        inset="0"
+                        opacity={0.08}
+                        backgroundImage="linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)"
+                        backgroundSize="48px 48px"
+                        pointerEvents="none"
+                    />
+                    <Box
+                        position="absolute"
+                        bottom="-120px"
+                        right="-120px"
+                        w="320px"
+                        h="320px"
+                        bg="blue.500"
+                        opacity={0.12}
+                        filter="blur(120px)"
+                        borderRadius="full"
+                    />
+                </>
+            )}
+
+            <Heading
+                mb={12}
+                textAlign="center"
+                fontSize={["2xl", "3xl", "4xl"]}
+                color={titleColor}
+                fontFamily="monospace"
+                position="relative"
+                zIndex={1}
+            >
+                {t("projects.title")}
+            </Heading>
+
+            <HStack
+                spacing={4}
+                mb={8}
+                justify="center"
+                flexWrap="wrap"
+                position="relative"
+                zIndex={1}
+            >
                 <Select
                     placeholder={t("projects.filterBySchool")}
                     maxW="260px"
                     value={schoolFilter}
                     onChange={(e) => setSchoolFilter(e.target.value)}
+                    bg={inputBg}
+                    borderColor={borderColor}
+                    _hover={{borderColor: "teal.300"}}
+                    _focus={{borderColor: "teal.400", boxShadow: "none"}}
                 >
                     {schools.map((school, idx) => (
                         <option key={idx} value={school}>
@@ -163,16 +250,30 @@ const ProjectsSection = () => {
                 </Select>
 
                 <Menu closeOnSelect={false}>
-                    <MenuButton as={Button} maxW="260px">
+                    <MenuButton
+                        as={Button}
+                        maxW="260px"
+                        bg={inputBg}
+                        border="1px solid"
+                        borderColor={borderColor}
+                        _hover={{borderColor: "teal.300"}}
+                    >
                         {tagFilter.length > 0
                             ? `${t("projects.tagsSelected")} (${tagFilter.length})`
                             : t("projects.filterByTags")}
                     </MenuButton>
-                    <MenuList maxH="300px" overflowY="auto" p={2}>
+
+                    <MenuList
+                        maxH="300px"
+                        overflowY="auto"
+                        p={2}
+                        bg={cardBg}
+                        borderColor={borderColor}
+                    >
                         <CheckboxGroup value={tagFilter} onChange={setTagFilter}>
                             <VStack align="start" spacing={2}>
                                 {tags.map((tag, idx) => (
-                                    <Checkbox key={idx} value={tag}>
+                                    <Checkbox key={idx} value={tag} colorScheme="teal">
                                         {tag}
                                     </Checkbox>
                                 ))}
@@ -182,7 +283,12 @@ const ProjectsSection = () => {
                 </Menu>
             </HStack>
 
-            <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={6}>
+            <SimpleGrid
+                columns={{base: 1, sm: 2, md: 3, lg: 4}}
+                spacing={6}
+                position="relative"
+                zIndex={1}
+            >
                 {filteredProjects.map((project, index) => (
                     <ProjectCard
                         key={index}
@@ -190,17 +296,24 @@ const ProjectsSection = () => {
                         index={index}
                         onOpenProject={openProjectModal}
                         t={t}
+                        isDark={isDark}
                     />
                 ))}
             </SimpleGrid>
 
             <Modal isOpen={isOpen} onClose={closeProjectModal} size="3xl" isCentered>
-                <ModalOverlay backdropFilter="blur(4px)" />
-                <ModalContent bg={modalBg} color={modalText} mx={4}>
+                <ModalOverlay backdropFilter="blur(4px)"/>
+                <ModalContent
+                    bg={modalBg}
+                    color={modalText}
+                    mx={4}
+                    border="1px solid"
+                    borderColor={borderColor}
+                >
                     <ModalHeader>
                         {selectedProject && (
                             <HStack spacing={3} align="start">
-                                <Icon as={selectedIcon} boxSize={6} color="teal.400" mt={1} />
+                                <Icon as={selectedIcon} boxSize={6} color="teal.400" mt={1}/>
                                 <Box>
                                     <Text fontSize="2xl" fontWeight="bold">
                                         {selectedProject.title}
@@ -213,7 +326,7 @@ const ProjectsSection = () => {
                         )}
                     </ModalHeader>
 
-                    <ModalCloseButton />
+                    <ModalCloseButton/>
 
                     <ModalBody>
                         {selectedProject && (
@@ -240,8 +353,10 @@ const ProjectsSection = () => {
                                                         py={1}
                                                         fontSize="sm"
                                                         borderRadius="md"
-                                                        bg="teal.100"
-                                                        color="teal.800"
+                                                        bg={tagBg}
+                                                        color={tagColor}
+                                                        border="1px solid"
+                                                        borderColor={tagBorder}
                                                     >
                                                         {tag}
                                                     </Box>
@@ -256,7 +371,6 @@ const ProjectsSection = () => {
 
                     <ModalFooter>
                         <HStack spacing={3}>
-
                             {selectedProject?.link && selectedProject.link !== "#" && (
                                 <Button
                                     as="a"

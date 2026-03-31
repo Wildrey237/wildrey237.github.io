@@ -7,6 +7,7 @@ import {
     HStack,
     useColorMode,
     useDisclosure,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import {HamburgerIcon, CloseIcon, SunIcon, MoonIcon} from "@chakra-ui/icons";
 import {useTranslation} from "react-i18next";
@@ -19,6 +20,13 @@ export default function Navbar() {
     const {t, i18n} = useTranslation();
 
     const [activeSection, setActiveSection] = useState("home");
+
+    const isDark = colorMode === "dark";
+
+    const navBg = useColorModeValue("rgba(255,255,255,0.92)", "rgba(5,8,22,0.9)");
+    const navBorder = useColorModeValue("gray.200", "whiteAlpha.200");
+    const textColor = useColorModeValue("gray.800", "white");
+    const mobileBg = useColorModeValue("rgba(255,255,255,0.96)", "rgba(11,16,32,0.96)");
 
     const scrollToId = (id) => {
         if (id === "home") {
@@ -68,8 +76,10 @@ export default function Navbar() {
                 <Button
                     onClick={() => scrollToId(id)}
                     variant="ghost"
-                    color={colorMode === "light" ? "gray.800" : "white"}
-                    _hover={{color: "teal.500"}}
+                    color={textColor}
+                    fontWeight={isActive ? "semibold" : "medium"}
+                    _hover={{color: "teal.400", bg: "transparent"}}
+                    _active={{bg: "transparent"}}
                     aria-current={isActive ? "page" : undefined}
                     aria-label={`Go to section ${label}`}
                 >
@@ -99,26 +109,28 @@ export default function Navbar() {
                 position="fixed"
                 top="0"
                 w="100%"
-                bg={
-                    colorMode === "light"
-                        ? "rgba(255,255,255,0.7)"
-                        : "rgba(26,32,44,0.8)"
-                }
-                backdropFilter="blur(8px)"
+                bg={navBg}
+                backdropFilter="blur(10px)"
+                borderBottom="1px solid"
+                borderColor={navBorder}
                 p={4}
                 align="center"
                 justify="space-between"
-                boxShadow="sm"
+                boxShadow={
+                    isDark
+                        ? "0 6px 24px rgba(0,0,0,0.18)"
+                        : "0 2px 10px rgba(0,0,0,0.05)"
+                }
                 zIndex="999"
             >
                 {/* Logo */}
                 <HStack
                     spacing={2}
                     cursor="pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
                     aria-label={i18n.language === "fr" ? "Retour à l'accueil" : "Go to home"}
                 >
-                    <LogoMark />
+                    <LogoMark/>
                 </HStack>
 
                 {/* Menu Desktop */}
@@ -150,8 +162,9 @@ export default function Navbar() {
                         icon={colorMode === "light" ? <MoonIcon/> : <SunIcon/>}
                         onClick={toggleColorMode}
                         mr={2}
-                        color={colorMode === "light" ? "gray.800" : "white"}
-                        _hover={{color: "teal.500"}}
+                        variant="ghost"
+                        color={textColor}
+                        _hover={{color: "teal.400", bg: "transparent"}}
                     />
 
                     <Button
@@ -161,6 +174,7 @@ export default function Navbar() {
                         mr={2}
                         colorScheme="teal"
                         variant="solid"
+                        borderRadius="full"
                         aria-label={
                             i18n.language === "fr"
                                 ? "Passer le site en anglais"
@@ -175,8 +189,9 @@ export default function Navbar() {
                         icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
                         display={{base: "inline-flex", md: "none"}}
                         onClick={isOpen ? onClose : onOpen}
-                        color={colorMode === "light" ? "gray.800" : "white"}
-                        _hover={{color: "teal.500"}}
+                        variant="ghost"
+                        color={textColor}
+                        _hover={{color: "teal.400", bg: "transparent"}}
                     />
                 </Flex>
             </Flex>
@@ -186,15 +201,22 @@ export default function Navbar() {
                 <Stack
                     as="nav"
                     position="fixed"
-                    top="60px"
+                    top="72px"
                     left="0"
                     right="0"
-                    bg={colorMode === "light" ? "whiteAlpha.900" : "gray.800"}
-                    backdropFilter="blur(8px)"
+                    bg={mobileBg}
+                    backdropFilter="blur(10px)"
+                    borderBottom="1px solid"
+                    borderColor={navBorder}
                     p={4}
                     display={{md: "none"}}
                     spacing={3}
                     zIndex="998"
+                    boxShadow={
+                        isDark
+                            ? "0 12px 24px rgba(0,0,0,0.25)"
+                            : "0 8px 20px rgba(0,0,0,0.08)"
+                    }
                 >
                     {renderButton("home", t("home"))}
                     {renderButton("skills", t("skills"))}

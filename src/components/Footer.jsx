@@ -4,6 +4,7 @@ import {
     IconButton,
     Button,
     useColorMode,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import {FaGithub, FaLinkedin, FaEnvelope} from "react-icons/fa";
 import {useTranslation} from "react-i18next";
@@ -18,10 +19,16 @@ export default function Footer() {
     const {t, i18n} = useTranslation();
 
     const data = i18n.language === "fr" ? frData : enData;
-    console.log("EMAIL:", data.profile.email);
-    console.log("GITHUB:", data.profile.github);
-    console.log("LINKEDIN:", data.profile.linkedin);
-    console.log("CV:", data.profile.cvLink);
+    const isDark = colorMode === "dark";
+
+    const footerBg = useColorModeValue("rgba(255,255,255,0.92)", "rgba(5,8,22,0.92)");
+    const borderColor = useColorModeValue("gray.200", "whiteAlpha.200");
+    const iconColor = useColorModeValue("gray.700", "white");
+    const iconHover = useColorModeValue("#319795", "#4FD1C5");
+
+    const cvLink =
+        i18n.language === "fr" ? "/cv/cv-francais.pdf" : "/cv/cv-anglais.pdf";
+
     return (
         <Box
             as="footer"
@@ -29,19 +36,23 @@ export default function Footer() {
             bottom="0"
             left="0"
             width="100%"
-            // fond semi-transparent selon le mode
-            bg={colorMode === "light" ? "rgba(255,255,255,0.7)" : "rgba(26,32,44,0.8)"}
-            backdropFilter="blur(8px)"
-            boxShadow="0 -2px 5px rgba(0,0,0,0.1)"
+            bg={footerBg}
+            backdropFilter="blur(10px)"
+            borderTop="1px solid"
+            borderColor={borderColor}
+            boxShadow={
+                isDark
+                    ? "0 -6px 24px rgba(0,0,0,0.25)"
+                    : "0 -2px 10px rgba(0,0,0,0.08)"
+            }
             py={2}
-            px={4}
+            px={{base: 3, md: 5}}
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             zIndex="999"
         >
-            <HStack spacing={4}>
-                {/* Icône Email */}
+            <HStack spacing={{base: 2, md: 4}}>
                 <MotionIconButton
                     as="a"
                     href={`mailto:${data.profile.email}`}
@@ -51,11 +62,11 @@ export default function Footer() {
                     icon={<FaEnvelope/>}
                     variant="ghost"
                     size="lg"
-                    color={colorMode === "light" ? "gray.800" : "white"}
-                    whileHover={{scale: 1.2, color: "#319795"}}
+                    color={iconColor}
+                    whileHover={{scale: 1.15, color: iconHover}}
                     whileTap={{scale: 0.95}}
                 />
-                {/* Icône GitHub */}
+
                 <MotionIconButton
                     as="a"
                     href={data.profile.github}
@@ -65,11 +76,11 @@ export default function Footer() {
                     icon={<FaGithub/>}
                     variant="ghost"
                     size="lg"
-                    color={colorMode === "light" ? "gray.800" : "white"}
-                    whileHover={{scale: 1.2, color: "#319795"}}
+                    color={iconColor}
+                    whileHover={{scale: 1.15, color: iconHover}}
                     whileTap={{scale: 0.95}}
                 />
-                {/* Icône LinkedIn */}
+
                 <MotionIconButton
                     as="a"
                     href={data.profile.linkedin}
@@ -79,29 +90,28 @@ export default function Footer() {
                     icon={<FaLinkedin/>}
                     variant="ghost"
                     size="lg"
-                    color={colorMode === "light" ? "gray.800" : "white"}
-                    whileHover={{scale: 1.2, color: "#319795"}}
+                    color={iconColor}
+                    whileHover={{scale: 1.15, color: iconHover}}
                     whileTap={{scale: 0.95}}
                 />
             </HStack>
 
             <Button
                 as="a"
-                href={data.profile.cvLink}
+                href={cvLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 colorScheme="teal"
                 size="sm"
+                borderRadius="full"
+                px={4}
                 onClick={() => {
                     if (typeof window.gtag === "function") {
                         window.gtag("event", "download_cv", {
                             event_category: "engagement",
-                            event_label: "CV Download Button",
+                            event_label: `CV ${i18n.language.toUpperCase()}`,
                             value: 1,
                         });
-                        console.log("CV download tracked"); // debug
-                    } else {
-                        console.warn("gtag not loaded yet"); // debug
                     }
                 }}
             >

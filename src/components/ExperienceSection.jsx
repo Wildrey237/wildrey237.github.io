@@ -9,6 +9,7 @@ import {
     Tag,
     Wrap,
     WrapItem,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import {motion} from "framer-motion";
 import frData from "../data/data-fr.json";
@@ -23,35 +24,75 @@ export default function ExperienceSection() {
     const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
+    const isDark = colorMode === "dark";
+
+    const bgMain = useColorModeValue("gray.50", "#050816");
+    const titleColor = useColorModeValue("teal.600", "teal.300");
+    const cardBg = useColorModeValue("white", "#0f172a"); // dark bleu profond
+    const cardBorder = useColorModeValue("gray.200", "whiteAlpha.200");
+    const textMain = useColorModeValue("gray.800", "white");
+    const textSoft = useColorModeValue("gray.600", "gray.300");
+    const companyColor = useColorModeValue("blue.500", "blue.300");
+    const dateColor = useColorModeValue("teal.500", "teal.300");
+    const lineColor = useColorModeValue("teal.300", "teal.500");
+    const pointColor = useColorModeValue("teal.400", "teal.300");
+
     return (
         <Box
             id="experiences"
-            px={[4, 8]}
-            py={12}
-            bg={colorMode === "light" ? "gray.100" : "gray.800"}
+            px={{base: 4, md: 8}}
+            py={16}
+            bg={bgMain}
             position="relative"
+            overflow="hidden"
         >
+            {isDark && (
+                <>
+                    <Box
+                        position="absolute"
+                        inset="0"
+                        opacity={0.08}
+                        backgroundImage="linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)"
+                        backgroundSize="48px 48px"
+                        pointerEvents="none"
+                    />
+                    <Box
+                        position="absolute"
+                        top="-120px"
+                        left="-120px"
+                        w="320px"
+                        h="320px"
+                        bg="purple.500"
+                        opacity={0.1}
+                        filter="blur(120px)"
+                        borderRadius="full"
+                    />
+                </>
+            )}
+
             <Heading
                 mb={12}
                 textAlign="center"
                 fontSize={["2xl", "3xl", "4xl"]}
-                color={colorMode === "light" ? "gray.800" : "white"}
+                color={titleColor}
                 fontFamily="monospace"
+                position="relative"
+                zIndex={1}
             >
                 {i18n.language === "fr" ? "Expériences professionnelles" : "Work Experiences"}
             </Heading>
 
-            <VStack spacing={10} position="relative" align="stretch">
-                {/* Ligne verticale */}
+            <VStack spacing={10} position="relative" align="stretch" zIndex={1}>
                 <Box
                     position="absolute"
                     top="0"
-                    left={["12px", "50%"]}
-                    transform={["none", "translateX(-50%)"]}
+                    left={{base: "12px", md: "50%"}}
+                    transform={{base: "none", md: "translateX(-50%)"}}
                     width="4px"
                     height="100%"
-                    bg={colorMode === "light" ? "teal.300" : "teal.500"}
+                    bg={lineColor}
                     borderRadius="full"
+                    opacity={0.8}
                     zIndex={0}
                 />
 
@@ -62,72 +103,78 @@ export default function ExperienceSection() {
                         spacing={4}
                         position="relative"
                         zIndex={1}
-                        flexDirection={["row", idx % 2 === 0 ? "row" : "row-reverse"]}
+                        flexDirection={{
+                            base: "row",
+                            md: idx % 2 === 0 ? "row" : "row-reverse",
+                        }}
                     >
-                        {/* Point sur la timeline */}
                         <Circle
                             size="16px"
-                            bg={colorMode === "light" ? "teal.400" : "teal.300"}
+                            bg={pointColor}
                             mt={2}
                             flexShrink={0}
+                            boxShadow={isDark ? "0 0 10px rgba(129,230,217,0.5)" : "none"}
                         />
 
-                        {/* Carte expérience animée */}
                         <MotionBox
                             p={6}
                             flex="1"
-                            bg={colorMode === "light" ? "white" : "gray.700"}
+                            bg={cardBg}
+                            border="1px solid"
+                            borderColor={cardBorder}
                             borderRadius="xl"
-                            boxShadow="lg"
+                            backdropFilter="blur(10px)"
+                            boxShadow={
+                                isDark
+                                    ? "0 0 0 1px rgba(255,255,255,0.04), 0 10px 40px rgba(0,0,0,0.25)"
+                                    : "lg"
+                            }
                             initial={{opacity: 0, x: idx % 2 === 0 ? -80 : 80}}
                             whileInView={{opacity: 1, x: 0}}
                             viewport={{once: true, amount: 0.2}}
                             transition={{duration: 0.6, delay: idx * 0.1, ease: "easeOut"}}
                             whileHover={{
-                                scale: 1.03,
-                                boxShadow: `0 0 20px ${
-                                    colorMode === "light" ? "rgba(49,151,149,0.4)" : "rgba(129,230,217,0.6)"
-                                }`,
+                                scale: 1.02,
+                                borderColor: isDark ? "teal.400" : "teal.300",
+                                boxShadow: isDark
+                                    ? "0 0 0 1px rgba(255,255,255,0.06), 0 14px 36px rgba(0,0,0,0.35)"
+                                    : "0 10px 24px rgba(0,0,0,0.12)",
                             }}
                         >
-                            <Text fontSize="sm" fontWeight="bold" color="teal.400" mb={2}>
+                            <Text fontSize="sm" fontWeight="bold" color={dateColor} mb={2}>
                                 {exp.dates}
                             </Text>
-                            <Text
-                                fontSize="xl"
-                                fontWeight="bold"
-                                color={colorMode === "light" ? "gray.800" : "white"}
-                            >
+
+                            <Text fontSize="xl" fontWeight="bold" color={textMain}>
                                 {exp.title}
                             </Text>
+
                             <Text
                                 fontSize="md"
                                 fontWeight="semibold"
-                                color="blue.400"
+                                color={companyColor}
                                 mb={3}
                             >
                                 {exp.company}
                             </Text>
-                            <Text
-                                fontSize="sm"
-                                color={colorMode === "light" ? "gray.600" : "gray.200"}
-                                mb={4}
-                            >
+
+                            <Text fontSize="sm" color={textSoft} mb={4}>
                                 {exp.description}
                             </Text>
 
-                            {/* Tags */}
                             {exp.tags && (
                                 <Wrap spacing={3}>
                                     {exp.tags.map((tag, tagIdx) => (
                                         <WrapItem key={tagIdx}>
                                             <MotionTag
                                                 size="md"
-                                                colorScheme="teal"
-                                                variant="subtle"
+                                                bg={isDark ? "whiteAlpha.100" : "teal.50"}
+                                                color={isDark ? "teal.200" : "teal.700"}
+                                                border="1px solid"
+                                                borderColor={isDark ? "whiteAlpha.200" : "teal.200"}
                                                 borderRadius="full"
-                                                whileHover={{scale: 1.15, rotate: 3}}
-                                                whileTap={{scale: 0.95}}
+                                                whileHover={{scale: 1.08}}
+                                                whileTap={{scale: 0.96}}
                                             >
                                                 {tag}
                                             </MotionTag>

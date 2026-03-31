@@ -11,26 +11,27 @@ import {
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import {Typewriter} from "react-simple-typewriter";
+import {useTranslation} from "react-i18next";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
-import { MdLocationOn, MdEmail } from "react-icons/md";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
-import { motion } from "framer-motion";
+import {MdLocationOn, MdEmail} from "react-icons/md";
+import {FaLinkedin, FaGithub} from "react-icons/fa";
+import {motion} from "framer-motion";
 import LogoMark from "./LogoMark";
 
 const MotionBox = motion(Box);
 const MotionHStack = motion(HStack);
 
 export default function ProfileSection() {
-    const { i18n } = useTranslation();
-    const { colorMode } = useColorMode();
+    const {i18n} = useTranslation();
+    const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
     const isDark = colorMode === "dark";
 
     const bgMain = useColorModeValue("gray.50", "#050816");
-    const textMain = useColorModeValue("gray.900", "white");
+    //const textMain = useColorModeValue("gray.900", "white");
     const textSoft = useColorModeValue("gray.600", "gray.300");
     const badgeBg = useColorModeValue("teal.50", "whiteAlpha.100");
     const badgeBorder = useColorModeValue("teal.200", "whiteAlpha.200");
@@ -49,14 +50,14 @@ export default function ProfileSection() {
     return (
         <MotionBox
             id="home"
-            px={{ base: 6, md: 12 }}
-            py={{ base: 20, md: 28 }}
+            px={{base: 6, md: 12}}
+            py={{base: 20, md: 28}}
             bg={bgMain}
             position="relative"
             overflow="hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            transition={{duration: 0.6}}
         >
             {/* Ambient background */}
             {isDark && (
@@ -95,20 +96,20 @@ export default function ProfileSection() {
             )}
 
             <Stack
-                direction={{ base: "column", lg: "row" }}
+                direction={{base: "column", lg: "row"}}
                 align="center"
                 justify="space-between"
-                spacing={{ base: 12, lg: 16 }}
+                spacing={{base: 12, lg: 16}}
                 position="relative"
                 zIndex={1}
                 maxW="1400px"
                 mx="auto"
-                minH={{ base: "auto", lg: "70vh" }}
+                minH={{base: "auto", lg: "70vh"}}
             >
                 {/* Left content */}
                 <VStack
-                    align={{ base: "center", lg: "start" }}
-                    textAlign={{ base: "center", lg: "left" }}
+                    align={{base: "center", lg: "start"}}
+                    textAlign={{base: "center", lg: "left"}}
                     spacing={6}
                     flex="1"
                     maxW="720px"
@@ -134,17 +135,25 @@ export default function ProfileSection() {
 
                     <Heading
                         as="h1"
-                        fontSize={{ base: "4xl", md: "6xl", xl: "7xl" }}
+                        fontSize={{base: "4xl", md: "5xl", xl: "6xl"}}
                         lineHeight="0.95"
-                        color={textMain}
+                        color={useColorModeValue("teal.600", "teal.300")}
                         fontWeight="black"
                         letterSpacing="-0.04em"
                     >
-                        {data.profile.name}
+                        <Typewriter
+                            words={[data.profile.name]}
+                            loop={true}
+                            cursor
+                            cursorStyle="_"
+                            typeSpeed={90}
+                            deleteSpeed={45}
+                            delaySpeed={2200}
+                        />
                     </Heading>
 
                     <Text
-                        fontSize={{ base: "lg", md: "2xl" }}
+                        fontSize={{base: "lg", md: "2xl"}}
                         color={textSoft}
                         maxW="850px"
                     >
@@ -152,14 +161,14 @@ export default function ProfileSection() {
                     </Text>
 
                     <Text
-                        fontSize={{ base: "md", md: "lg" }}
+                        fontSize={{base: "md", md: "lg"}}
                         color={textSoft}
                         maxW="760px"
                     >
                         {data.profile.summary}
                     </Text>
 
-                    <HStack spacing={4} pt={2} flexWrap="wrap" justify={{ base: "center", lg: "flex-start" }}>
+                    <HStack spacing={4} pt={2} flexWrap="wrap" justify={{base: "center", lg: "flex-start"}}>
                         <Button
                             as="a"
                             href="#projects"
@@ -183,28 +192,28 @@ export default function ProfileSection() {
                         spacing={6}
                         pt={2}
                         flexWrap="wrap"
-                        justify={{ base: "center", lg: "flex-start" }}
+                        justify={{base: "center", lg: "flex-start"}}
                         color={textSoft}
                     >
-                        <MotionHStack whileHover={{ scale: 1.05 }} spacing={2}>
-                            <MdLocationOn />
+                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
+                            <MdLocationOn/>
                             <Text fontSize="sm">{data.profile.location}</Text>
                         </MotionHStack>
 
-                        <MotionHStack whileHover={{ scale: 1.05 }} spacing={2}>
-                            <MdEmail />
+                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
+                            <MdEmail/>
                             <Link href={`mailto:${data.profile.email}`}>{data.profile.email}</Link>
                         </MotionHStack>
 
-                        <MotionHStack whileHover={{ scale: 1.05 }} spacing={2}>
-                            <FaLinkedin />
+                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
+                            <FaLinkedin/>
                             <Link href={data.profile.linkedin} target="_blank" rel="noopener noreferrer">
                                 LinkedIn
                             </Link>
                         </MotionHStack>
 
-                        <MotionHStack whileHover={{ scale: 1.05 }} spacing={2}>
-                            <FaGithub />
+                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
+                            <FaGithub/>
                             <Link href={data.profile.github} target="_blank" rel="noopener noreferrer">
                                 GitHub
                             </Link>
@@ -222,18 +231,20 @@ export default function ProfileSection() {
                 >
                     <Box
                         position="absolute"
-                        w={{ base: "220px", md: "300px" }}
-                        h={{ base: "220px", md: "300px" }}
+                        w={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
+                        h={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
                         bg={isDark ? "teal.400" : "teal.100"}
                         opacity={isDark ? 0.12 : 0.25}
-                        filter="blur(70px)"
+                        filter="blur(90px)"
                         borderRadius="full"
                     />
 
                     <Box
-                        w={{ base: "220px", md: "300px" }}
-                        h={{ base: "220px", md: "300px" }}
-                        borderRadius="32px"
+                        w={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
+                        h={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
+                        maxW="90vw"
+                        maxH="90vw"
+                        borderRadius={{base: "28px", md: "32px", lg: "36px"}}
                         overflow="hidden"
                         bg={cardBg}
                         border="1px solid"
@@ -242,7 +253,11 @@ export default function ProfileSection() {
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
-                        boxShadow={isDark ? "0 0 0 1px rgba(255,255,255,0.04), 0 10px 40px rgba(0,0,0,0.45)" : "xl"}
+                        boxShadow={
+                            isDark
+                                ? "0 0 0 1px rgba(255,255,255,0.04), 0 10px 40px rgba(0,0,0,0.45)"
+                                : "xl"
+                        }
                     >
                         {hasPicture ? (
                             <Image
@@ -254,7 +269,7 @@ export default function ProfileSection() {
                             />
                         ) : (
                             <Box transform="scale(2.2)">
-                                <LogoMark />
+                                <LogoMark/>
                             </Box>
                         )}
                     </Box>
