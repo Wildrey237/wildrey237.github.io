@@ -4,29 +4,32 @@ import {
     IconButton,
     Stack,
     Button,
+    HStack,
     useColorMode,
     useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import {HamburgerIcon, CloseIcon, SunIcon, MoonIcon} from "@chakra-ui/icons";
+import {useTranslation} from "react-i18next";
+import {useEffect, useState} from "react";
+import LogoMark from "./LogoMark";
 
 export default function Navbar() {
-    const { colorMode, toggleColorMode } = useColorMode();
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const { t, i18n } = useTranslation();
+    const {colorMode, toggleColorMode} = useColorMode();
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const {t, i18n} = useTranslation();
 
     const [activeSection, setActiveSection] = useState("home");
 
     const scrollToId = (id) => {
         if (id === "home") {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({top: 0, behavior: "smooth"});
             onClose();
             return;
         }
+
         const section = document.getElementById(id);
         if (section) {
-            section.scrollIntoView({ behavior: "smooth" });
+            section.scrollIntoView({behavior: "smooth"});
             onClose();
         }
     };
@@ -35,38 +38,44 @@ export default function Navbar() {
         const handleScroll = () => {
             const sections = ["home", "skills", "experiences", "education", "projects"];
             let current = "home";
+
             sections.forEach((sec) => {
                 const element = document.getElementById(sec);
                 if (element) {
                     const top = element.offsetTop - 120;
                     const height = element.offsetHeight;
+
                     if (window.scrollY >= top && window.scrollY < top + height) {
                         current = sec;
                     }
                 }
             });
+
             setActiveSection(current);
         };
 
         window.addEventListener("scroll", handleScroll);
         handleScroll();
+
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     const renderButton = (id, label) => {
         const isActive = activeSection === id;
+
         return (
             <Box position="relative" key={id}>
                 <Button
                     onClick={() => scrollToId(id)}
                     variant="ghost"
                     color={colorMode === "light" ? "gray.800" : "white"}
-                    _hover={{ color: "teal.500" }}
+                    _hover={{color: "teal.500"}}
                     aria-current={isActive ? "page" : undefined}
                     aria-label={`Go to section ${label}`}
                 >
                     {label}
                 </Button>
+
                 <Box
                     position="absolute"
                     bottom="0"
@@ -103,20 +112,17 @@ export default function Navbar() {
                 zIndex="999"
             >
                 {/* Logo */}
-                <Box
-                    fontWeight="bold"
-                    fontSize="xl"
+                <HStack
+                    spacing={2}
                     cursor="pointer"
                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                    color={colorMode === "light" ? "gray.800" : "white"}
-                    _hover={{ color: "teal.500" }}
                     aria-label={i18n.language === "fr" ? "Retour à l'accueil" : "Go to home"}
                 >
-                    {t("brand")}
-                </Box>
+                    <LogoMark />
+                </HStack>
 
                 {/* Menu Desktop */}
-                <Flex display={{ base: "none", md: "flex" }} gap="6" align="center">
+                <Flex display={{base: "none", md: "flex"}} gap="6" align="center">
                     {renderButton("home", t("home"))}
                     {renderButton("skills", t("skills"))}
                     {renderButton(
@@ -141,12 +147,13 @@ export default function Navbar() {
                                 ? "Activer le mode sombre"
                                 : "Activer le mode clair"
                         }
-                        icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                        icon={colorMode === "light" ? <MoonIcon/> : <SunIcon/>}
                         onClick={toggleColorMode}
                         mr={2}
                         color={colorMode === "light" ? "gray.800" : "white"}
-                        _hover={{ color: "teal.500" }}
+                        _hover={{color: "teal.500"}}
                     />
+
                     <Button
                         onClick={() =>
                             i18n.changeLanguage(i18n.language === "fr" ? "en" : "fr")
@@ -162,13 +169,14 @@ export default function Navbar() {
                     >
                         {i18n.language === "fr" ? "EN" : "FR"}
                     </Button>
+
                     <IconButton
                         aria-label="Ouvrir ou fermer le menu mobile"
-                        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                        display={{ base: "inline-flex", md: "none" }}
+                        icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
+                        display={{base: "inline-flex", md: "none"}}
                         onClick={isOpen ? onClose : onOpen}
                         color={colorMode === "light" ? "gray.800" : "white"}
-                        _hover={{ color: "teal.500" }}
+                        _hover={{color: "teal.500"}}
                     />
                 </Flex>
             </Flex>
@@ -184,8 +192,9 @@ export default function Navbar() {
                     bg={colorMode === "light" ? "whiteAlpha.900" : "gray.800"}
                     backdropFilter="blur(8px)"
                     p={4}
-                    display={{ md: "none" }}
+                    display={{md: "none"}}
                     spacing={3}
+                    zIndex="998"
                 >
                     {renderButton("home", t("home"))}
                     {renderButton("skills", t("skills"))}

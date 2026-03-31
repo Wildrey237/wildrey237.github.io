@@ -90,10 +90,6 @@
       {
         "name": "Medical AI",
         "desc": "Processing medical data (DICOM, METS), classification and segmentation using MONAI and PyTorch, with domain-specific metrics."
-      },
-      {
-        "name": "R",
-        "desc": "Advanced statistical modeling, data analysis and quantitative methods applied to data science research."
       }
     ],
     "data_engineering": [
@@ -108,6 +104,10 @@
       {
         "name": "Hadoop, Spark, MapReduce",
         "desc": "Distributed processing of large-scale data and performance optimization on clusters."
+      },
+      {
+        "name": "R",
+        "desc": "Advanced statistical modeling, data analysis and quantitative methods applied to data science research."
       }
     ],
     "software_engineering": [
@@ -136,10 +136,6 @@
       {
         "name": "Kubernetes",
         "desc": "Container orchestration for scalable distributed applications."
-      },
-      {
-        "name": "AWS",
-        "desc": "Cloud services for deployment, storage and data processing."
       },
       {
         "name": "MLOps (MLflow, CI/CD)",

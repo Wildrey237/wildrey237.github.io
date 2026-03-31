@@ -90,10 +90,6 @@
       {
         "name": "IA Médicale",
         "desc": "Traitement de données médicales (DICOM, METS), classification et segmentation avec MONAI et PyTorch, métriques spécifiques (Dice, Recall)."
-      },
-      {
-        "name": "R",
-        "desc": "Modélisation statistique avancée, analyse de données et méthodes quantitatives appliquées à la recherche en data science."
       }
     ],
     "data_engineering": [
@@ -108,6 +104,10 @@
       {
         "name": "Hadoop, Spark, MapReduce",
         "desc": "Traitement distribué de grandes quantités de données et optimisation des performances sur clusters."
+      },
+      {
+        "name": "R",
+        "desc": "Modélisation statistique avancée, analyse de données et méthodes quantitatives appliquées à la recherche en data science."
       }
     ],
     "software_engineering": [
@@ -136,10 +136,6 @@
       {
         "name": "Kubernetes",
         "desc": "Orchestration de conteneurs pour applications distribuées à grande échelle."
-      },
-      {
-        "name": "AWS",
-        "desc": "Utilisation de services cloud pour le déploiement et le traitement de données."
       },
       {
         "name": "MLOps (MLflow, CI/CD)",
