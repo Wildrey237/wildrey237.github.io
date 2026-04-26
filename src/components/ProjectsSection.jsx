@@ -220,7 +220,7 @@ const ProjectsSection = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const cardsPerPage = useBreakpointValue({ base: 1, sm: 2, lg: 4 }) ?? 4;
+    const cardsPerPage = useBreakpointValue({ base: 1, sm: 2, lg: 3 }) ?? 3;
     const [isHovered, setIsHovered] = useState(false);
 
     const allProjects = data.projects;
@@ -494,7 +494,7 @@ const ProjectsSection = () => {
                             exit="exit"
                         >
                             <SimpleGrid
-                                columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
+                                columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
                                 spacing={5}
                                 alignItems="stretch"
                             >
