@@ -131,7 +131,7 @@ const ProjectCard = ({ project, index, onOpenProject, isDark }) => {
                 zIndex={0}
             />
             <VStack align="start" spacing={3} h="100%" position="relative" zIndex={1}>
-                <HStack spacing={3} align="start" w="100%">
+                <HStack spacing={3} align="start" w="100%" pr={badge ? 14 : 0}>
                     <Box
                         p={2}
                         borderRadius="lg"

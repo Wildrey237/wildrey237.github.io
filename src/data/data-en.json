@@ -409,7 +409,7 @@
       "title": "Electromechanical Turing Machine",
       "description": "Final-Year Project (PFE) carried out in partnership with EPITA. Design and fabrication of a fully functional physical Turing Machine. The project combines embedded electronics (Arduino, stepper motors, sensors), software implementation of a finite state machine (FSM) in C, and a real-time control interface. The machine physically reads and writes symbols on a tape, faithfully simulating the formal behavior of a Turing Machine. Supervised by EPITA faculty and researchers, delivered with full technical documentation.",
       "school": "EPITA – Final Year Project (PFE)",
-      "badge": "PFE · EPITA",
+      "badge": "EPITA SCIA-G",
       "icon": "Cpu",
       "tags": [
         "Embedded Systems",

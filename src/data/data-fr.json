@@ -426,7 +426,7 @@
       "title": "Machine de Turing Électromécanique",
       "description": "Projet de Fin d'Études (PFE) réalisé en partenariat avec EPITA. Conception et fabrication d'une machine de Turing physique entièrement fonctionnelle. Le projet combine électronique embarquée (Arduino, moteurs pas-à-pas, capteurs), implémentation logicielle d'un automate à états finis (FSM) en C, et une interface de contrôle en temps réel. La machine lit et écrit des symboles sur un ruban physique en simulant fidèlement le comportement formel d'une machine de Turing. Encadrement par des enseignants-chercheurs EPITA, livraison avec documentation technique complète.",
       "school": "EPITA – Projet de Fin d'Études (PFE)",
-      "badge": "PFE · EPITA",
+      "badge": "EPITA SCIA-G",
       "icon": "Cpu",
       "tags": [
         "Systèmes embarqués",
