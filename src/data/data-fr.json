@@ -623,16 +623,55 @@
       "link": "#"
     },
     {
-      "title": "Projets Arduino",
-      "description": "Prototypage électronique et robotique avec Arduino.",
-      "school": "Université Saint Jean – Yaoundé CMR",
+      "title": "Projets Arduino – Électronique & Robotique",
+      "description": "Initiation à l'électronique embarquée et à la robotique via deux projets concrets supervisés : un système de stationnement intelligent (INNOVATECH, stage) et une voiture télécommandée sans-fil (Institut Saint Jean). Maîtrise des capteurs ultrason, photorésistances, servomoteurs, modules RF NRF24L01, pont en H L298N, et accéléromètre ADXL335. Programmation en C sous Arduino IDE.",
+      "school": "Université Saint Jean – Yaoundé CMR / INNOVATECH",
       "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
         "Arduino",
+        "C",
         "Électronique",
         "IoT",
-        "Systèmes embarqués"
+        "Systèmes embarqués",
+        "RF NRF24L01",
+        "Capteurs ultrason"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Système de Stationnement Intelligent",
+      "description": "Conception et réalisation d'une maquette physique d'un parking automatisé lors d'un stage chez INNOVATECH (juillet–août 2019, Collège François-Xavier Vogt, Yaoundé). Le système détecte les véhicules via capteurs ultrason et photorésistances, puis pilote automatiquement une barrière servomoteur. Deux algorithmes FSM (machine à états finis) ont été conçus : détection de présence véhicule et ouverture/fermeture de barrière. Matériel : Arduino MEGA, 3 capteurs ultrason HC-SR04, photorésistances, servomoteur, résistances, breadboard. Environnement : Arduino IDE.",
+      "school": "INNOVATECH – Stage 2019 (Yaoundé, Cameroun)",
+      "badge": "Prépa · Yaoundé",
+      "icon": "Cpu",
+      "tags": [
+        "Arduino MEGA",
+        "C",
+        "HC-SR04",
+        "Servomoteur",
+        "Photorésistance",
+        "FSM",
+        "Arduino IDE",
+        "Embarqué"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Voiture Télécommandée par Gestes",
+      "description": "Projet de groupe (Institut Saint Jean, supervisé par Dr. DJIOKO Jean Paul) : conception d'une voiture télécommandée sans-fil pilotée par les mouvements de la main. Un gant équipé d'un accéléromètre ADXL335 capte les inclinaisons (X = avant/arrière, Y = gauche/droite, Z = haut/bas) et transmet les commandes en 2,4 GHz via module NRF24L01. La voiture (Arduino Nano, pont en H L298N, 4 moteurs à engrenages, batterie Li-ion) reçoit et exécute les ordres en temps réel à plus de 50 m. Code C avec librairies SPI.h, nRF24L01.h, RF24.h.",
+      "school": "Université Saint Jean – Yaoundé CMR",
+      "badge": "Prépa · Yaoundé",
+      "icon": "Cpu",
+      "tags": [
+        "Arduino Nano",
+        "C",
+        "NRF24L01",
+        "RF 2.4GHz",
+        "ADXL335",
+        "L298N",
+        "Moteurs DC",
+        "Embarqué"
       ],
       "link": "#"
     },

@@ -595,14 +595,54 @@
       "link": "#"
     },
     {
-      "title": "Arduino Projects",
-      "description": "Robotic and electronic prototyping with Arduino (sensors, LEDs, parking system).",
-      "school": "Université Saint Jean – Yaoundé CMR",
+      "title": "Arduino Projects – Electronics & Robotics",
+      "description": "Introduction to embedded electronics and robotics through two supervised hands-on projects: an intelligent parking system (INNOVATECH internship) and a wireless remote-controlled car (Institut Saint Jean). Skills acquired: ultrasonic sensors, photoresistors, servomotors, NRF24L01 RF modules, L298N H-bridge, ADXL335 accelerometer, and C programming with Arduino IDE.",
+      "school": "Université Saint Jean – Yaoundé CMR / INNOVATECH",
       "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
         "Arduino",
+        "C",
+        "Electronics",
         "IoT",
+        "Embedded",
+        "RF NRF24L01",
+        "Ultrasonic sensors"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Intelligent Parking System",
+      "description": "Design and construction of a physical automated parking model during an internship at INNOVATECH (July–August 2019, Collège François-Xavier Vogt, Yaoundé). The system detects vehicles using ultrasonic sensors and photoresistors, then automatically controls a servo-driven barrier. Two FSM (finite state machine) algorithms were designed: vehicle presence detection and barrier open/close. Hardware: Arduino MEGA, 3 HC-SR04 ultrasonic sensors, photoresistors, servomotor, resistors, breadboard. Environment: Arduino IDE.",
+      "school": "INNOVATECH – Internship 2019 (Yaoundé, Cameroon)",
+      "badge": "Prépa · Yaoundé",
+      "icon": "Cpu",
+      "tags": [
+        "Arduino MEGA",
+        "C",
+        "HC-SR04",
+        "Servomotor",
+        "Photoresistor",
+        "FSM",
+        "Arduino IDE",
+        "Embedded"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Gesture-Controlled Remote Car",
+      "description": "Group project (Institut Saint Jean, supervised by Dr. DJIOKO Jean Paul): design of a wireless remote-controlled car driven by hand movements. A glove fitted with an ADXL335 accelerometer captures tilt angles (X = forward/backward, Y = left/right, Z = up/down) and transmits commands at 2.4 GHz via NRF24L01 module. The car (Arduino Nano, L298N H-bridge, 4 gear motors, Li-ion battery) receives and executes commands in real time at over 50 m range. C code using SPI.h, nRF24L01.h, RF24.h libraries.",
+      "school": "Université Saint Jean – Yaoundé CMR",
+      "badge": "Prépa · Yaoundé",
+      "icon": "Cpu",
+      "tags": [
+        "Arduino Nano",
+        "C",
+        "NRF24L01",
+        "RF 2.4GHz",
+        "ADXL335",
+        "L298N",
+        "DC Motors",
         "Embedded"
       ],
       "link": "#"
