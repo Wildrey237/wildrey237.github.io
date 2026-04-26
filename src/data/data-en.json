@@ -751,6 +751,23 @@
         "Real-time"
       ],
       "link": "#"
+    },
+    {
+      "title": "Stock Market Forecasting & Risk Management with GNN",
+      "description": "Applied research project: study and improvement of the Differential Graph Transformer (DGT) introduced in the Stanford CS224W article \"Stock Market Forecasting with Differential Graph Transformer\". The original model represents stocks as a dynamic graph (nodes = assets, edges = return correlations) and applies a differential transformer on graph embeddings to predict price movements. The project aims to analyze its limitations (temporal graph stability, sensitivity to market noise) and propose architectural or training improvements to enhance prediction accuracy and portfolio risk management.",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "TrendingUp",
+      "tags": [
+        "Python",
+        "GNN",
+        "Graph Transformer",
+        "PyTorch",
+        "Quantitative Finance",
+        "Time Series Forecasting",
+        "Risk Management"
+      ],
+      "link": "https://medium.com/stanford-cs224w/stock-market-forecasting-with-differential-graph-transformer-62d095ebc821"
     }
   ]
 }
