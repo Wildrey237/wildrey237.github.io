@@ -200,7 +200,7 @@
   },
   "education": [
     {
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress, CTI accredited)",
       "years": "2024 – 2025",
       "current": true,
@@ -208,7 +208,7 @@
       "website": "https://www.epita.fr"
     },
     {
-      "school": "EPITA Le Kremlin‑Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "degree": "Master’s in Computer Engineering (3rd year, CTI accredited)",
       "years": "September 2023 – 2024",
       "current": false,
@@ -259,7 +259,6 @@
       "title": "Black-Scholes Modeling (Quant Finance)",
       "description": "Numerical implementation of Stochastic Differential Equations (SDE) for asset pricing with dynamic drift/volatility calibration and Monte Carlo simulations (Euler-Maruyama).",
       "school": "Personal Project",
-      "badge": "Personnel",
       "icon": "TrendingUp",
       "tags": [
         "Quant Finance",
@@ -272,8 +271,7 @@
     {
       "title": "AI Job Tracker – Intelligent Personal ATS",
       "description": "Full-stack automation system for job hunting built with Google Apps Script and Gemini 1.5 Flash. Developed an NLP pipeline to extract applications from Gmail, dynamic status tracking via sentiment analysis of recruiter replies, and an automated job sourcing engine using semantic scanning of newsletters.",
-      "school": "Personal Project / Engineering",
-      "badge": "Personnel",
+      "school": "Personal Project",
       "icon": "Briefcase",
       "tags": [
         "JavaScript",
@@ -288,7 +286,7 @@
     {
       "title": "Traffic Accident Analysis & Prediction",
       "description": "End-to-end Data Science pipeline on 7.7 million US road accidents (2016–2023) across 49 temporal, geospatial, meteorological and infrastructure features. Four simultaneous tasks: anomaly detection, severity prediction (levels 1–4) with Random Forest & XGBoost, geographic K-Means clustering, and analysis of road infrastructure influence (signals, junctions, crossings) on accident severity.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Car",
       "tags": [
@@ -302,7 +300,7 @@
     {
       "title": "TinyX Microservices Platform",
       "description": "Full microservice architecture simulating a minimal social network in Java (Quarkus). Independent services communicating via REST APIs: user management (MongoDB), social graph (Neo4j), full-text search (Elasticsearch), caching and message queues (Redis). Orchestrated and deployed with Kubernetes. Each service is containerized and decoupled for independent scaling.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Boxes",
       "tags": [
@@ -316,7 +314,7 @@
     {
       "title": "Differentiable Programming Engine",
       "description": "Rebuilding a deep learning framework similar to PyTorch to understand automatic differentiation and backpropagation.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Brain",
       "tags": [
@@ -329,7 +327,7 @@
     {
       "title": "Galaxy Image Classification",
       "description": "CNN trained on Galaxy10‑DECals dataset to evaluate convolutional model performance on astronomical data.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Satellite",
       "tags": [
@@ -342,7 +340,7 @@
     {
       "title": "CV Screening via NLP",
       "description": "Automated resume screening using NLP pipelines, keyword extraction, and ML scoring.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "FileText",
       "tags": [
@@ -356,7 +354,7 @@
     {
       "title": "Recommendation Systems",
       "description": "Collaborative filtering implementations (ItemKNN, UserKNN, SVD) with evaluation and diversification strategies.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Star",
       "tags": [
@@ -369,7 +367,7 @@
     {
       "title": "Medical Machine Learning",
       "description": "Medical data classification, segmentation, DICOM parsing, and evaluation with Dice/Precision/Recall.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
@@ -381,7 +379,7 @@
     {
       "title": "Explainable AI (XAI)",
       "description": "Evaluation of robustness and faithfulness of SHAP and LIME explanations; bias and uncertainty analysis.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Eye",
       "tags": [
@@ -393,22 +391,26 @@
       "link": "#"
     },
     {
-      "title": "Reinforcement Learning Agents",
-      "description": "Simulation environments with Q-learning and policy-based agents for autonomous decision systems.",
-      "school": "Personal Project",
-      "badge": "Personnel",
+      "title": "RL Trading Agent – MDP Trading Environment",
+      "description": "EPITA SCIA-G homework: modelling and solving a trading problem as a Markov Decision Process (MDP). Implementation of a stochastic market environment (TradingEnvironment) in Python: discrete state space (price trend × position), three actions (Hold/Buy/Sell), shaped reward function (profit on sell, invalid action penalty −10, inaction penalty −0.1), finite-length episodes. Comparison of two RL approaches: value-based method (tabular Q-learning) and policy gradient method.",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Bot",
       "tags": [
+        "Python",
         "Reinforcement Learning",
+        "MDP",
         "Q-Learning",
-        "Agents"
+        "Policy Gradient",
+        "Finance",
+        "Simulation"
       ],
       "link": "#"
     },
     {
       "title": "Electromechanical Turing Machine",
       "description": "Final-Year Project (PFE) carried out in partnership with EPITA. Design and fabrication of a fully functional physical Turing Machine. The project combines embedded electronics (Arduino, stepper motors, sensors), software implementation of a finite state machine (FSM) in C, and a real-time control interface. The machine physically reads and writes symbols on a tape, faithfully simulating the formal behavior of a Turing Machine. Supervised by EPITA faculty and researchers, delivered with full technical documentation.",
-      "school": "EPITA – Final Year Project (PFE)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Cpu",
       "tags": [
@@ -425,7 +427,7 @@
     {
       "title": "42sh – POSIX Shell in C",
       "description": "Flagship project of the C/Unix piscine at EPITA. Implemented a complete POSIX shell from scratch in pure C, matching bash --posix behavior. Built in a team of 5 over 4 weeks. Features implemented: full lexical analyzer (tokenization, quoting, variable expansion, tilde expansion), parser and AST construction, simple command execution, pipelines, redirections (stdin/stdout/stderr), compound commands, environment variables, and built-ins (echo, cd, export, unset, env, exit…). Zero memory leaks allowed, verified entirely with Valgrind. Built with CMake, tested with Criterion.",
-      "school": "EPITA Le Kremlin‑Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Terminal",
       "tags": [
@@ -442,7 +444,7 @@
     {
       "title": "C++ Compiler",
       "description": "Full compiler built from scratch in C++ including parsing, AST, and code generation.",
-      "school": "EPITA Le Kremlin‑Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Code2",
       "tags": [
@@ -454,7 +456,7 @@
     {
       "title": "Video Games Projects",
       "description": "Two game projects built during EPITA piscines. Zorks (C++): text adventure game with command interpreter, inventory system and structured world navigation. Creeps (Java): tower defense game with game loop, enemy entity management and basic wave logic.",
-      "school": "EPITA Le Kremlin‑Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Gamepad2",
       "tags": [
@@ -468,7 +470,7 @@
     {
       "title": "Code Editor (Java/React)",
       "description": "Custom code editor with Java backend and React frontend.",
-      "school": "EPITA Le Kremlin‑Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "FileEdit",
       "tags": [
@@ -481,7 +483,7 @@
     {
       "title": "Montreal Snow Removal Modeling",
       "description": "Operational research and simulation project using Python.",
-      "school": "EPITA Le Kremlin‑Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Snowflake",
       "tags": [
@@ -595,26 +597,9 @@
       "link": "#"
     },
     {
-      "title": "Arduino Projects – Electronics & Robotics",
-      "description": "Introduction to embedded electronics and robotics through two supervised hands-on projects: an intelligent parking system (INNOVATECH internship) and a wireless remote-controlled car (Institut Saint Jean). Skills acquired: ultrasonic sensors, photoresistors, servomotors, NRF24L01 RF modules, L298N H-bridge, ADXL335 accelerometer, and C programming with Arduino IDE.",
-      "school": "Université Saint Jean – Yaoundé CMR / INNOVATECH",
-      "badge": "Prépa · Yaoundé",
-      "icon": "Cpu",
-      "tags": [
-        "Arduino",
-        "C",
-        "Electronics",
-        "IoT",
-        "Embedded",
-        "RF NRF24L01",
-        "Ultrasonic sensors"
-      ],
-      "link": "#"
-    },
-    {
-      "title": "Intelligent Parking System",
-      "description": "Design and construction of a physical automated parking model during an internship at INNOVATECH (July–August 2019, Collège François-Xavier Vogt, Yaoundé). The system detects vehicles using ultrasonic sensors and photoresistors, then automatically controls a servo-driven barrier. Two FSM (finite state machine) algorithms were designed: vehicle presence detection and barrier open/close. Hardware: Arduino MEGA, 3 HC-SR04 ultrasonic sensors, photoresistors, servomotor, resistors, breadboard. Environment: Arduino IDE.",
-      "school": "INNOVATECH – Internship 2019 (Yaoundé, Cameroon)",
+      "title": "Intelligent Parking System – Arduino",
+      "description": "Design and construction of a physical automated parking model during an internship at INNOVATECH (July–August 2019, Collège François-Xavier Vogt, Yaoundé). The system detects vehicles using HC-SR04 ultrasonic sensors and photoresistors, then automatically controls a servo-driven barrier. Two FSM (finite state machine) algorithms designed and implemented: vehicle presence detection and barrier open/close control. Hardware: Arduino MEGA, 3 HC-SR04 sensors, photoresistors, servomotor, breadboard. C programming with Arduino IDE.",
+      "school": "Université Saint Jean – Yaoundé CMR",
       "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
@@ -625,7 +610,7 @@
         "Photoresistor",
         "FSM",
         "Arduino IDE",
-        "Embedded"
+        "Embedded Systems"
       ],
       "link": "#"
     },
@@ -737,7 +722,7 @@
     {
       "title": "EPlace – Real-Time Collaborative Canvas",
       "description": "Full-stack web application inspired by r/Place: a collaborative pixel canvas with real-time rooms and integrated chat. Vite.js frontend with Socket.io-client for real-time synchronization. Node.js/Express backend with WebSockets, JWT authentication, room management (canvas from 50×50 to 250×250 pixels), and JSON-configurable rate limiting. Monorepo client/server architecture with Docker, ESLint and Prettier.",
-      "school": "EPITA Le Kremlin-Bicêtre",
+      "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "PenTool",
       "tags": [
@@ -773,7 +758,6 @@
       "title": "Neuro-Graph Trader – Autonomous Hedge Fund via GNN & RL",
       "description": "Personal applied research project in quantitative finance: an autonomous portfolio management agent on S&P 500 stocks, combining Graph Neural Networks, deep reinforcement learning, and financial NLP. The market is modeled as a dynamic graph (nodes = assets, edges = Pearson correlations on sliding windows). Three multimodal streams are fused: OHLCV data (yfinance), graph embeddings (GAT then Dynamic Graph Transformer), and NLP signals (FinBERT – sentiment, informational stress index). The RL agent (PPO/SAC) learns in residual mode relative to Buy & Hold (Action_t = W_BH + α·π_θ), with an adaptive reward function based on market regime (risk-adjusted Sharpe, max drawdown, transaction costs). Strict walk-forward backtesting against Buy & Hold and Markowitz. XAI component: attention weight visualization and narrative explanation of decisions driven by NLP signals.",
       "school": "Personal Project",
-      "badge": "Personnel",
       "icon": "TrendingUp",
       "tags": [
         "Python",
