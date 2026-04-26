@@ -768,6 +768,29 @@
         "Risk Management"
       ],
       "link": "https://medium.com/stanford-cs224w/stock-market-forecasting-with-differential-graph-transformer-62d095ebc821"
+    },
+    {
+      "title": "Neuro-Graph Trader – Autonomous Hedge Fund via GNN & RL",
+      "description": "Personal applied research project in quantitative finance: an autonomous portfolio management agent on S&P 500 stocks, combining Graph Neural Networks, deep reinforcement learning, and financial NLP. The market is modeled as a dynamic graph (nodes = assets, edges = Pearson correlations on sliding windows). Three multimodal streams are fused: OHLCV data (yfinance), graph embeddings (GAT then Dynamic Graph Transformer), and NLP signals (FinBERT – sentiment, informational stress index). The RL agent (PPO/SAC) learns in residual mode relative to Buy & Hold (Action_t = W_BH + α·π_θ), with an adaptive reward function based on market regime (risk-adjusted Sharpe, max drawdown, transaction costs). Strict walk-forward backtesting against Buy & Hold and Markowitz. XAI component: attention weight visualization and narrative explanation of decisions driven by NLP signals.",
+      "school": "Personal Project",
+      "badge": "Personnel",
+      "icon": "TrendingUp",
+      "tags": [
+        "Python",
+        "PyTorch",
+        "PyTorch Geometric",
+        "GNN",
+        "Graph Attention Network",
+        "Graph Transformer",
+        "PPO / SAC",
+        "FinBERT",
+        "Financial NLP",
+        "Quantitative Finance",
+        "Time Series",
+        "Risk Management",
+        "XAI"
+      ],
+      "link": "#"
     }
   ]
 }
