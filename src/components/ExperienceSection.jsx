@@ -9,15 +9,58 @@ import {
     Tag,
     Wrap,
     WrapItem,
+    Link,
     useColorModeValue,
 } from "@chakra-ui/react";
+import {ExternalLinkIcon} from "@chakra-ui/icons";
 import {motion} from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
 import {useTranslation} from "react-i18next";
+import {MdLocationOn} from "react-icons/md";
 
 const MotionBox = motion(Box);
 const MotionTag = motion(Tag);
+
+function renderDescription(text, textSoft, isDark) {
+    const paragraphs = text.split(/\n\n/);
+    return (
+        <VStack align="start" spacing={3}>
+            {paragraphs.map((para, i) => {
+                const lines = para.split("\n");
+                const hasBullets = lines.some((l) => l.trim().startsWith("•"));
+                if (hasBullets) {
+                    const title = lines.find((l) => !l.trim().startsWith("•") && l.trim());
+                    const bullets = lines.filter((l) => l.trim().startsWith("•"));
+                    return (
+                        <Box key={i} w="100%">
+                            {title && (
+                                <Text fontSize="sm" fontWeight="semibold" color={isDark ? "gray.200" : "gray.700"} mb={2}>
+                                    {title.trim()}
+                                </Text>
+                            )}
+                            <VStack align="start" spacing={1.5} pl={1}>
+                                {bullets.map((b, j) => (
+                                    <HStack key={j} align="start" spacing={2}>
+                                        <Box w="5px" h="5px" borderRadius="full" bg="teal.400" mt="6px" flexShrink={0} />
+                                        <Text fontSize="sm" color={textSoft} lineHeight="1.6">
+                                            {b.replace(/^•\s*/, "").trim()}
+                                        </Text>
+                                    </HStack>
+                                ))}
+                            </VStack>
+                        </Box>
+                    );
+                }
+                return (
+                    <Text key={i} fontSize="sm" color={textSoft} lineHeight="1.7">
+                        {para.trim()}
+                    </Text>
+                );
+            })}
+        </VStack>
+    );
+}
 
 export default function ExperienceSection() {
     const {i18n} = useTranslation();
@@ -27,7 +70,8 @@ export default function ExperienceSection() {
     const isDark = colorMode === "dark";
 
     const bgMain = useColorModeValue("gray.50", "#050816");
-    const titleColor = useColorModeValue("teal.600", "teal.300");
+    const titleColor = useColorModeValue("gray.800", "white");
+    const accentColor = useColorModeValue("teal.500", "teal.400");
     const cardBg = useColorModeValue("white", "#0f172a"); // dark bleu profond
     const cardBorder = useColorModeValue("gray.200", "whiteAlpha.200");
     const textMain = useColorModeValue("gray.800", "white");
@@ -36,6 +80,13 @@ export default function ExperienceSection() {
     const dateColor = useColorModeValue("teal.500", "teal.300");
     const lineColor = useColorModeValue("teal.300", "teal.500");
     const pointColor = useColorModeValue("teal.400", "teal.300");
+
+    const accentColors = [
+        { light: "teal.400", dark: "teal.300" },
+        { light: "blue.400", dark: "blue.300" },
+        { light: "purple.400", dark: "purple.300" },
+        { light: "orange.400", dark: "orange.300" },
+    ];
 
     return (
         <Box
@@ -70,17 +121,18 @@ export default function ExperienceSection() {
                 </>
             )}
 
-            <Heading
-                mb={12}
-                textAlign="center"
-                fontSize={["2xl", "3xl", "4xl"]}
-                color={titleColor}
-                fontFamily="monospace"
-                position="relative"
-                zIndex={1}
-            >
-                {i18n.language === "fr" ? "Expériences professionnelles" : "Work Experiences"}
-            </Heading>
+            <VStack spacing={3} mb={12} position="relative" zIndex={1}>
+                <Heading
+                    textAlign="center"
+                    fontSize={["2xl", "3xl", "4xl"]}
+                    color={titleColor}
+                    fontWeight="black"
+                    letterSpacing="-0.03em"
+                >
+                    {i18n.language === "fr" ? "Expériences professionnelles" : "Work Experiences"}
+                </Heading>
+                <Box w="48px" h="4px" bg={accentColor} borderRadius="full" />
+            </VStack>
 
             <VStack spacing={10} position="relative" align="stretch" zIndex={1}>
                 <Box
@@ -109,12 +161,25 @@ export default function ExperienceSection() {
                         }}
                     >
                         <Circle
-                            size="16px"
-                            bg={pointColor}
-                            mt={2}
+                            size="36px"
+                            bg={isDark ? accentColors[idx % accentColors.length].dark : accentColors[idx % accentColors.length].light}
                             flexShrink={0}
-                            boxShadow={isDark ? "0 0 10px rgba(129,230,217,0.5)" : "none"}
-                        />
+                            mt={1}
+                            boxShadow={isDark ? `0 0 12px rgba(129,230,217,0.3)` : "sm"}
+                            fontSize="xs"
+                            fontWeight="black"
+                            color="white"
+                            letterSpacing="-0.02em"
+                        >
+                            {exp.company
+                                .replace(/\(.*?\)/g, "")
+                                .trim()
+                                .split(/\s+/)
+                                .filter(Boolean)
+                                .slice(0, 2)
+                                .map((w) => w[0].toUpperCase())
+                                .join("")}
+                        </Circle>
 
                         <MotionBox
                             p={6}
@@ -122,6 +187,8 @@ export default function ExperienceSection() {
                             bg={cardBg}
                             border="1px solid"
                             borderColor={cardBorder}
+                            borderLeft="4px solid"
+                            borderLeftColor={isDark ? accentColors[idx % accentColors.length].dark : accentColors[idx % accentColors.length].light}
                             borderRadius="xl"
                             backdropFilter="blur(10px)"
                             boxShadow={
@@ -149,18 +216,26 @@ export default function ExperienceSection() {
                                 {exp.title}
                             </Text>
 
-                            <Text
-                                fontSize="md"
-                                fontWeight="semibold"
-                                color={companyColor}
-                                mb={3}
-                            >
-                                {exp.company}
-                            </Text>
+                            <HStack spacing={3} mb={3} flexWrap="wrap">
+                                <Text fontSize="md" fontWeight="semibold" color={companyColor}>
+                                    {exp.company}
+                                </Text>
+                                {exp.website && (
+                                    <Link href={exp.website} isExternal color={textSoft} _hover={{color: "teal.400"}}>
+                                        <ExternalLinkIcon mb="2px" boxSize={3}/>
+                                    </Link>
+                                )}
+                            </HStack>
+                            {exp.city && (
+                                <HStack spacing={1} mb={3} color={textSoft}>
+                                    <MdLocationOn size={14}/>
+                                    <Text fontSize="xs" fontWeight="medium">{exp.city}</Text>
+                                </HStack>
+                            )}
 
-                            <Text fontSize="sm" color={textSoft} mb={4}>
-                                {exp.description}
-                            </Text>
+                            <Box mb={4}>
+                                {renderDescription(exp.description, textSoft, isDark)}
+                            </Box>
 
                             {exp.tags && (
                                 <Wrap spacing={3}>

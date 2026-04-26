@@ -10,6 +10,7 @@ import {
     Image,
     useColorMode,
     useColorModeValue,
+    useToast,
 } from "@chakra-ui/react";
 import {Typewriter} from "react-simple-typewriter";
 import {useTranslation} from "react-i18next";
@@ -31,13 +32,24 @@ export default function ProfileSection() {
     const isDark = colorMode === "dark";
 
     const bgMain = useColorModeValue("gray.50", "#050816");
-    //const textMain = useColorModeValue("gray.900", "white");
     const textSoft = useColorModeValue("gray.600", "gray.300");
-    const badgeBg = useColorModeValue("teal.50", "whiteAlpha.100");
-    const badgeBorder = useColorModeValue("teal.200", "whiteAlpha.200");
-    const badgeText = useColorModeValue("teal.700", "teal.200");
+    const badgeBg = useColorModeValue("green.50", "rgba(72,187,120,0.1)");
+    const badgeBorder = useColorModeValue("green.200", "rgba(72,187,120,0.3)");
+    const badgeText = useColorModeValue("green.700", "green.300");
     const cardBg = useColorModeValue("whiteAlpha.700", "whiteAlpha.50");
     const cardBorder = useColorModeValue("blackAlpha.100", "whiteAlpha.200");
+    const toast = useToast();
+
+    const copyEmail = () => {
+        navigator.clipboard.writeText(data.profile.email);
+        toast({
+            title: i18n.language === "fr" ? "Email copié !" : "Email copied!",
+            status: "success",
+            duration: 2000,
+            isClosable: false,
+            position: "bottom",
+        });
+    };
 
     const hasPicture =
         data.profile.link_picture &&
@@ -59,7 +71,6 @@ export default function ProfileSection() {
             animate={{opacity: 1}}
             transition={{duration: 0.6}}
         >
-            {/* Ambient background */}
             {isDark && (
                 <>
                     <Box
@@ -114,8 +125,9 @@ export default function ProfileSection() {
                     flex="1"
                     maxW="720px"
                 >
+                    {/* Badge avec point pulsant */}
                     {showSearchBadge && (
-                        <Box
+                        <HStack
                             px={4}
                             py={2}
                             borderRadius="full"
@@ -126,38 +138,65 @@ export default function ProfileSection() {
                             fontSize="sm"
                             fontWeight="medium"
                             backdropFilter="blur(8px)"
+                            spacing={2}
                         >
-                            {i18n.language === "fr"
-                                ? "Disponible pour de nouvelles opportunités"
-                                : "Open to new opportunities"}
-                        </Box>
+                            <Box position="relative" w="8px" h="8px" flexShrink={0}>
+                                {/* Anneau pulsant */}
+                                <Box
+                                    position="absolute"
+                                    inset="0"
+                                    borderRadius="full"
+                                    bg="green.400"
+                                    sx={{
+                                        "@keyframes ping": {
+                                            "0%": {transform: "scale(1)", opacity: 0.8},
+                                            "100%": {transform: "scale(2.4)", opacity: 0},
+                                        },
+                                        animation: "ping 1.6s ease-out infinite",
+                                    }}
+                                />
+                                {/* Point fixe */}
+                                <Box
+                                    position="absolute"
+                                    inset="0"
+                                    borderRadius="full"
+                                    bg="green.400"
+                                />
+                            </Box>
+                            <Text>
+                                {i18n.language === "fr"
+                                    ? "Disponible pour de nouvelles opportunités"
+                                    : "Open to new opportunities"}
+                            </Text>
+                        </HStack>
                     )}
 
                     <Heading
                         as="h1"
                         fontSize={{base: "4xl", md: "5xl", xl: "6xl"}}
                         lineHeight="0.95"
-                        color={useColorModeValue("teal.600", "teal.300")}
+                        color={useColorModeValue("gray.800", "white")}
                         fontWeight="black"
                         letterSpacing="-0.04em"
                     >
-                        <Typewriter
-                            words={[data.profile.name]}
-                            loop={true}
-                            cursor
-                            cursorStyle="_"
-                            typeSpeed={90}
-                            deleteSpeed={45}
-                            delaySpeed={2200}
-                        />
+                        {data.profile.name}
                     </Heading>
 
                     <Text
-                        fontSize={{base: "lg", md: "2xl"}}
-                        color={textSoft}
-                        maxW="850px"
+                        fontSize={{base: "xl", md: "2xl"}}
+                        color={useColorModeValue("teal.600", "teal.300")}
+                        fontWeight="semibold"
+                        minH="2em"
                     >
-                        {data.profile.title}
+                        <Typewriter
+                            words={data.profile.typewriter_roles || [data.profile.title]}
+                            loop={true}
+                            cursor
+                            cursorStyle="|"
+                            typeSpeed={60}
+                            deleteSpeed={35}
+                            delaySpeed={1800}
+                        />
                     </Text>
 
                     <Text
@@ -168,29 +207,18 @@ export default function ProfileSection() {
                         {data.profile.summary}
                     </Text>
 
-                    <HStack spacing={4} pt={2} flexWrap="wrap" justify={{base: "center", lg: "flex-start"}}>
-                        <Button
-                            as="a"
-                            href="#projects"
-                            colorScheme="teal"
-                            size="lg"
-                        >
+                    <HStack spacing={4} pt={1} flexWrap="wrap" justify={{base: "center", lg: "flex-start"}}>
+                        <Button as="a" href="#projects" colorScheme="teal" size="lg">
                             {i18n.language === "fr" ? "Voir mes projets" : "See my projects"}
                         </Button>
-
-                        <Button
-                            as="a"
-                            href={`mailto:${data.profile.email}`}
-                            variant="outline"
-                            size="lg"
-                        >
+                        <Button as="a" href={`mailto:${data.profile.email}`} variant="outline" size="lg">
                             {i18n.language === "fr" ? "Me contacter" : "Contact me"}
                         </Button>
                     </HStack>
 
                     <HStack
                         spacing={6}
-                        pt={2}
+                        pt={1}
                         flexWrap="wrap"
                         justify={{base: "center", lg: "flex-start"}}
                         color={textSoft}
@@ -199,24 +227,23 @@ export default function ProfileSection() {
                             <MdLocationOn/>
                             <Text fontSize="sm">{data.profile.location}</Text>
                         </MotionHStack>
-
-                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
+                        <MotionHStack
+                            whileHover={{scale: 1.05}}
+                            spacing={2}
+                            cursor="pointer"
+                            onClick={copyEmail}
+                            title={i18n.language === "fr" ? "Copier l'email" : "Copy email"}
+                        >
                             <MdEmail/>
-                            <Link href={`mailto:${data.profile.email}`}>{data.profile.email}</Link>
+                            <Text fontSize="sm" _hover={{color: "teal.400"}}>{data.profile.email}</Text>
                         </MotionHStack>
-
                         <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
                             <FaLinkedin/>
-                            <Link href={data.profile.linkedin} target="_blank" rel="noopener noreferrer">
-                                LinkedIn
-                            </Link>
+                            <Link href={data.profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</Link>
                         </MotionHStack>
-
                         <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
                             <FaGithub/>
-                            <Link href={data.profile.github} target="_blank" rel="noopener noreferrer">
-                                GitHub
-                            </Link>
+                            <Link href={data.profile.github} target="_blank" rel="noopener noreferrer">GitHub</Link>
                         </MotionHStack>
                     </HStack>
                 </VStack>
@@ -238,7 +265,6 @@ export default function ProfileSection() {
                         filter="blur(90px)"
                         borderRadius="full"
                     />
-
                     <Box
                         w={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
                         h={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}

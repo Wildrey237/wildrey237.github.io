@@ -1,364 +1,181 @@
-# Portfolio – Documentation et Déploiement
+# Portfolio – Wilfried Bemelingue
 
 ![Build and Deploy](https://github.com/Wildrey237/wildrey237.github.io/actions/workflows/deploy.yml/badge.svg)
 
-Ce projet est un portfolio personnel développé en **React avec Vite** et stylisé avec **Chakra UI**.  
-Il permet de présenter votre profil, vos compétences et vos expériences de manière professionnelle, responsive et bilingue (français/anglais). Le site détecte automatiquement la langue de l'utilisateur et bascule en anglais par défaut si la langue détectée n'est pas prise en charge.
+Portfolio personnel développé en **React + Vite**, stylisé avec **Chakra UI**, bilingue français/anglais avec détection automatique de la langue.
 
-**URL du site déployé :** [https://wildrey237.github.io/](https://wildrey237.github.io/)
+**URL :** [https://wildrey237.github.io/](https://wildrey237.github.io/)
+
+---
 
 ## Sommaire
 
 1. [Prérequis](#prérequis)
-2. [Description du projet](#description-du-projet)
-3. [Structure des fichiers et répertoires](#structure-des-fichiers-et-répertoires)
-4. [Organisation des branches](#organisation-des-branches)
-5. [Fonctionnalités principales](#fonctionnalités-principales)
-6. [Technologies](#technologies)
-7. [Instructions pour le développement local](#instructions-pour-le-développement-local)
-8. [Workflow Git et bonnes pratiques](#workflow-git-et-bonnes-pratiques)
-9. [Déploiement automatique (recommandé)](#déploiement-automatique-recommandé)
-10. [Déploiement manuel (optionnel)](#déploiement-manuel-optionnel)
-11. [Points importants et avertissements](#points-importants-et-avertissements)
-12. [Intégration Google Analytics](#intégration-google-analytics)
-13. [Contact](#contact)
-14. [Licence](#licence)
+2. [Structure du projet](#structure-du-projet)
+3. [Organisation des branches](#organisation-des-branches)
+4. [Fonctionnalités](#fonctionnalités)
+5. [Technologies](#technologies)
+6. [Développement local](#développement-local)
+7. [Déploiement](#déploiement)
+8. [Analytics](#analytics)
+9. [Contact](#contact)
 
 ---
 
 ## Prérequis
 
-Avant de démarrer, assurez-vous d'avoir installé :
-
-- **Node.js** version 18 ou supérieure
-- **npm** version 9 ou supérieure  
-- **Git**
-
-Vérifiez vos versions :
-```bash
-node --version
-npm --version
-git --version
-```
-
-## Description du projet
-
-Ce portfolio présente les fonctionnalités suivantes :
-
-- **Profil dynamique :** Nom avec effet machine à écrire, titre, résumé, localisation et liens cliquables (email, LinkedIn, GitHub)
-- **Compétences :** Présentées sous forme de cartes avec icônes, description affichée en popover (hover desktop ou clic mobile)
-- **Expériences :** Affichées en timeline animée, avec tags techniques interactifs
-- **Parcours scolaire :** Affichage sous forme d'accordéon enrichi de badges et liens vers les sites officiels
-- **Multilingue :** Détection automatique FR/EN (anglais par défaut) avec possibilité de changer manuellement
-- **Navbar :** Fixe, transparente, avec indicateur actif, changement de langue (FR/EN), switch clair/sombre
-- **Footer :** Fixe, discret, liens vers les réseaux et bouton pour télécharger le CV (adapté à la langue)
-- **Design responsive et mode clair/sombre**
-- **Déploiement automatique :** Via GitHub Actions, chaque tag `deploy-*` sur `work` déclenche un build et met à jour la branche `main` servie par GitHub Pages
+- Node.js ≥ 18
+- npm ≥ 9
+- Git
 
 ---
 
-## Structure des fichiers et répertoires
+## Structure du projet
 
-### Racine du projet
+```
+src/
+├── main.jsx              # Point d'entrée React
+├── App.jsx               # Assemblage des sections + ScrollToTopButton
+├── i18n.js               # Configuration i18next FR/EN
+├── components/
+│   ├── Navbar.jsx         # Navigation fixe, pill animée, menu mobile
+│   ├── ProfileSection.jsx # Hero : badge disponibilité, typewriter, email copier
+│   ├── SkillsSection.jsx  # Chips colorées par catégorie avec tooltips
+│   ├── ExperienceSection.jsx # Timeline : border couleur, initiales, ville, site
+│   ├── EducationSection.jsx  # Cartes : logo, badge "En cours", détails collapsibles
+│   ├── ProjectsSection.jsx   # Carrousel 4 cartes, auto-scroll, filtres, shimmer
+│   ├── Footer.jsx
+│   └── LogoMark.jsx
+└── data/
+    ├── data-fr.json       # Contenu français
+    └── data-en.json       # Contenu anglais (structure identique)
 
-- **`package.json`** - Déclare les dépendances, les scripts (dev, build), et la clé "homepage" pour GitHub Pages
-- **`vite.config.js`** - Configuration de Vite (bundler)
-- **`.github/workflows/deploy.yml`** - Workflow GitHub Actions pour déployer automatiquement le contenu du dossier `dist` vers la branche `main`
-- **`README.md`** - Documentation du projet (instructions, commandes, déploiement)
-- **`.gitignore`** - Liste des fichiers et dossiers à ignorer par Git
-
-### Répertoire `src/`
-
-Contient tout le code source React :
-
-- **`src/main.jsx`** - Point d'entrée de l'application (montage du composant App)
-- **`src/App.jsx`** - Composant racine qui assemble la Navbar, les sections (Profil, Skills, Experiences, Education) et le Footer
-- **`src/i18n.js`** - Configuration d'i18next pour la gestion des langues FR/EN avec détection automatique
-
-#### `src/components/`
-
-Contient les composants modulaires :
-
-- **`Navbar.jsx`** - Barre de navigation fixe et responsive
-- **`ProfileSection.jsx`** - Affiche le profil avec effet machine à écrire et liens
-- **`SkillsSection.jsx`** - Affiche les compétences par catégories avec popovers
-- **`ExperienceSection.jsx`** - Affiche la timeline des expériences
-- **`EducationSection.jsx`** - Affiche le parcours scolaire sous forme d'accordéon
-- **`Footer.jsx`** - Pied de page avec icônes et bouton de téléchargement du CV
-
-#### `src/data/`
-
-Contient les données multilingues au format JSON :
-
-- **`data-fr.json`** - Profil, compétences, expériences et parcours scolaire en français
-- **`data-en.json`** - Profil, compétences, expériences et parcours scolaire en anglais
-
-### Autres répertoires
-
-- **`public/`** - Contient les fichiers statiques accessibles directement (favicon, images)
-- **`dist/`** - Généré automatiquement après `npm run build`, contient le build optimisé déployé sur la branche `main`
-
-### Résumé de l'organisation
-
-- **Code source** → branche `work` (dans `src/` principalement)
-- **Build déployé** → branche `main` (contenu du dossier `dist`)
-- **Automatisation** → `.github/workflows/deploy.yml`
-- **Données dynamiques multilingues** → `src/data/data-fr.json` et `src/data/data-en.json`
-- **Composants modulaires** → dans `src/components/`
+public/
+├── icon.svg              # Favicon <W/B>
+└── 404.html              # Page 404 custom avec redirection automatique
+```
 
 ---
 
 ## Organisation des branches
 
-- **`work`**  
-  Branche de développement contenant le code source (React, JSON multilingues, configurations).
+- **`work`** — code source (tout le développement se fait ici)
+- **`main`** — build `dist/` uniquement, servi par GitHub Pages
 
-- **`main`**  
-  Branche de production contenant uniquement le build généré (dossier `dist`) qui est servi par GitHub Pages.
+Ne jamais committer de code source sur `main`. Le déploiement est entièrement automatisé.
 
 ---
 
-## Fonctionnalités principales
+## Fonctionnalités
 
-### Profil
-- Nom affiché avec un effet machine à écrire
-- Titre : étudiant en génie informatique spécialisé en IA, Deep Learning et Machine Learning
-- Résumé : recherche d'un stage de fin d'études (6 mois), basé en Île‑de‑France, ouvert à l'international, bilingue français et anglais courant (TOEIC en cours)
-- Liens vers email, LinkedIn et GitHub
+### ProfileSection
+- Badge vert pulsant « Disponible pour de nouvelles opportunités »
+- Nom statique + effet typewriter sur les rôles (`typewriter_roles`)
+- Email cliquable → copie dans le presse-papier + toast de confirmation
+- Photo de profil ou logo de fallback
 
-### Compétences
-- Cartes par catégorie (Développement, Environnements, Bases de données, IA/ML, Big Data)
-- Icônes devant chaque compétence
-- Popover descriptif : au survol sur desktop, au clic sur mobile
+### SkillsSection
+- Chips colorées par catégorie (IA, Data Engineering, Software, Cloud/MLOps, Bases de données, Maths)
+- Tooltip au survol avec description de chaque compétence
 
-### Expériences
-- Timeline animée (Framer Motion) alternant gauche/droite
-- Tags techniques interactifs
+### ExperienceSection
+- Bordure gauche colorée tournante par expérience
+- Cercle avec initiales de l'entreprise
+- Ville (icône lieu) et lien vers le site de l'entreprise
+- Descriptions formatées : paragraphes et listes à puces (`\n\n` / `\n•`)
 
-### Parcours scolaire
-- Affichage sous forme d'accordéon enrichi
-- Badges pour chaque formation
-- Liens vers les sites officiels des établissements
+### EducationSection
+- Cartes larges avec logo de l'établissement
+- Badge « En cours » (champ `current: true` dans le JSON)
+- Détails collapsibles (Chakra `Collapse`)
+
+### ProjectsSection
+- Carrousel avec 4 cartes sur desktop, 2 sur tablet, 1 sur mobile
+- Défilement automatique toutes les 3,5 s (pause au survol)
+- Navigation clavier (← →) et boutons précédent/suivant
+- Filtres : recherche texte, école, tag technologique
+- Effet shimmer au survol des cartes
 
 ### Navbar
-- Fixe et responsive, transparente
-- Boutons vers les sections avec indicateur actif animé
-- Logo et bouton Home ramenant en haut de page
-- Bouton FR/EN avec détection automatique de la langue
-- Switch mode clair/sombre
+- Pill animée Framer Motion (`layoutId`) sur la section active
+- Icône dark mode avec rotation +180° à chaque clic
+- Menu mobile avec animation slide-in
 
-### Footer
-- Fixe et discret
-- Icônes mail / LinkedIn / GitHub
-- Bouton de téléchargement du CV (FR ou EN selon la langue)
-- Tracking Google Analytics pour le téléchargement du CV
-
-### Analytics et tracking
-- **Google Analytics (GA4)** intégré pour le suivi des performances
-- Tracking automatique des pages vues et interactions
-- Événements personnalisés pour le téléchargement du CV
-- Configuration respectueuse de la vie privée
-
-### Internationalisation
-- Détection automatique de la langue de l'utilisateur
-- Fallback en anglais si la langue détectée n'est pas prise en charge
-- Possibilité de changer manuellement la langue
+### Autres
+- Bouton scroll-to-top (apparaît après 300 px de défilement)
+- Page 404 thématique avec redirection automatique vers `/` après 4 s
+- SEO : Open Graph + Twitter Card + meta description optimisés
 
 ---
 
 ## Technologies
 
-- **Frontend :** React (Vite), Chakra UI
-- **Animations :** Framer Motion
-- **Internationalisation :** i18next + i18next-browser-languagedetector
-- **Effets :** react-simple-typewriter
-- **Icônes :** react-icons
-- **Analytics :** Google Analytics (GA4)
-- **Déploiement :** GitHub Pages, GitHub Actions
+| Domaine | Stack |
+|---|---|
+| Frontend | React 18, Vite |
+| UI | Chakra UI v2 |
+| Animations | Framer Motion |
+| i18n | i18next + browser-languagedetector |
+| Typewriter | react-simple-typewriter |
+| Icônes | react-icons |
+| Analytics | Google Analytics 4 (GA4) |
+| Déploiement | GitHub Pages + GitHub Actions |
 
 ---
 
-## Instructions pour le développement local
-
-### Installation
+## Développement local
 
 ```bash
-# Cloner le projet
 git clone https://github.com/Wildrey237/wildrey237.github.io.git
 cd wildrey237.github.io
-
-# Basculer sur la branche de développement
 git checkout work
-
-# Installer les dépendances
 npm install
-
-# Lancer le serveur de développement
 npm run dev
 ```
 
-### Organisation du code source
+Autres commandes :
 
-- **Données multilingues :**
-  - `src/data/data-fr.json` - Contenu en français
-  - `src/data/data-en.json` - Contenu en anglais
-- **Composants :** `src/components/`
-- **Configuration i18n :** `src/i18n.js`
-- **Point d'entrée :** `src/main.jsx`
-- **Composant racine :** `src/App.jsx`
+```bash
+npm run build     # Build de production → dist/
+npm run preview   # Prévisualiser le build
+npm run lint      # ESLint
+```
 
 ---
 
-## Workflow Git et bonnes pratiques
+## Déploiement
 
-### Travailler sur le code source
+Chaque push sur la branche `work` déclenche automatiquement `.github/workflows/deploy.yml` :
 
-```bash
-# Créer une nouvelle branche depuis work si besoin
-git checkout work
+1. `npm run build` génère `dist/`
+2. Le contenu de `dist/` est poussé sur `main` via JamesIves deploy action
+3. GitHub Pages sert `main`
 
-# Ajouter vos modifications
-git add .
+Suivre l'avancement dans l'onglet **Actions** du dépôt.
 
-# Commit
-git commit -m "Description du commit"
+### Mettre à jour le contenu
 
-# Pousser sur la branche work
-git push origin work
-```
-
-### Déploiement via tags
+Modifier `src/data/data-fr.json` et `src/data/data-en.json` (toujours garder les deux fichiers en sync), puis :
 
 ```bash
-# Créer un tag pour déclencher le déploiement
-git tag deploy-v1.0.0
-git push origin deploy-v1.0.0
-```
-
-### Mettre à jour votre branche locale
-
-```bash
-# Toujours mettre à jour avant de pousser
-git pull origin work --rebase
+git add src/data/
+git commit -m "Update content"
 git push origin work
 ```
 
 ---
 
-## Déploiement automatique (recommandé)
+## Analytics
 
-Le déploiement est automatisé via un workflow GitHub Actions :
-
-- Chaque tag `deploy-*` poussé sur `work` déclenche un build
-- Le dossier `dist` est déployé automatiquement sur la branche `main`
-- GitHub Pages sert la branche `main`
-
-**Configuration :** `.github/workflows/deploy.yml`
-
-**Vérifier l'exécution :** Onglet Actions du dépôt GitHub
-
----
-
-## Déploiement manuel (optionnel)
-
-Si besoin, il est possible de déployer manuellement :
-
-```bash
-# Générer le build
-npm run build
-
-# Passer sur la branche main
-git checkout main
-
-# Supprimer les anciens fichiers (sauf .git)
-rm -rf * .[^.]*
-
-# Copier les fichiers buildés à la racine
-cp -r dist/* .
-
-# Déployer
-git add .
-git commit -m "Déploiement manuel"
-git push origin main
-```
-
----
-
-## Points importants et avertissements
-
-- **Attention :** Ne pas modifier directement la branche `main` (elle est gérée automatiquement par CI/CD)
-
-- **Configuration homepage :** Vérifier que le fichier `package.json` contient :
-  ```json
-  "homepage": "https://wildrey237.github.io/"
-  ```
-
-- **Cohérence des données :** S'assurer que les fichiers JSON sont synchronisés :
-  - `src/data/data-fr.json`
-  - `src/data/data-en.json`
-
-- **Fichiers statiques :** Vérifiez que le favicon et les liens (CV, réseaux) sont valides avant le déploiement
-
-- **Workflow automatique :** Le déploiement se fait via tags `deploy-*`, pas sur chaque push
-
-- **Google Analytics :** Le site utilise GA4 (ID: G-QSFT7C8DBJ) pour analyser le trafic et les interactions
-
----
-
-## Intégration Google Analytics
-
-### Configuration mise en place
-
-Le portfolio intègre **Google Analytics 4 (GA4)** pour analyser les performances et l'engagement des utilisateurs :
-
-#### Fichiers modifiés
-- **`index.html`** - Script GA4 intégré dans le `<head>`
-- **`Footer.jsx`** - Événement de tracking pour le téléchargement du CV
-
-#### Métriques trackées
-- **Pages vues** automatiques
-- **Téléchargements du CV** avec événement personnalisé `download_cv`
-- **Sessions utilisateur** et données démographiques
-- **Sources de trafic** et comportement utilisateur
-
-#### Code d'événement CV
-```javascript
-// Dans Footer.jsx - bouton téléchargement CV
-onClick={() => {
-    if (window.gtag) {
-        window.gtag('event', 'download_cv', {
-            event_category: 'engagement',
-            event_label: 'Footer Button',
-            value: 1
-        });
-    }
-}}
-```
-
-#### Configuration GA4
-- **ID de mesure :** `G-QSFT7C8DBJ`
-- **Respect de la vie privée :** Pas de cookies tiers, données anonymisées
-- **Événements personnalisés :** Tracking des actions importantes (téléchargement CV)
+GA4 (ID : `G-QSFT7C8DBJ`) intégré dans `index.html`. Événement personnalisé `download_cv` déclenché depuis `Footer.jsx` au clic sur le bouton de téléchargement.
 
 ---
 
 ## Contact
 
-Pour toute question ou collaboration :
-
-- **Email :** Disponible dans le footer du site
-- **LinkedIn :** [Profil LinkedIn](https://linkedin.com/in/wilfried-bemelingue)
-- **GitHub :** [Profil GitHub](https://github.com/Wildrey237)
+- **LinkedIn :** [wilfried-bemelingue](https://linkedin.com/in/wilfried-bemelingue)
+- **GitHub :** [Wildrey237](https://github.com/Wildrey237)
 
 ---
 
-## Licence
-
-Ce projet est protégé par les droits d'auteur.  
-Aucune réutilisation sans autorisation préalable.
-
----
-
-### Maintenance
-
-Pour toute évolution ou maintenance, suivre les commandes et processus décrits dans ce README.
+© Wilfried Bemelingue — Tous droits réservés.

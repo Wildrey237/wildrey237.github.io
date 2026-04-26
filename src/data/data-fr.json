@@ -9,15 +9,18 @@
     "github": "https://github.com/Wildrey237",
     "cvLink": "https://drive.google.com/file/d/1cMDHyvWBybrSvY16Jnr4C6AvgXIXN8VI/view?usp=share_link",
     "search": "yes",
-    "link_picture": "/profile_picture.jpg"
+    "link_picture": "/profile_picture.jpg",
+    "typewriter_roles": ["Data Engineer", "ML Engineer", "Développeur Full-Stack", "Spécialiste Deep Learning", "Étudiant Ingénieur EPITA"]
   },
 
   "experiences": [
     {
       "title": "Stagiaire – Data Engineer (équipe DataFactory)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
+      "city": "Paris, Île-de-France",
+      "website": "https://www.comutitres.fr/",
       "dates": "Septembre 2024 – Février 2025",
-      "description": "Stagiaire au sein de l’équipe DataFactory chez COMUTITRES (Île-de-France Mobilités), j'ai piloté la refonte et l'optimisation des pipelines de données.\n\nRéalisations clés :\n• Conception et migration de scripts ETL vers une architecture Apache Airflow sur AWS, améliorant l'efficacité des traitements\n• Développement de mécanismes de relance automatique (fichiers de configuration JSON) pour fiabiliser les flux de données\n• Création et déploiement de tableaux de bord KPI pour le pilotage de la Business Intelligence\n• Optimisation de scripts Python et de requêtes SQL complexes\n• Renforcement des pipelines CI/CD sous GitLab pour automatiser les déploiements",
+      "description": "Stagiaire au sein de l’équipe DataFactory chez COMUTITRES (Île-de-France Mobilités), j’ai piloté la refonte et l’optimisation des pipelines de données.\n\nRéalisations clés :\n• Conception et migration de scripts ETL vers une architecture Apache Airflow sur AWS, améliorant l’efficacité des traitements\n• Développement de mécanismes de relance automatique (fichiers de configuration JSON) pour fiabiliser les flux de données\n• Création et déploiement de tableaux de bord KPI pour le pilotage de la Business Intelligence\n• Optimisation de scripts Python et de requêtes SQL complexes\n• Renforcement des pipelines CI/CD sous GitLab pour automatiser les déploiements",
       "tags": [
         "Python",
         "SQL",
@@ -33,8 +36,10 @@
     {
       "title": "Stagiaire – Développement d’application de suivi logistique",
       "company": "TDA CERMAI (Toullec Dancoing & Associés)",
+      "city": "Villiers-le-Bel, Île-de-France",
+      "website": "https://tdacermai.net/about",
       "dates": "Avril 2023 – Juillet 2023",
-      "description": "J'ai mené le développement et la modernisation d’une application critique de suivi de fret aérien.\n\nRéalisations clés :\n• Pilotage de la migration de la base de données d’InterSystems Caché vers InterSystems IRIS\n• Développement full-stack : interface front-end réactive et back-end en ObjectScript/Python\n• Conception et intégration d'API REST pour l'affichage en temps réel des flux logistiques\n• Administration et configuration complète du serveur InterSystems IRIS\n• Rédaction de la documentation technique détaillée pour les équipes internes et les clients",
+      "description": "J’ai mené le développement et la modernisation d’une application critique de suivi de fret aérien.\n\nRéalisations clés :\n• Pilotage de la migration de la base de données d’InterSystems Caché vers InterSystems IRIS\n• Développement full-stack : interface front-end réactive et back-end en ObjectScript/Python\n• Conception et intégration d’API REST pour l’affichage en temps réel des flux logistiques\n• Administration et configuration complète du serveur InterSystems IRIS\n• Rédaction de la documentation technique détaillée pour les équipes internes et les clients",
       "tags": [
         "JavaScript",
         "ObjectScript",
@@ -50,6 +55,8 @@
     {
       "title": "Stagiaire – Développement d’interfaces API",
       "company": "TDA CERMAI Villiers-le-Bel",
+      "city": "Villiers-le-Bel, Île-de-France",
+      "website": "",
       "dates": "Mai 2022 – Juin 2022",
       "description": "Participation à la création d’une application web affichant les flux de fret aérien, connectée à une API REST. Intégration dynamique des données en JavaScript, amélioration de la lisibilité des interfaces, tests fonctionnels, et contribution à la documentation technique.",
       "tags": [
@@ -63,8 +70,10 @@
     {
       "title": "Stagiaire",
       "company": "INNOVATECH Yaoundé",
+      "city": "Yaoundé, Cameroun",
+      "website": "",
       "dates": "Juin 2019 – Août 2019",
-      "description": "Formation Arduino et mécatronique, réalisation d'un Smart Parking et d'une voiture télécommandée.",
+      "description": "Formation Arduino et mécatronique, réalisation d’un Smart Parking et d’une voiture télécommandée.",
       "tags": [
         "Arduino",
         "Mécatronique",
@@ -111,6 +120,14 @@
       {
         "name": "R",
         "desc": "Modélisation statistique avancée, analyse de données et méthodes quantitatives appliquées à la recherche en data science."
+      },
+      {
+        "name": "Tableau, Power BI",
+        "desc": "Création de dashboards interactifs pour l'analyse métier et le pilotage de la BI."
+      },
+      {
+        "name": "Matplotlib, Seaborn, Plotly",
+        "desc": "Visualisation de données et communication de résultats analytiques."
       }
     ],
     "software_engineering": [
@@ -163,14 +180,22 @@
         "desc": "Base de données graphe pour modélisation de relations complexes (GNN)."
       }
     ],
-    "dataviz": [
+    "math_foundations": [
       {
-        "name": "Tableau, Power BI",
-        "desc": "Création de dashboards interactifs pour analyse métier."
+        "name": "Algèbre linéaire",
+        "desc": "Espaces vectoriels, transformations linéaires, décompositions matricielles (SVD, PCA) appliquées au ML."
       },
       {
-        "name": "Matplotlib, Seaborn, Plotly",
-        "desc": "Visualisation de données et communication de résultats analytiques."
+        "name": "Théorie des probabilités",
+        "desc": "Variables aléatoires, distributions, inférence bayésienne et modélisation probabiliste."
+      },
+      {
+        "name": "Optimisation",
+        "desc": "Descente de gradient, méthodes convexes et non-convexes, optimisation stochastique pour l'entraînement de modèles."
+      },
+      {
+        "name": "Processus stochastiques",
+        "desc": "Chaînes de Markov, mouvement brownien, équations différentielles stochastiques appliquées à la finance quantitative et au RL."
       }
     ]
   },
@@ -179,13 +204,15 @@
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon) FR",
       "degree": "Majeure Smart Computing for Artificial Graphs (4ᵉ et 5ᵉ années, dernière année en cours, accréditée par la CTI)",
       "years": "2024 – 2025",
+      "current": true,
       "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Le cursus inclut l’apprentissage automatique avancé, les réseaux de neurones sur graphes (GNN), l’IA explicable (XAI), le reinforcement learning, le traitement de données médicales, le MLOps, la modélisation stochastique et l’optimisation continue. Une pédagogie projetée par cas concrets et défis de recherche est privilégiée.",
       "website": "https://www.epita.fr"
     },
     {
       "school": "EPITA Le Kremlin‑Bicêtre FR",
       "degree": "Diplôme d’ingénieur en Informatique (3ᵉ année, accrédité par la CTI)",
-      "years": "Depuis septembre 2023",
+      "years": "Septembre 2023 – 2024",
+      "current": false,
       "details": "En 3ᵉ année du cycle ingénieur, les étudiants suivent des piscines intensives (séances de programmation de plusieurs jours, parfois nocturnes), ainsi que des projets collectifs et des challenges « rush ». Cette pédagogie immersive vise à renforcer les compétences fondamentales, développer la robustesse et simuler des environnements professionnels exigeants.",
       "website": "https://www.epita.fr"
     },

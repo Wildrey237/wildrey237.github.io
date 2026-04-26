@@ -9,12 +9,15 @@
     "github": "https://github.com/Wildrey237",
     "cvLink": "https://drive.google.com/file/d/1yQDQyEmey_TYXdFwEm-sIHMLacKJD_Jk/view?usp=share_link",
     "search": "yes",
-    "link_picture": "/profile_picture.jpg"
+    "link_picture": "/profile_picture.jpg",
+    "typewriter_roles": ["Data Engineer", "ML Engineer", "Full-Stack Developer", "Deep Learning Specialist", "EPITA Engineering Student"]
   },
   "experiences": [
     {
       "title": "Intern – Data Engineer (DataFactory Team)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
+      "city": "Paris, Île-de-France",
+      "website": "https://www.comutitres.fr/",
       "dates": "September 2024 – February 2025",
       "description": "Intern in the DataFactory team at COMUTITRES (Île-de-France Mobilités). I architected and migrated legacy ETL data pipelines to Apache Airflow on AWS, significantly improving processing efficiency.\n\nKey achievements:\n• Engineered and migrated Python/SQL scripts to Airflow/AWS environment\n• Developed automated retry mechanisms using JSON configurations to enhance pipeline reliability\n• Designed and deployed KPI dashboards to support Business Intelligence decision-making\n• Optimized SQL queries and Python processing scripts\n• Strengthened CI/CD pipelines using GitLab for automated deployment",
       "tags": [
@@ -32,6 +35,8 @@
     {
       "title": "Intern – Logistics Tracking App Development",
       "company": "TDA CERMAI (Toullec Dancoing & Associates)",
+      "city": "Villiers-le-Bel, Île-de-France",
+      "website": "https://tdacermai.net/about",
       "dates": "April 2023 – July 2023",
       "description": "Spearheaded the development and migration of a logistics tracking web application for air cargo.\n\nKey achievements:\n• Led the database migration from InterSystems Caché to InterSystems IRIS\n• Developed a full-stack solution with a JavaScript front-end and ObjectScript/Python back-end\n• Designed and integrated REST APIs for real-time air freight tracking\n• Administered and configured the InterSystems IRIS server\n• Authored comprehensive technical documentation for internal teams and clients",
       "tags": [
@@ -49,6 +54,8 @@
     {
       "title": "Intern – API Interface Development",
       "company": "TDA CERMAI Villiers-le-Bel",
+      "city": "Villiers-le-Bel, Île-de-France",
+      "website": "",
       "dates": "May 2022 – June 2022",
       "description": "Participated in the creation of a web application displaying air freight flows, connected to a REST API. Dynamic data integration using JavaScript, interface readability improvement, functional testing, and contribution to technical documentation.",
       "tags": [
@@ -62,6 +69,8 @@
     {
       "title": "Intern",
       "company": "INNOVATECH Yaoundé",
+      "city": "Yaoundé, Cameroun",
+      "website": "",
       "dates": "June 2019 – August 2019",
       "description": "Arduino and mechatronics training, creation of a Smart Parking system and a remote-controlled car.",
       "tags": [
@@ -110,6 +119,14 @@
       {
         "name": "R",
         "desc": "Advanced statistical modeling, data analysis and quantitative methods applied to data science research."
+      },
+      {
+        "name": "Tableau, Power BI",
+        "desc": "Interactive dashboards for business intelligence and analytical reporting."
+      },
+      {
+        "name": "Matplotlib, Seaborn, Plotly",
+        "desc": "Data visualization and communication of analytical results."
       }
     ],
     "software_engineering": [
@@ -162,14 +179,22 @@
         "desc": "Graph database for modeling complex relationships (GNN use cases)."
       }
     ],
-    "dataviz": [
+    "math_foundations": [
       {
-        "name": "Tableau, Power BI",
-        "desc": "Interactive dashboards for business and analytical insights."
+        "name": "Linear Algebra",
+        "desc": "Vector spaces, linear transformations, matrix decompositions (SVD, PCA) applied to ML."
       },
       {
-        "name": "Matplotlib, Seaborn, Plotly",
-        "desc": "Data visualization and analytical reporting."
+        "name": "Probability Theory",
+        "desc": "Random variables, distributions, Bayesian inference and probabilistic modeling."
+      },
+      {
+        "name": "Optimization",
+        "desc": "Gradient descent, convex and non-convex methods, stochastic optimization for model training."
+      },
+      {
+        "name": "Stochastic Processes",
+        "desc": "Markov chains, Brownian motion, stochastic differential equations applied to quantitative finance and RL."
       }
     ]
   },
@@ -178,13 +203,15 @@
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
       "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress, CTI accredited)",
       "years": "2024 – 2025",
+      "current": true,
       "details": "The SCIA‑G major trains engineers capable of designing and applying artificial intelligence to graph-structured data. The curriculum includes advanced machine learning, graph neural networks (GNN), explainable AI (XAI), reinforcement learning, medical data processing, MLOps, stochastic modeling, and continuous optimization. Project-based learning through real-world use cases and research challenges is prioritized.",
       "website": "https://www.epita.fr"
     },
     {
       "school": "EPITA Le Kremlin‑Bicêtre",
       "degree": "Master’s in Computer Engineering (3rd year, CTI accredited)",
-      "years": "Since September 2023",
+      "years": "September 2023 – 2024",
+      "current": false,
       "details": "In the 3rd year of the engineering cycle, students follow intensive bootcamps, group projects, and simulation challenges designed to strengthen fundamentals and simulate high-pressure professional environments.",
       "website": "https://www.epita.fr"
     },
