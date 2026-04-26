@@ -204,7 +204,7 @@
       "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress, CTI accredited)",
       "years": "2024 – 2025",
       "current": true,
-      "details": "The SCIA‑G major trains engineers capable of designing and applying artificial intelligence to graph-structured data. The curriculum includes advanced machine learning, graph neural networks (GNN), explainable AI (XAI), reinforcement learning, medical data processing, MLOps, stochastic modeling, and continuous optimization. Project-based learning through real-world use cases and research challenges is prioritized.",
+      "details": "EPITA is ranked among the top French engineering schools specializing in computer science and AI (Top 5 in IT-focused schools, CTI accredited). The SCIA‑G (Smart Computing for Artificial Graphs) major is one of its most advanced specializations, training engineers to design intelligent architectures on graph-structured data with a strong research and industry focus. The curriculum covers: graph neural networks (GNN, Graph Transformer, GCN, GAT), explainable AI (XAI), reinforcement learning (DQN, PPO, A3C), quantitative finance (stochastic modeling, Wiener processes, Black-Scholes), medical and biological data processing, MLOps (Docker, CI/CD, model deployment), convex and non-convex optimization, and natural language processing (NLP/LLMs). The pedagogy relies on research projects, competitive challenges, and real-world industrial use cases.",
       "website": "https://www.epita.fr"
     },
     {
@@ -212,28 +212,28 @@
       "degree": "Master’s in Computer Engineering (3rd year, CTI accredited)",
       "years": "September 2023 – 2024",
       "current": false,
-      "details": "In the 3rd year of the engineering cycle, students follow intensive bootcamps, group projects, and simulation challenges designed to strengthen fundamentals and simulate high-pressure professional environments.",
+      "details": "EPITA is ranked among the top French engineering schools specialized in computer science (Top 5, CTI accredited). The 3rd year forms the core common curriculum before specialization, and its reputation is largely built on the infamous 'piscines' — intensive 3 to 5-day deep dives where students are literally immersed in code, often coding late into the night. During a piscine, a single theme (algorithmics, C systems programming, networking, compilation, databases) is worked on continuously, with progressive exercises, mini-projects due each evening, and constant collective pressure. There is no room for distraction: logic, syntactic precision, and stress management are tested simultaneously. On top of these, 'rush' projects push teams to deliver a functional piece of software in 48 to 72 hours. This year builds rare technical resilience, an intense relationship with code, and the ability to perform in high-demand professional environments.",
       "website": "https://www.epita.fr"
     },
     {
       "school": "ECE Paris",
       "degree": "2nd Year of RNCP Bachelor",
       "years": "September 2022 – April 2023",
-      "details": "Software development and data analysis-oriented training, with hands-on projects.",
+      "details": "ECE Paris is a generalist engineering school founded in 1919, ranked among the top 20 French post-bac schools (L'Étudiant ranking) and CTI accredited. Its RNCP Bachelor (Level 6) prepares students for careers in digital technology and engineering. In the 2nd year, the curriculum covers: object-oriented programming (Java, Python), algorithms and data structures, relational databases (SQL), networking and protocols (TCP/IP, HTTP), web development (HTML, CSS, JavaScript), applied mathematics (linear algebra, calculus, probability), and an introduction to embedded systems. Courses are built around multidisciplinary team projects that develop project management skills and professional application of technical knowledge.",
       "website": "https://www.ece.fr"
     },
     {
       "school": "EPSI Rennes",
       "degree": "1st Year of RNCP Bachelor",
       "years": "September 2021 – April 2022",
-      "details": "Introduction to computer systems and web/object-oriented development through technical projects.",
+      "details": "EPSI (École Professionnelle des Sciences Informatiques) is a school specializing in digital technology, offering RNCP-accredited programs. The 1st year of the Bachelor lays the foundations of software development: basic algorithmics, front-end web development (HTML, CSS, JavaScript), object-oriented programming (Java, PHP), database management (SQL, MySQL), introduction to Linux systems and local networking. The pedagogy is project-driven from day one, with real team deliverables that simulate production conditions and professional workflows.",
       "website": "https://www.epsi.fr"
     },
     {
       "school": "Université Saint Jean – Yaoundé CMR",
       "degree": "Preparatory Engineering Class",
       "years": "October 2020 – June 2021",
-      "details": "Intensive preparation in mathematics, physics and robotics for entrance into an engineering school.",
+      "details": "The Université Saint Jean in Yaoundé offers a preparatory class for engineering schools, equivalent to the French CPGE system. This intensive year covers mathematics (algebra, calculus, analytic geometry, trigonometry), physics (mechanics, electricity, thermodynamics, optics), chemistry, and an introduction to robotics and electronics. The goal is to develop analytical rigor and scientific reasoning to gain entry into engineering schools in Europe or Africa. The demanding pace and high standards of this preparatory class provided an essential academic foundation for the rest of the engineering journey.",
       "website": "https://institutsaintjean.org"
     }
   ],
@@ -242,6 +242,7 @@
       "title": "Stock Market Forecasting and Risk Management with GNNs",
       "description": "Extension of a Differential Graph Transformer (inspired by the Stanford CS224W project) into a predictive multi-task architecture. The model jointly forecasts asset returns and future volatility to drive a risk-aware portfolio allocation strategy. Includes a comprehensive ablation study on graph topologies (local, global, dual) and quantitative backtesting.",
       "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "LineChart",
       "tags": [
         "Python",
@@ -257,7 +258,8 @@
     {
       "title": "Black-Scholes Modeling (Quant Finance)",
       "description": "Numerical implementation of Stochastic Differential Equations (SDE) for asset pricing with dynamic drift/volatility calibration and Monte Carlo simulations (Euler-Maruyama).",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "Personal Project",
+      "badge": "Personnel",
       "icon": "TrendingUp",
       "tags": [
         "Quant Finance",
@@ -271,6 +273,7 @@
       "title": "AI Job Tracker – Intelligent Personal ATS",
       "description": "Full-stack automation system for job hunting built with Google Apps Script and Gemini 1.5 Flash. Developed an NLP pipeline to extract applications from Gmail, dynamic status tracking via sentiment analysis of recruiter replies, and an automated job sourcing engine using semantic scanning of newsletters.",
       "school": "Personal Project / Engineering",
+      "badge": "Personnel",
       "icon": "Briefcase",
       "tags": [
         "JavaScript",
@@ -286,6 +289,7 @@
       "title": "Traffic Accident Analysis & Prediction",
       "description": "End-to-end Data Science pipeline with K-Means clustering and Random Forest/XGBoost prediction optimized for class imbalance.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Car",
       "tags": [
         "Data Science",
@@ -299,6 +303,7 @@
       "title": "TinyX Microservices Platform",
       "description": "Microservice architecture using Java (Quarkus), MongoDB, Neo4j, Elasticsearch, Redis queues, and Kubernetes.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Boxes",
       "tags": [
         "Microservices",
@@ -312,6 +317,7 @@
       "title": "Differentiable Programming Engine",
       "description": "Rebuilding a deep learning framework similar to PyTorch to understand automatic differentiation and backpropagation.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Brain",
       "tags": [
         "Autograd",
@@ -324,6 +330,7 @@
       "title": "Galaxy Image Classification",
       "description": "CNN trained on Galaxy10‑DECals dataset to evaluate convolutional model performance on astronomical data.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Satellite",
       "tags": [
         "CNN",
@@ -336,6 +343,7 @@
       "title": "CV Screening via NLP",
       "description": "Automated resume screening using NLP pipelines, keyword extraction, and ML scoring.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "FileText",
       "tags": [
         "NLP",
@@ -349,6 +357,7 @@
       "title": "Recommendation Systems",
       "description": "Collaborative filtering implementations (ItemKNN, UserKNN, SVD) with evaluation and diversification strategies.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Star",
       "tags": [
         "Recommender Systems",
@@ -361,6 +370,7 @@
       "title": "Medical Machine Learning",
       "description": "Medical data classification, segmentation, DICOM parsing, and evaluation with Dice/Precision/Recall.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
         "Medical AI",
@@ -372,6 +382,7 @@
       "title": "Explainable AI (XAI)",
       "description": "Evaluation of robustness and faithfulness of SHAP and LIME explanations; bias and uncertainty analysis.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "Eye",
       "tags": [
         "XAI",
@@ -384,7 +395,8 @@
     {
       "title": "Reinforcement Learning Agents",
       "description": "Simulation environments with Q-learning and policy-based agents for autonomous decision systems.",
-      "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
+      "school": "Personal Project",
+      "badge": "Personnel",
       "icon": "Bot",
       "tags": [
         "Reinforcement Learning",
@@ -395,26 +407,35 @@
     },
     {
       "title": "Electromechanical Turing Machine",
-      "description": "Physical Turing Machine using Arduino, stepper motors, FSM logic, with roadmap toward TTL logic and FPGA.",
-      "school": "EPITA – Technical Project",
+      "description": "Final-Year Project (PFE) carried out in partnership with EPITA. Design and fabrication of a fully functional physical Turing Machine. The project combines embedded electronics (Arduino, stepper motors, sensors), software implementation of a finite state machine (FSM) in C, and a real-time control interface. The machine physically reads and writes symbols on a tape, faithfully simulating the formal behavior of a Turing Machine. Supervised by EPITA faculty and researchers, delivered with full technical documentation.",
+      "school": "EPITA – Final Year Project (PFE)",
+      "badge": "PFE · EPITA",
       "icon": "Cpu",
       "tags": [
         "Embedded Systems",
-        "FSM",
         "Arduino",
-        "Hardware"
+        "Finite State Machine (FSM)",
+        "C",
+        "Electronics",
+        "Stepper Motors",
+        "Theoretical CS"
       ],
       "link": "#"
     },
     {
-      "title": "Mini Shell in C",
-      "description": "Design and implementation of a custom command-line shell in C.",
+      "title": "42sh – POSIX Shell in C",
+      "description": "Flagship project of the C/Unix piscine at EPITA. Implemented a complete POSIX shell from scratch in pure C, matching bash --posix behavior. Built in a team of 5 over 4 weeks. Features implemented: full lexical analyzer (tokenization, quoting, variable expansion, tilde expansion), parser and AST construction, simple command execution, pipelines, redirections (stdin/stdout/stderr), compound commands, environment variables, and built-ins (echo, cd, export, unset, env, exit…). Zero memory leaks allowed, verified entirely with Valgrind. Built with CMake, tested with Criterion.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Terminal",
       "tags": [
         "C",
         "Systems Programming",
-        "Unix"
+        "Unix/POSIX",
+        "Parser / AST",
+        "Shell",
+        "Valgrind",
+        "CMake"
       ],
       "link": "#"
     },
@@ -422,6 +443,7 @@
       "title": "C++ Compiler",
       "description": "Full compiler built from scratch in C++ including parsing, AST, and code generation.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Code2",
       "tags": [
         "C++",
@@ -433,6 +455,7 @@
       "title": "Video Games Projects",
       "description": "Game development projects: Zorks (C++), Creeps (Java), Eplace (JavaScript).",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Gamepad2",
       "tags": [
         "Game Dev",
@@ -446,6 +469,7 @@
       "title": "Code Editor (Java/React)",
       "description": "Custom code editor with Java backend and React frontend.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "FileEdit",
       "tags": [
         "Java",
@@ -458,6 +482,7 @@
       "title": "Montreal Snow Removal Modeling",
       "description": "Operational research and simulation project using Python.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Snowflake",
       "tags": [
         "Operations Research",
@@ -470,6 +495,7 @@
       "title": "Medical AI – 3D Segmentation",
       "description": "3D segmentation of hepatic vessels and tumors on CT volumes. Complete PyTorch/MONAI pipeline including preprocessing, patch-based 3D UNet training, sliding-window inference, and Dice-based evaluation. Comparison with a classical ITK-based segmentation approach.",
       "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
         "Python",
@@ -485,6 +511,7 @@
       "title": "PHP Web Applications",
       "description": "Responsive web application development using PHP.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "Globe",
       "tags": [
         "PHP",
@@ -496,6 +523,7 @@
       "title": "React.js Portfolio",
       "description": "Professional portfolio website built with React.js.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "User",
       "tags": [
         "React",
@@ -507,6 +535,7 @@
       "title": "Java Applications",
       "description": "Full-stack Java application development.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "Coffee",
       "tags": [
         "Java",
@@ -518,6 +547,7 @@
       "title": "Data Analytics Project",
       "description": "Data processing, exploration, and visualization with Pandas and NumPy.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "PieChart",
       "tags": [
         "Data Analysis",
@@ -530,6 +560,7 @@
       "title": "Linux Web Server",
       "description": "Linux web server setup, virtualization, and administration.",
       "school": "EPSI Rennes",
+      "badge": "EPSI Rennes",
       "icon": "Server",
       "tags": [
         "Linux",
@@ -542,6 +573,7 @@
       "title": "Flask/PHP/Python Apps",
       "description": "Web and object-oriented applications using Flask, PHP, and Django.",
       "school": "EPSI Rennes",
+      "badge": "EPSI Rennes",
       "icon": "Laptop",
       "tags": [
         "Flask",
@@ -554,6 +586,7 @@
       "title": "Network Administration",
       "description": "Network infrastructure setup and protocol management.",
       "school": "EPSI Rennes",
+      "badge": "EPSI Rennes",
       "icon": "Network",
       "tags": [
         "Networking",
@@ -565,6 +598,7 @@
       "title": "Arduino Projects",
       "description": "Robotic and electronic prototyping with Arduino (sensors, LEDs, parking system).",
       "school": "Université Saint Jean – Yaoundé CMR",
+      "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
         "Arduino",

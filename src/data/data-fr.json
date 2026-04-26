@@ -205,7 +205,7 @@
       "degree": "Majeure Smart Computing for Artificial Graphs (4ᵉ et 5ᵉ années, dernière année en cours, accréditée par la CTI)",
       "years": "2024 – 2025",
       "current": true,
-      "details": "La majeure SCIA‑G forme des ingénieurs capables de concevoir et d’appliquer des intelligences artificielles sur des données structurées en graphes. Le cursus inclut l’apprentissage automatique avancé, les réseaux de neurones sur graphes (GNN), l’IA explicable (XAI), le reinforcement learning, le traitement de données médicales, le MLOps, la modélisation stochastique et l’optimisation continue. Une pédagogie projetée par cas concrets et défis de recherche est privilégiée.",
+      "details": "EPITA est classée parmi les meilleures écoles d’ingénieurs françaises en informatique et IA (Top 5 spécialisée informatique selon l’Étudiant, accréditation CTI). La majeure SCIA‑G (Smart Computing for Artificial Graphs) est l’une de ses spécialisations les plus avancées, formant des ingénieurs capables de concevoir des architectures d’IA sur des données structurées en graphes, avec une forte orientation recherche et industrie. Le cursus couvre : les réseaux de neurones sur graphes (GNN, Graph Transformer, GCN, GAT), l’IA explicable (XAI), le reinforcement learning (DQN, PPO, A3C), la finance quantitative (modélisation stochastique, processus de Wiener, Black-Scholes), le traitement de données médicales et biologiques, le MLOps (Docker, CI/CD, déploiement de modèles), l’optimisation convexe et non-convexe, et le traitement du langage naturel (NLP/LLM). La pédagogie repose sur des projets de recherche, des challenges compétitifs et des cas d’usage industriels réels.",
       "website": "https://www.epita.fr"
     },
     {
@@ -213,28 +213,28 @@
       "degree": "Diplôme d’ingénieur en Informatique (3ᵉ année, accrédité par la CTI)",
       "years": "Septembre 2023 – 2024",
       "current": false,
-      "details": "En 3ᵉ année du cycle ingénieur, les étudiants suivent des piscines intensives (séances de programmation de plusieurs jours, parfois nocturnes), ainsi que des projets collectifs et des challenges « rush ». Cette pédagogie immersive vise à renforcer les compétences fondamentales, développer la robustesse et simuler des environnements professionnels exigeants.",
+      "details": "EPITA est classée parmi les meilleures écoles d'ingénieurs françaises spécialisées en informatique (Top 5, accréditation CTI). La 3ᵉ année constitue le tronc commun avant spécialisation, et sa réputation repose largement sur les piscines — des immersions intensives de 3 à 5 jours où l'on est littéralement plongé dans du code, souvent jusqu'à des heures avancées de la nuit. Durant une piscine, un thème unique (algorithmique, programmation système en C, réseaux, compilation, bases de données) est travaillé en continu, avec des exercices progressifs, des mini-projets à rendre chaque soir et une pression collective constante. Ces sessions ne permettent aucun relâchement : la logique, la rigueur syntaxique et la gestion du stress sont testées simultanément. Viennent s'ajouter les projets « rush », où des équipes doivent livrer un logiciel fonctionnel en 48 à 72 heures. Cette année forge une résilience technique rare, un rapport intense au code et une capacité à tenir dans des environnements professionnels exigeants.",
       "website": "https://www.epita.fr"
     },
     {
       "school": "ECE Paris FR",
       "degree": "2ᵉ année Bachelor RNCP",
       "years": "Septembre 2022 – Avril 2023",
-      "details": "Formation orientée développement logiciel et analyse de données, avec mise en pratique sur des projets concrets.",
+      "details": "L'ECE Paris est une école d'ingénieurs généraliste fondée en 1919, classée parmi les 20 meilleures écoles post-bac françaises selon le classement L'Étudiant, et reconnue par la CTI. Son Bachelor RNCP (niveau 6) prépare aux métiers du numérique et de l'ingénierie. En 2ᵉ année, la formation couvre : la programmation orientée objet (Java, Python), les algorithmes et structures de données, les bases de données relationnelles (SQL), les réseaux informatiques et protocoles (TCP/IP, HTTP), le développement web (HTML, CSS, JavaScript), les mathématiques appliquées (algèbre linéaire, analyse, probabilités) et une initiation aux systèmes embarqués. Les enseignements s'appuient sur des projets pluridisciplinaires en équipe favorisant la gestion de projet et la mise en contexte professionnelle.",
       "website": "https://www.ece.fr"
     },
     {
       "school": "EPSI Rennes FR",
       "degree": "1ʳᵉ année Bachelor RNCP",
       "years": "Septembre 2021 – Avril 2022",
-      "details": "Première approche des systèmes informatiques et du développement web et objet, avec de nombreux projets techniques.",
+      "details": "L'EPSI (École Professionnelle des Sciences Informatiques) est un établissement spécialisé dans les métiers du numérique, proposant des formations reconnues au niveau RNCP. La 1ʳᵉ année de Bachelor pose les fondamentaux du développement informatique : algorithmique de base, programmation web front-end (HTML, CSS, JavaScript), programmation orientée objet (Java, PHP), gestion de bases de données (SQL, MySQL), initiation aux systèmes Linux et aux réseaux locaux. La pédagogie est orientée projet dès le départ, avec des réalisations concrètes en équipe qui simulent les conditions réelles de production logicielle.",
       "website": "https://www.epsi.fr"
     },
     {
       "school": "Université Saint Jean – Yaoundé CMR",
       "degree": "Classe préparatoire ingénieur",
       "years": "Octobre 2020 – Juin 2021",
-      "details": "Préparation intensive en mathématiques, physique et robotique pour intégrer une école d’ingénieur.",
+      "details": "L’Université Saint Jean de Yaoundé propose une classe préparatoire aux grandes écoles d’ingénieurs, équivalente aux CPGE françaises. Cette année de formation intensive couvre les mathématiques (algèbre, analyse, géométrie analytique, trigonométrie), la physique (mécanique, électricité, thermodynamique, optique), la chimie et une initiation à la robotique et à l’électronique. L’objectif est de développer une rigueur analytique et une capacité de raisonnement scientifique permettant d’intégrer une école d’ingénieur en Europe ou en Afrique. Les méthodes de travail exigeantes et le rythme soutenu de cette prépa ont constitué un socle essentiel pour la suite du parcours académique.",
       "website": "https://institutsaintjean.org"
     }
   ],
@@ -243,6 +243,7 @@
       "title": "Prévision boursière et gestion du risque par GNN",
       "description": "Extension d’un Differential Graph Transformer (inspiré du projet Stanford CS224W) vers une architecture multi-tâche prédictive. Le modèle anticipe simultanément les rendements et la volatilité future afin d’alimenter une stratégie de gestion du risque et d’allocation de portefeuille. Étude d’ablation complète sur les topologies de graphe (local, global, dual) et backtesting quantitatif.",
       "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "LineChart",
       "tags": [
         "Python",
@@ -259,7 +260,8 @@
     {
       "title": "Modélisation Black-Scholes (Finance Quantitative)",
       "description": "Implémentation numérique des EDS avec calibration dynamique du drift/volatilité et simulations de Monte Carlo (Euler-Maruyama).",
-      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "school": "Projet Personnel",
+      "badge": "Personnel",
       "icon": "TrendingUp",
       "tags": [
         "Python",
@@ -274,6 +276,7 @@
       "title": "Analyse et Prédiction des Accidents Routiers",
       "description": "Pipeline Data Science complet. Clustering géographique (K-Means) et prédiction de gravité avec Random Forest & XGBoost.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "Car",
       "tags": [
         "Python",
@@ -288,6 +291,7 @@
       "title": "AI Job Tracker – ATS Personnel Intelligent",
       "description": "Système d'automatisation complet pour la recherche d'emploi via Google Apps Script et Gemini 1.5 Flash. Pipeline de traitement NLP pour l'extraction de candidatures depuis Gmail, mise à jour dynamique des statuts par analyse de sentiments des réponses RH, et moteur de sourcing d'offres par scan sémantique de newsletters.",
       "school": "Projet Personnel / Engineering",
+      "badge": "Personnel",
       "icon": "Briefcase",
       "tags": [
         "JavaScript",
@@ -303,6 +307,7 @@
       "title": "Plateforme Microservices TinyX",
       "description": "Architecture microservices en Java (Quarkus) avec MongoDB, Neo4j, Elasticsearch, Redis et Kubernetes.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "Boxes",
       "tags": [
         "Java",
@@ -318,6 +323,7 @@
       "title": "Moteur de Programmation Différentiable",
       "description": "Reconstruction d’un framework de deep learning type PyTorch pour comprendre l’autograd et la rétropropagation.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "Brain",
       "tags": [
         "Python",
@@ -328,9 +334,10 @@
       "link": "#"
     },
     {
-      "title": "Classification d'Images de Galaxies",
+      "title": "Classification d’Images de Galaxies",
       "description": "Entraînement d’un CNN sur le dataset Galaxy10‑DECals pour l’analyse d’images astronomiques.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "Satellite",
       "tags": [
         "Python",
@@ -344,6 +351,7 @@
       "title": "Filtrage de CV via NLP",
       "description": "Outil automatisé de filtrage de CV basé sur le NLP, l’extraction de mots-clés et le scoring.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "FileText",
       "tags": [
         "Python",
@@ -358,6 +366,7 @@
       "title": "Systèmes de Recommandation",
       "description": "Implémentation d’algorithmes de filtrage collaboratif (ItemKNN, UserKNN, SVD).",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "Star",
       "tags": [
         "Python",
@@ -372,6 +381,7 @@
       "title": "IA Médicale – Segmentation 3D",
       "description": "Segmentation 3D de vaisseaux hépatiques et tumeurs sur volumes CT. Pipeline complet en PyTorch/MONAI : preprocessing, entraînement patch-based d’un UNet 3D, inférence sliding-window et évaluation par métriques Dice. Comparaison avec une approche classique ITK.",
       "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
         "Python",
@@ -387,6 +397,7 @@
       "title": "IA Explicable (XAI)",
       "description": "Évaluation de la robustesse et de la fidélité des explications SHAP & LIME.",
       "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "Eye",
       "tags": [
         "Python",
@@ -400,7 +411,8 @@
     {
       "title": "Agents d'Apprentissage par Renforcement",
       "description": "Environnements simulés avec Q-learning et politiques stochastiques.",
-      "school": "EPITA – Spécialisation SCIA‑G (Campus de Lyon)",
+      "school": "Projet Personnel",
+      "badge": "Personnel",
       "icon": "Bot",
       "tags": [
         "Reinforcement Learning",
@@ -412,30 +424,35 @@
     },
     {
       "title": "Machine de Turing Électromécanique",
-      "description": "Machine de Turing physique avec Arduino, FSM et moteurs pas-à-pas.",
-      "school": "EPITA – Projet Technique",
+      "description": "Projet de Fin d'Études (PFE) réalisé en partenariat avec EPITA. Conception et fabrication d'une machine de Turing physique entièrement fonctionnelle. Le projet combine électronique embarquée (Arduino, moteurs pas-à-pas, capteurs), implémentation logicielle d'un automate à états finis (FSM) en C, et une interface de contrôle en temps réel. La machine lit et écrit des symboles sur un ruban physique en simulant fidèlement le comportement formel d'une machine de Turing. Encadrement par des enseignants-chercheurs EPITA, livraison avec documentation technique complète.",
+      "school": "EPITA – Projet de Fin d'Études (PFE)",
+      "badge": "PFE · EPITA",
       "icon": "Cpu",
       "tags": [
         "Systèmes embarqués",
         "Arduino",
-        "Automates",
-        "FPGA",
+        "Automates finis (FSM)",
+        "C",
         "Électronique",
-        "IoT",
-        "Raspberry Pi"
+        "Moteurs pas-à-pas",
+        "Informatique théorique"
       ],
       "link": "#"
     },
     {
-      "title": "Mini Shell en C",
-      "description": "Développement d’un shell personnalisé en C avec gestion des processus.",
+      "title": "42sh – Shell POSIX en C",
+      "description": "Projet phare de la piscine C/Unix à EPITA. Implémentation from scratch d’un shell POSIX complet en pur C, dont le comportement reproduit celui de bash --posix. Projet collectif de 4 semaines en équipe de 5. Fonctionnalités implémentées : analyseur lexical complet (tokenisation, quoting, expansion de variables, expansion tilde), parseur et construction d’un AST, exécution de commandes simples, pipelines, redirections (stdin/stdout/stderr), commandes composées, variables d’environnement, et builtins (echo, cd, export, unset, env, exit…). Zéro fuite mémoire tolérée, vérifiée intégralement avec Valgrind. Build CMake, tests automatisés avec Criterion.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Terminal",
       "tags": [
         "C",
         "Programmation système",
-        "Unix",
-        "Shell"
+        "Unix/POSIX",
+        "Parseur / AST",
+        "Shell",
+        "Valgrind",
+        "CMake"
       ],
       "link": "#"
     },
@@ -443,6 +460,7 @@
       "title": "Compilateur en C++",
       "description": "Création d’un compilateur complet avec analyse lexicale et syntaxique.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Code2",
       "tags": [
         "C++",
@@ -456,6 +474,7 @@
       "title": "Projets de Jeux Vidéo",
       "description": "Zorks (C++), Creeps (Java), Eplace (JavaScript).",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Gamepad2",
       "tags": [
         "Jeux vidéo",
@@ -469,6 +488,7 @@
       "title": "Éditeur de Code (Java/React)",
       "description": "Éditeur de code avec backend Java et interface React.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "FileEdit",
       "tags": [
         "Java",
@@ -483,6 +503,7 @@
       "title": "Modélisation du Déneigement de Montréal",
       "description": "Projet d’optimisation et de simulation en Python.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "Snowflake",
       "tags": [
         "Python",
@@ -496,6 +517,7 @@
       "title": "Classification de Données Médicales",
       "description": "Modèles supervisés pour données médicales anonymisées.",
       "school": "EPITA Le Kremlin‑Bicêtre",
+      "badge": "EPITA",
       "icon": "HeartPulse",
       "tags": [
         "Machine Learning",
@@ -509,6 +531,7 @@
       "title": "Applications Web PHP",
       "description": "Développement d’applications web réactives en PHP.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "Globe",
       "tags": [
         "PHP",
@@ -521,6 +544,7 @@
       "title": "Portfolio React.js",
       "description": "Site personnel construit avec React.js.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "User",
       "tags": [
         "React",
@@ -533,6 +557,7 @@
       "title": "Applications Java",
       "description": "Développement full-stack d’applications Java.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "Coffee",
       "tags": [
         "Java",
@@ -545,6 +570,7 @@
       "title": "Projet d’Analyse de Données",
       "description": "Exploration et visualisation de données avec Python.",
       "school": "ECE Paris",
+      "badge": "ECE Paris",
       "icon": "PieChart",
       "tags": [
         "Python",
@@ -558,6 +584,7 @@
       "title": "Serveur Web Linux",
       "description": "Installation et administration de serveurs Linux.",
       "school": "EPSI Rennes",
+      "badge": "EPSI Rennes",
       "icon": "Server",
       "tags": [
         "Linux",
@@ -571,6 +598,7 @@
       "title": "Applications Flask/PHP/Python",
       "description": "Applications web avec Flask, PHP et Django.",
       "school": "EPSI Rennes",
+      "badge": "EPSI Rennes",
       "icon": "Laptop",
       "tags": [
         "Python",
@@ -585,6 +613,7 @@
       "title": "Administration Réseau",
       "description": "Gestion des infrastructures et protocoles réseau.",
       "school": "EPSI Rennes",
+      "badge": "EPSI Rennes",
       "icon": "Network",
       "tags": [
         "Réseaux",
@@ -597,6 +626,7 @@
       "title": "Projets Arduino",
       "description": "Prototypage électronique et robotique avec Arduino.",
       "school": "Université Saint Jean – Yaoundé CMR",
+      "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
         "Arduino",

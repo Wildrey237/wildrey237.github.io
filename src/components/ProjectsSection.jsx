@@ -42,6 +42,16 @@ import dataEn from "../data/data-en.json";
 const MotionBox = motion(Box);
 const MotionTag = motion(Box);
 
+const BADGE_COLORS = {
+    "EPITA SCIA-G": { bg: "teal.500", color: "white" },
+    "EPITA":        { bg: "purple.500", color: "white" },
+    "PFE · EPITA":  { bg: "orange.500", color: "white" },
+    "ECE Paris":    { bg: "blue.500", color: "white" },
+    "EPSI Rennes":  { bg: "green.500", color: "white" },
+    "Personnel":    { bg: "gray.500", color: "white" },
+    "Prépa · Yaoundé": { bg: "yellow.500", color: "gray.900" },
+};
+
 const ProjectCard = ({ project, index, onOpenProject, isDark }) => {
     const IconComponent = LucideIcons[project.icon] || LucideIcons["FileText"];
 
@@ -54,6 +64,9 @@ const ProjectCard = ({ project, index, onOpenProject, isDark }) => {
     const tagBg = useColorModeValue("teal.50", "whiteAlpha.100");
     const tagColor = useColorModeValue("teal.700", "teal.200");
     const tagBorder = useColorModeValue("teal.200", "whiteAlpha.200");
+
+    const badge = project.badge;
+    const badgeStyle = badge ? (BADGE_COLORS[badge] || { bg: "gray.400", color: "white" }) : null;
 
     return (
         <Box
@@ -78,6 +91,28 @@ const ProjectCard = ({ project, index, onOpenProject, isDark }) => {
             h="400px"
             onClick={() => onOpenProject(project)}
         >
+            {/* Badge */}
+            {badge && badgeStyle && (
+                <Box
+                    position="absolute"
+                    top={3}
+                    right={3}
+                    px={2}
+                    py={0.5}
+                    borderRadius="full"
+                    bg={badgeStyle.bg}
+                    color={badgeStyle.color}
+                    fontSize="10px"
+                    fontWeight="bold"
+                    letterSpacing="0.04em"
+                    zIndex={2}
+                    lineHeight="1.6"
+                    opacity={0.92}
+                >
+                    {badge}
+                </Box>
+            )}
+
             {/* Shimmer */}
             <Box
                 className="shimmer"
