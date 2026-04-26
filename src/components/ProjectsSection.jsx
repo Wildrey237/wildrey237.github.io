@@ -43,12 +43,11 @@ const MotionBox = motion(Box);
 const MotionTag = motion(Box);
 
 const BADGE_COLORS = {
-    "EPITA SCIA-G": { bg: "teal.500", color: "white" },
-    "EPITA":        { bg: "purple.500", color: "white" },
-    "PFE · EPITA":  { bg: "orange.500", color: "white" },
-    "ECE Paris":    { bg: "blue.500", color: "white" },
-    "EPSI Rennes":  { bg: "green.500", color: "white" },
-    "Personnel":    { bg: "gray.500", color: "white" },
+    "EPITA SCIA-G":    { bg: "red.500",    color: "white" },
+    "EPITA":           { bg: "purple.500", color: "white" },
+    "ECE Paris":       { bg: "blue.500",   color: "white" },
+    "EPSI Rennes":     { bg: "orange.400", color: "white" },
+    "Personnel":       { bg: "gray.500",   color: "white" },
     "Prépa · Yaoundé": { bg: "yellow.500", color: "gray.900" },
 };
 
