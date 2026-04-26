@@ -287,7 +287,7 @@
     },
     {
       "title": "Traffic Accident Analysis & Prediction",
-      "description": "End-to-end Data Science pipeline with K-Means clustering and Random Forest/XGBoost prediction optimized for class imbalance.",
+      "description": "End-to-end Data Science pipeline on 7.7 million US road accidents (2016–2023) across 49 temporal, geospatial, meteorological and infrastructure features. Four simultaneous tasks: anomaly detection, severity prediction (levels 1–4) with Random Forest & XGBoost, geographic K-Means clustering, and analysis of road infrastructure influence (signals, junctions, crossings) on accident severity.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Car",
@@ -301,7 +301,7 @@
     },
     {
       "title": "TinyX Microservices Platform",
-      "description": "Microservice architecture using Java (Quarkus), MongoDB, Neo4j, Elasticsearch, Redis queues, and Kubernetes.",
+      "description": "Full microservice architecture simulating a minimal social network in Java (Quarkus). Independent services communicating via REST APIs: user management (MongoDB), social graph (Neo4j), full-text search (Elasticsearch), caching and message queues (Redis). Orchestrated and deployed with Kubernetes. Each service is containerized and decoupled for independent scaling.",
       "school": "EPITA – SCIA‑G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "Boxes",
@@ -453,7 +453,7 @@
     },
     {
       "title": "Video Games Projects",
-      "description": "Game development projects: Zorks (C++), Creeps (Java), Eplace (JavaScript).",
+      "description": "Two game projects built during EPITA piscines. Zorks (C++): text adventure game with command interpreter, inventory system and structured world navigation. Creeps (Java): tower defense game with game loop, enemy entity management and basic wave logic.",
       "school": "EPITA Le Kremlin‑Bicêtre",
       "badge": "EPITA",
       "icon": "Gamepad2",
@@ -604,6 +604,111 @@
         "Arduino",
         "IoT",
         "Embedded"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "DDPM – Pixel Art Generation via Diffusion",
+      "description": "Implementation of a Denoising Diffusion Probabilistic Model (DDPM) for generating 32×32 pixel art sprites. The forward process progressively adds Gaussian noise over 1000 steps (Markov chain); the neural network learns to reverse this process to generate new coherent sprites. Trained on the Kaggle Pixel Art dataset with GPU acceleration (CUDA). Deliverables: GIF animations of the full diffusion process (noising and denoising), EMA stabilization metrics.",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "Sparkles",
+      "tags": [
+        "Python",
+        "PyTorch",
+        "DDPM",
+        "Diffusion Models",
+        "Image Generation",
+        "Deep Learning",
+        "CUDA"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "LLM Society – Multi-Agent Simulation",
+      "description": "A multi-agent simulation framework exploring social dynamics using local LLMs. Each agent has a unique personality and psychological state parameters (opinion, valence, openness, trust, sociability) defined in YAML. Agents interact through structured JSON actions (messages, internal thoughts). Ollama backend runs models locally (phi, gemma3). Scenarios tested: secret number mission, Werewolf simulation. Each run generates a detailed timestamped log in outputs/.",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "Users",
+      "tags": [
+        "Python",
+        "LLM",
+        "Ollama",
+        "Multi-Agent Systems",
+        "Social Simulation",
+        "PyYAML"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Link Prediction – RDF Knowledge Graph",
+      "description": "Complete Knowledge Graph Completion pipeline on an RDF graph of human relationships (human.ttl). Data loading and exploration with rdflib, negative triple generation, then training of four embedding models with PyKEEN: TransE, DistMult, ComplEx and RotatE. Evaluation by MR, MRR, Hits@1/3/10. Embedding visualization with PCA and t-SNE. Best model selection, top-k link generation and ontology consistency verification via OWLRL reasoning (constraint violation and disjoint class detection).",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "Share2",
+      "tags": [
+        "Python",
+        "PyKEEN",
+        "RDF",
+        "Knowledge Graphs",
+        "TransE",
+        "RotatE",
+        "rdflib",
+        "OWLRL",
+        "t-SNE"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Cybersecurity ML – Industrial Anomaly Detection",
+      "description": "Intrusion and anomaly detection on the SWaT (Secure Water Treatment) dataset — a real industrial water treatment system with sensors and actuators. Full pipeline: time series preprocessing, batch processing, normalization. Three unsupervised algorithms compared: Isolation Forest, One-Class SVM and Autoencoder. Evaluation: AUPRC, Balanced Accuracy, MCC (Matthews Correlation Coefficient). Supervised classification: SVM, Random Forest, neural network. Deliverables: notebook, 20-page report, 10-minute oral presentation.",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "Shield",
+      "tags": [
+        "Python",
+        "Cybersecurity",
+        "Anomaly Detection",
+        "Isolation Forest",
+        "Autoencoder",
+        "SWaT",
+        "Time Series",
+        "One-Class SVM"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "LEACH – Wireless Sensor Networks (WSN)",
+      "description": "Simulation and optimization of the LEACH protocol (Low-Energy Adaptive Clustering Hierarchy) for wireless sensor networks. Full energy model (E_ELEC, E_FS, E_MP, E_DA) across 100 sensors over 3000 communication rounds. Dynamic cluster head election via probabilistic threshold, topological optimization with K-Means. Event-driven simulation with SimPy. Interactive visualizations: residual energy, network lifetime, connectivity. Complementary coursework: distributed algorithms (logical clocks, consensus, mutual exclusion, global state).",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "Radio",
+      "tags": [
+        "Python",
+        "SimPy",
+        "WSN",
+        "LEACH",
+        "Distributed Algorithms",
+        "Energy Optimization",
+        "K-Means"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "EPlace – Real-Time Collaborative Canvas",
+      "description": "Full-stack web application inspired by r/Place: a collaborative pixel canvas with real-time rooms and integrated chat. Vite.js frontend with Socket.io-client for real-time synchronization. Node.js/Express backend with WebSockets, JWT authentication, room management (canvas from 50×50 to 250×250 pixels), and JSON-configurable rate limiting. Monorepo client/server architecture with Docker, ESLint and Prettier.",
+      "school": "EPITA Le Kremlin-Bicêtre",
+      "badge": "EPITA",
+      "icon": "PenTool",
+      "tags": [
+        "JavaScript",
+        "Node.js",
+        "Socket.io",
+        "JWT",
+        "WebSocket",
+        "Vite.js",
+        "Docker",
+        "Real-time"
       ],
       "link": "#"
     }
