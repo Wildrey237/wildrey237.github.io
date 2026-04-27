@@ -90,10 +90,12 @@ Ne jamais committer de code source sur `main`. Le déploiement est entièrement 
 - Détails collapsibles (Chakra `Collapse`)
 
 ### ProjectsSection
-- Carrousel avec 4 cartes sur desktop, 2 sur tablet, 1 sur mobile
+- Carrousel avec 3 cartes sur desktop, 2 sur tablet, 1 sur mobile
 - Défilement automatique toutes les 3,5 s (pause au survol)
 - Navigation clavier (← →) et boutons précédent/suivant
 - Filtres : recherche texte, école, tag technologique
+- Badge école coloré (absolu, coin supérieur droit de chaque carte)
+- Points de pagination masqués sur mobile
 - Effet shimmer au survol des cartes
 
 ### Navbar
@@ -175,6 +177,17 @@ GA4 (ID : `G-QSFT7C8DBJ`) intégré dans `index.html`. Événement personnalisé
 
 - **LinkedIn :** [wilfried-bemelingue](https://linkedin.com/in/wilfried-bemelingue)
 - **GitHub :** [Wildrey237](https://github.com/Wildrey237)
+
+---
+
+---
+
+## TODO – Améliorations prévues
+
+- [ ] **Section passe-temps** — Ajouter une section ou un bloc dans le profil pour mentionner les centres d'intérêt personnels (à positionner en bas de page, hors summary, pour ne pas alourdir le pitch principal)
+- [ ] Ajouter des liens GitHub sur les projets sans repo public (42sh, Tiger, Malloc, Ping IDE, DDPM, LLM Society, Cybersec ML, LEACH, Neuro-Graph Trader)
+- [ ] Démo live pour EPlace ou Ping IDE
+- [ ] Alléger les projets ECE/EPSI les plus faibles ou les regrouper
 
 ---
 
