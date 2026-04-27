@@ -494,15 +494,21 @@
       "link": "#"
     },
     {
-      "title": "Montreal Snow Removal Modeling",
-      "description": "Operational research and simulation project using Python.",
+      "title": "Montreal Snow Removal – Chinese Postman Problem",
+      "description": "Team operational research project (4 students): optimizing snow removal routes across Montreal (10,000 km of roads, 19 districts, real budget of $165M/year). The road network is modeled as a weighted graph using OSMNX (OpenStreetMap), then the Chinese Postman Problem is solved: identifying odd-degree nodes, eulerizing the graph (NetworkX), and computing the optimal Eulerian path covering every street exactly once. Reconnaissance drone routes (50 km/h) planned per district ahead of vehicle dispatch. Interactive route visualization with Folium (timestamped GeoJSON, color-coded by vehicle). Two cost models compared (Type 1 vs Type 2 vehicles): optimal solution with 12 Type 2 vehicles achieves 8.8% cost savings. Outremont example: 259.4 km covered in 92.4 s.",
       "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Snowflake",
       "tags": [
+        "Python",
         "Operations Research",
-        "Simulation",
-        "Python"
+        "NetworkX",
+        "OSMNX",
+        "Chinese Postman Problem",
+        "Graph Theory",
+        "Folium",
+        "Flask",
+        "Optimization"
       ],
       "link": "#"
     },

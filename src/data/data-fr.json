@@ -510,15 +510,20 @@
       "link": "#"
     },
     {
-      "title": "Modélisation du Déneigement de Montréal",
-      "description": "Projet d’optimisation et de simulation en Python.",
+      "title": "Déneigement de Montréal – Problème du Postier Chinois",
+      "description": "Projet de recherche opérationnelle en équipe de 4 : optimisation des tournées de déneigement de la ville de Montréal (10 000 km de routes, 19 arrondissements, budget réel de 165 M$/an). Modélisation du réseau routier comme un graphe pondéré via OSMNX (OpenStreetMap), puis résolution du Problème du Postier Chinois : identification des nœuds de degré impair, eulerisation du graphe (NetworkX), et calcul du chemin eulérien optimal couvrant chaque rue exactement une fois. Planification préalable des routes de drones de reconnaissance (50 km/h) par arrondissement. Visualisation interactive des tournées avec Folium (GeoJSON horodaté, couleur par véhicule). Deux modèles de coûts comparés (véhicules Type 1 vs Type 2) : solution optimale avec 12 véhicules Type 2, économie de 8,8 % sur la solution de base. Exemple Outremont : 259,4 km couverts en 92,4 s.",
       "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Snowflake",
       "tags": [
         "Python",
         "Recherche opérationnelle",
-        "Simulation",
+        "NetworkX",
+        "OSMNX",
+        "Problème du Postier Chinois",
+        "Graphes",
+        "Folium",
+        "Flask",
         "Optimisation"
       ],
       "link": "#"
