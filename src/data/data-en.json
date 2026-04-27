@@ -1,8 +1,8 @@
 {
   "profile": {
     "name": "BEMELINGUE Wilfried",
-    "title": "Computer Engineering Student specialized in AI, Deep Learning, and Machine Learning",
-    "summary": "Currently seeking a 6-month end-of-studies internship in the fields of Artificial Intelligence, Deep Learning, or Machine Learning. Based in Île-de-France, France. I speak French and fluent in English (TOEIC in progress).",
+    "title": "AI Engineer – Graph Neural Networks · Deep Learning · Data Engineering",
+    "summary": "Final-year engineering student at EPITA (SCIA-G specialization, AI & Machine Learning), seeking a 6-month end-of-studies internship. My projects span applied research in quantitative finance (GNN, RL, NLP), computer vision (3D medical segmentation), ML-based cybersecurity, distributed systems, and Data Engineering (COMUTITRES internship – Apache Airflow, AWS). Based in Île-de-France, France.",
     "location": "Île-de-France, France",
     "email": "wilfriedbemelingue@gmail.com",
     "linkedin": "https://www.linkedin.com/in/wilfried-bemelingue",
@@ -545,16 +545,22 @@
       "link": "#"
     },
     {
-      "title": "React.js Portfolio",
-      "description": "Professional portfolio website built with React.js.",
+      "title": "Personal Portfolio – React & Chakra UI",
+      "description": "This portfolio — a bilingual (FR/EN) website deployed on GitHub Pages. Stack: React 18, Chakra UI v2, Framer Motion (scroll animations and page transitions), react-simple-typewriter, i18next with automatic language detection. Vite build, fully automated CI/CD via GitHub Actions (push to `work` → build → push `dist/` to `main`). Light/dark theme, responsive design, GA4 analytics, CV download with custom event tracking.",
       "school": "ECE Paris",
       "badge": "ECE Paris",
       "icon": "User",
       "tags": [
-        "React",
-        "Frontend"
+        "React 18",
+        "Chakra UI",
+        "Framer Motion",
+        "i18next",
+        "Vite",
+        "GitHub Actions",
+        "CI/CD",
+        "GitHub Pages"
       ],
-      "link": "#"
+      "link": "https://github.com/Wildrey237/wildrey237.github.io"
     },
     {
       "title": "Cinema Ticket Booking – Java Spring MVC",

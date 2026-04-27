@@ -1,8 +1,8 @@
 {
   "profile": {
     "name": "BEMELINGUE Wilfried",
-    "title": "Étudiant en génie informatique spécialisé en IA, Deep Learning et Machine Learning",
-    "summary": "Actuellement à la recherche d’un stage de fin d’études (6 mois) dans le domaine de l’intelligence artificielle, du Deep Learning et du Machine Learning. Je réside en France, en Île-de-France, et je parle français et possède un anglais courant (TOEIC en cours).",
+    "title": "Ingénieur IA – Graph Neural Networks · Deep Learning · Data Engineering",
+    "summary": "Étudiant ingénieur en dernière année à EPITA (spécialisation SCIA-G, IA & Machine Learning), je recherche un stage de fin d’études de 6 mois. Mes projets couvrent la recherche appliquée en finance quantitative (GNN, RL, NLP), la vision par ordinateur (segmentation 3D médicale), la cybersécurité ML, les systèmes distribués et le Data Engineering (stage COMUTITRES – Apache Airflow, AWS). Basé en Île-de-France.",
     "location": "Île-de-France, France",
     "email": "wilfriedbemelingue@gmail.com",
     "linkedin": "https://www.linkedin.com/in/wilfried-bemelingue",
@@ -559,17 +559,22 @@
       "link": "#"
     },
     {
-      "title": "Portfolio React.js",
-      "description": "Site personnel construit avec React.js.",
+      "title": "Portfolio Personnel – React & Chakra UI",
+      "description": "Ce portfolio — site bilingue (FR/EN) déployé sur GitHub Pages. Stack : React 18, Chakra UI v2, Framer Motion (animations scroll et transitions de page), react-simple-typewriter, i18next avec détection automatique de la langue. Build Vite, déploiement CI/CD automatique via GitHub Actions (push sur `work` → build → push du `dist/` sur `main`). Thème clair/sombre, responsive, analytics GA4, téléchargement CV avec tracking d'événements personnalisé.",
       "school": "ECE Paris",
       "badge": "ECE Paris",
       "icon": "User",
       "tags": [
-        "React",
-        "Frontend",
-        "Portfolio"
+        "React 18",
+        "Chakra UI",
+        "Framer Motion",
+        "i18next",
+        "Vite",
+        "GitHub Actions",
+        "CI/CD",
+        "GitHub Pages"
       ],
-      "link": "#"
+      "link": "https://github.com/Wildrey237/wildrey237.github.io"
     },
     {
       "title": "Réservation de Billets de Cinéma – Spring MVC",
