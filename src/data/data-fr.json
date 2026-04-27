@@ -241,7 +241,7 @@
   "projects": [
     {
       "title": "Prévision boursière et gestion du risque par GNN",
-      "description": "Extension d’un Differential Graph Transformer (inspiré du projet Stanford CS224W) vers une architecture multi-tâche prédictive. Le modèle anticipe simultanément les rendements et la volatilité future afin d’alimenter une stratégie de gestion du risque et d’allocation de portefeuille. Étude d’ablation complète sur les topologies de graphe (local, global, dual) et backtesting quantitatif.",
+      "description": "Extension du Differential Graph Transformer proposé dans l’article Stanford CS224W (https://medium.com/stanford-cs224w/stock-market-forecasting-with-differential-graph-transformer-62d095ebc821) vers une architecture multi-tâche prédictive. Le modèle anticipe simultanément les rendements et la volatilité future afin d’alimenter une stratégie de gestion du risque et d’allocation de portefeuille. Étude d’ablation complète sur les topologies de graphe (local, global, dual) et backtesting quantitatif.",
       "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
       "badge": "EPITA SCIA-G",
       "icon": "LineChart",
@@ -458,45 +458,54 @@
       "link": "#"
     },
     {
-      "title": "Compilateur en C++",
-      "description": "Création d’un compilateur complet avec analyse lexicale et syntaxique.",
+      "title": "Malloc – Allocateur Mémoire en C",
+      "description": "Implémentation from scratch des fonctions d'allocation dynamique de mémoire : malloc, free, realloc et calloc, en pur C. Acquisition de mémoire auprès du système via mmap. Gestion des métadonnées de blocs (headers, free lists), coalescence des blocs libres adjacents pour limiter la fragmentation, stratégies d'allocation. Zéro fuite mémoire vérifiée avec Valgrind. Build CMake, suite de tests EPITA.",
+      "school": "EPITA – Le Kremlin-Bicêtre",
+      "badge": "EPITA",
+      "icon": "MemoryStick",
+      "tags": [
+        "C",
+        "Gestion mémoire",
+        "Programmation système",
+        "mmap",
+        "Valgrind",
+        "CMake"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Tiger – Compilateur en C++ (EPITA/LRDE)",
+      "description": "Implémentation from scratch d’un compilateur complet pour le langage Tiger (langage statiquement typé conçu par le LRDE d’EPITA, inspiré d’Andrew Appel). Pipeline complet en 9 phases : analyse lexicale (Flex), analyse syntaxique LALR et construction de l’AST (Bison), vérification de types et résolution de portée, génération de représentation intermédiaire (IR trees), sélection d’instructions par algorithme Maximal Munch (TC-7), analyse de vivacité des variables (TC-8), allocation de registres (TC-9), génération de code machine ARM. C++17, CMake, tests automatisés, documentation Doxygen.",
       "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "Code2",
       "tags": [
-        "C++",
+        "C++17",
         "Compilateur",
-        "Analyse syntaxique",
-        "AST"
+        "Flex / Bison",
+        "AST",
+        "Analyse sémantique",
+        "Allocation de registres",
+        "Génération de code ARM",
+        "CMake"
       ],
-      "link": "#"
+      "link": "https://assignments.lrde.epita.fr/"
     },
     {
-      "title": "Projets de Jeux Vidéo",
-      "description": "Deux projets réalisés lors des piscines EPITA. Zorks (C++) : jeu d'aventure textuel avec interpréteur de commandes, gestion d'inventaire et navigation dans un monde structuré. Creeps (Java) : jeu de tower defense avec boucle de jeu, gestion des entités ennemies et logique de vagues.",
-      "school": "EPITA – Le Kremlin-Bicêtre",
-      "badge": "EPITA",
-      "icon": "Gamepad2",
-      "tags": [
-        "Jeux vidéo",
-        "C++",
-        "Java",
-        "JavaScript"
-      ],
-      "link": "#"
-    },
-    {
-      "title": "Éditeur de Code (Java/React)",
-      "description": "Éditeur de code avec backend Java et interface React.",
+      "title": "Ping – IDE Thème Clash of Clans",
+      "description": "IDE complet développé en binôme lors de la piscine YAKA à EPITA. Backend Java/Quarkus exposant une API REST pour la gestion de projets Maven : arborescence fichiers/dossiers (FileNode/FolderNode), compilation Maven, recherche de code indexée avec Apache Lucene, intégration Git complète via JGit (commit, push, tree). Frontend React avec thème Clash of Clans intégral : animations, design graphique inspiré du jeu, fonctionnalités d’édition de code. Architecture hexagonale, tests JUnit 5.",
       "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "FileEdit",
       "tags": [
         "Java",
+        "Quarkus",
         "React",
-        "IDE",
-        "Frontend",
-        "Backend"
+        "JGit",
+        "Apache Lucene",
+        "Maven",
+        "REST API",
+        "IDE"
       ],
       "link": "#"
     },
@@ -529,15 +538,18 @@
       "link": "#"
     },
     {
-      "title": "Applications Web PHP",
-      "description": "Développement d’applications web réactives en PHP.",
+      "title": "Mini LeBonCoin – Marketplace PHP",
+      "description": "Développement d’une version simplifiée du site LeBonCoin en PHP : plateforme d’annonces entre particuliers avec gestion des utilisateurs (inscription, connexion, sessions), publication et recherche d’annonces, upload d’images, et interface responsive. Architecture MVC, base de données MySQL, requêtes SQL paramétrées contre les injections.",
       "school": "ECE Paris",
       "badge": "ECE Paris",
       "icon": "Globe",
       "tags": [
         "PHP",
-        "Développement Web",
-        "Backend"
+        "MySQL",
+        "MVC",
+        "HTML/CSS",
+        "Sessions",
+        "Développement Web"
       ],
       "link": "#"
     },
@@ -555,15 +567,18 @@
       "link": "#"
     },
     {
-      "title": "Applications Java",
-      "description": "Développement full-stack d’applications Java.",
+      "title": "Réservation de Billets de Cinéma – Spring MVC",
+      "description": "Application web de réservation de billets de cinéma développée en Java : gestion du catalogue de films et séances, sélection de sièges, réservation en temps réel, espace utilisateur avec historique de réservations. Backend Spring MVC, base de données MySQL, templates Thymeleaf, interface web responsive.",
       "school": "ECE Paris",
       "badge": "ECE Paris",
       "icon": "Coffee",
       "tags": [
         "Java",
-        "Full Stack",
-        "Développement Web"
+        "Spring MVC",
+        "MySQL",
+        "Thymeleaf",
+        "HTML/CSS",
+        "Full Stack"
       ],
       "link": "#"
     },

@@ -240,7 +240,7 @@
   "projects": [
     {
       "title": "Stock Market Forecasting and Risk Management with GNNs",
-      "description": "Extension of a Differential Graph Transformer (inspired by the Stanford CS224W project) into a predictive multi-task architecture. The model jointly forecasts asset returns and future volatility to drive a risk-aware portfolio allocation strategy. Includes a comprehensive ablation study on graph topologies (local, global, dual) and quantitative backtesting.",
+      "description": "Extension of the Differential Graph Transformer proposed in the Stanford CS224W article (https://medium.com/stanford-cs224w/stock-market-forecasting-with-differential-graph-transformer-62d095ebc821) into a predictive multi-task architecture. The model jointly forecasts asset returns and future volatility to drive a risk-aware portfolio allocation strategy. Includes a comprehensive ablation study on graph topologies (local, global, dual) and quantitative backtesting.",
       "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
       "badge": "EPITA SCIA-G",
       "icon": "LineChart",
@@ -442,40 +442,53 @@
       "link": "#"
     },
     {
-      "title": "C++ Compiler",
-      "description": "Full compiler built from scratch in C++ including parsing, AST, and code generation.",
+      "title": "Malloc – Memory Allocator in C",
+      "description": "Implementation from scratch of dynamic memory allocation functions: malloc, free, realloc and calloc, in pure C. Memory acquired from the OS via mmap. Block metadata management (headers, free lists), coalescing of adjacent free blocks to limit fragmentation, allocation strategies. Zero memory leaks verified with Valgrind. CMake build, EPITA test suite.",
       "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
-      "icon": "Code2",
+      "icon": "MemoryStick",
       "tags": [
-        "C++",
-        "Compiler",
-        "Parsing"
-      ]
-    },
-    {
-      "title": "Video Games Projects",
-      "description": "Two game projects built during EPITA piscines. Zorks (C++): text adventure game with command interpreter, inventory system and structured world navigation. Creeps (Java): tower defense game with game loop, enemy entity management and basic wave logic.",
-      "school": "EPITA – Le Kremlin-Bicêtre",
-      "badge": "EPITA",
-      "icon": "Gamepad2",
-      "tags": [
-        "Game Dev",
-        "C++",
-        "Java",
-        "JavaScript"
+        "C",
+        "Memory Management",
+        "Systems Programming",
+        "mmap",
+        "Valgrind",
+        "CMake"
       ],
       "link": "#"
     },
     {
-      "title": "Code Editor (Java/React)",
-      "description": "Custom code editor with Java backend and React frontend.",
+      "title": "Tiger – C++ Compiler (EPITA/LRDE)",
+      "description": "Full compiler built from scratch for the Tiger language (a statically typed language designed by EPITA's LRDE lab, based on Andrew Appel's textbooks). Complete 9-phase pipeline: lexical analysis (Flex), LALR parsing and AST construction (Bison), type checking and scope resolution, intermediate representation (IR trees), instruction selection via Maximal Munch (TC-7), liveness analysis (TC-8), register allocation (TC-9), ARM machine code generation. C++17, CMake, automated tests, Doxygen documentation.",
+      "school": "EPITA – Le Kremlin-Bicêtre",
+      "badge": "EPITA",
+      "icon": "Code2",
+      "tags": [
+        "C++17",
+        "Compiler",
+        "Flex / Bison",
+        "AST",
+        "Semantic Analysis",
+        "Register Allocation",
+        "ARM Code Generation",
+        "CMake"
+      ],
+      "link": "https://assignments.lrde.epita.fr/"
+    },
+    {
+      "title": "Ping – Clash of Clans Themed IDE",
+      "description": "Full-featured IDE developed in pair during the EPITA YAKA piscine. Java/Quarkus backend exposing a REST API for Maven project management: file/folder tree (FileNode/FolderNode), Maven compilation, indexed code search with Apache Lucene, full Git integration via JGit (commit, push, tree view). React frontend with a complete Clash of Clans theme: game-inspired animations, graphical design, and code editing features. Hexagonal architecture, JUnit 5 tests.",
       "school": "EPITA – Le Kremlin-Bicêtre",
       "badge": "EPITA",
       "icon": "FileEdit",
       "tags": [
         "Java",
+        "Quarkus",
         "React",
+        "JGit",
+        "Apache Lucene",
+        "Maven",
+        "REST API",
         "IDE"
       ],
       "link": "#"
@@ -510,13 +523,17 @@
       "link": "#"
     },
     {
-      "title": "PHP Web Applications",
-      "description": "Responsive web application development using PHP.",
+      "title": "Mini LeBonCoin – PHP Marketplace",
+      "description": "Simplified version of the French classifieds platform LeBonCoin built in PHP: user registration and login with session management, post and browse listings, image upload, responsive UI. MVC architecture, MySQL database, parameterized SQL queries to prevent injection attacks.",
       "school": "ECE Paris",
       "badge": "ECE Paris",
       "icon": "Globe",
       "tags": [
         "PHP",
+        "MySQL",
+        "MVC",
+        "HTML/CSS",
+        "Sessions",
         "Web Development"
       ],
       "link": "#"
@@ -534,14 +551,18 @@
       "link": "#"
     },
     {
-      "title": "Java Applications",
-      "description": "Full-stack Java application development.",
+      "title": "Cinema Ticket Booking – Java Spring MVC",
+      "description": "Full-stack cinema ticket reservation web application: movie and showtime catalogue management, seat selection, real-time booking, user account with reservation history. Backend built with Java Spring MVC, MySQL database, Thymeleaf templating, responsive HTML/CSS frontend.",
       "school": "ECE Paris",
       "badge": "ECE Paris",
       "icon": "Coffee",
       "tags": [
         "Java",
-        "Backend"
+        "Spring MVC",
+        "MySQL",
+        "Thymeleaf",
+        "HTML/CSS",
+        "Full Stack"
       ],
       "link": "#"
     },

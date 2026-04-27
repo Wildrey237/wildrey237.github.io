@@ -512,9 +512,9 @@ const ProjectsSection = () => {
                     </AnimatePresence>
                 </Box>
 
-                {/* Dot indicators + page counter */}
+                {/* Dot indicators + page counter — hidden on mobile */}
                 {totalPages > 1 && (
-                    <VStack spacing={2} mt={8}>
+                    <VStack spacing={2} mt={8} display={{ base: "none", sm: "flex" }}>
                         <HStack spacing={2} justify="center">
                             {Array.from({ length: totalPages }).map((_, i) => (
                                 <Box
