@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    tags:
+      - 'deploy-*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupérer le code
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      # 2. Installer Node.js
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. Installer les dépendances
+      - name: Install dependencies 📦
+        run: npm install
+
+      # 4. Build du projet
+      - name: Build project 🏗️
+        run: npm run build
+
+      # 5. Déployer vers la branche main
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: main
+          folder: dist
