@@ -14,6 +14,23 @@
   },
   "experiences": [
     {
+      "title": "Process Manager & Project Lead",
+      "company": "Manssuétude",
+      "city": "France",
+      "website": "",
+      "logo": "/logos/manssuetude.png",
+      "dates": "Ongoing",
+      "description": "Process Manager and Project Lead within the Manssuétude association.\n\nKey responsibilities:\n• Managing and optimizing the association's internal processes\n• Project management: planning, milestone tracking and stakeholder coordination\n• Facilitating progress meetings and writing meeting minutes\n• Setting up tracking and reporting tools for association activities",
+      "tags": [
+        "Project Management",
+        "Management",
+        "Processes",
+        "Association",
+        "Coordination",
+        "Organisation"
+      ]
+    },
+    {
       "title": "Intern – Data Engineer (DataFactory Team)",
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "city": "Paris, Île-de-France",

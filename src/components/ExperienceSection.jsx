@@ -5,6 +5,7 @@ import {
     VStack,
     HStack,
     Circle,
+    Image,
     useColorMode,
     Tag,
     Wrap,
@@ -162,7 +163,7 @@ export default function ExperienceSection() {
                     >
                         <Circle
                             size="36px"
-                            bg={isDark ? accentColors[idx % accentColors.length].dark : accentColors[idx % accentColors.length].light}
+                            bg={exp.logo ? "white" : (isDark ? accentColors[idx % accentColors.length].dark : accentColors[idx % accentColors.length].light)}
                             flexShrink={0}
                             mt={1}
                             boxShadow={isDark ? `0 0 12px rgba(129,230,217,0.3)` : "sm"}
@@ -170,15 +171,22 @@ export default function ExperienceSection() {
                             fontWeight="black"
                             color="white"
                             letterSpacing="-0.02em"
+                            overflow="hidden"
+                            border={exp.logo ? "1px solid" : "none"}
+                            borderColor="gray.200"
                         >
-                            {exp.company
-                                .replace(/\(.*?\)/g, "")
-                                .trim()
-                                .split(/\s+/)
-                                .filter(Boolean)
-                                .slice(0, 2)
-                                .map((w) => w[0].toUpperCase())
-                                .join("")}
+                            {exp.logo ? (
+                                <Image src={exp.logo} alt={exp.company} boxSize="30px" objectFit="contain" />
+                            ) : (
+                                exp.company
+                                    .replace(/\(.*?\)/g, "")
+                                    .trim()
+                                    .split(/\s+/)
+                                    .filter(Boolean)
+                                    .slice(0, 2)
+                                    .map((w) => w[0].toUpperCase())
+                                    .join("")
+                            )}
                         </Circle>
 
                         <MotionBox
