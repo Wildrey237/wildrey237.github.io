@@ -36,6 +36,7 @@
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "city": "Paris, Île-de-France",
       "website": "https://www.comutitres.fr/",
+      "logo": "https://www.comutitres.fr/wp-content/uploads/2024/06/logo.svg",
       "dates": "Septembre 2024 – Février 2025",
       "description": "Stagiaire au sein de l’équipe DataFactory chez COMUTITRES (Île-de-France Mobilités), j’ai piloté la refonte et l’optimisation des pipelines de données.\n\nRéalisations clés :\n• Conception et migration de scripts ETL vers une architecture Apache Airflow sur AWS, améliorant l’efficacité des traitements\n• Développement de mécanismes de relance automatique (fichiers de configuration JSON) pour fiabiliser les flux de données\n• Création et déploiement de tableaux de bord KPI pour le pilotage de la Business Intelligence\n• Optimisation de scripts Python et de requêtes SQL complexes\n• Renforcement des pipelines CI/CD sous GitLab pour automatiser les déploiements",
       "tags": [
