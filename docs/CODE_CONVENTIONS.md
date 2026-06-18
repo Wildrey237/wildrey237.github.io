@@ -217,10 +217,12 @@ Les maps de couleurs par catégorie (`CATEGORY_COLORS`, `BADGE_COLORS`) sont des
 **Convention de nommage stricte :**
 
 ```
-cv/cv-{langue}.pdf
+public/cv/cv-{langue}.pdf
 ```
 
-Exemples valides : `cv-francais.pdf`, `cv-anglais.pdf`
+Exemples valides : `public/cv/cv-francais.pdf`, `public/cv/cv-anglais.pdf`
+
+Les fichiers doivent impérativement être dans `public/cv/` — Vite copie ce dossier tel quel dans `dist/`, ce qui les rend accessibles à `/cv/cv-{langue}.pdf` en production. Un fichier placé ailleurs ne sera pas servi.
 
 La CI (`cv-check.yml`) valide et corrige automatiquement les noms au push. En cas de langue indétectable dans le nom, la CI échoue et liste le fichier problématique.
 

@@ -5,7 +5,7 @@ on:
     branches:
       - work
     paths:
-      - "cv/**"
+      - "public/cv/**"
   workflow_dispatch:
 
 permissions:
@@ -30,10 +30,10 @@ jobs:
           ERRORS=0
 
           shopt -s nullglob
-          files=(cv/*.pdf)
+          files=(public/cv/*.pdf)
 
           if [ ${#files[@]} -eq 0 ]; then
-            echo "No PDF files found in cv/ — nothing to check."
+            echo "No PDF files found in public/cv/ — nothing to check."
             echo "renamed=0" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -56,13 +56,13 @@ jobs:
             elif echo "$lower" | grep -qE '(francais|français|french)'; then
               new_name="cv-francais.pdf"
             else
-              echo "::error file=cv/$filename::Cannot determine language for '$filename'. Expected format: cv-{langue}.pdf (ex: cv-anglais.pdf, cv-francais.pdf)"
+              echo "::error file=public/cv/$filename::Cannot determine language for '$filename'. Expected format: cv-{langue}.pdf (ex: cv-anglais.pdf, cv-francais.pdf)"
               ERRORS=$((ERRORS + 1))
               continue
             fi
 
             if [ "$filename" != "$new_name" ]; then
-              mv "cv/$filename" "cv/$new_name"
+              mv "public/cv/$filename" "public/cv/$new_name"
               echo "Renamed: $filename → $new_name"
               RENAMED=$((RENAMED + 1))
             fi
@@ -80,6 +80,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add cv/
+          git add public/cv/
           git commit -m "ci: auto-rename CV files to cv-{langue}.pdf format"
           git push

@@ -27,10 +27,10 @@ wildrey237.github.io/
 │   └── workflows/
 │       ├── deploy.yml          # Build + déploiement automatique sur main
 │       └── cv-check.yml        # Validation et renommage automatique des CVs
-├── cv/
-│   ├── cv-francais.pdf         # CV français (convention : cv-{langue}.pdf)
-│   └── cv-anglais.pdf          # CV anglais
 ├── public/
+│   ├── cv/
+│   │   ├── cv-francais.pdf     # CV français (convention : cv-{langue}.pdf)
+│   │   └── cv-anglais.pdf      # CV anglais
 │   ├── index.html              # HTML statique de fallback
 │   ├── favicon.ico
 │   ├── icon.svg                # Favicon <W/B>

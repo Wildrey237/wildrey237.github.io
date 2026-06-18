@@ -121,9 +121,9 @@ Le déploiement est automatique après le push.
 ### CVs
 
 ```bash
-# Déposer les fichiers dans cv/ en respectant la convention
-cv/cv-francais.pdf
-cv/cv-anglais.pdf
+# Déposer les fichiers dans public/cv/ en respectant la convention
+public/cv/cv-francais.pdf
+public/cv/cv-anglais.pdf
 
 git add cv/
 git commit -m "content: update CVs"

@@ -60,16 +60,17 @@ src/
     ├── data-fr.json       # Contenu français
     └── data-en.json       # Contenu anglais (structure identique)
 
-cv/
-├── cv-francais.pdf        # CV français (convention : cv-{langue}.pdf)
-└── cv-anglais.pdf         # CV anglais
+public/
+├── cv/
+│   ├── cv-francais.pdf    # CV français (convention : cv-{langue}.pdf)
+│   └── cv-anglais.pdf     # CV anglais
 
 public/
 ├── icon.svg              # Favicon <W/B>
 └── 404.html              # Page 404 custom avec redirection automatique
 ```
 
-> **Convention CVs :** les fichiers PDF doivent toujours respecter le format `cv-{langue}.pdf` (ex. `cv-francais.pdf`, `cv-anglais.pdf`) et être placés dans le dossier `cv/`. Le composant `Footer.jsx` sélectionne automatiquement le bon fichier selon la langue active.
+> **Convention CVs :** les fichiers PDF doivent toujours respecter le format `cv-{langue}.pdf` (ex. `cv-francais.pdf`, `cv-anglais.pdf`) et être placés dans `public/cv/` (copié tel quel dans `dist/` par Vite). Le composant `Footer.jsx` sélectionne automatiquement le bon fichier selon la langue active.
 
 ---
 
