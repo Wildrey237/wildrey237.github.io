@@ -1,0 +1,85 @@
+name: CV Format Check & Auto-fix
+
+on:
+  push:
+    branches:
+      - work
+    paths:
+      - "cv/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  cv-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check and auto-rename CV files
+        id: check
+        shell: bash
+        run: |
+          RENAMED=0
+          ERRORS=0
+
+          shopt -s nullglob
+          files=(cv/*.pdf)
+
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No PDF files found in cv/ — nothing to check."
+            echo "renamed=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          for f in "${files[@]}"; do
+            filename=$(basename "$f")
+
+            # Already in correct format: cv-{langue}.pdf
+            if [[ "$filename" =~ ^cv-[a-z]+\.pdf$ ]]; then
+              echo "OK: $filename"
+              continue
+            fi
+
+            # Normalise: lowercase, replace _ with -
+            lower=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+
+            # Detect language
+            if echo "$lower" | grep -qE '(anglais|english)'; then
+              new_name="cv-anglais.pdf"
+            elif echo "$lower" | grep -qE '(francais|français|french)'; then
+              new_name="cv-francais.pdf"
+            else
+              echo "::error file=cv/$filename::Cannot determine language for '$filename'. Expected format: cv-{langue}.pdf (ex: cv-anglais.pdf, cv-francais.pdf)"
+              ERRORS=$((ERRORS + 1))
+              continue
+            fi
+
+            if [ "$filename" != "$new_name" ]; then
+              mv "cv/$filename" "cv/$new_name"
+              echo "Renamed: $filename → $new_name"
+              RENAMED=$((RENAMED + 1))
+            fi
+          done
+
+          echo "renamed=$RENAMED" >> "$GITHUB_OUTPUT"
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::$ERRORS file(s) could not be automatically renamed — language not detectable from filename."
+            exit 1
+          fi
+
+      - name: Commit renamed files
+        if: steps.check.outputs.renamed != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cv/
+          git commit -m "ci: auto-rename CV files to cv-{langue}.pdf format"
+          git push

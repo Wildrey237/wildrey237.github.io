@@ -64,7 +64,7 @@ function renderDescription(text, textSoft, isDark) {
 }
 
 export default function ExperienceSection() {
-    const {i18n} = useTranslation();
+    const {t, i18n} = useTranslation();
     const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
@@ -130,7 +130,7 @@ export default function ExperienceSection() {
                     fontWeight="black"
                     letterSpacing="-0.03em"
                 >
-                    {i18n.language === "fr" ? "Expériences professionnelles" : "Work Experiences"}
+                    {t("experiencesTitle")}
                 </Heading>
                 <Box w="48px" h="4px" bg={accentColor} borderRadius="full" />
             </VStack>

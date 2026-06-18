@@ -8,9 +8,20 @@ const resources = {
             home: "Accueil",
             skills: "Compétences",
             experiences: "Expériences",
+            education: "Éducation",
+            projectsNav: "Projets",
             downloadCv: "Télécharger mon CV",
             welcome: "Bienvenue sur mon portfolio !",
             brand: "Mon Portfolio",
+            available: "Disponible pour de nouvelles opportunités",
+            seeProjects: "Voir mes projets",
+            contactMe: "Me contacter",
+            experiencesTitle: "Expériences professionnelles",
+            skillsCategories: {
+                ai: "IA / Machine Learning",
+                databases: "Bases de données",
+                mathFoundations: "Fondements mathématiques",
+            },
             projects: {
                 title: "Projets réalisés",
                 previous: "Précédent",
@@ -18,7 +29,10 @@ const resources = {
                 filterBySchool: "Filtrer par école",
                 filterByTags: "Filtrer par compétences",
                 tagsSelected: "Compétences sélectionnées",
-                viewMore: "Voir plus"
+                viewMore: "Voir plus",
+                countLabel: "projets",
+                searchPlaceholder: "Rechercher un projet, technologie...",
+                clearFilters: "Effacer",
             }
         }
     },
@@ -27,9 +41,20 @@ const resources = {
             home: "Home",
             skills: "Skills",
             experiences: "Experiences",
+            education: "Education",
+            projectsNav: "Projects",
             downloadCv: "Download my CV",
             welcome: "Welcome to my portfolio!",
             brand: "My Portfolio",
+            available: "Open to new opportunities",
+            seeProjects: "See my projects",
+            contactMe: "Contact me",
+            experiencesTitle: "Work Experiences",
+            skillsCategories: {
+                ai: "AI / Machine Learning",
+                databases: "Databases",
+                mathFoundations: "Mathematical Foundations",
+            },
             projects: {
                 title: "Completed Projects",
                 previous: "Previous",
@@ -37,7 +62,10 @@ const resources = {
                 filterBySchool: "Filter by school",
                 filterByTags: "Filter by skills",
                 tagsSelected: "Skills selected",
-                viewMore: "View more"
+                viewMore: "View more",
+                countLabel: "projects",
+                searchPlaceholder: "Search projects, technologies...",
+                clearFilters: "Clear",
             }
         }
     }

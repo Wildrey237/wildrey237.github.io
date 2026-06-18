@@ -28,7 +28,7 @@ import {
 
 const MotionBox = motion(Box);
 
-const categoryIcons = {
+const CATEGORY_ICONS = {
     ai: FaBrain,
     data_engineering: FaServer,
     software_engineering: FaCode,
@@ -37,7 +37,7 @@ const categoryIcons = {
     math_foundations: FaSquareRootAlt,
 };
 
-const categoryColors = {
+const CATEGORY_COLORS = {
     ai: { light: "purple.50", border: "purple.200", text: "purple.700", darkText: "purple.200", icon: "purple.500", accent: "purple.400" },
     data_engineering: { light: "orange.50", border: "orange.200", text: "orange.700", darkText: "orange.200", icon: "orange.500", accent: "orange.400" },
     software_engineering: { light: "blue.50", border: "blue.200", text: "blue.700", darkText: "blue.200", icon: "blue.500", accent: "blue.400" },
@@ -48,7 +48,7 @@ const categoryColors = {
 
 function CategoryCard({title, items, icon, categoryKey, colorMode, idx}) {
     const isDark = colorMode === "dark";
-    const colors = categoryColors[categoryKey] || categoryColors.software_engineering;
+    const colors = CATEGORY_COLORS[categoryKey] || CATEGORY_COLORS.software_engineering;
 
     const cardBg = useColorModeValue("white", "#111827");
     const cardBorder = useColorModeValue("gray.200", "whiteAlpha.100");
@@ -157,7 +157,7 @@ function CategoryCard({title, items, icon, categoryKey, colorMode, idx}) {
 
 export default function SkillsSection() {
     const {colorMode} = useColorMode();
-    const {i18n} = useTranslation();
+    const {t, i18n} = useTranslation();
     const data = i18n.language === "fr" ? frData : enData;
 
     const isDark = colorMode === "dark";
@@ -167,12 +167,12 @@ export default function SkillsSection() {
     const accentColor = useColorModeValue("teal.500", "teal.400");
 
     const categoryLabels = {
-        ai: i18n.language === "fr" ? "IA / Machine Learning" : "AI / Machine Learning",
+        ai: t("skillsCategories.ai"),
         data_engineering: "Data Engineering",
         software_engineering: "Software Engineering",
         cloud_mlop: "Cloud & MLOps",
-        databases: i18n.language === "fr" ? "Bases de données" : "Databases",
-        math_foundations: i18n.language === "fr" ? "Fondements mathématiques" : "Mathematical Foundations",
+        databases: t("skillsCategories.databases"),
+        math_foundations: t("skillsCategories.mathFoundations"),
     };
 
     const categories = Object.keys(data.skills);
@@ -223,7 +223,7 @@ export default function SkillsSection() {
                     fontWeight="black"
                     letterSpacing="-0.03em"
                 >
-                    {i18n.language === "fr" ? "Compétences" : "Skills"}
+                    {t("skills")}
                 </Heading>
                 <Box w="48px" h="4px" bg={accentColor} borderRadius="full" />
             </VStack>
@@ -234,7 +234,7 @@ export default function SkillsSection() {
                         key={categoryKey}
                         title={categoryLabels[categoryKey] || categoryKey}
                         items={data.skills[categoryKey]}
-                        icon={categoryIcons[categoryKey] || FaCode}
+                        icon={CATEGORY_ICONS[categoryKey] || FaCode}
                         categoryKey={categoryKey}
                         colorMode={colorMode}
                         idx={idx}

@@ -133,9 +133,9 @@ export default function Navbar() {
                 <Flex display={{base: "none", md: "flex"}} gap="1" align="center">
                     {renderButton("home", t("home"))}
                     {renderButton("skills", t("skills"))}
-                    {renderButton("experiences", i18n.language === "fr" ? "Expériences" : "Experiences")}
-                    {renderButton("education", i18n.language === "fr" ? "Éducation" : "Education")}
-                    {renderButton("projects", i18n.language === "fr" ? "Projets" : "Projects")}
+                    {renderButton("experiences", t("experiences"))}
+                    {renderButton("education", t("education"))}
+                    {renderButton("projects", t("projectsNav"))}
                 </Flex>
 
                 {/* Actions */}
@@ -203,9 +203,9 @@ export default function Navbar() {
                         <Stack spacing={1}>
                             {renderButton("home", t("home"))}
                             {renderButton("skills", t("skills"))}
-                            {renderButton("experiences", i18n.language === "fr" ? "Expériences" : "Experiences")}
-                            {renderButton("education", i18n.language === "fr" ? "Éducation" : "Education")}
-                            {renderButton("projects", i18n.language === "fr" ? "Projets" : "Projects")}
+                            {renderButton("experiences", t("experiences"))}
+                            {renderButton("education", t("education"))}
+                            {renderButton("projects", t("projectsNav"))}
                         </Stack>
                     </MotionBox>
                 )}

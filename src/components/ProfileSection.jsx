@@ -25,7 +25,7 @@ const MotionBox = motion(Box);
 const MotionHStack = motion(HStack);
 
 export default function ProfileSection() {
-    const {i18n} = useTranslation();
+    const {t, i18n} = useTranslation();
     const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
 
@@ -33,6 +33,8 @@ export default function ProfileSection() {
 
     const bgMain = useColorModeValue("gray.50", "#050816");
     const textSoft = useColorModeValue("gray.600", "gray.300");
+    const headingColor = useColorModeValue("gray.800", "white");
+    const typewriterColor = useColorModeValue("teal.600", "teal.300");
     const badgeBg = useColorModeValue("green.50", "rgba(72,187,120,0.1)");
     const badgeBorder = useColorModeValue("green.200", "rgba(72,187,120,0.3)");
     const badgeText = useColorModeValue("green.700", "green.300");
@@ -163,11 +165,7 @@ export default function ProfileSection() {
                                     bg="green.400"
                                 />
                             </Box>
-                            <Text>
-                                {i18n.language === "fr"
-                                    ? "Disponible pour de nouvelles opportunités"
-                                    : "Open to new opportunities"}
-                            </Text>
+                            <Text>{t("available")}</Text>
                         </HStack>
                     )}
 
@@ -175,7 +173,7 @@ export default function ProfileSection() {
                         as="h1"
                         fontSize={{base: "4xl", md: "5xl", xl: "6xl"}}
                         lineHeight="0.95"
-                        color={useColorModeValue("gray.800", "white")}
+                        color={headingColor}
                         fontWeight="black"
                         letterSpacing="-0.04em"
                     >
@@ -184,7 +182,7 @@ export default function ProfileSection() {
 
                     <Text
                         fontSize={{base: "xl", md: "2xl"}}
-                        color={useColorModeValue("teal.600", "teal.300")}
+                        color={typewriterColor}
                         fontWeight="semibold"
                         minH="2em"
                     >
@@ -209,10 +207,10 @@ export default function ProfileSection() {
 
                     <HStack spacing={4} pt={1} flexWrap="wrap" justify={{base: "center", lg: "flex-start"}}>
                         <Button as="a" href="#projects" colorScheme="teal" size="lg">
-                            {i18n.language === "fr" ? "Voir mes projets" : "See my projects"}
+                            {t("seeProjects")}
                         </Button>
                         <Button as="a" href={`mailto:${data.profile.email}`} variant="outline" size="lg">
-                            {i18n.language === "fr" ? "Me contacter" : "Contact me"}
+                            {t("contactMe")}
                         </Button>
                     </HStack>
 

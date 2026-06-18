@@ -10,7 +10,13 @@
     "cvLink": "https://drive.google.com/file/d/1yQDQyEmey_TYXdFwEm-sIHMLacKJD_Jk/view?usp=share_link",
     "search": "yes",
     "link_picture": "/profile_picture.jpg",
-    "typewriter_roles": ["Data Engineer", "ML Engineer", "Full-Stack Developer", "Deep Learning Specialist", "EPITA Engineering Student"]
+    "typewriter_roles": [
+      "Data Engineer",
+      "ML Engineer",
+      "Full-Stack Developer",
+      "Deep Learning Specialist",
+      "EPITA Engineering Student"
+    ]
   },
   "experiences": [
     {
@@ -270,6 +276,30 @@
         "Multi-Task Learning",
         "Risk Management",
         "Quantitative Finance"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Real-Time Fraud & Money Laundering Detection (AML)",
+      "description": "A system monitoring millions of transactions in real time to detect money laundering networks (smurfing, cycles) and dynamically adapt security rules.\n\nArchitecture:\n• Big Data & Graph: transaction stream ingestion via Kafka/Spark Structured Streaming; accounts and transactions modelled as a dynamic graph\n• GNN & Deep Learning: GraphSAGE/GCN for node classification (is this account fraudulent?) leveraging transactional neighbourhood\n• Adversarial RL: a \"Cop\" agent (RL) learning to block or pass transactions; a \"Fraudster\" agent (Adversarial RL) trained in opposition to harden the system\n• Stochastic modelling: Poisson/Hawkes processes for transaction arrival simulation and realistic load testing\n• XAI – GNNExplainer: explanatory sub-graph generation for human analysts (e.g. \"Closed cycle of 5 accounts transferring the same amount\")\n• Rec. System: action recommendations for the analyst (Freeze account, Call client, Ignore)",
+      "school": "EPITA – SCIA-G Specialization (Lyon Campus)",
+      "badge": "EPITA SCIA-G",
+      "icon": "ShieldAlert",
+      "tags": [
+        "Python",
+        "Graph Neural Networks",
+        "GraphSAGE",
+        "GCN",
+        "Reinforcement Learning",
+        "Adversarial RL",
+        "Kafka",
+        "Spark Streaming",
+        "Hawkes Process",
+        "XAI",
+        "GNNExplainer",
+        "Anomaly Detection",
+        "AML",
+        "Finance"
       ],
       "link": "#"
     },

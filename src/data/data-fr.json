@@ -10,9 +10,14 @@
     "cvLink": "https://drive.google.com/file/d/1cMDHyvWBybrSvY16Jnr4C6AvgXIXN8VI/view?usp=share_link",
     "search": "yes",
     "link_picture": "/profile_picture.jpg",
-    "typewriter_roles": ["Data Engineer", "ML Engineer", "Développeur Full-Stack", "Spécialiste Deep Learning", "Étudiant Ingénieur EPITA"]
+    "typewriter_roles": [
+      "Data Engineer",
+      "ML Engineer",
+      "Développeur Full-Stack",
+      "Spécialiste Deep Learning",
+      "Étudiant Ingénieur EPITA"
+    ]
   },
-
   "experiences": [
     {
       "title": "Responsable Process & Chef de Projet",
@@ -272,6 +277,30 @@
         "Risk Management",
         "Quantitative Finance",
         "Backtesting"
+      ],
+      "link": "#"
+    },
+    {
+      "title": "Détection de Fraude et Blanchiment en Temps Réel (AML)",
+      "description": "Système de surveillance de millions de transactions en temps réel pour détecter des réseaux de blanchiment (smurfing, cycles) et adapter dynamiquement les règles de sécurité.\n\nArchitecture :\n• Big Data & Graphe : ingestion de flux via Kafka/Spark Structured Streaming ; modélisation comptes/transactions sous forme de graphe dynamique\n• GNN & Deep Learning : GraphSAGE/GCN pour la classification de nœuds (compte frauduleux ?) en exploitant le voisinage transactionnel\n• RL Adversarial : agent « Policier » (RL) apprenant à bloquer/laisser passer des transactions ; agent « Fraudeur » (Adversarial RL) entraîné en opposition pour renforcer la robustesse du système\n• Stochastique : modélisation de l'arrivée des transactions par processus de Poisson/Hawkes pour des tests de charge réalistes\n• XAI – GNNExplainer : génération de sous-graphes explicatifs pour l'analyste humain (ex. : « Cycle fermé de 5 comptes transférant la même somme »)\n• Sys. Rec. : recommandation d'actions à l'analyste (Geler le compte, Appeler le client, Ignorer)",
+      "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
+      "icon": "ShieldAlert",
+      "tags": [
+        "Python",
+        "Graph Neural Networks",
+        "GraphSAGE",
+        "GCN",
+        "Reinforcement Learning",
+        "Adversarial RL",
+        "Kafka",
+        "Spark Streaming",
+        "Processus de Hawkes",
+        "XAI",
+        "GNNExplainer",
+        "Détection d'anomalies",
+        "AML",
+        "Finance"
       ],
       "link": "#"
     },

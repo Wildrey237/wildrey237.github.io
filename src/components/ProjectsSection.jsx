@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
     Box,
     Text,
@@ -55,6 +55,7 @@ const ProjectCard = ({ project, index, onOpenProject, isDark }) => {
     const IconComponent = LucideIcons[project.icon] || LucideIcons["FileText"];
 
     const cardBg = useColorModeValue("white", "whiteAlpha.50");
+    const iconBoxBg = useColorModeValue("teal.50", "whiteAlpha.100");
     const cardBorder = useColorModeValue("gray.200", "whiteAlpha.200");
     const titleColor = useColorModeValue("gray.800", "white");
     const textColor = useColorModeValue("gray.600", "gray.300");
@@ -134,7 +135,7 @@ const ProjectCard = ({ project, index, onOpenProject, isDark }) => {
                     <Box
                         p={2}
                         borderRadius="lg"
-                        bg={useColorModeValue("teal.50", "whiteAlpha.100")}
+                        bg={iconBoxBg}
                         flexShrink={0}
                     >
                         <Icon as={IconComponent} color={iconColor} boxSize={5} />
@@ -353,7 +354,7 @@ const ProjectsSection = () => {
                 </Heading>
                 <Box w="48px" h="4px" bg={accentColor} borderRadius="full" />
                 <Text color={counterColor} fontSize="sm">
-                    {filteredProjects.length} {i18n.language === "fr" ? "projets" : "projects"}
+                    {filteredProjects.length} {t("projects.countLabel")}
                 </Text>
             </VStack>
 
@@ -364,7 +365,7 @@ const ProjectsSection = () => {
                     <Search size={16} color="gray" />
                 </InputLeftElement>
                 <Input
-                    placeholder={i18n.language === "fr" ? "Rechercher un projet, technologie..." : "Search projects, technologies..."}
+                    placeholder={t("projects.searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     bg={inputBg}
@@ -427,7 +428,7 @@ const ProjectsSection = () => {
                         colorScheme="red"
                         onClick={() => { setSchoolFilter(""); setTagFilter([]); setSearchQuery(""); }}
                     >
-                        {i18n.language === "fr" ? "Effacer" : "Clear"}
+                        {t("projects.clearFilters")}
                     </Button>
                 )}
             </HStack>

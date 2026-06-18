@@ -8,6 +8,16 @@ Portfolio personnel développé en **React + Vite**, stylisé avec **Chakra UI**
 
 ---
 
+## Documentation technique
+
+| Fichier | Contenu |
+|---|---|
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Structure, responsabilités des composants, données, CI/CD, anti-patterns |
+| [docs/CODE_CONVENTIONS.md](docs/CODE_CONVENTIONS.md) | Nommage, imports, composants, JSON, i18n, styles |
+| [docs/WORKFLOWS.md](docs/WORKFLOWS.md) | Branches, commits, pipeline de déploiement, CVs |
+
+---
+
 ## Sommaire
 
 1. [Prérequis](#prérequis)
@@ -50,10 +60,16 @@ src/
     ├── data-fr.json       # Contenu français
     └── data-en.json       # Contenu anglais (structure identique)
 
+cv/
+├── cv-francais.pdf        # CV français (convention : cv-{langue}.pdf)
+└── cv-anglais.pdf         # CV anglais
+
 public/
 ├── icon.svg              # Favicon <W/B>
 └── 404.html              # Page 404 custom avec redirection automatique
 ```
+
+> **Convention CVs :** les fichiers PDF doivent toujours respecter le format `cv-{langue}.pdf` (ex. `cv-francais.pdf`, `cv-anglais.pdf`) et être placés dans le dossier `cv/`. Le composant `Footer.jsx` sélectionne automatiquement le bon fichier selon la langue active.
 
 ---
 
