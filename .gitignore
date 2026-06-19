@@ -26,3 +26,8 @@ dist-ssr
 # Claude Code
 CLAUDE.md
 .claude/
+
+# Internal docs
+docs/
+history.md
+assets/
