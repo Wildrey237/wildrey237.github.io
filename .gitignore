@@ -27,6 +27,5 @@ dist-ssr
 CLAUDE.md
 .claude/
 
-# Internal docs
-docs/
+# Internal
 assets/
