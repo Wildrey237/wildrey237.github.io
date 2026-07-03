@@ -17,6 +17,8 @@ const resources = {
             seeProjects: "Voir mes projets",
             contactMe: "Me contacter",
             experiencesTitle: "Expériences professionnelles",
+            experienceSeeMore: "Voir le détail",
+            experienceSeeLess: "Réduire",
             skillsCategories: {
                 ai: "IA / Machine Learning",
                 databases: "Bases de données",
@@ -50,6 +52,8 @@ const resources = {
             seeProjects: "See my projects",
             contactMe: "Contact me",
             experiencesTitle: "Work Experiences",
+            experienceSeeMore: "See details",
+            experienceSeeLess: "Collapse",
             skillsCategories: {
                 ai: "AI / Machine Learning",
                 databases: "Databases",

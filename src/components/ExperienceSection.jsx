@@ -11,9 +11,12 @@ import {
     Wrap,
     WrapItem,
     Link,
+    Button,
+    Collapse,
     useColorModeValue,
 } from "@chakra-ui/react";
-import {ExternalLinkIcon} from "@chakra-ui/icons";
+import {ExternalLinkIcon, AddIcon, MinusIcon} from "@chakra-ui/icons";
+import {useState} from "react";
 import {motion} from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
@@ -67,6 +70,9 @@ export default function ExperienceSection() {
     const {t, i18n} = useTranslation();
     const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
+
+    const [expanded, setExpanded] = useState({});
+    const toggle = (idx) => setExpanded((prev) => ({...prev, [idx]: !prev[idx]}));
 
     const isDark = colorMode === "dark";
 
@@ -243,6 +249,27 @@ export default function ExperienceSection() {
 
                             <Box mb={4}>
                                 {renderDescription(exp.description, textSoft, isDark)}
+
+                                {exp.descriptionMore && (
+                                    <>
+                                        <Collapse in={expanded[idx]} animateOpacity>
+                                            <Box mt={3}>
+                                                {renderDescription(exp.descriptionMore, textSoft, isDark)}
+                                            </Box>
+                                        </Collapse>
+                                        <Button
+                                            mt={3}
+                                            size="sm"
+                                            variant="ghost"
+                                            leftIcon={expanded[idx] ? <MinusIcon boxSize={2.5} /> : <AddIcon boxSize={2.5} />}
+                                            color={accentColor}
+                                            _hover={{bg: isDark ? "whiteAlpha.100" : "teal.50"}}
+                                            onClick={() => toggle(idx)}
+                                        >
+                                            {expanded[idx] ? t("experienceSeeLess") : t("experienceSeeMore")}
+                                        </Button>
+                                    </>
+                                )}
                             </Box>
 
                             {exp.tags && (
