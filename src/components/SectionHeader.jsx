@@ -4,21 +4,21 @@ import {motion} from "framer-motion";
 const MotionBox = motion(Box);
 
 /**
- * Editorial section header: a mono index + label sitting on a hairline rule,
- * with a Fraunces serif title beneath. Left-aligned, asymmetric — replaces the
- * repeated centered "title + underline bar" pattern.
+ * Section header: a colored mono index + label on a hairline rule, with a
+ * Space Grotesk title beneath. Left-aligned, tech-modern, not a code comment.
  */
-export default function SectionHeader({index, label, title, maxW = "1200px"}) {
+export default function SectionHeader({index, label, title, accent = "accent", maxW = "1200px"}) {
     return (
         <Box maxW={maxW} mx="auto" mb={{base: 10, md: 14}} px={{base: 1, md: 2}}>
-            <HStack spacing={4} align="center" mb={4}>
+            <HStack spacing={3} align="center" mb={4}>
+                <Box w="9px" h="9px" borderRadius="2px" bg={accent} flexShrink={0}/>
                 <Text
                     as="span"
                     fontFamily="mono"
                     fontSize="xs"
-                    fontWeight="500"
-                    letterSpacing="0.06em"
-                    color="accent"
+                    fontWeight="600"
+                    letterSpacing="0.04em"
+                    color={accent}
                     className="tabular"
                 >
                     {index}
@@ -47,10 +47,10 @@ export default function SectionHeader({index, label, title, maxW = "1200px"}) {
                 <Heading
                     as="h2"
                     fontFamily="heading"
-                    fontWeight="600"
+                    fontWeight="700"
                     fontSize={{base: "3xl", md: "4xl", lg: "5xl"}}
-                    lineHeight="1.02"
-                    letterSpacing="-0.025em"
+                    lineHeight="1.04"
+                    letterSpacing="-0.03em"
                     color="fg.default"
                     maxW="20ch"
                     sx={{textWrap: "balance"}}

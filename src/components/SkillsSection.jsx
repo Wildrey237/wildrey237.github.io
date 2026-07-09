@@ -36,13 +36,23 @@ const CATEGORY_ICONS = {
     math_foundations: FaSquareRootAlt,
 };
 
-function SkillChip({skill}) {
+// One curated color per category — joyful, but assigned by role.
+const CATEGORY_COLORS = {
+    ai: "syntax.purple",
+    data_engineering: "syntax.amber",
+    software_engineering: "syntax.blue",
+    cloud_mlop: "syntax.cyan",
+    databases: "syntax.green",
+    math_foundations: "syntax.pink",
+};
+
+function SkillChip({skill, color}) {
     return (
         <Tooltip
             label={skill.desc}
             placement="top"
             hasArrow
-            borderRadius="sm"
+            borderRadius="md"
             bg="fg.default"
             color="canvas"
             px={3}
@@ -58,7 +68,7 @@ function SkillChip({skill}) {
                 fontSize="xs"
                 fontWeight="400"
                 letterSpacing="0.01em"
-                borderRadius="sm"
+                borderRadius="md"
                 bg="surface"
                 color="fg.muted"
                 border="1px solid"
@@ -66,8 +76,8 @@ function SkillChip({skill}) {
                 cursor="default"
                 transition="all 0.18s ease"
                 _hover={{
-                    color: "fg.default",
-                    borderColor: "accent.line",
+                    color: color,
+                    borderColor: color,
                     transform: "translateY(-2px)",
                 }}
             >
@@ -77,7 +87,7 @@ function SkillChip({skill}) {
     );
 }
 
-function CategoryRow({index, title, items, icon, idx}) {
+function CategoryRow({index, title, items, icon, color, idx}) {
     return (
         <MotionBox
             initial={{opacity: 0, y: 20}}
@@ -90,23 +100,32 @@ function CategoryRow({index, title, items, icon, idx}) {
         >
             <Grid templateColumns={{base: "1fr", md: "280px 1fr"}} gap={{base: 4, md: 10}}>
                 <GridItem>
-                    <HStack spacing={3} align="baseline">
+                    <HStack spacing={3} align="center">
                         <Text
                             fontFamily="mono"
                             fontSize="xs"
-                            fontWeight="500"
-                            color="accent"
+                            fontWeight="600"
+                            color={color}
                             className="tabular"
                         >
                             {index}
                         </Text>
-                        <Icon as={icon} color="fg.faint" boxSize={4} mt="1px"/>
+                        <Box
+                            p={1.5}
+                            borderRadius="md"
+                            bg="surface"
+                            border="1px solid"
+                            borderColor="line.subtle"
+                            display="inline-flex"
+                        >
+                            <Icon as={icon} color={color} boxSize={3.5}/>
+                        </Box>
                         <Heading
                             as="h3"
                             fontFamily="heading"
                             fontWeight="600"
                             fontSize={{base: "lg", md: "xl"}}
-                            letterSpacing="-0.01em"
+                            letterSpacing="-0.02em"
                             color="fg.default"
                             lineHeight="1.15"
                         >
@@ -119,7 +138,7 @@ function CategoryRow({index, title, items, icon, idx}) {
                     <Wrap spacing={2}>
                         {items.map((skill, i) => (
                             <WrapItem key={i}>
-                                <SkillChip skill={skill}/>
+                                <SkillChip skill={skill} color={color}/>
                             </WrapItem>
                         ))}
                     </Wrap>
@@ -151,6 +170,7 @@ export default function SkillsSection() {
                 index="01"
                 label={t("skills")}
                 title={isFr ? "Ce avec quoi je construis" : "What I build with"}
+                accent="syntax.blue"
             />
 
             <Box maxW="1200px" mx="auto" borderBottom="1px solid" borderColor="line.subtle">
@@ -161,6 +181,7 @@ export default function SkillsSection() {
                         title={categoryLabels[categoryKey] || categoryKey}
                         items={data.skills[categoryKey]}
                         icon={CATEGORY_ICONS[categoryKey] || FaCode}
+                        color={CATEGORY_COLORS[categoryKey] || "accent"}
                         idx={idx}
                     />
                 ))}

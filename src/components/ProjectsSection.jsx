@@ -42,8 +42,18 @@ import SectionHeader from "./SectionHeader";
 const MotionBox = motion(Box);
 const ease = [0.22, 1, 0.36, 1];
 
+const PALETTE = ["syntax.blue", "syntax.purple", "syntax.green", "syntax.amber", "syntax.pink", "syntax.cyan"];
+
+// Stable color per project (hash of title) so a project keeps its hue across pages.
+function colorFor(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    return PALETTE[h % PALETTE.length];
+}
+
 const ProjectCard = ({project, onOpenProject, viewLabel}) => {
     const IconComponent = LucideIcons[project.icon] || LucideIcons.FileText;
+    const color = colorFor(project.title);
 
     return (
         <Box
@@ -51,6 +61,8 @@ const ProjectCard = ({project, onOpenProject, viewLabel}) => {
             p={6}
             border="1px solid"
             borderColor="line.subtle"
+            borderTop="3px solid"
+            borderTopColor={color}
             borderRadius="md"
             bg="surface"
             cursor="pointer"
@@ -58,8 +70,9 @@ const ProjectCard = ({project, onOpenProject, viewLabel}) => {
             position="relative"
             _hover={{
                 transform: "translateY(-4px)",
-                borderColor: "accent.line",
-                boxShadow: "0 12px 30px rgba(28,27,24,0.10)",
+                borderColor: color,
+                borderTopColor: color,
+                boxShadow: "0 14px 34px rgba(0,0,0,0.28)",
             }}
             h="380px"
             onClick={() => onOpenProject(project)}
@@ -71,10 +84,10 @@ const ProjectCard = ({project, onOpenProject, viewLabel}) => {
                     right={6}
                     fontFamily="mono"
                     fontSize="10px"
-                    fontWeight="500"
+                    fontWeight="600"
                     textTransform="uppercase"
                     letterSpacing="0.1em"
-                    color="fg.faint"
+                    color={color}
                 >
                     {project.badge}
                 </Text>
@@ -83,11 +96,13 @@ const ProjectCard = ({project, onOpenProject, viewLabel}) => {
             <VStack align="start" spacing={4} h="100%">
                 <Box
                     p={2.5}
-                    borderRadius="sm"
-                    bg="accent.soft"
+                    borderRadius="md"
+                    bg="surface.raised"
+                    border="1px solid"
+                    borderColor="line.subtle"
                     flexShrink={0}
                 >
-                    <Icon as={IconComponent} color="accent" boxSize={5} strokeWidth={1.75}/>
+                    <Icon as={IconComponent} color={color} boxSize={5} strokeWidth={1.75}/>
                 </Box>
 
                 <Box>
@@ -143,7 +158,7 @@ const ProjectCard = ({project, onOpenProject, viewLabel}) => {
 
                 <HStack w="100%" pt={1}>
                     <Spacer/>
-                    <HStack spacing={1.5} color="accent" fontFamily="mono" fontSize="xs" fontWeight="500">
+                    <HStack spacing={1.5} color={color} fontFamily="mono" fontSize="xs" fontWeight="500">
                         <Text>{viewLabel}</Text>
                         <Icon as={ArrowUpRight} boxSize={4}/>
                     </HStack>
@@ -236,6 +251,7 @@ const ProjectsSection = () => {
         selectedProject && LucideIcons[selectedProject.icon]
             ? LucideIcons[selectedProject.icon]
             : LucideIcons.FileText;
+    const selectedColor = selectedProject ? colorFor(selectedProject.title) : "accent";
 
     const hasFilters = schoolFilter || tagFilter.length > 0 || searchQuery;
 
@@ -245,6 +261,7 @@ const ProjectsSection = () => {
                 index="04"
                 label={`${t("projectsNav")} · ${filteredProjects.length}`}
                 title={isFr ? "Ce que j'ai construit" : "Things I have built"}
+                accent="syntax.amber"
             />
 
             {/* Filters */}
@@ -444,8 +461,8 @@ const ProjectsSection = () => {
                     <ModalHeader>
                         {selectedProject && (
                             <HStack spacing={3} align="start">
-                                <Box p={2.5} borderRadius="sm" bg="accent.soft">
-                                    <Icon as={selectedIcon} boxSize={5} color="accent" strokeWidth={1.75}/>
+                                <Box p={2.5} borderRadius="md" bg="surface" border="1px solid" borderColor="line.subtle">
+                                    <Icon as={selectedIcon} boxSize={5} color={selectedColor} strokeWidth={1.75}/>
                                 </Box>
                                 <Box>
                                     <Heading fontFamily="heading" fontWeight="600" fontSize="xl" letterSpacing="-0.015em">

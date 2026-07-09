@@ -157,15 +157,16 @@ export default function ProfileSection() {
                         <Heading
                             as="h1"
                             fontFamily="heading"
-                            fontWeight="600"
+                            fontWeight="700"
                             fontSize={{base: "5xl", md: "6xl", xl: "7xl"}}
                             lineHeight="0.94"
-                            letterSpacing="-0.03em"
+                            letterSpacing="-0.035em"
                             color="fg.default"
                             mb={5}
                             sx={{textWrap: "balance"}}
                         >
                             {profile.name}
+                            <Box as="span" color="accent">.</Box>
                         </Heading>
 
                         <Box mb={7}>
@@ -189,7 +190,7 @@ export default function ProfileSection() {
                                 href="#projects"
                                 colorScheme="brand"
                                 size="lg"
-                                borderRadius="sm"
+                                borderRadius="lg"
                                 px={7}
                                 fontSize="sm"
                                 letterSpacing="0.01em"
@@ -248,6 +249,17 @@ export default function ProfileSection() {
                         animate={{opacity: 1, scale: 1}}
                         transition={{duration: 0.9, ease, delay: 0.15}}
                     >
+                        {/* Colorful glow — joyful, single, soft */}
+                        <Box
+                            aria-hidden
+                            position="absolute"
+                            inset="-24px"
+                            borderRadius="2xl"
+                            opacity={0.55}
+                            filter="blur(56px)"
+                            bgGradient="linear(135deg, syntax.blue, syntax.purple, syntax.pink)"
+                            _light={{opacity: 0.28}}
+                        />
                         {/* Offset accent frame — depth via layering */}
                         <Box
                             aria-hidden
@@ -258,11 +270,11 @@ export default function ProfileSection() {
                             bottom="-16px"
                             border="1px solid"
                             borderColor="accent.line"
-                            borderRadius="sm"
+                            borderRadius="lg"
                         />
                         <Box
                             position="relative"
-                            borderRadius="sm"
+                            borderRadius="lg"
                             overflow="hidden"
                             border="1px solid"
                             borderColor="line.strong"
@@ -277,9 +289,8 @@ export default function ProfileSection() {
                                     objectFit="cover"
                                     w="100%"
                                     h="100%"
-                                    filter="grayscale(1) contrast(1.02)"
-                                    transition="filter 0.6s ease, transform 0.6s ease"
-                                    _groupHover={{filter: "grayscale(0) contrast(1)", transform: "scale(1.03)"}}
+                                    transition="transform 0.6s ease"
+                                    _groupHover={{transform: "scale(1.04)"}}
                                 />
                             ) : (
                                 <Box

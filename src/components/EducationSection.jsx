@@ -21,6 +21,8 @@ import SectionHeader from "./SectionHeader";
 const MotionBox = motion(Box);
 const ease = [0.22, 1, 0.36, 1];
 
+const PALETTE = ["syntax.green", "syntax.blue", "syntax.purple", "syntax.amber", "syntax.pink"];
+
 const SCHOOL_LOGOS = {
     epita: "https://www.epita.fr/wp-content/themes/epita-refonte-theme/assets/images/logo-epita-sans-baseline.png",
     ece: "https://www.ece.fr/wp-content/uploads/2024/01/logo-ece.svg",
@@ -46,7 +48,7 @@ function getCampus(schoolName) {
     return null;
 }
 
-function EducationCard({edu, idx, lang}) {
+function EducationCard({edu, idx, lang, color}) {
     const {isOpen, onToggle} = useDisclosure();
     const logoBg = useColorModeValue("gray.50", "white");
     const logo = getSchoolLogo(edu.school);
@@ -62,9 +64,11 @@ function EducationCard({edu, idx, lang}) {
             bg="surface"
             border="1px solid"
             borderColor="line.subtle"
+            borderLeft="3px solid"
+            borderLeftColor={color}
             borderRadius="md"
             overflow="hidden"
-            _hover={{borderColor: "accent.line", transform: "translateY(-2px)"}}
+            _hover={{borderColor: color, borderLeftColor: color, transform: "translateY(-2px)"}}
             sx={{transition: "border-color 0.2s ease, transform 0.2s ease"}}
         >
             <HStack p={{base: 5, md: 6}} spacing={5} align="flex-start">
@@ -92,7 +96,7 @@ function EducationCard({edu, idx, lang}) {
                             onError={(e) => {(e.target.style.display = "none");}}
                         />
                     ) : (
-                        <Text fontFamily="heading" fontWeight="700" fontSize="2xl" color="accent">
+                        <Text fontFamily="heading" fontWeight="700" fontSize="2xl" color={color}>
                             {edu.school[0]}
                         </Text>
                     )}
@@ -158,11 +162,11 @@ function EducationCard({edu, idx, lang}) {
                     </Heading>
 
                     <HStack mt={1.5} spacing={2} flexWrap="wrap">
-                        <Text fontFamily="mono" fontSize="sm" fontWeight="500" color="accent">
+                        <Text fontFamily="mono" fontSize="sm" fontWeight="500" color={color}>
                             {edu.school.replace(/ (FR|CMR)$/, "")}
                         </Text>
                         {edu.website && (
-                            <Link href={edu.website} isExternal color="fg.faint" _hover={{color: "accent"}}>
+                            <Link href={edu.website} isExternal color="fg.faint" _hover={{color: color}}>
                                 <ExternalLinkIcon boxSize={3} mb="2px"/>
                             </Link>
                         )}
@@ -187,7 +191,7 @@ function EducationCard({edu, idx, lang}) {
                             fontFamily="mono"
                             fontSize="xs"
                             fontWeight="500"
-                            color="accent"
+                            color={color}
                             _hover={{opacity: 0.7}}
                             rightIcon={isOpen ? <ChevronUpIcon/> : <ChevronDownIcon/>}
                             onClick={onToggle}
@@ -221,12 +225,19 @@ export default function EducationSection() {
                 index="03"
                 label={t("education")}
                 title={isFr ? "Mon parcours académique" : "My academic path"}
+                accent="syntax.green"
             />
 
             <Box maxW="900px" mx="auto">
                 <VStack spacing={5} align="stretch">
                     {data.education?.map((edu, idx) => (
-                        <EducationCard key={idx} edu={edu} idx={idx} lang={i18n.language}/>
+                        <EducationCard
+                            key={idx}
+                            edu={edu}
+                            idx={idx}
+                            lang={i18n.language}
+                            color={PALETTE[idx % PALETTE.length]}
+                        />
                     ))}
                 </VStack>
             </Box>

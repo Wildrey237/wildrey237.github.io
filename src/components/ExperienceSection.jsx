@@ -10,7 +10,6 @@ import {
     Link,
     Button,
     Collapse,
-    useColorMode,
 } from "@chakra-ui/react";
 import {ExternalLinkIcon, AddIcon, MinusIcon} from "@chakra-ui/icons";
 import {useState} from "react";
@@ -24,7 +23,9 @@ import SectionHeader from "./SectionHeader";
 const MotionBox = motion(Box);
 const ease = [0.22, 1, 0.36, 1];
 
-function renderDescription(text) {
+const PALETTE = ["syntax.blue", "syntax.purple", "syntax.green", "syntax.amber", "syntax.pink"];
+
+function renderDescription(text, color) {
     const paragraphs = text.split(/\n\n/);
     return (
         <VStack align="start" spacing={3}>
@@ -44,7 +45,7 @@ function renderDescription(text) {
                             <VStack align="start" spacing={1.5} pl={1}>
                                 {bullets.map((b, j) => (
                                     <HStack key={j} align="start" spacing={2.5}>
-                                        <Box w="4px" h="4px" borderRadius="1px" bg="accent" mt="8px" flexShrink={0}/>
+                                        <Box w="5px" h="5px" borderRadius="2px" bg={color} mt="8px" flexShrink={0}/>
                                         <Text fontSize="sm" color="fg.muted" lineHeight="1.65">
                                             {b.replace(/^•\s*/, "").trim()}
                                         </Text>
@@ -64,14 +65,14 @@ function renderDescription(text) {
     );
 }
 
-function ExperienceEntry({exp, idx}) {
+function ExperienceEntry({exp, idx, color}) {
     const {t} = useTranslation();
     const [open, setOpen] = useState(false);
 
     return (
         <MotionBox
             position="relative"
-            pl={{base: 9, md: 14}}
+            pl={{base: 10, md: 16}}
             pb={{base: 12, md: 14}}
             initial={{opacity: 0, y: 24}}
             whileInView={{opacity: 1, y: 0}}
@@ -84,9 +85,9 @@ function ExperienceEntry({exp, idx}) {
                 left={{base: "0", md: "1px"}}
                 top="2px"
                 transform="translateX(-50%)"
-                w="34px"
-                h="34px"
-                borderRadius="sm"
+                w="36px"
+                h="36px"
+                borderRadius="lg"
                 bg="surface.raised"
                 border="1px solid"
                 borderColor="line.strong"
@@ -94,21 +95,21 @@ function ExperienceEntry({exp, idx}) {
                 alignItems="center"
                 justifyContent="center"
                 overflow="hidden"
-                boxShadow="0 2px 10px rgba(28,27,24,0.06)"
+                boxShadow="0 2px 12px rgba(0,0,0,0.18)"
             >
                 {exp.logo ? (
                     <Image src={exp.logo} alt={exp.company} boxSize="24px" objectFit="contain"/>
                 ) : (
-                    <Box w="8px" h="8px" bg="accent" borderRadius="1px" transform="rotate(45deg)"/>
+                    <Box w="9px" h="9px" bg={color} borderRadius="2px" transform="rotate(45deg)"/>
                 )}
             </Box>
 
             <Text
                 fontFamily="mono"
                 fontSize="xs"
-                fontWeight="500"
+                fontWeight="600"
                 letterSpacing="0.04em"
-                color="accent"
+                color={color}
                 mb={2}
                 className="tabular"
             >
@@ -120,7 +121,7 @@ function ExperienceEntry({exp, idx}) {
                 fontFamily="heading"
                 fontWeight="600"
                 fontSize={{base: "xl", md: "2xl"}}
-                letterSpacing="-0.015em"
+                letterSpacing="-0.02em"
                 color="fg.default"
                 lineHeight="1.2"
                 mb={1.5}
@@ -133,7 +134,7 @@ function ExperienceEntry({exp, idx}) {
                     {exp.company}
                 </Text>
                 {exp.website && (
-                    <Link href={exp.website} isExternal color="fg.faint" _hover={{color: "accent"}}>
+                    <Link href={exp.website} isExternal color="fg.faint" _hover={{color: color}}>
                         <ExternalLinkIcon mb="2px" boxSize={3}/>
                     </Link>
                 )}
@@ -146,12 +147,12 @@ function ExperienceEntry({exp, idx}) {
             </HStack>
 
             <Box mt={4}>
-                {renderDescription(exp.description)}
+                {renderDescription(exp.description, color)}
 
                 {exp.descriptionMore && (
                     <>
                         <Collapse in={open} animateOpacity>
-                            <Box mt={3}>{renderDescription(exp.descriptionMore)}</Box>
+                            <Box mt={3}>{renderDescription(exp.descriptionMore, color)}</Box>
                         </Collapse>
                         <Button
                             mt={3}
@@ -165,7 +166,7 @@ function ExperienceEntry({exp, idx}) {
                             fontSize="xs"
                             fontWeight="500"
                             letterSpacing="0.03em"
-                            color="accent"
+                            color={color}
                             _hover={{opacity: 0.7}}
                             leftIcon={open ? <MinusIcon boxSize={2.5}/> : <AddIcon boxSize={2.5}/>}
                             onClick={() => setOpen((v) => !v)}
@@ -188,9 +189,9 @@ function ExperienceEntry({exp, idx}) {
                                 color="fg.muted"
                                 border="1px solid"
                                 borderColor="line.subtle"
-                                borderRadius="sm"
+                                borderRadius="md"
                                 transition="all 0.18s ease"
-                                _hover={{borderColor: "accent.line", color: "fg.default"}}
+                                _hover={{borderColor: color, color: color}}
                             >
                                 {tag}
                             </Box>
@@ -204,7 +205,6 @@ function ExperienceEntry({exp, idx}) {
 
 export default function ExperienceSection() {
     const {t, i18n} = useTranslation();
-    useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
     const isFr = i18n.language === "fr";
 
@@ -214,6 +214,7 @@ export default function ExperienceSection() {
                 index="02"
                 label={t("experiences")}
                 title={isFr ? "Là où j'ai appris en produisant" : "Where I learned by shipping"}
+                accent="syntax.purple"
             />
 
             <Box maxW="820px" mx="auto" position="relative">
@@ -227,7 +228,7 @@ export default function ExperienceSection() {
                     bg="line.strong"
                 />
                 {data.experiences.map((exp, idx) => (
-                    <ExperienceEntry key={idx} exp={exp} idx={idx}/>
+                    <ExperienceEntry key={idx} exp={exp} idx={idx} color={PALETTE[idx % PALETTE.length]}/>
                 ))}
             </Box>
         </Box>

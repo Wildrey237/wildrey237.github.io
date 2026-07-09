@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <rect width="64" height="64" rx="12" fill="#161519"/>
-    <rect x="13" y="27" width="8" height="8" rx="1.5" fill="#9db4e0" transform="rotate(45 17 31)"/>
+    <rect width="64" height="64" rx="12" fill="#0b0d14"/>
+    <rect x="13" y="27" width="8" height="8" rx="1.5" fill="#8fa2ff" transform="rotate(45 17 31)"/>
     <text
         x="40"
         y="33"
@@ -12,5 +12,5 @@
         fill="#f3f0ea"
         letter-spacing="-0.5"
     >WB</text>
-    <rect x="13" y="44" width="38" height="1.5" rx="0.75" fill="#9db4e0" opacity="0.4"/>
+    <rect x="13" y="44" width="38" height="1.5" rx="0.75" fill="#8fa2ff" opacity="0.4"/>
 </svg>

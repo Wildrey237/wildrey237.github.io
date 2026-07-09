@@ -6,54 +6,62 @@ import App from './App'
 import {ChakraProvider, ColorModeScript, extendTheme} from '@chakra-ui/react'
 
 const config = {
-    initialColorMode: 'light',
+    initialColorMode: 'dark',
     useSystemColorMode: false,
 }
 
-// Ink-blue accent scale — one considered accent, no teal, no AI gradient.
+// Primary accent — an electric periwinkle blue (functions/links in a code theme).
 const brand = {
-    50:  '#eef2f9',
-    100: '#d6e0f1',
-    200: '#b4c6e4',
-    300: '#8ba7d3',
-    400: '#5c7cb0',
-    500: '#2f4a7c',
-    600: '#284067',
-    700: '#213453',
-    800: '#1b2a42',
-    900: '#151f30',
+    50:  '#eef1ff',
+    100: '#dbe2ff',
+    200: '#b9c6ff',
+    300: '#8fa2ff',
+    400: '#6d82ff',
+    500: '#4f66f5',
+    600: '#3d51db',
+    700: '#3040ad',
+    800: '#28368a',
+    900: '#232f6e',
 }
 
 const theme = extendTheme({
     config,
     fonts: {
-        heading: "'Fraunces', Georgia, 'Times New Roman', serif",
+        heading: "'Space Grotesk', system-ui, sans-serif",
         body: "'IBM Plex Sans', system-ui, -apple-system, sans-serif",
-        mono: "'IBM Plex Mono', ui-monospace, monospace",
+        mono: "'JetBrains Mono', ui-monospace, monospace",
     },
     colors: {
         brand,
     },
     semanticTokens: {
         colors: {
-            // Surfaces — warm paper in light, warm ink in dark. Consistent throughout.
-            canvas:            {default: '#f7f4ef', _dark: '#161519'},
-            'canvas.alt':      {default: '#efeae1', _dark: '#1b1a20'},
-            surface:           {default: '#fffdf9', _dark: '#201e26'},
-            'surface.raised':  {default: '#ffffff', _dark: '#27242d'},
-            // Borders / hairlines
-            'line.subtle':     {default: '#e7dfd2', _dark: 'rgba(255,255,255,0.09)'},
-            'line.strong':     {default: '#d7cdbc', _dark: 'rgba(255,255,255,0.16)'},
+            // Surfaces — deep ink terminal in dark, clean light IDE in light.
+            canvas:            {default: '#f6f7fb', _dark: '#0b0d14'},
+            'canvas.alt':      {default: '#eef0f7', _dark: '#0f1220'},
+            surface:           {default: '#ffffff', _dark: '#151826'},
+            'surface.raised':  {default: '#ffffff', _dark: '#1b1f30'},
+            // Hairlines
+            'line.subtle':     {default: '#e4e7f0', _dark: 'rgba(255,255,255,0.08)'},
+            'line.strong':     {default: '#d3d7e6', _dark: 'rgba(255,255,255,0.15)'},
             // Text
-            'fg.default':      {default: '#1c1b18', _dark: '#f3f0ea'},
-            'fg.muted':        {default: '#6c665c', _dark: '#a6a199'},
-            'fg.faint':        {default: '#948d81', _dark: '#7d776e'},
-            // Accent
-            accent:            {default: 'brand.500', _dark: 'brand.300'},
-            'accent.soft':     {default: 'rgba(47,74,124,0.10)', _dark: 'rgba(157,180,224,0.14)'},
-            'accent.line':     {default: 'rgba(47,74,124,0.28)', _dark: 'rgba(157,180,224,0.32)'},
-            // Translucent chrome (navbar / footer over blurred backdrop)
-            'chrome.bg':       {default: 'rgba(247,244,239,0.82)', _dark: 'rgba(22,21,25,0.82)'},
+            'fg.default':      {default: '#171a26', _dark: '#e8e9f4'},
+            'fg.muted':        {default: '#565b73', _dark: '#9497b3'},
+            'fg.faint':        {default: '#8b8fa8', _dark: '#5f6480'},
+            // Primary accent
+            accent:            {default: '#3d51db', _dark: 'brand.300'},
+            'accent.soft':     {default: 'rgba(79,102,245,0.10)', _dark: 'rgba(143,162,255,0.14)'},
+            'accent.line':     {default: 'rgba(79,102,245,0.30)', _dark: 'rgba(143,162,255,0.34)'},
+            // Curated syntax palette — joyful but assigned by role, like code highlighting.
+            'syntax.green':    {default: '#1a7f37', _dark: '#7ee787'},
+            'syntax.blue':     {default: '#0969da', _dark: '#79b8ff'},
+            'syntax.purple':   {default: '#8250df', _dark: '#c297ff'},
+            'syntax.amber':    {default: '#bc4c00', _dark: '#ffbf5f'},
+            'syntax.pink':     {default: '#bf3989', _dark: '#ff9ec7'},
+            'syntax.cyan':     {default: '#1b7c83', _dark: '#66d9e8'},
+            'syntax.red':      {default: '#cf222e', _dark: '#ff7b72'},
+            // Translucent chrome (navbar / footer)
+            'chrome.bg':       {default: 'rgba(246,247,251,0.82)', _dark: 'rgba(11,13,20,0.82)'},
         },
     },
     styles: {
@@ -77,7 +85,6 @@ const theme = extendTheme({
         Button: {
             baseStyle: {
                 fontWeight: '500',
-                letterSpacing: '0',
             },
             defaultProps: {
                 colorScheme: 'brand',

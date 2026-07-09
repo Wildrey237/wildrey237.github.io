@@ -25,13 +25,12 @@ time,
   font-variant-numeric: tabular-nums;
 }
 
-/* Selection carries the ink accent */
+/* Selection carries the accent */
 ::selection {
-  background: rgba(47, 74, 124, 0.16);
+  background: rgba(61, 81, 219, 0.18);
 }
-:root[data-theme="dark"] ::selection,
 .chakra-ui-dark ::selection {
-  background: rgba(157, 180, 224, 0.24);
+  background: rgba(143, 162, 255, 0.28);
 }
 
 /* Slim, tinted scrollbar rather than the default chrome */
