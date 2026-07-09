@@ -7,7 +7,6 @@ import {
     HStack,
     useColorMode,
     useDisclosure,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import {HamburgerIcon, CloseIcon, SunIcon, MoonIcon} from "@chakra-ui/icons";
 import {useTranslation} from "react-i18next";
@@ -17,6 +16,8 @@ import LogoMark from "./LogoMark";
 
 const MotionBox = motion(Box);
 
+const SECTIONS = ["home", "skills", "experiences", "education", "projects"];
+
 export default function Navbar() {
     const {colorMode, toggleColorMode} = useColorMode();
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -25,78 +26,74 @@ export default function Navbar() {
     const [activeSection, setActiveSection] = useState("home");
     const [iconRotate, setIconRotate] = useState(0);
 
-    const isDark = colorMode === "dark";
-
-    const navBg = useColorModeValue("rgba(255,255,255,0.92)", "rgba(5,8,22,0.9)");
-    const navBorder = useColorModeValue("gray.200", "whiteAlpha.200");
-    const textColor = useColorModeValue("gray.700", "gray.300");
-    const activeTextColor = useColorModeValue("teal.700", "teal.200");
-    const pillBg = useColorModeValue("teal.50", "rgba(45,212,191,0.12)");
-    const mobileBg = useColorModeValue("rgba(255,255,255,0.96)", "rgba(11,16,32,0.96)");
-
     const scrollToId = (id) => {
+        onClose();
         if (id === "home") {
             window.scrollTo({top: 0, behavior: "smooth"});
-            onClose();
             return;
         }
-        const section = document.getElementById(id);
-        if (section) {
-            section.scrollIntoView({behavior: "smooth"});
-            onClose();
-        }
+        document.getElementById(id)?.scrollIntoView({behavior: "smooth"});
     };
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ["home", "skills", "experiences", "education", "projects"];
+            // Near the top the layout may not be measured yet — pin to home.
+            if (window.scrollY < 200) {
+                setActiveSection("home");
+                return;
+            }
             let current = "home";
-            sections.forEach((sec) => {
-                const element = document.getElementById(sec);
-                if (element) {
-                    const top = element.offsetTop - 120;
-                    const height = element.offsetHeight;
-                    if (window.scrollY >= top && window.scrollY < top + height) {
+            SECTIONS.forEach((sec) => {
+                const el = document.getElementById(sec);
+                if (el) {
+                    const top = el.offsetTop - 120;
+                    if (window.scrollY >= top && window.scrollY < top + el.offsetHeight) {
                         current = sec;
                     }
                 }
             });
             setActiveSection(current);
         };
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, {passive: true});
         handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const renderButton = (id, label) => {
+    const renderLink = (id, label) => {
         const isActive = activeSection === id;
         return (
-            <Box position="relative" key={id}>
-                {isActive && (
-                    <MotionBox
-                        layoutId="nav-pill"
-                        position="absolute"
-                        inset="0"
-                        borderRadius="full"
-                        bg={pillBg}
-                        transition={{type: "spring", bounce: 0.2, duration: 0.4}}
-                    />
-                )}
+            <Box position="relative" key={id} px={1}>
                 <Button
                     onClick={() => scrollToId(id)}
-                    variant="ghost"
-                    color={isActive ? activeTextColor : textColor}
-                    fontWeight={isActive ? "semibold" : "medium"}
-                    fontSize="sm"
-                    position="relative"
-                    zIndex={1}
-                    _hover={{color: "teal.500", bg: "transparent"}}
-                    _active={{bg: "transparent"}}
+                    variant="unstyled"
+                    height="auto"
+                    minW="auto"
+                    px={0}
+                    py={1}
+                    fontFamily="mono"
+                    fontSize="xs"
+                    fontWeight={isActive ? "600" : "400"}
+                    letterSpacing="0.04em"
+                    textTransform="uppercase"
+                    color={isActive ? "fg.default" : "fg.muted"}
+                    _hover={{color: "accent"}}
+                    transition="color 0.2s ease"
                     aria-current={isActive ? "page" : undefined}
-                    aria-label={`Go to section ${label}`}
                 >
                     {label}
                 </Button>
+                {isActive && (
+                    <MotionBox
+                        layoutId="nav-underline"
+                        position="absolute"
+                        bottom="-2px"
+                        left="0"
+                        right="0"
+                        h="2px"
+                        bg="accent"
+                        transition={{type: "spring", bounce: 0.15, duration: 0.5}}
+                    />
+                )}
             </Box>
         );
     };
@@ -108,77 +105,84 @@ export default function Navbar() {
                 position="fixed"
                 top="0"
                 w="100%"
-                bg={navBg}
-                backdropFilter="blur(10px)"
+                bg="chrome.bg"
+                backdropFilter="blur(12px)"
                 borderBottom="1px solid"
-                borderColor={navBorder}
-                px={6}
+                borderColor="line.subtle"
+                px={{base: 5, md: 8}}
                 py={3}
                 align="center"
                 justify="space-between"
-                boxShadow={isDark ? "0 6px 24px rgba(0,0,0,0.18)" : "0 2px 10px rgba(0,0,0,0.05)"}
                 zIndex="999"
             >
-                {/* Logo */}
                 <HStack
                     spacing={2}
-                    cursor="pointer"
-                    onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
+                    onClick={() => scrollToId("home")}
                     aria-label={i18n.language === "fr" ? "Retour à l'accueil" : "Go to home"}
                 >
                     <LogoMark/>
                 </HStack>
 
-                {/* Menu Desktop */}
-                <Flex display={{base: "none", md: "flex"}} gap="1" align="center">
-                    {renderButton("home", t("home"))}
-                    {renderButton("skills", t("skills"))}
-                    {renderButton("experiences", t("experiences"))}
-                    {renderButton("education", t("education"))}
-                    {renderButton("projects", t("projectsNav"))}
+                <Flex display={{base: "none", md: "flex"}} gap={7} align="center">
+                    {renderLink("home", t("home"))}
+                    {renderLink("skills", t("skills"))}
+                    {renderLink("experiences", t("experiences"))}
+                    {renderLink("education", t("education"))}
+                    {renderLink("projects", t("projectsNav"))}
                 </Flex>
 
-                {/* Actions */}
-                <Flex align="center" gap={1}>
+                <Flex align="center" gap={{base: 1, md: 3}}>
                     <IconButton
                         aria-label={colorMode === "light" ? "Activer le mode sombre" : "Activer le mode clair"}
                         icon={
                             <motion.span
-                                animate={{ rotate: iconRotate }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                                style={{ display: "inline-flex" }}
+                                animate={{rotate: iconRotate}}
+                                transition={{duration: 0.5, ease: [0.22, 1, 0.36, 1]}}
+                                style={{display: "inline-flex"}}
                             >
-                                {colorMode === "light" ? <MoonIcon/> : <SunIcon/>}
+                                {colorMode === "light" ? <MoonIcon boxSize={3.5}/> : <SunIcon boxSize={3.5}/>}
                             </motion.span>
                         }
-                        onClick={() => { toggleColorMode(); setIconRotate(r => r + 180); }}
+                        onClick={() => {
+                            toggleColorMode();
+                            setIconRotate((r) => r + 180);
+                        }}
                         variant="ghost"
-                        color={textColor}
-                        _hover={{color: "teal.400", bg: "transparent"}}
+                        size="sm"
+                        color="fg.muted"
+                        _hover={{color: "accent", bg: "transparent"}}
                     />
                     <Button
                         onClick={() => i18n.changeLanguage(i18n.language === "fr" ? "en" : "fr")}
-                        colorScheme="teal"
-                        variant="solid"
-                        size="sm"
-                        borderRadius="full"
+                        variant="unstyled"
+                        height="auto"
+                        minW="auto"
+                        px={0}
+                        fontFamily="mono"
+                        fontSize="xs"
+                        fontWeight="500"
+                        letterSpacing="0.06em"
+                        color="fg.muted"
+                        borderBottom="1px solid"
+                        borderColor="transparent"
+                        _hover={{color: "accent", borderColor: "accent.line"}}
                         aria-label={i18n.language === "fr" ? "Passer le site en anglais" : "Switch website to French"}
                     >
                         {i18n.language === "fr" ? "EN" : "FR"}
                     </Button>
                     <IconButton
                         aria-label="Ouvrir ou fermer le menu mobile"
-                        icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
+                        icon={isOpen ? <CloseIcon boxSize={2.5}/> : <HamburgerIcon boxSize={3.5}/>}
                         display={{base: "inline-flex", md: "none"}}
                         onClick={isOpen ? onClose : onOpen}
                         variant="ghost"
-                        color={textColor}
-                        _hover={{color: "teal.400", bg: "transparent"}}
+                        size="sm"
+                        color="fg.muted"
+                        _hover={{color: "accent", bg: "transparent"}}
                     />
                 </Flex>
             </Flex>
 
-            {/* Menu Mobile */}
             <AnimatePresence>
                 {isOpen && (
                     <MotionBox
@@ -187,25 +191,24 @@ export default function Navbar() {
                         top="57px"
                         left="0"
                         right="0"
-                        bg={mobileBg}
-                        backdropFilter="blur(10px)"
+                        bg="chrome.bg"
+                        backdropFilter="blur(12px)"
                         borderBottom="1px solid"
-                        borderColor={navBorder}
-                        p={4}
+                        borderColor="line.subtle"
+                        p={5}
                         display={{md: "none"}}
                         zIndex="998"
-                        boxShadow={isDark ? "0 12px 24px rgba(0,0,0,0.25)" : "0 8px 20px rgba(0,0,0,0.08)"}
                         initial={{opacity: 0, y: -8}}
                         animate={{opacity: 1, y: 0}}
                         exit={{opacity: 0, y: -8}}
-                        transition={{duration: 0.18}}
+                        transition={{duration: 0.2, ease: [0.22, 1, 0.36, 1]}}
                     >
-                        <Stack spacing={1}>
-                            {renderButton("home", t("home"))}
-                            {renderButton("skills", t("skills"))}
-                            {renderButton("experiences", t("experiences"))}
-                            {renderButton("education", t("education"))}
-                            {renderButton("projects", t("projectsNav"))}
+                        <Stack spacing={4}>
+                            {renderLink("home", t("home"))}
+                            {renderLink("skills", t("skills"))}
+                            {renderLink("experiences", t("experiences"))}
+                            {renderLink("education", t("education"))}
+                            {renderLink("projects", t("projectsNav"))}
                         </Stack>
                     </MotionBox>
                 )}

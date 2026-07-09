@@ -2,303 +2,312 @@ import {
     Box,
     Heading,
     Text,
-    Stack,
-    Link,
+    Grid,
+    GridItem,
     HStack,
     VStack,
     Button,
     Image,
-    useColorMode,
-    useColorModeValue,
+    Link,
     useToast,
 } from "@chakra-ui/react";
-import {Typewriter} from "react-simple-typewriter";
+import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
+import {motion, AnimatePresence} from "framer-motion";
 import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
-import {MdLocationOn, MdEmail} from "react-icons/md";
-import {FaLinkedin, FaGithub} from "react-icons/fa";
-import {motion} from "framer-motion";
 import LogoMark from "./LogoMark";
 
 const MotionBox = motion(Box);
-const MotionHStack = motion(HStack);
+
+const ease = [0.22, 1, 0.36, 1];
+
+function RoleRotator({roles}) {
+    const [i, setI] = useState(0);
+    useEffect(() => {
+        if (roles.length < 2) return;
+        const t = setInterval(() => setI((x) => (x + 1) % roles.length), 2800);
+        return () => clearInterval(t);
+    }, [roles.length]);
+
+    return (
+        <Box h="1.6em" overflow="hidden" position="relative">
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={i}
+                    initial={{opacity: 0, y: "0.5em"}}
+                    animate={{opacity: 1, y: 0}}
+                    exit={{opacity: 0, y: "-0.5em"}}
+                    transition={{duration: 0.4, ease}}
+                >
+                    <Text
+                        fontFamily="mono"
+                        fontSize={{base: "sm", md: "md"}}
+                        fontWeight="500"
+                        letterSpacing="0.02em"
+                        color="accent"
+                    >
+                        {roles[i]}
+                    </Text>
+                </motion.div>
+            </AnimatePresence>
+        </Box>
+    );
+}
+
+function MetaLink({href, children, onClick, isExternal}) {
+    return (
+        <Link
+            href={href}
+            onClick={onClick}
+            isExternal={isExternal}
+            fontFamily="mono"
+            fontSize="xs"
+            fontWeight="400"
+            color="fg.muted"
+            letterSpacing="0.01em"
+            borderBottom="1px solid"
+            borderColor="transparent"
+            pb="1px"
+            transition="all 0.18s ease"
+            _hover={{color: "accent", borderColor: "accent.line"}}
+        >
+            {children}
+        </Link>
+    );
+}
 
 export default function ProfileSection() {
     const {t, i18n} = useTranslation();
-    const {colorMode} = useColorMode();
     const data = i18n.language === "fr" ? frData : enData;
-
-    const isDark = colorMode === "dark";
-
-    const bgMain = useColorModeValue("gray.50", "#050816");
-    const textSoft = useColorModeValue("gray.600", "gray.300");
-    const headingColor = useColorModeValue("gray.800", "white");
-    const typewriterColor = useColorModeValue("teal.600", "teal.300");
-    const badgeBg = useColorModeValue("green.50", "rgba(72,187,120,0.1)");
-    const badgeBorder = useColorModeValue("green.200", "rgba(72,187,120,0.3)");
-    const badgeText = useColorModeValue("green.700", "green.300");
-    const cardBg = useColorModeValue("whiteAlpha.700", "whiteAlpha.50");
-    const cardBorder = useColorModeValue("blackAlpha.100", "whiteAlpha.200");
     const toast = useToast();
 
-    const copyEmail = () => {
-        navigator.clipboard.writeText(data.profile.email);
+    const {profile} = data;
+    const hasPicture = profile.link_picture && profile.link_picture.trim() !== "";
+    const showAvailable = profile.search && profile.search.toLowerCase() === "yes";
+    const roles = profile.typewriter_roles?.length ? profile.typewriter_roles : [profile.title];
+
+    const copyEmail = (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(profile.email);
         toast({
-            title: i18n.language === "fr" ? "Email copié !" : "Email copied!",
+            title: i18n.language === "fr" ? "Email copié" : "Email copied",
             status: "success",
-            duration: 2000,
+            duration: 1800,
             isClosable: false,
             position: "bottom",
         });
     };
 
-    const hasPicture =
-        data.profile.link_picture &&
-        data.profile.link_picture.trim() !== "";
-
-    const showSearchBadge =
-        data.profile.search &&
-        data.profile.search.toLowerCase() === "yes";
-
     return (
-        <MotionBox
+        <Box
             id="home"
-            px={{base: 6, md: 12}}
-            py={{base: 20, md: 28}}
-            bg={bgMain}
-            position="relative"
-            overflow="hidden"
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            transition={{duration: 0.6}}
+            as="section"
+            px={{base: 6, md: 10, lg: 16}}
+            pt={{base: 16, md: 24}}
+            pb={{base: 20, md: 28}}
+            bg="canvas"
         >
-            {isDark && (
-                <>
-                    <Box
-                        position="absolute"
-                        top="-120px"
-                        left="-120px"
-                        w="320px"
-                        h="320px"
-                        bg="purple.500"
-                        opacity={0.12}
-                        filter="blur(120px)"
-                        borderRadius="full"
-                    />
-                    <Box
-                        position="absolute"
-                        bottom="-120px"
-                        right="-120px"
-                        w="320px"
-                        h="320px"
-                        bg="blue.500"
-                        opacity={0.12}
-                        filter="blur(120px)"
-                        borderRadius="full"
-                    />
-                    <Box
-                        position="absolute"
-                        inset="0"
-                        opacity={0.08}
-                        backgroundImage="linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)"
-                        backgroundSize="48px 48px"
-                        pointerEvents="none"
-                    />
-                </>
-            )}
-
-            <Stack
-                direction={{base: "column", lg: "row"}}
-                align="center"
-                justify="space-between"
-                spacing={{base: 12, lg: 16}}
-                position="relative"
-                zIndex={1}
-                maxW="1400px"
+            <Grid
+                maxW="1200px"
                 mx="auto"
-                minH={{base: "auto", lg: "70vh"}}
+                templateColumns={{base: "1fr", lg: "1.35fr 1fr"}}
+                gap={{base: 14, lg: 20}}
+                alignItems="center"
+                minH={{lg: "72vh"}}
             >
-                {/* Left content */}
-                <VStack
-                    align={{base: "center", lg: "start"}}
-                    textAlign={{base: "center", lg: "left"}}
-                    spacing={6}
-                    flex="1"
-                    maxW="720px"
-                >
-                    {/* Badge avec point pulsant */}
-                    {showSearchBadge && (
-                        <HStack
-                            px={4}
-                            py={2}
-                            borderRadius="full"
-                            bg={badgeBg}
-                            border="1px solid"
-                            borderColor={badgeBorder}
-                            color={badgeText}
-                            fontSize="sm"
-                            fontWeight="medium"
-                            backdropFilter="blur(8px)"
-                            spacing={2}
-                        >
-                            <Box position="relative" w="8px" h="8px" flexShrink={0}>
-                                {/* Anneau pulsant */}
-                                <Box
-                                    position="absolute"
-                                    inset="0"
-                                    borderRadius="full"
-                                    bg="green.400"
-                                    sx={{
-                                        "@keyframes ping": {
-                                            "0%": {transform: "scale(1)", opacity: 0.8},
-                                            "100%": {transform: "scale(2.4)", opacity: 0},
-                                        },
-                                        animation: "ping 1.6s ease-out infinite",
-                                    }}
-                                />
-                                {/* Point fixe */}
-                                <Box
-                                    position="absolute"
-                                    inset="0"
-                                    borderRadius="full"
-                                    bg="green.400"
-                                />
-                            </Box>
-                            <Text>{t("available")}</Text>
-                        </HStack>
-                    )}
-
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "4xl", md: "5xl", xl: "6xl"}}
-                        lineHeight="0.95"
-                        color={headingColor}
-                        fontWeight="black"
-                        letterSpacing="-0.04em"
+                {/* Left — editorial text block */}
+                <GridItem>
+                    <MotionBox
+                        initial={{opacity: 0, y: 24}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.8, ease}}
                     >
-                        {data.profile.name}
-                    </Heading>
-
-                    <Text
-                        fontSize={{base: "xl", md: "2xl"}}
-                        color={typewriterColor}
-                        fontWeight="semibold"
-                        minH="2em"
-                    >
-                        <Typewriter
-                            words={data.profile.typewriter_roles || [data.profile.title]}
-                            loop={true}
-                            cursor
-                            cursorStyle="|"
-                            typeSpeed={60}
-                            deleteSpeed={35}
-                            delaySpeed={1800}
-                        />
-                    </Text>
-
-                    <Text
-                        fontSize={{base: "md", md: "lg"}}
-                        color={textSoft}
-                        maxW="760px"
-                    >
-                        {data.profile.summary}
-                    </Text>
-
-                    <HStack spacing={4} pt={1} flexWrap="wrap" justify={{base: "center", lg: "flex-start"}}>
-                        <Button as="a" href="#projects" colorScheme="teal" size="lg">
-                            {t("seeProjects")}
-                        </Button>
-                        <Button as="a" href={`mailto:${data.profile.email}`} variant="outline" size="lg">
-                            {t("contactMe")}
-                        </Button>
-                    </HStack>
-
-                    <HStack
-                        spacing={6}
-                        pt={1}
-                        flexWrap="wrap"
-                        justify={{base: "center", lg: "flex-start"}}
-                        color={textSoft}
-                    >
-                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
-                            <MdLocationOn/>
-                            <Text fontSize="sm">{data.profile.location}</Text>
-                        </MotionHStack>
-                        <MotionHStack
-                            whileHover={{scale: 1.05}}
-                            spacing={2}
-                            cursor="pointer"
-                            onClick={copyEmail}
-                            title={i18n.language === "fr" ? "Copier l'email" : "Copy email"}
-                        >
-                            <MdEmail/>
-                            <Text fontSize="sm" _hover={{color: "teal.400"}}>{data.profile.email}</Text>
-                        </MotionHStack>
-                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
-                            <FaLinkedin/>
-                            <Link href={data.profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</Link>
-                        </MotionHStack>
-                        <MotionHStack whileHover={{scale: 1.05}} spacing={2}>
-                            <FaGithub/>
-                            <Link href={data.profile.github} target="_blank" rel="noopener noreferrer">GitHub</Link>
-                        </MotionHStack>
-                    </HStack>
-                </VStack>
-
-                {/* Right visual */}
-                <Box
-                    flexShrink={0}
-                    position="relative"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <Box
-                        position="absolute"
-                        w={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
-                        h={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
-                        bg={isDark ? "teal.400" : "teal.100"}
-                        opacity={isDark ? 0.12 : 0.25}
-                        filter="blur(90px)"
-                        borderRadius="full"
-                    />
-                    <Box
-                        w={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
-                        h={{base: "220px", md: "300px", lg: "380px", xl: "430px"}}
-                        maxW="90vw"
-                        maxH="90vw"
-                        borderRadius={{base: "28px", md: "32px", lg: "36px"}}
-                        overflow="hidden"
-                        bg={cardBg}
-                        border="1px solid"
-                        borderColor={cardBorder}
-                        backdropFilter="blur(10px)"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        boxShadow={
-                            isDark
-                                ? "0 0 0 1px rgba(255,255,255,0.04), 0 10px 40px rgba(0,0,0,0.45)"
-                                : "xl"
-                        }
-                    >
-                        {hasPicture ? (
-                            <Image
-                                src={data.profile.link_picture}
-                                alt={data.profile.name}
-                                objectFit="cover"
-                                w="100%"
-                                h="100%"
-                            />
-                        ) : (
-                            <Box transform="scale(2.2)">
-                                <LogoMark/>
-                            </Box>
+                        {showAvailable && (
+                            <HStack spacing={2.5} mb={7}>
+                                <Box position="relative" w="7px" h="7px">
+                                    <Box
+                                        position="absolute"
+                                        inset="0"
+                                        borderRadius="full"
+                                        bg="green.400"
+                                        sx={{
+                                            "@keyframes ping": {
+                                                "0%": {transform: "scale(1)", opacity: 0.7},
+                                                "100%": {transform: "scale(2.6)", opacity: 0},
+                                            },
+                                            animation: "ping 1.8s ease-out infinite",
+                                        }}
+                                    />
+                                    <Box position="absolute" inset="0" borderRadius="full" bg="green.500"/>
+                                </Box>
+                                <Text
+                                    fontFamily="mono"
+                                    fontSize="xs"
+                                    fontWeight="500"
+                                    textTransform="uppercase"
+                                    letterSpacing="0.18em"
+                                    color="fg.muted"
+                                >
+                                    {t("available")}
+                                </Text>
+                            </HStack>
                         )}
-                    </Box>
-                </Box>
-            </Stack>
-        </MotionBox>
+
+                        <Heading
+                            as="h1"
+                            fontFamily="heading"
+                            fontWeight="600"
+                            fontSize={{base: "5xl", md: "6xl", xl: "7xl"}}
+                            lineHeight="0.94"
+                            letterSpacing="-0.03em"
+                            color="fg.default"
+                            mb={5}
+                            sx={{textWrap: "balance"}}
+                        >
+                            {profile.name}
+                        </Heading>
+
+                        <Box mb={7}>
+                            <RoleRotator roles={roles}/>
+                        </Box>
+
+                        <Text
+                            fontSize={{base: "md", md: "lg"}}
+                            lineHeight="1.75"
+                            color="fg.muted"
+                            maxW="60ch"
+                            mb={9}
+                            sx={{textWrap: "pretty"}}
+                        >
+                            {profile.summary}
+                        </Text>
+
+                        <HStack spacing={7} mb={10} flexWrap="wrap">
+                            <Button
+                                as="a"
+                                href="#projects"
+                                colorScheme="brand"
+                                size="lg"
+                                borderRadius="sm"
+                                px={7}
+                                fontSize="sm"
+                                letterSpacing="0.01em"
+                                _hover={{transform: "translateY(-2px)"}}
+                                _active={{transform: "translateY(0)"}}
+                                transition="transform 0.2s ease"
+                            >
+                                {t("seeProjects")}
+                            </Button>
+                            <Link
+                                href={`mailto:${profile.email}`}
+                                fontFamily="mono"
+                                fontSize="sm"
+                                fontWeight="500"
+                                color="fg.default"
+                                borderBottom="1px solid"
+                                borderColor="fg.default"
+                                pb="2px"
+                                transition="all 0.2s ease"
+                                _hover={{color: "accent", borderColor: "accent"}}
+                            >
+                                {t("contactMe")} →
+                            </Link>
+                        </HStack>
+
+                        <HStack
+                            spacing={{base: 4, md: 6}}
+                            flexWrap="wrap"
+                            rowGap={2}
+                            pt={6}
+                            borderTop="1px solid"
+                            borderColor="line.subtle"
+                        >
+                            <Text fontFamily="mono" fontSize="xs" color="fg.faint" letterSpacing="0.01em">
+                                {profile.location}
+                            </Text>
+                            <MetaLink href={`mailto:${profile.email}`} onClick={copyEmail}>
+                                {profile.email}
+                            </MetaLink>
+                            <MetaLink href={profile.linkedin} isExternal>
+                                LinkedIn ↗
+                            </MetaLink>
+                            <MetaLink href={profile.github} isExternal>
+                                GitHub ↗
+                            </MetaLink>
+                        </HStack>
+                    </MotionBox>
+                </GridItem>
+
+                {/* Right — framed portrait with layered depth */}
+                <GridItem justifySelf={{base: "center", lg: "end"}}>
+                    <MotionBox
+                        position="relative"
+                        w={{base: "260px", sm: "300px", md: "340px"}}
+                        initial={{opacity: 0, scale: 0.96}}
+                        animate={{opacity: 1, scale: 1}}
+                        transition={{duration: 0.9, ease, delay: 0.15}}
+                    >
+                        {/* Offset accent frame — depth via layering */}
+                        <Box
+                            aria-hidden
+                            position="absolute"
+                            top="16px"
+                            left="16px"
+                            right="-16px"
+                            bottom="-16px"
+                            border="1px solid"
+                            borderColor="accent.line"
+                            borderRadius="sm"
+                        />
+                        <Box
+                            position="relative"
+                            borderRadius="sm"
+                            overflow="hidden"
+                            border="1px solid"
+                            borderColor="line.strong"
+                            bg="surface"
+                            sx={{aspectRatio: "4 / 5"}}
+                            role="group"
+                        >
+                            {hasPicture ? (
+                                <Image
+                                    src={profile.link_picture}
+                                    alt={`Portrait de ${profile.name}`}
+                                    objectFit="cover"
+                                    w="100%"
+                                    h="100%"
+                                    filter="grayscale(1) contrast(1.02)"
+                                    transition="filter 0.6s ease, transform 0.6s ease"
+                                    _groupHover={{filter: "grayscale(0) contrast(1)", transform: "scale(1.03)"}}
+                                />
+                            ) : (
+                                <Box
+                                    w="100%"
+                                    h="100%"
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                >
+                                    <Box transform="scale(2.4)">
+                                        <LogoMark/>
+                                    </Box>
+                                </Box>
+                            )}
+                        </Box>
+                        <Text
+                            mt={5}
+                            fontFamily="mono"
+                            fontSize="11px"
+                            letterSpacing="0.08em"
+                            textTransform="uppercase"
+                            color="fg.faint"
+                        >
+                            {`— ${profile.location}`}
+                        </Text>
+                    </MotionBox>
+                </GridItem>
+            </Grid>
+        </Box>
     );
 }

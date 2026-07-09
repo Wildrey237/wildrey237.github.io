@@ -1,7 +1,7 @@
-import {Box, IconButton, useColorMode, useColorModeValue} from "@chakra-ui/react";
+import {Box, IconButton} from "@chakra-ui/react";
 import {motion, AnimatePresence} from "framer-motion";
 import {useState, useEffect} from "react";
-import {ChevronUp} from "lucide-react";
+import {ArrowUp} from "lucide-react";
 import Navbar from "./components/Navbar";
 import SkillsSection from "./components/SkillsSection";
 import ExperienceSection from "./components/ExperienceSection";
@@ -10,38 +10,24 @@ import ProjectsSection from "./components/ProjectsSection";
 import Footer from "./components/Footer";
 import ProfileSection from "./components/ProfileSection";
 import ScrollProgressBar from "./components/ScrollProgressBar";
+import GrainOverlay from "./components/GrainOverlay";
 
 const MotionBox = motion(Box);
 
+// Staggered, GPU-friendly scroll-in. Cinematic easing, no bounce.
 const sectionAnim = {
-    initial: {opacity: 0, y: 40},
+    initial: {opacity: 0, y: 32},
     whileInView: {opacity: 1, y: 0},
-    viewport: {once: true, amount: 0.15},
-    transition: {duration: 0.55, ease: "easeOut"},
+    viewport: {once: true, amount: 0.12},
+    transition: {duration: 0.7, ease: [0.22, 1, 0.36, 1]},
 };
-
-function SectionDivider({colorMode}) {
-    const isDark = colorMode === "dark";
-    return (
-        <Box
-            h="1px"
-            mx={{base: 6, md: 16}}
-            bg={isDark
-                ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)"
-                : "linear-gradient(90deg, transparent, rgba(0,0,0,0.07), transparent)"
-            }
-        />
-    );
-}
 
 function ScrollToTopButton() {
     const [visible, setVisible] = useState(false);
-    const btnBg = useColorModeValue("white", "#1a2744");
-    const btnBorder = useColorModeValue("gray.200", "whiteAlpha.200");
 
     useEffect(() => {
-        const onScroll = () => setVisible(window.scrollY > 300);
-        window.addEventListener("scroll", onScroll);
+        const onScroll = () => setVisible(window.scrollY > 400);
+        window.addEventListener("scroll", onScroll, {passive: true});
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
@@ -49,24 +35,26 @@ function ScrollToTopButton() {
         <AnimatePresence>
             {visible && (
                 <motion.div
-                    initial={{opacity: 0, y: 16}}
+                    initial={{opacity: 0, y: 12}}
                     animate={{opacity: 1, y: 0}}
-                    exit={{opacity: 0, y: 16}}
-                    transition={{duration: 0.2}}
-                    style={{position: "fixed", bottom: "72px", right: "24px", zIndex: 998}}
+                    exit={{opacity: 0, y: 12}}
+                    transition={{duration: 0.25, ease: [0.22, 1, 0.36, 1]}}
+                    style={{position: "fixed", bottom: "80px", right: "24px", zIndex: 998}}
                 >
                     <IconButton
                         aria-label="Retour en haut"
-                        icon={<ChevronUp size={20}/>}
+                        icon={<ArrowUp size={18}/>}
                         onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
-                        borderRadius="full"
                         size="md"
-                        bg={btnBg}
+                        bg="surface.raised"
+                        color="fg.muted"
                         border="1px solid"
-                        borderColor={btnBorder}
-                        boxShadow="lg"
-                        _hover={{borderColor: "teal.400", color: "teal.400", transform: "translateY(-2px)"}}
-                        transition="all 0.2s"
+                        borderColor="line.subtle"
+                        boxShadow="0 6px 24px rgba(28,27,24,0.12)"
+                        borderRadius="sm"
+                        _hover={{color: "accent", borderColor: "accent.line", transform: "translateY(-2px)"}}
+                        _active={{transform: "translateY(0)"}}
+                        transition="all 0.2s ease"
                     />
                 </motion.div>
             )}
@@ -75,38 +63,25 @@ function ScrollToTopButton() {
 }
 
 function App() {
-    const {colorMode} = useColorMode();
-    const isDark = colorMode === "dark";
-    const pageBg = isDark ? "#050816" : "gray.50";
-
     return (
-        <Box minH="100vh" bg={pageBg}>
+        <Box minH="100dvh" bg="canvas" color="fg.default" position="relative">
+            <GrainOverlay/>
             <ScrollProgressBar/>
             <Navbar/>
-            <Box mt="64px" pb="72px">
-                <MotionBox {...sectionAnim}>
-                    <ProfileSection/>
-                </MotionBox>
-
-                <SectionDivider colorMode={colorMode}/>
+            <Box as="main" mt="64px" pb="72px" position="relative" zIndex={2}>
+                <ProfileSection/>
 
                 <MotionBox {...sectionAnim}>
                     <SkillsSection/>
                 </MotionBox>
 
-                <SectionDivider colorMode={colorMode}/>
-
                 <MotionBox {...sectionAnim}>
                     <ExperienceSection/>
                 </MotionBox>
 
-                <SectionDivider colorMode={colorMode}/>
-
                 <MotionBox {...sectionAnim}>
                     <EducationSection/>
                 </MotionBox>
-
-                <SectionDivider colorMode={colorMode}/>
 
                 <MotionBox {...sectionAnim}>
                     <ProjectsSection/>

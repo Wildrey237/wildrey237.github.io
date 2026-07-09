@@ -4,16 +4,13 @@ import {
     Text,
     VStack,
     HStack,
-    Circle,
     Image,
-    useColorMode,
-    Tag,
     Wrap,
     WrapItem,
     Link,
     Button,
     Collapse,
-    useColorModeValue,
+    useColorMode,
 } from "@chakra-ui/react";
 import {ExternalLinkIcon, AddIcon, MinusIcon} from "@chakra-ui/icons";
 import {useState} from "react";
@@ -22,11 +19,12 @@ import frData from "../data/data-fr.json";
 import enData from "../data/data-en.json";
 import {useTranslation} from "react-i18next";
 import {MdLocationOn} from "react-icons/md";
+import SectionHeader from "./SectionHeader";
 
 const MotionBox = motion(Box);
-const MotionTag = motion(Tag);
+const ease = [0.22, 1, 0.36, 1];
 
-function renderDescription(text, textSoft, isDark) {
+function renderDescription(text) {
     const paragraphs = text.split(/\n\n/);
     return (
         <VStack align="start" spacing={3}>
@@ -39,15 +37,15 @@ function renderDescription(text, textSoft, isDark) {
                     return (
                         <Box key={i} w="100%">
                             {title && (
-                                <Text fontSize="sm" fontWeight="semibold" color={isDark ? "gray.200" : "gray.700"} mb={2}>
+                                <Text fontSize="sm" fontWeight="600" color="fg.default" mb={2}>
                                     {title.trim()}
                                 </Text>
                             )}
                             <VStack align="start" spacing={1.5} pl={1}>
                                 {bullets.map((b, j) => (
-                                    <HStack key={j} align="start" spacing={2}>
-                                        <Box w="5px" h="5px" borderRadius="full" bg="teal.400" mt="6px" flexShrink={0} />
-                                        <Text fontSize="sm" color={textSoft} lineHeight="1.6">
+                                    <HStack key={j} align="start" spacing={2.5}>
+                                        <Box w="4px" h="4px" borderRadius="1px" bg="accent" mt="8px" flexShrink={0}/>
+                                        <Text fontSize="sm" color="fg.muted" lineHeight="1.65">
                                             {b.replace(/^•\s*/, "").trim()}
                                         </Text>
                                     </HStack>
@@ -57,7 +55,7 @@ function renderDescription(text, textSoft, isDark) {
                     );
                 }
                 return (
-                    <Text key={i} fontSize="sm" color={textSoft} lineHeight="1.7">
+                    <Text key={i} fontSize="sm" color="fg.muted" lineHeight="1.7">
                         {para.trim()}
                     </Text>
                 );
@@ -66,236 +64,172 @@ function renderDescription(text, textSoft, isDark) {
     );
 }
 
-export default function ExperienceSection() {
-    const {t, i18n} = useTranslation();
-    const {colorMode} = useColorMode();
-    const data = i18n.language === "fr" ? frData : enData;
-
-    const [expanded, setExpanded] = useState({});
-    const toggle = (idx) => setExpanded((prev) => ({...prev, [idx]: !prev[idx]}));
-
-    const isDark = colorMode === "dark";
-
-    const bgMain = useColorModeValue("gray.50", "#050816");
-    const titleColor = useColorModeValue("gray.800", "white");
-    const accentColor = useColorModeValue("teal.500", "teal.400");
-    const cardBg = useColorModeValue("white", "#0f172a"); // dark bleu profond
-    const cardBorder = useColorModeValue("gray.200", "whiteAlpha.200");
-    const textMain = useColorModeValue("gray.800", "white");
-    const textSoft = useColorModeValue("gray.600", "gray.300");
-    const companyColor = useColorModeValue("blue.500", "blue.300");
-    const dateColor = useColorModeValue("teal.500", "teal.300");
-    const lineColor = useColorModeValue("teal.300", "teal.500");
-    const pointColor = useColorModeValue("teal.400", "teal.300");
-
-    const accentColors = [
-        { light: "teal.400", dark: "teal.300" },
-        { light: "blue.400", dark: "blue.300" },
-        { light: "purple.400", dark: "purple.300" },
-        { light: "orange.400", dark: "orange.300" },
-    ];
+function ExperienceEntry({exp, idx}) {
+    const {t} = useTranslation();
+    const [open, setOpen] = useState(false);
 
     return (
-        <Box
-            id="experiences"
-            px={{base: 4, md: 8}}
-            py={16}
-            bg={bgMain}
+        <MotionBox
             position="relative"
-            overflow="hidden"
+            pl={{base: 9, md: 14}}
+            pb={{base: 12, md: 14}}
+            initial={{opacity: 0, y: 24}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true, amount: 0.2}}
+            transition={{duration: 0.6, delay: idx * 0.05, ease}}
         >
-            {isDark && (
-                <>
-                    <Box
-                        position="absolute"
-                        inset="0"
-                        opacity={0.08}
-                        backgroundImage="linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)"
-                        backgroundSize="48px 48px"
-                        pointerEvents="none"
-                    />
-                    <Box
-                        position="absolute"
-                        top="-120px"
-                        left="-120px"
-                        w="320px"
-                        h="320px"
-                        bg="purple.500"
-                        opacity={0.1}
-                        filter="blur(120px)"
-                        borderRadius="full"
-                    />
-                </>
+            {/* Node marker on the rail */}
+            <Box
+                position="absolute"
+                left={{base: "0", md: "1px"}}
+                top="2px"
+                transform="translateX(-50%)"
+                w="34px"
+                h="34px"
+                borderRadius="sm"
+                bg="surface.raised"
+                border="1px solid"
+                borderColor="line.strong"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                overflow="hidden"
+                boxShadow="0 2px 10px rgba(28,27,24,0.06)"
+            >
+                {exp.logo ? (
+                    <Image src={exp.logo} alt={exp.company} boxSize="24px" objectFit="contain"/>
+                ) : (
+                    <Box w="8px" h="8px" bg="accent" borderRadius="1px" transform="rotate(45deg)"/>
+                )}
+            </Box>
+
+            <Text
+                fontFamily="mono"
+                fontSize="xs"
+                fontWeight="500"
+                letterSpacing="0.04em"
+                color="accent"
+                mb={2}
+                className="tabular"
+            >
+                {exp.dates}
+            </Text>
+
+            <Heading
+                as="h3"
+                fontFamily="heading"
+                fontWeight="600"
+                fontSize={{base: "xl", md: "2xl"}}
+                letterSpacing="-0.015em"
+                color="fg.default"
+                lineHeight="1.2"
+                mb={1.5}
+            >
+                {exp.title}
+            </Heading>
+
+            <HStack spacing={3} mb={1} flexWrap="wrap">
+                <Text fontFamily="mono" fontSize="sm" fontWeight="500" color="fg.default">
+                    {exp.company}
+                </Text>
+                {exp.website && (
+                    <Link href={exp.website} isExternal color="fg.faint" _hover={{color: "accent"}}>
+                        <ExternalLinkIcon mb="2px" boxSize={3}/>
+                    </Link>
+                )}
+                {exp.city && (
+                    <HStack spacing={1} color="fg.faint">
+                        <MdLocationOn size={13}/>
+                        <Text fontSize="xs" fontFamily="mono">{exp.city}</Text>
+                    </HStack>
+                )}
+            </HStack>
+
+            <Box mt={4}>
+                {renderDescription(exp.description)}
+
+                {exp.descriptionMore && (
+                    <>
+                        <Collapse in={open} animateOpacity>
+                            <Box mt={3}>{renderDescription(exp.descriptionMore)}</Box>
+                        </Collapse>
+                        <Button
+                            mt={3}
+                            size="sm"
+                            variant="unstyled"
+                            height="auto"
+                            display="inline-flex"
+                            alignItems="center"
+                            gap={2}
+                            fontFamily="mono"
+                            fontSize="xs"
+                            fontWeight="500"
+                            letterSpacing="0.03em"
+                            color="accent"
+                            _hover={{opacity: 0.7}}
+                            leftIcon={open ? <MinusIcon boxSize={2.5}/> : <AddIcon boxSize={2.5}/>}
+                            onClick={() => setOpen((v) => !v)}
+                        >
+                            {open ? t("experienceSeeLess") : t("experienceSeeMore")}
+                        </Button>
+                    </>
+                )}
+            </Box>
+
+            {exp.tags && (
+                <Wrap spacing={2} mt={5}>
+                    {exp.tags.map((tag, i) => (
+                        <WrapItem key={i}>
+                            <Box
+                                px={2.5}
+                                py={1}
+                                fontFamily="mono"
+                                fontSize="11px"
+                                color="fg.muted"
+                                border="1px solid"
+                                borderColor="line.subtle"
+                                borderRadius="sm"
+                                transition="all 0.18s ease"
+                                _hover={{borderColor: "accent.line", color: "fg.default"}}
+                            >
+                                {tag}
+                            </Box>
+                        </WrapItem>
+                    ))}
+                </Wrap>
             )}
+        </MotionBox>
+    );
+}
 
-            <VStack spacing={3} mb={12} position="relative" zIndex={1}>
-                <Heading
-                    textAlign="center"
-                    fontSize={["2xl", "3xl", "4xl"]}
-                    color={titleColor}
-                    fontWeight="black"
-                    letterSpacing="-0.03em"
-                >
-                    {t("experiencesTitle")}
-                </Heading>
-                <Box w="48px" h="4px" bg={accentColor} borderRadius="full" />
-            </VStack>
+export default function ExperienceSection() {
+    const {t, i18n} = useTranslation();
+    useColorMode();
+    const data = i18n.language === "fr" ? frData : enData;
+    const isFr = i18n.language === "fr";
 
-            <VStack spacing={10} position="relative" align="stretch" zIndex={1}>
+    return (
+        <Box id="experiences" as="section" px={{base: 6, md: 10, lg: 16}} py={{base: 20, md: 28}} bg="canvas">
+            <SectionHeader
+                index="02"
+                label={t("experiences")}
+                title={isFr ? "Là où j'ai appris en produisant" : "Where I learned by shipping"}
+            />
+
+            <Box maxW="820px" mx="auto" position="relative">
+                {/* Continuous rail */}
                 <Box
                     position="absolute"
-                    top="0"
-                    left={{base: "12px", md: "50%"}}
-                    transform={{base: "none", md: "translateX(-50%)"}}
-                    width="4px"
-                    height="100%"
-                    bg={lineColor}
-                    borderRadius="full"
-                    opacity={0.8}
-                    zIndex={0}
+                    top="6px"
+                    bottom="40px"
+                    left={{base: "0", md: "1px"}}
+                    w="1px"
+                    bg="line.strong"
                 />
-
                 {data.experiences.map((exp, idx) => (
-                    <HStack
-                        key={idx}
-                        align="flex-start"
-                        spacing={4}
-                        position="relative"
-                        zIndex={1}
-                        flexDirection={{
-                            base: "row",
-                            md: idx % 2 === 0 ? "row" : "row-reverse",
-                        }}
-                    >
-                        <Circle
-                            size="36px"
-                            bg={exp.logo ? "white" : (isDark ? accentColors[idx % accentColors.length].dark : accentColors[idx % accentColors.length].light)}
-                            flexShrink={0}
-                            mt={1}
-                            boxShadow={isDark ? `0 0 12px rgba(129,230,217,0.3)` : "sm"}
-                            fontSize="xs"
-                            fontWeight="black"
-                            color="white"
-                            letterSpacing="-0.02em"
-                            overflow="hidden"
-                            border={exp.logo ? "1px solid" : "none"}
-                            borderColor="gray.200"
-                        >
-                            {exp.logo ? (
-                                <Image src={exp.logo} alt={exp.company} boxSize="30px" objectFit="contain" />
-                            ) : (
-                                exp.company
-                                    .replace(/\(.*?\)/g, "")
-                                    .trim()
-                                    .split(/\s+/)
-                                    .filter(Boolean)
-                                    .slice(0, 2)
-                                    .map((w) => w[0].toUpperCase())
-                                    .join("")
-                            )}
-                        </Circle>
-
-                        <MotionBox
-                            p={6}
-                            flex="1"
-                            bg={cardBg}
-                            border="1px solid"
-                            borderColor={cardBorder}
-                            borderLeft="4px solid"
-                            borderLeftColor={isDark ? accentColors[idx % accentColors.length].dark : accentColors[idx % accentColors.length].light}
-                            borderRadius="xl"
-                            backdropFilter="blur(10px)"
-                            boxShadow={
-                                isDark
-                                    ? "0 0 0 1px rgba(255,255,255,0.04), 0 10px 40px rgba(0,0,0,0.25)"
-                                    : "lg"
-                            }
-                            initial={{opacity: 0, x: idx % 2 === 0 ? -80 : 80}}
-                            whileInView={{opacity: 1, x: 0}}
-                            viewport={{once: true, amount: 0.2}}
-                            transition={{duration: 0.6, delay: idx * 0.1, ease: "easeOut"}}
-                            whileHover={{
-                                scale: 1.02,
-                                borderColor: isDark ? "teal.400" : "teal.300",
-                                boxShadow: isDark
-                                    ? "0 0 0 1px rgba(255,255,255,0.06), 0 14px 36px rgba(0,0,0,0.35)"
-                                    : "0 10px 24px rgba(0,0,0,0.12)",
-                            }}
-                        >
-                            <Text fontSize="sm" fontWeight="bold" color={dateColor} mb={2}>
-                                {exp.dates}
-                            </Text>
-
-                            <Text fontSize="xl" fontWeight="bold" color={textMain}>
-                                {exp.title}
-                            </Text>
-
-                            <HStack spacing={3} mb={3} flexWrap="wrap">
-                                <Text fontSize="md" fontWeight="semibold" color={companyColor}>
-                                    {exp.company}
-                                </Text>
-                                {exp.website && (
-                                    <Link href={exp.website} isExternal color={textSoft} _hover={{color: "teal.400"}}>
-                                        <ExternalLinkIcon mb="2px" boxSize={3}/>
-                                    </Link>
-                                )}
-                            </HStack>
-                            {exp.city && (
-                                <HStack spacing={1} mb={3} color={textSoft}>
-                                    <MdLocationOn size={14}/>
-                                    <Text fontSize="xs" fontWeight="medium">{exp.city}</Text>
-                                </HStack>
-                            )}
-
-                            <Box mb={4}>
-                                {renderDescription(exp.description, textSoft, isDark)}
-
-                                {exp.descriptionMore && (
-                                    <>
-                                        <Collapse in={expanded[idx]} animateOpacity>
-                                            <Box mt={3}>
-                                                {renderDescription(exp.descriptionMore, textSoft, isDark)}
-                                            </Box>
-                                        </Collapse>
-                                        <Button
-                                            mt={3}
-                                            size="sm"
-                                            variant="ghost"
-                                            leftIcon={expanded[idx] ? <MinusIcon boxSize={2.5} /> : <AddIcon boxSize={2.5} />}
-                                            color={accentColor}
-                                            _hover={{bg: isDark ? "whiteAlpha.100" : "teal.50"}}
-                                            onClick={() => toggle(idx)}
-                                        >
-                                            {expanded[idx] ? t("experienceSeeLess") : t("experienceSeeMore")}
-                                        </Button>
-                                    </>
-                                )}
-                            </Box>
-
-                            {exp.tags && (
-                                <Wrap spacing={3}>
-                                    {exp.tags.map((tag, tagIdx) => (
-                                        <WrapItem key={tagIdx}>
-                                            <MotionTag
-                                                size="md"
-                                                bg={isDark ? "whiteAlpha.100" : "teal.50"}
-                                                color={isDark ? "teal.200" : "teal.700"}
-                                                border="1px solid"
-                                                borderColor={isDark ? "whiteAlpha.200" : "teal.200"}
-                                                borderRadius="full"
-                                                whileHover={{scale: 1.08}}
-                                                whileTap={{scale: 0.96}}
-                                            >
-                                                {tag}
-                                            </MotionTag>
-                                        </WrapItem>
-                                    ))}
-                                </Wrap>
-                            )}
-                        </MotionBox>
-                    </HStack>
+                    <ExperienceEntry key={idx} exp={exp} idx={idx}/>
                 ))}
-            </VStack>
+            </Box>
         </Box>
     );
 }
