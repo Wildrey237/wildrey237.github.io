@@ -5,24 +5,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev       # Start local dev server (Vite HMR)
-npm run build     # Production build → dist/
-npm run preview   # Preview the production build locally
-npm run lint      # ESLint check
+npm run dev       # Start Next.js dev server (Turbopack/HMR)
+npm run build     # Production build → .next/
+npm run start     # Serve the production build locally
+npm run lint      # next lint (eslint-config-next)
 ```
 
 No test suite is configured.
 
 ## Branch & Deployment Model
 
-- **`work`** — development branch (all source code lives here)
-- **`main`** — production branch, contains only the compiled `dist/` output served by GitHub Pages
+Hosted on **Vercel** (framework: Next.js, auto-detected — no `vercel.json` needed).
 
-**Do not commit source code to `main`.** Deployment is automated: every push to `work` triggers `.github/workflows/deploy.yml`, which runs `npm run build` and pushes `dist/` to `main` via the JamesIves deploy action.
+- **`work`** — production branch. Vercel builds and deploys it on every push.
+- Feature branches / PRs → automatic Vercel **preview deployments**.
+- **`main`** — legacy GitHub Pages branch, no longer in the deploy loop.
+
+Vercel runs `npm run build` itself; there is no GitHub Actions deploy workflow. `.github/workflows/cv-check.yml` (auto-renames CV PDFs) is retained and is independent of hosting.
+
+Set `NEXT_PUBLIC_SITE_URL` in the Vercel project env to the production URL (drives `metadataBase` / Open Graph absolute URLs in `app/layout.jsx`).
 
 ## Architecture
 
-**Entry point:** `src/main.jsx` bootstraps React with `ChakraProvider` (light mode default, no system preference) and imports `src/i18n.js` before `App`.
+**Framework:** Next.js 15 (App Router, JavaScript). The `app/` directory holds the Next entry points; the React UI lives under `src/`.
+
+**Entry points:**
+- `app/layout.jsx` (server) — `metadata`/`viewport` exports (Open Graph, Twitter, fonts, favicon), global CSS imports, and mounts Vercel `<Analytics/>` + `<GoogleAnalytics/>` (`@next/third-parties`).
+- `app/providers.jsx` (client) — wraps the tree in Chakra `CacheProvider` + `ChakraProvider` (dark mode default via `ColorModeScript`) and imports `src/i18n.js`.
+- `app/page.jsx` (client) — renders `src/App.jsx`.
+- `app/not-found.jsx` — branded 404.
+
+**Chakra theme:** extracted to `src/theme.js` (semantic tokens, dark-first). Imported by `app/providers.jsx`.
 
 **`src/App.jsx`** composes the full page: `ScrollProgressBar` → `Navbar` → five `MotionBox`-wrapped sections (Profile, Skills, Experience, Education, Projects) → `Footer`. Each section animates in on scroll via a shared Framer Motion `whileInView` config.
 
@@ -38,7 +51,7 @@ Components import both files and select the active one based on the current i18n
 
 **Animations:** Framer Motion for section scroll-in and the experience timeline. `react-simple-typewriter` for the name effect in `ProfileSection`.
 
-**Analytics:** GA4 tag (`G-QSFT7C8DBJ`) is loaded in `index.html`. The CV download button in `Footer.jsx` fires a `download_cv` custom event via `window.gtag`.
+**Analytics:** Two systems run in parallel — **Vercel Analytics** (`@vercel/analytics`, zero-config) and **GA4** (`G-QSFT7C8DBJ`) via `@next/third-parties` `GoogleAnalytics` in `app/layout.jsx`. The CV download button in `Footer.jsx` fires a `download_cv` custom event via `window.gtag` (still provided by the GA component).
 
 ## Adding a New Section
 
@@ -47,3 +60,5 @@ Components import both files and select the active one based on the current i18n
 3. Add UI string keys to both `fr` and `en` translation objects in `src/i18n.js`.
 4. Import and insert a `<MotionBox {...sectionAnim}>` block in `src/App.jsx`.
 5. Add a nav anchor in `Navbar.jsx` if the section needs a navbar link.
+
+Everything under `app/page.jsx` renders inside a `'use client'` boundary, so browser APIs (`window`, `document`) must stay inside `useEffect`/event handlers to survive SSR pre-rendering.

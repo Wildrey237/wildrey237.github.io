@@ -8,9 +8,19 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+*.local
+
+# Next.js
+.next/
+/out/
+next-env.d.ts
+
+# Vercel
+.vercel
+
+# Old Vite build output (deprecated)
 dist
 dist-ssr
-*.local
 
 # Editor directories and files
 .vscode/*
