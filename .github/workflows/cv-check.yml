@@ -1,9 +1,12 @@
 name: CV Format Check & Auto-fix
 
+# Runs on feature branches only. `main` is protected (no direct pushes), so the
+# auto-rename fix is applied on the feature branch and reaches `main` via the PR.
 on:
   push:
-    branches:
-      - work
+    branches-ignore:
+      - main
+      - gh-pages-legacy
     paths:
       - "public/cv/**"
   workflow_dispatch:
@@ -82,4 +85,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/cv/
           git commit -m "ci: auto-rename CV files to cv-{langue}.pdf format"
-          git push
+          git push origin HEAD:"${GITHUB_REF_NAME}"
