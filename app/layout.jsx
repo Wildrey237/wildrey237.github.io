@@ -1,6 +1,7 @@
 import {Providers} from './providers'
 import {GoogleAnalytics} from '@next/third-parties/google'
 import {Analytics} from '@vercel/analytics/react'
+import {SpeedInsights} from '@vercel/speed-insights/next'
 import '../src/index.css'
 import '../src/App.css'
 
@@ -60,6 +61,7 @@ export default function RootLayout({children}) {
         <noscript>Vous devez activer JavaScript pour voir ce site.</noscript>
         <Providers>{children}</Providers>
         <Analytics/>
+        <SpeedInsights/>
         <GoogleAnalytics gaId={GA_ID}/>
         </body>
         </html>
