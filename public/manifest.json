@@ -1,25 +1,24 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Wilfried Bemelingue — Ingénieur IA & Data",
+  "short_name": "W. Bemelingue",
+  "description": "Portfolio de Wilfried Bemelingue — Ingénieur IA, Deep Learning & Data Engineering (EPITA).",
+  "lang": "fr",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#0b0d14",
+  "background_color": "#0b0d14"
 }
