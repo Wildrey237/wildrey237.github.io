@@ -126,7 +126,7 @@
     "ai": [
       {
         "name": "Machine Learning & Deep Learning",
-        "desc": "Supervised and unsupervised modeling, neural networks, optimization and evaluation on complex datasets."
+        "desc": "Supervised and unsupervised modeling, deep neural networks, optimization and evaluation on complex datasets."
       },
       {
         "name": "Graph Neural Networks (GNN)",
@@ -141,102 +141,186 @@
         "desc": "Interpretability techniques (SHAP, LIME), robustness analysis and model validation."
       },
       {
+        "name": "GAN",
+        "desc": "Generative adversarial models for data synthesis, training-set augmentation and image generation."
+      },
+      {
+        "name": "LLM & RAG",
+        "desc": "Fine-tuning, prompt engineering and RAG architectures to apply large language models to domain corpora."
+      },
+      {
+        "name": "NLP",
+        "desc": "Natural language processing: embeddings, text classification, information extraction and Transformer models."
+      },
+      {
+        "name": "Multi-agent systems",
+        "desc": "Designing and coordinating autonomous agents that collaborate on complex tasks (orchestration, communication, arbitration)."
+      },
+      {
         "name": "Medical AI",
-        "desc": "Processing medical data (DICOM, METS), classification and segmentation using MONAI and PyTorch, with domain-specific metrics."
+        "desc": "Processing medical data (DICOM, METS), classification and segmentation with MONAI and PyTorch, domain metrics (Dice, Recall)."
       }
     ],
     "data_engineering": [
       {
-        "name": "Python (NumPy, Pandas, PyTorch)",
+        "name": "Python (pandas, NumPy)",
         "desc": "Data manipulation, transformation and modeling, building machine learning pipelines."
       },
       {
-        "name": "Apache Airflow on AWS",
-        "desc": "Workflow orchestration and automation of ETL/ML pipelines in cloud environments."
+        "name": "SQL",
+        "desc": "Writing and optimizing analytical queries, schema modeling and large-volume processing."
       },
       {
-        "name": "Hadoop, Spark, MapReduce",
-        "desc": "Distributed processing of large-scale data and performance optimization on clusters."
+        "name": "scikit-learn",
+        "desc": "Prototyping and productionizing classical models: feature preparation, cross-validation, evaluation."
+      },
+      {
+        "name": "Apache Airflow on AWS",
+        "desc": "Orchestration and automation of data workflows and ETL/ML pipelines in the cloud."
+      },
+      {
+        "name": "Spark, Hadoop, MapReduce",
+        "desc": "Distributed processing of large datasets and performance optimization on clusters."
+      },
+      {
+        "name": "Data Pipelines (ETL)",
+        "desc": "Designing reliable ingestion and transformation chains with retries and monitoring."
       },
       {
         "name": "R",
         "desc": "Advanced statistical modeling, data analysis and quantitative methods applied to data science research."
-      },
-      {
-        "name": "Tableau, Power BI",
-        "desc": "Interactive dashboards for business intelligence and analytical reporting."
-      },
-      {
-        "name": "Matplotlib, Seaborn, Plotly",
-        "desc": "Data visualization and communication of analytical results."
       }
     ],
     "software_engineering": [
       {
         "name": "Python, Java, C/C++",
-        "desc": "Robust software development, complex systems and performance optimization."
+        "desc": "Building robust software, complex systems and performance optimization."
       },
       {
         "name": "JavaScript, TypeScript",
-        "desc": "Modern web application development with scalable and maintainable architectures."
+        "desc": "Modern web application development with strong typing and maintainable architectures."
       },
       {
-        "name": "React, Node.js",
-        "desc": "Full-stack application development and dynamic user interfaces."
+        "name": "React, Angular",
+        "desc": "Building dynamic interfaces and structured front-end applications."
       },
       {
         "name": "REST APIs",
-        "desc": "Design and integration of backend services for distributed systems."
+        "desc": "Designing and integrating backend services for distributed systems."
       }
     ],
     "cloud_mlops": [
+      {
+        "name": "AWS",
+        "desc": "Deploying and operating data/ML workloads in the cloud (storage, compute, orchestration)."
+      },
       {
         "name": "Docker",
         "desc": "Containerization for portability and reproducibility."
       },
       {
         "name": "Kubernetes",
-        "desc": "Container orchestration for scalable distributed applications."
+        "desc": "Container orchestration for distributed applications at scale."
       },
       {
-        "name": "MLOps (MLflow, CI/CD)",
-        "desc": "Model lifecycle management, experiment tracking and ML pipeline automation."
+        "name": "GitLab CI/CD",
+        "desc": "Automating tests, builds and deployments through continuous integration pipelines."
       },
       {
-        "name": "Linux",
-        "desc": "System administration and scripting for production environments."
+        "name": "MLOps",
+        "desc": "Industrializing the model lifecycle: versioning, experiment tracking, deployment and monitoring."
       }
     ],
     "databases": [
       {
-        "name": "SQL (MySQL, PostgreSQL)",
-        "desc": "Relational database design and querying."
+        "name": "MySQL",
+        "desc": "Relational modeling, querying and optimization of transactional databases."
       },
       {
-        "name": "NoSQL (MongoDB, Elasticsearch)",
-        "desc": "Handling unstructured data in distributed systems."
+        "name": "PostgreSQL",
+        "desc": "Advanced relational databases: analytical queries, indexing and data integrity."
+      },
+      {
+        "name": "MongoDB",
+        "desc": "Document-oriented storage for semi-structured data and evolving schemas."
       },
       {
         "name": "Neo4j",
-        "desc": "Graph database for modeling complex relationships (GNN use cases)."
+        "desc": "Graph databases, Cypher queries and modeling of complex relationships."
+      }
+    ],
+    "visualization": [
+      {
+        "name": "Tableau",
+        "desc": "Building interactive dashboards for business analysis and BI reporting."
+      },
+      {
+        "name": "Power BI",
+        "desc": "Decision-support reporting and dashboards connected to enterprise data sources."
+      },
+      {
+        "name": "Matplotlib",
+        "desc": "Data visualization and communication of analytical results."
+      },
+      {
+        "name": "Seaborn",
+        "desc": "Statistical visualizations for data exploration and distribution analysis."
       }
     ],
     "math_foundations": [
       {
         "name": "Linear Algebra",
-        "desc": "Vector spaces, linear transformations, matrix decompositions (SVD, PCA) applied to ML."
+        "desc": "Foundation of vector representations and learning algorithms."
       },
       {
         "name": "Probability Theory",
-        "desc": "Random variables, distributions, Bayesian inference and probabilistic modeling."
+        "desc": "Modeling uncertainty, statistical inference and Bayesian reasoning."
       },
       {
         "name": "Optimization",
-        "desc": "Gradient descent, convex and non-convex methods, stochastic optimization for model training."
+        "desc": "Gradient descent methods, convexity and constrained optimization."
       },
       {
         "name": "Stochastic Processes",
-        "desc": "Markov chains, Brownian motion, stochastic differential equations applied to quantitative finance and RL."
+        "desc": "Modeling random dynamic systems (Markov chains, queueing theory)."
+      },
+      {
+        "name": "Time Series",
+        "desc": "Analysis and forecasting of temporal data: stationarity, seasonality, ARIMA models."
+      }
+    ],
+    "tools": [
+      {
+        "name": "Linux",
+        "desc": "Development and production environment, system administration and scripting."
+      },
+      {
+        "name": "Git",
+        "desc": "Version control, collaborative workflows and code review."
+      },
+      {
+        "name": "Bash",
+        "desc": "Task automation, operational scripts and command-line tooling."
+      },
+      {
+        "name": "Jupyter",
+        "desc": "Analytical prototyping, experimentation and documentation of data science work."
+      },
+      {
+        "name": "Hugging Face",
+        "desc": "Using and fine-tuning pre-trained models (Transformers, datasets, hub)."
+      },
+      {
+        "name": "MLflow",
+        "desc": "Experiment tracking, model versioning and model registry management."
+      },
+      {
+        "name": "LangGraph",
+        "desc": "Orchestrating LLM agent workflows with state, cycles and flow control."
+      },
+      {
+        "name": "Streamlit",
+        "desc": "Rapid prototyping of interactive applications and model demos."
       }
     ]
   },

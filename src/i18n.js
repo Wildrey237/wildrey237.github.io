@@ -22,7 +22,9 @@ const resources = {
             skillsCategories: {
                 ai: "IA / Machine Learning",
                 databases: "Bases de données",
+                visualization: "Visualisation",
                 mathFoundations: "Fondements mathématiques",
+                tools: "Outils",
             },
             projects: {
                 title: "Projets réalisés",
@@ -57,7 +59,9 @@ const resources = {
             skillsCategories: {
                 ai: "AI / Machine Learning",
                 databases: "Databases",
+                visualization: "Visualization",
                 mathFoundations: "Mathematical Foundations",
+                tools: "Tools",
             },
             projects: {
                 title: "Completed Projects",
