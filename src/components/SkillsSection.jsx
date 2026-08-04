@@ -22,6 +22,8 @@ import {
     FaCloud,
     FaServer,
     FaSquareRootAlt,
+    FaChartBar,
+    FaToolbox,
 } from "react-icons/fa";
 
 const MotionBox = motion(Box);
@@ -31,9 +33,11 @@ const CATEGORY_ICONS = {
     ai: FaBrain,
     data_engineering: FaServer,
     software_engineering: FaCode,
-    cloud_mlop: FaCloud,
+    cloud_mlops: FaCloud,
     databases: FaDatabase,
+    visualization: FaChartBar,
     math_foundations: FaSquareRootAlt,
+    tools: FaToolbox,
 };
 
 // One curated color per category — joyful, but assigned by role.
@@ -41,9 +45,11 @@ const CATEGORY_COLORS = {
     ai: "syntax.purple",
     data_engineering: "syntax.amber",
     software_engineering: "syntax.blue",
-    cloud_mlop: "syntax.cyan",
+    cloud_mlops: "syntax.cyan",
     databases: "syntax.green",
-    math_foundations: "syntax.pink",
+    visualization: "syntax.pink",
+    math_foundations: "syntax.red",
+    tools: "syntax.purple",
 };
 
 function SkillChip({skill, color}) {
@@ -157,9 +163,11 @@ export default function SkillsSection() {
         ai: t("skillsCategories.ai"),
         data_engineering: "Data Engineering",
         software_engineering: "Software Engineering",
-        cloud_mlop: "Cloud & MLOps",
+        cloud_mlops: "Cloud & MLOps",
         databases: t("skillsCategories.databases"),
+        visualization: t("skillsCategories.visualization"),
         math_foundations: t("skillsCategories.mathFoundations"),
+        tools: t("skillsCategories.tools"),
     };
 
     const categories = Object.keys(data.skills);

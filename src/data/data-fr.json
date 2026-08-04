@@ -126,7 +126,7 @@
     "ai": [
       {
         "name": "Machine Learning & Deep Learning",
-        "desc": "Modélisation supervisée et non supervisée, réseaux de neurones, optimisation et évaluation de modèles sur des données complexes."
+        "desc": "Modélisation supervisée et non supervisée, réseaux de neurones profonds, optimisation et évaluation de modèles sur données complexes."
       },
       {
         "name": "Graph Neural Networks (GNN)",
@@ -141,34 +141,54 @@
         "desc": "Techniques d’interprétabilité (SHAP, LIME), analyse de robustesse et validation des modèles."
       },
       {
+        "name": "GAN",
+        "desc": "Modèles génératifs adverses pour la synthèse de données, l’augmentation de jeux d’entraînement et la génération d’images."
+      },
+      {
+        "name": "LLM & RAG",
+        "desc": "Fine-tuning, prompt engineering et architectures RAG pour exploiter les grands modèles de langage sur des corpus métier."
+      },
+      {
+        "name": "NLP",
+        "desc": "Traitement automatique du langage : embeddings, classification de texte, extraction d’information et modèles Transformers."
+      },
+      {
+        "name": "Systèmes multi-agents",
+        "desc": "Conception et coordination d’agents autonomes qui collaborent pour résoudre des tâches complexes (orchestration, communication, arbitrage)."
+      },
+      {
         "name": "IA Médicale",
         "desc": "Traitement de données médicales (DICOM, METS), classification et segmentation avec MONAI et PyTorch, métriques spécifiques (Dice, Recall)."
       }
     ],
     "data_engineering": [
       {
-        "name": "Python (NumPy, Pandas, PyTorch)",
+        "name": "Python (pandas, NumPy)",
         "desc": "Manipulation, transformation et modélisation de données, développement de pipelines de machine learning."
+      },
+      {
+        "name": "SQL",
+        "desc": "Écriture et optimisation de requêtes analytiques, modélisation de schémas et traitement de gros volumes."
+      },
+      {
+        "name": "scikit-learn",
+        "desc": "Prototypage et industrialisation de modèles classiques : préparation des features, validation croisée, évaluation."
       },
       {
         "name": "Apache Airflow sur AWS",
         "desc": "Orchestration et automatisation de workflows de données et pipelines ETL/ML dans le cloud."
       },
       {
-        "name": "Hadoop, Spark, MapReduce",
+        "name": "Spark, Hadoop, MapReduce",
         "desc": "Traitement distribué de grandes quantités de données et optimisation des performances sur clusters."
+      },
+      {
+        "name": "Data Pipelines (ETL)",
+        "desc": "Conception de chaînes d’ingestion et de transformation fiables, avec reprise sur erreur et supervision."
       },
       {
         "name": "R",
         "desc": "Modélisation statistique avancée, analyse de données et méthodes quantitatives appliquées à la recherche en data science."
-      },
-      {
-        "name": "Tableau, Power BI",
-        "desc": "Création de dashboards interactifs pour l'analyse métier et le pilotage de la BI."
-      },
-      {
-        "name": "Matplotlib, Seaborn, Plotly",
-        "desc": "Visualisation de données et communication de résultats analytiques."
       }
     ],
     "software_engineering": [
@@ -181,15 +201,19 @@
         "desc": "Développement d’applications web modernes avec typage fort et architectures maintenables."
       },
       {
-        "name": "React, Node.js",
-        "desc": "Développement d’applications full-stack et interfaces dynamiques."
+        "name": "React, Angular",
+        "desc": "Développement d’interfaces dynamiques et d’applications front-end structurées."
       },
       {
-        "name": "REST APIs",
+        "name": "API REST",
         "desc": "Conception et intégration de services backend pour systèmes distribués."
       }
     ],
     "cloud_mlops": [
+      {
+        "name": "AWS",
+        "desc": "Déploiement et exploitation de workloads data/ML sur le cloud (stockage, calcul, orchestration)."
+      },
       {
         "name": "Docker",
         "desc": "Conteneurisation pour garantir portabilité et reproductibilité."
@@ -199,44 +223,104 @@
         "desc": "Orchestration de conteneurs pour applications distribuées à grande échelle."
       },
       {
-        "name": "MLOps (MLflow, CI/CD)",
-        "desc": "Gestion du cycle de vie des modèles et automatisation des workflows ML."
+        "name": "GitLab CI/CD",
+        "desc": "Automatisation des tests, des builds et des déploiements dans des pipelines d’intégration continue."
       },
       {
-        "name": "Linux",
-        "desc": "Administration système et scripting pour environnements de production."
+        "name": "MLOps",
+        "desc": "Industrialisation du cycle de vie des modèles : versioning, suivi d’expériences, déploiement et monitoring."
       }
     ],
     "databases": [
       {
-        "name": "SQL (MySQL, PostgreSQL)",
-        "desc": "Conception et interrogation de bases de données relationnelles."
+        "name": "MySQL",
+        "desc": "Modélisation relationnelle, requêtage et optimisation de bases transactionnelles."
       },
       {
-        "name": "NoSQL (MongoDB, Elasticsearch)",
-        "desc": "Gestion de données non structurées dans des systèmes distribués."
+        "name": "PostgreSQL",
+        "desc": "Bases relationnelles avancées : requêtes analytiques, indexation et intégrité des données."
+      },
+      {
+        "name": "MongoDB",
+        "desc": "Stockage orienté documents pour données semi-structurées et schémas évolutifs."
       },
       {
         "name": "Neo4j",
-        "desc": "Base de données graphe pour modélisation de relations complexes (GNN)."
+        "desc": "Bases de données orientées graphes, requêtes Cypher et modélisation de relations complexes."
+      }
+    ],
+    "visualization": [
+      {
+        "name": "Tableau",
+        "desc": "Création de dashboards interactifs pour l’analyse métier et le pilotage de la BI."
+      },
+      {
+        "name": "Power BI",
+        "desc": "Reporting et tableaux de bord décisionnels connectés aux sources de données de l’entreprise."
+      },
+      {
+        "name": "Matplotlib",
+        "desc": "Visualisation de données et communication de résultats analytiques."
+      },
+      {
+        "name": "Seaborn",
+        "desc": "Visualisations statistiques pour l’exploration de données et l’analyse de distributions."
       }
     ],
     "math_foundations": [
       {
         "name": "Algèbre linéaire",
-        "desc": "Espaces vectoriels, transformations linéaires, décompositions matricielles (SVD, PCA) appliquées au ML."
+        "desc": "Fondement des représentations vectorielles et des algorithmes d’apprentissage."
       },
       {
         "name": "Théorie des probabilités",
-        "desc": "Variables aléatoires, distributions, inférence bayésienne et modélisation probabiliste."
+        "desc": "Modélisation de l’incertitude, inférence statistique et raisonnement bayésien."
       },
       {
         "name": "Optimisation",
-        "desc": "Descente de gradient, méthodes convexes et non-convexes, optimisation stochastique pour l'entraînement de modèles."
+        "desc": "Méthodes de descente de gradient, convexité et optimisation sous contraintes."
       },
       {
         "name": "Processus stochastiques",
-        "desc": "Chaînes de Markov, mouvement brownien, équations différentielles stochastiques appliquées à la finance quantitative et au RL."
+        "desc": "Modélisation de systèmes dynamiques aléatoires (chaînes de Markov, files d’attente)."
+      },
+      {
+        "name": "Séries temporelles",
+        "desc": "Analyse et prévision de données temporelles : stationnarité, saisonnalité, modèles ARIMA."
+      }
+    ],
+    "tools": [
+      {
+        "name": "Linux",
+        "desc": "Environnement de développement et d’exploitation, administration système et scripting."
+      },
+      {
+        "name": "Git",
+        "desc": "Gestion de versions, workflows collaboratifs et revue de code."
+      },
+      {
+        "name": "Bash",
+        "desc": "Automatisation de tâches, scripts d’exploitation et outillage en ligne de commande."
+      },
+      {
+        "name": "Jupyter",
+        "desc": "Prototypage analytique, expérimentation et documentation de travaux de data science."
+      },
+      {
+        "name": "Hugging Face",
+        "desc": "Utilisation et fine-tuning de modèles pré-entraînés (Transformers, datasets, hub)."
+      },
+      {
+        "name": "MLflow",
+        "desc": "Suivi d’expériences, versioning des modèles et gestion du registre de modèles."
+      },
+      {
+        "name": "LangGraph",
+        "desc": "Orchestration de workflows d’agents LLM avec états, cycles et contrôle du flux."
+      },
+      {
+        "name": "Streamlit",
+        "desc": "Prototypage rapide d’applications et de démonstrateurs interactifs de modèles."
       }
     ]
   },
