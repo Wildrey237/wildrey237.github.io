@@ -17,9 +17,8 @@ No test suite is configured.
 
 Hosted on **Vercel** (framework: Next.js, auto-detected — no `vercel.json` needed).
 
-- **`work`** — production branch. Vercel builds and deploys it on every push.
+- **`main`** — production branch (protected). Vercel builds and deploys it on every push; direct pushes are rejected, so all changes land via pull request.
 - Feature branches / PRs → automatic Vercel **preview deployments**.
-- **`main`** — legacy GitHub Pages branch, no longer in the deploy loop.
 
 Vercel runs `npm run build` itself; there is no GitHub Actions deploy workflow. `.github/workflows/cv-check.yml` (auto-renames CV PDFs) is retained and is independent of hosting.
 
