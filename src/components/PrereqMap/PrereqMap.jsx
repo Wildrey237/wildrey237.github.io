@@ -266,7 +266,14 @@ export default function PrereqMap() {
         const zinBtn = qs('#zin'), zoutBtn = qs('#zout'), zfitBtn = qs('#zfit')
         const onZin = () => { scale = Math.min(1.6, scale + .12); applyZoom() }
         const onZout = () => { scale = Math.max(.35, scale - .12); applyZoom() }
-        function fit() { scale = Math.min(1, (stage.clientWidth - 24) / CW); applyZoom() }
+        function fit() {
+            const target = (stage.clientWidth - 24) / CW
+            // sous 560px, on ne descend jamais en dessous d'un seuil de lisibilite :
+            // le plan deborde et se parcourt au doigt plutot que de rapetisser le texte
+            const floor = stage.clientWidth < 560 ? 0.62 : 0
+            scale = Math.max(floor, Math.min(1, target))
+            applyZoom()
+        }
         zinBtn.addEventListener('click', onZin); zoutBtn.addEventListener('click', onZout); zfitBtn.addEventListener('click', fit)
 
         // ---- reset en deux temps, pas de popup navigateur ----
