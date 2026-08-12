@@ -1,0 +1,239 @@
+/* Scoped under .prereqMap so nothing here ever touches the main site's Chakra theme. */
+.prereqMap{
+  /* surfaces : une seule famille de gris, teintee bleu nuit */
+  --bg:#0d1219;
+  --panel:#151c27;
+  --panel-2:#1a2231;
+  --panel-3:#212b3c;
+  --line:rgba(160,190,230,.09);
+  --grid:rgba(160,190,230,.035);
+  --text:#e6ecf4;
+  --muted:#8b98ad;
+  --muted-2:#c3cddb;
+  /* pistes : palette categorielle desaturee, une teinte par piste */
+  --math:#e9b154;
+  --ml:#5b9bd8;
+  --graph:#9b7fe6;
+  --algo:#4ec9a0;
+  --data:#e5814f;
+  --proj:#dd6a8b;
+  --ring:rgba(198,218,244,.22);
+  /* ombres teintees par le fond, jamais du noir pur */
+  --sh-1:0 1px 2px rgba(6,10,17,.5);
+  --sh-2:0 10px 30px -14px rgba(6,10,17,.85);
+  --sh-3:0 26px 60px -28px rgba(6,10,17,.95);
+  --sans:"Geist","Inter",system-ui,sans-serif;
+  --disp:"Space Grotesk","Geist",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.7,.3,1);
+  --spring:cubic-bezier(.34,1.4,.5,1);
+  --z-stage:1; --z-tip:10; --z-head:20; --z-drawer:40; --z-grain:90;
+}
+.prereqMap, .prereqMap *{box-sizing:border-box}
+.prereqMap{
+  background:
+    linear-gradient(0deg,var(--grid) 1px,transparent 1px) 0 0/100% 32px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/32px 100%,
+    radial-gradient(1100px 620px at 18% -12%, #17253c 0%, var(--bg) 62%);
+  color:var(--text);
+  font-family:var(--sans);
+  font-feature-settings:"cv11","ss01";
+  -webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;height:100dvh;overflow:hidden;
+  position:relative;
+}
+/* grain : casse la platitude du degrade, ne capte aucun pointeur */
+.prereqMap::after{
+  content:"";position:fixed;inset:0;z-index:var(--z-grain);pointer-events:none;opacity:.05;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.prereqMap :focus-visible{outline:2px solid var(--ml);outline-offset:3px;border-radius:6px}
+.prereqMap ::selection{background:rgba(91,155,216,.3)}
+.prereqMap ::-webkit-scrollbar{width:10px;height:10px}
+.prereqMap ::-webkit-scrollbar-track{background:transparent}
+.prereqMap ::-webkit-scrollbar-thumb{background:var(--panel-3);border:3px solid transparent;background-clip:content-box;border-radius:99px}
+.prereqMap ::-webkit-scrollbar-thumb:hover{background:#2d3a50;background-clip:content-box}
+
+.prereqMap header{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  padding:13px 22px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(19,26,37,.94),rgba(19,26,37,.74));
+  backdrop-filter:blur(8px) saturate(1.2);z-index:var(--z-head);box-shadow:var(--sh-1)}
+.prereqMap .brand{display:flex;flex-direction:column;line-height:1.05}
+.prereqMap .brand .k{font:500 9.5px/1 var(--mono);letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.prereqMap .brand h1{font:600 20px/1.05 var(--disp);margin:5px 0 0;letter-spacing:-.025em}
+.prereqMap .spacer{flex:1}
+.prereqMap .legend{display:flex;gap:6px;flex-wrap:wrap}
+.prereqMap .lg{display:flex;align-items:center;gap:7px;font:450 12px/1 var(--sans);color:var(--muted-2);cursor:pointer;user-select:none;
+    padding:6px 10px;border:1px solid transparent;border-radius:8px;transition:background .18s var(--ease),color .18s,opacity .18s}
+.prereqMap .lg:hover{background:var(--panel-2);color:var(--text)}
+.prereqMap .lg:active{transform:translateY(1px)}
+.prereqMap .lg.off{opacity:.34;color:var(--muted)}
+.prereqMap .lg.off .dot{filter:grayscale(1)}
+.prereqMap .dot{width:9px;height:9px;border-radius:2px;transition:filter .18s}
+.prereqMap .controls{display:flex;align-items:center;gap:6px}
+.prereqMap button.ctl{
+  font:500 12px/1 var(--mono);color:var(--muted-2);
+  background:var(--panel-2);border:1px solid var(--line);border-radius:8px;
+  padding:9px 12px;cursor:pointer;letter-spacing:.02em;
+  transition:background .18s var(--ease),color .18s,border-color .18s,transform .1s var(--ease)}
+.prereqMap button.ctl:hover{border-color:var(--ring);background:var(--panel-3);color:var(--text)}
+.prereqMap button.ctl:active{transform:translateY(1px) scale(.985)}
+.prereqMap button.ctl.armed{border-color:var(--proj);color:var(--proj);background:rgba(221,106,139,.12)}
+.prereqMap .meter{display:flex;align-items:center;gap:10px;font:500 12px/1 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.prereqMap .bar{width:110px;height:6px;border-radius:99px;background:var(--panel-3);overflow:hidden;box-shadow:inset 0 1px 2px rgba(6,10,17,.6)}
+.prereqMap .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--algo),var(--ml));transition:width .5s var(--ease)}
+
+.prereqMap .stage{position:relative;flex:1;overflow:auto;z-index:var(--z-stage);cursor:grab;-webkit-overflow-scrolling:touch}
+.prereqMap .stage.panning{cursor:grabbing;user-select:none}
+.prereqMap .stage.panning .node{transition:none}
+.prereqMap .canvas{position:relative;transform-origin:0 0}
+.prereqMap svg.edges{position:absolute;inset:0;overflow:visible;pointer-events:none}
+/* stroke pose en inline (degrade svg per-edge), voir PrereqMap.jsx */
+.prereqMap .edge{fill:none;stroke-width:1.3;
+  transition:stroke .2s,stroke-width .2s,opacity .2s}
+.prereqMap .edge.hot{stroke-width:2.2}
+
+.prereqMap .lane-label{position:absolute;font:600 10px/1.6 var(--mono);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--muted);opacity:.7;transform:translateY(-50%);pointer-events:none;
+  text-wrap:balance}
+/* --tc = couleur de la piste, posee par le JS sur chaque carte */
+.prereqMap .node{
+  --tc:var(--muted);
+  position:absolute;width:224px;height:76px;border-radius:14px;cursor:pointer;
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  background:linear-gradient(160deg,
+    color-mix(in oklab, var(--tc) 15%, var(--panel-2)) 0%,
+    color-mix(in oklab, var(--tc) 5%, var(--panel)) 70%);
+  border:1px solid var(--line);
+  border-color:color-mix(in oklab, var(--tc) 30%, transparent);
+  padding:13px 16px 13px 20px;
+  display:flex;flex-direction:column;justify-content:center;gap:6px;
+  box-shadow:var(--sh-1);
+  transition:transform .16s var(--spring), box-shadow .22s var(--ease), border-color .2s, opacity .25s;
+  animation:prereqMapNodeIn .5s var(--ease) both;
+}
+@keyframes prereqMapNodeIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+/* spotlight qui suit le curseur, coordonnees posees par le JS en --mx/--my */
+.prereqMap .node::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, var(--tc) 55%, white) 0%, transparent 65%);
+  opacity:0;transition:opacity .25s var(--ease);
+}
+.prereqMap .node:hover::before{opacity:.13}
+.prereqMap .node:hover{transform:translateY(-3px);border-color:color-mix(in oklab, var(--tc) 62%, transparent);
+  box-shadow:var(--sh-2), 0 0 30px -14px var(--tc)}
+.prereqMap .node:active{transform:translateY(-1px) scale(.995)}
+/* hierarchie "fiche composant" : le designant (M1, G3...) porte le poids visuel, la description reste secondaire */
+.prereqMap .node .head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-right:22px}
+.prereqMap .node .code{font:700 16px/1 var(--mono);letter-spacing:-.02em;color:var(--text)}
+.prereqMap .node .lvl{font:500 9px/1 var(--mono);letter-spacing:.08em;white-space:nowrap;
+  color:color-mix(in oklab, var(--tc) 58%, var(--muted))}
+.prereqMap .node .ttl{font:450 12px/1.35 var(--sans);text-wrap:balance;padding-right:22px;color:var(--muted-2)}
+.prereqMap .node .tk{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:14px 0 0 14px;
+  box-shadow:0 0 16px -2px var(--tc)}
+/* pin de sortie : point d ancrage des traces sortantes, cote droit de la carte */
+.prereqMap .node::after{
+  content:"";position:absolute;right:-1px;top:50%;transform:translate(50%,-50%);
+  width:8px;height:8px;border-radius:50%;background:var(--tc);
+  box-shadow:0 0 8px -1px var(--tc), 0 0 0 3px var(--panel);
+  transition:box-shadow .2s var(--ease)}
+.prereqMap .node:hover::after{box-shadow:0 0 12px 0 var(--tc), 0 0 0 3px var(--panel)}
+.prereqMap .node .status{position:absolute;right:11px;top:11px;width:16px;height:16px;border-radius:5px;border:2px solid #45536b;
+  display:flex;align-items:center;justify-content:center;background:transparent;
+  transition:transform .16s var(--spring),border-color .18s,background .18s}
+.prereqMap .node .status:hover{transform:scale(1.18);border-color:var(--muted-2)}
+.prereqMap .node .status:active{transform:scale(.94)}
+.prereqMap .node[data-st="1"] .status{border-color:var(--math);background:rgba(233,177,84,.18)}
+.prereqMap .node[data-st="2"] .status{border-color:var(--algo);background:var(--algo)}
+.prereqMap .node[data-st="2"] .status:after{content:"";width:4px;height:8px;border:solid #0d1219;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px)}
+.prereqMap .node[data-st="2"]{opacity:.78}
+.prereqMap .node[data-st="2"] .ttl{opacity:.66}
+.prereqMap .node.dim{opacity:.14;filter:saturate(.35)}
+.prereqMap .node.sel{border-color:rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(255,255,255,.85), var(--sh-3)}
+.prereqMap .node.req{border-color:var(--math);box-shadow:0 0 0 1px var(--math), 0 0 26px -8px var(--math)}
+.prereqMap .node.next{border-color:var(--proj);box-shadow:0 0 0 1px var(--proj), 0 0 22px -10px var(--proj)}
+.prereqMap .node.ready:not(.sel):not([data-st="2"]) .ttl:after{content:" \25CF";color:var(--algo);font-size:8px;vertical-align:middle}
+.prereqMap .node.ready:not(.sel):not([data-st="2"]){animation:prereqMapNodeIn .5s var(--ease) both, prereqMapPulse 2.8s ease-in-out infinite 1s}
+@keyframes prereqMapPulse{0%,100%{box-shadow:0 0 0 1px rgba(78,201,160,.3)}50%{box-shadow:0 0 24px -6px rgba(78,201,160,.5)}}
+
+/* panneau lateral */
+.prereqMap .drawer{
+  position:fixed;top:0;right:0;height:100dvh;width:390px;max-width:92vw;z-index:var(--z-drawer);
+  background:linear-gradient(180deg,rgba(24,32,46,.82),rgba(18,25,36,.86));
+  backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+  border-left:1px solid var(--line);
+  box-shadow:-30px 0 70px -34px rgba(6,10,17,.9), inset 1px 0 0 rgba(198,218,244,.05);
+  transform:translateX(102%);transition:transform .32s var(--ease);
+  display:flex;flex-direction:column}
+.prereqMap .drawer.open{transform:none}
+.prereqMap .dh{padding:22px 24px 18px;border-bottom:1px solid var(--line);position:relative}
+.prereqMap .dh .eyebrow{font:600 9.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase}
+.prereqMap .dh h2{font:600 22px/1.12 var(--disp);margin:9px 0 0;letter-spacing:-.03em;text-wrap:balance;padding-right:34px}
+.prereqMap .dh .stwrap{margin-top:16px;display:flex;gap:6px}
+.prereqMap .stbtn{flex:1;text-align:center;font:500 11px/1 var(--sans);padding:9px 4px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--line);color:var(--muted);background:var(--panel);
+  transition:background .18s var(--ease),color .18s,border-color .18s,transform .1s}
+.prereqMap .stbtn:hover{border-color:var(--ring);color:var(--muted-2);background:var(--panel-2)}
+.prereqMap .stbtn:active{transform:translateY(1px)}
+.prereqMap .stbtn.on{color:var(--text)}
+.prereqMap .stbtn.on[data-v="0"]{border-color:#45536b;background:var(--panel-2)}
+.prereqMap .stbtn.on[data-v="1"]{border-color:var(--math);color:var(--math);background:rgba(233,177,84,.1)}
+.prereqMap .stbtn.on[data-v="2"]{border-color:var(--algo);color:var(--algo);background:rgba(78,201,160,.1)}
+.prereqMap .db{padding:22px 24px;overflow:auto;scrollbar-gutter:stable}
+.prereqMap .sect{margin-bottom:24px}
+.prereqMap .sect:last-child{margin-bottom:4px}
+.prereqMap .sect h3{font:600 9.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.prereqMap .notions{display:flex;flex-wrap:wrap;gap:6px}
+.prereqMap .notion{font:450 12.5px/1.3 var(--sans);background:var(--panel-2);border:1px solid var(--line);
+  padding:6px 10px;border-radius:6px;color:var(--muted-2)}
+.prereqMap .chips{display:flex;flex-wrap:wrap;gap:6px}
+.prereqMap .chip{font:500 12px/1 var(--sans);padding:8px 12px;border-radius:999px;cursor:pointer;border:1px solid var(--line);
+  background:var(--panel);display:flex;align-items:center;gap:8px;color:var(--muted-2);
+  transition:background .18s var(--ease),color .18s,border-color .18s,transform .14s var(--spring)}
+.prereqMap .chip:hover{border-color:var(--ring);background:var(--panel-2);color:var(--text);transform:translateY(-1px)}
+.prereqMap .chip:active{transform:translateY(0) scale(.98)}
+.prereqMap .chip .cd{width:8px;height:8px;border-radius:2px;flex:none}
+.prereqMap .empty{font:400 13px/1.45 var(--sans);color:var(--muted);text-wrap:pretty}
+.prereqMap .proj{border:1px solid var(--line);border-left:2px solid var(--proj);border-radius:9px;padding:11px 13px;margin-bottom:8px;
+  background:linear-gradient(180deg,rgba(221,106,139,.07),rgba(221,106,139,.03))}
+.prereqMap .proj .pn{font:600 13px/1.25 var(--disp);color:#f0c0cf;letter-spacing:-.01em;text-wrap:balance}
+.prereqMap .proj .pw{font:400 12px/1.45 var(--sans);color:var(--muted);margin-top:4px;text-wrap:pretty}
+.prereqMap .close{position:absolute;top:16px;right:16px;z-index:1;width:30px;height:30px;border-radius:8px;border:1px solid transparent;
+  background:transparent;color:var(--muted);cursor:pointer;font-size:17px;line-height:1;
+  transition:background .18s var(--ease),color .18s,border-color .18s}
+.prereqMap .close:hover{background:var(--panel-2);color:var(--text);border-color:var(--line)}
+.prereqMap .close:active{transform:scale(.94);background:var(--panel-3)}
+.prereqMap .hint{padding:13px 24px;border-top:1px solid var(--line);font:400 11.5px/1.55 var(--sans);color:var(--muted);text-wrap:pretty}
+.prereqMap .tag{font:600 11px/1 var(--mono);padding:3px 7px;border-radius:5px;letter-spacing:.05em}
+
+.prereqMap .tip{position:fixed;left:22px;bottom:18px;z-index:var(--z-tip);font:400 11.5px/1.55 var(--sans);color:var(--muted);
+  background:rgba(19,26,37,.88);border:1px solid var(--line);border-radius:10px;padding:10px 14px;max-width:340px;
+  backdrop-filter:blur(6px);box-shadow:var(--sh-2);cursor:pointer;text-wrap:pretty;
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.prereqMap .tip:hover{color:var(--muted-2)}
+.prereqMap .tip.gone{opacity:0;transform:translateY(8px);pointer-events:none}
+@media(max-width:900px){ .prereqMap .legend{display:none} .prereqMap .tip{display:none} .prereqMap .brand h1{font-size:17px} }
+@media(max-width:560px){
+  .prereqMap header{padding:10px 14px;gap:10px}
+  .prereqMap .brand h1{font-size:15px}
+  .prereqMap .brand .k{font-size:8.5px;letter-spacing:.22em}
+  .prereqMap .meter{gap:6px;font-size:11px}
+  .prereqMap .bar{width:64px}
+  .prereqMap .controls{gap:4px;flex-wrap:wrap}
+  .prereqMap button.ctl{padding:8px 10px;font-size:11px}
+  .prereqMap .drawer{width:100%;max-width:100vw}
+  .prereqMap .dh{padding:18px 18px 14px}
+  .prereqMap .db{padding:18px}
+  .prereqMap .hint{padding:11px 18px;font-size:11px}
+}
+@media(pointer:coarse){
+  .prereqMap .node .status{width:22px;height:22px}
+  .prereqMap button.ctl{min-height:40px}
+  .prereqMap .close{width:36px;height:36px}
+  .prereqMap .stbtn{padding:11px 4px}
+}
+@media(prefers-reduced-motion:reduce){
+  .prereqMap, .prereqMap *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
