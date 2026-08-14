@@ -33,25 +33,14 @@
         "Technical Project Lead",
         "Process & Tooling",
         "Change Management",
-        "Documentation",
-        "Technical Lead / DevOps",
-        "Notion",
-        "GitHub Projects",
+        "Team Management",
         "Next.js",
         "React",
         "TypeScript",
         "Supabase",
-        "Google Sheets",
         "Stripe",
-        "LaTeX",
-        "Automation",
-        "Video Editing",
-        "Presentation Design",
-        "Communication",
-        "Team Management",
-        "Coordination",
-        "Association",
-        "Organisation"
+        "Notion",
+        "Automation"
       ]
     },
     {
@@ -67,9 +56,8 @@
         "SQL",
         "Airflow",
         "AWS",
-        "JSON",
-        "CI/CD",
         "GitLab",
+        "CI/CD",
         "Business Intelligence",
         "Data Engineering"
       ]
@@ -88,8 +76,6 @@
         "REST API",
         "Python",
         "Databases",
-        "Documentation",
-        "Front-end",
         "DataViz"
       ]
     },
@@ -103,8 +89,6 @@
       "tags": [
         "JavaScript",
         "REST API",
-        "Web Development",
-        "Documentation",
         "Functional Testing"
       ]
     },
@@ -371,13 +355,14 @@
       "badge": "EPITA SCIA-G",
       "icon": "LineChart",
       "tags": [
+        "GNN",
+        "Graph Transformer",
+        "Quantitative Finance",
+        "Risk Management",
         "Python",
         "Deep Learning",
-        "Graph Neural Networks",
-        "Graph Transformer",
         "Multi-Task Learning",
-        "Risk Management",
-        "Quantitative Finance"
+        "Backtesting"
       ],
       "link": "#"
     },
@@ -388,20 +373,15 @@
       "badge": "EPITA SCIA-G",
       "icon": "ShieldAlert",
       "tags": [
-        "Python",
-        "Graph Neural Networks",
+        "GNN",
         "GraphSAGE",
-        "GCN",
-        "Reinforcement Learning",
-        "Adversarial RL",
-        "Kafka",
-        "Spark Streaming",
-        "Hawkes Process",
-        "XAI",
-        "GNNExplainer",
         "Anomaly Detection",
         "AML",
-        "Finance"
+        "Reinforcement Learning",
+        "Kafka",
+        "Spark Streaming",
+        "XAI",
+        "Python"
       ],
       "link": "#"
     },
@@ -411,9 +391,9 @@
       "school": "Personal Project",
       "icon": "TrendingUp",
       "tags": [
-        "Quant Finance",
-        "SDE",
+        "Quantitative Finance",
         "Monte Carlo",
+        "SDE",
         "Python"
       ],
       "link": "#"
@@ -424,12 +404,11 @@
       "school": "Personal Project",
       "icon": "Briefcase",
       "tags": [
-        "JavaScript",
         "Google Apps Script",
         "Gemini AI",
         "NLP",
-        "Automation",
-        "Gmail API"
+        "Gmail API",
+        "JavaScript"
       ],
       "link": "https://github.com/Wildrey237/gemini-ai-job-tracker"
     },
@@ -440,10 +419,10 @@
       "badge": "EPITA SCIA-G",
       "icon": "Car",
       "tags": [
-        "Data Science",
+        "Python",
         "Machine Learning",
-        "Clustering",
-        "XGBoost"
+        "XGBoost",
+        "Clustering"
       ],
       "link": "#"
     },
@@ -454,8 +433,8 @@
       "badge": "EPITA SCIA-G",
       "icon": "Boxes",
       "tags": [
-        "Microservices",
         "Java",
+        "Microservices",
         "Kubernetes",
         "NoSQL"
       ],
@@ -468,8 +447,9 @@
       "badge": "EPITA SCIA-G",
       "icon": "Brain",
       "tags": [
-        "Autograd",
+        "Python",
         "Deep Learning",
+        "Autograd",
         "Backpropagation"
       ],
       "link": "#"
@@ -495,8 +475,8 @@
       "icon": "FileText",
       "tags": [
         "NLP",
-        "Machine Learning",
         "Text Mining",
+        "Machine Learning",
         "Python"
       ],
       "link": "#"
@@ -508,9 +488,10 @@
       "badge": "EPITA SCIA-G",
       "icon": "Star",
       "tags": [
-        "Recommender Systems",
+        "Collaborative Filtering",
         "KNN",
-        "SVD"
+        "SVD",
+        "Python"
       ],
       "link": "#"
     },
@@ -521,9 +502,9 @@
       "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
-        "Medical AI",
-        "Segmentation",
-        "PyTorch"
+        "Machine Learning",
+        "Healthcare",
+        "Python"
       ]
     },
     {
@@ -536,7 +517,8 @@
         "XAI",
         "SHAP",
         "LIME",
-        "Fairness"
+        "Fairness",
+        "Python"
       ],
       "link": "#"
     },
@@ -547,13 +529,12 @@
       "badge": "EPITA SCIA-G",
       "icon": "Bot",
       "tags": [
-        "Python",
         "Reinforcement Learning",
         "MDP",
         "Q-Learning",
         "Policy Gradient",
         "Finance",
-        "Simulation"
+        "Python"
       ],
       "link": "#"
     },
@@ -568,8 +549,6 @@
         "Arduino",
         "Finite State Machine (FSM)",
         "C",
-        "Electronics",
-        "Stepper Motors",
         "Theoretical CS"
       ],
       "link": "#"
@@ -584,10 +563,8 @@
         "C",
         "Systems Programming",
         "Unix/POSIX",
-        "Parser / AST",
         "Shell",
-        "Valgrind",
-        "CMake"
+        "Parser / AST"
       ],
       "link": "#"
     },
@@ -601,9 +578,7 @@
         "C",
         "Memory Management",
         "Systems Programming",
-        "mmap",
-        "Valgrind",
-        "CMake"
+        "mmap"
       ],
       "link": "#"
     },
@@ -620,8 +595,7 @@
         "AST",
         "Semantic Analysis",
         "Register Allocation",
-        "ARM Code Generation",
-        "CMake"
+        "ARM Code Generation"
       ],
       "link": "https://assignments.lrde.epita.fr/"
     },
@@ -635,11 +609,9 @@
         "Java",
         "Quarkus",
         "React",
-        "JGit",
-        "Apache Lucene",
-        "Maven",
         "REST API",
-        "IDE"
+        "Apache Lucene",
+        "JGit"
       ],
       "link": "#"
     },
@@ -650,15 +622,12 @@
       "badge": "EPITA",
       "icon": "Snowflake",
       "tags": [
-        "Python",
         "Operations Research",
+        "Graph Theory",
+        "Optimization",
         "NetworkX",
         "OSMNX",
-        "Chinese Postman Problem",
-        "Graph Theory",
-        "Folium",
-        "Flask",
-        "Optimization"
+        "Python"
       ],
       "link": "https://github.com/Wildrey237/ERO-PROJECT"
     },
@@ -669,12 +638,10 @@
       "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
-        "Python",
         "PyTorch",
         "MONAI",
-        "ITK",
-        "3D Segmentation",
-        "Medical Imaging"
+        "Medical Imaging",
+        "Python"
       ],
       "link": "#"
     },
@@ -688,9 +655,7 @@
         "PHP",
         "MySQL",
         "MVC",
-        "HTML/CSS",
-        "Sessions",
-        "Web Development"
+        "HTML/CSS"
       ],
       "link": "#"
     },
@@ -701,14 +666,11 @@
       "badge": "ECE Paris",
       "icon": "User",
       "tags": [
-        "React 18",
+        "React",
         "Chakra UI",
         "Framer Motion",
         "i18next",
-        "Vite",
-        "GitHub Actions",
-        "CI/CD",
-        "GitHub Pages"
+        "CI/CD"
       ],
       "link": "https://github.com/Wildrey237/wildrey237.github.io"
     },
@@ -723,7 +685,6 @@
         "Spring MVC",
         "MySQL",
         "Thymeleaf",
-        "HTML/CSS",
         "Full Stack"
       ],
       "link": "#"
@@ -735,8 +696,8 @@
       "badge": "ECE Paris",
       "icon": "PieChart",
       "tags": [
-        "Data Analysis",
         "Python",
+        "Pandas",
         "Visualization"
       ],
       "link": "#"
@@ -749,8 +710,8 @@
       "icon": "Server",
       "tags": [
         "Linux",
-        "DevOps",
-        "Servers"
+        "System Administration",
+        "DevOps"
       ],
       "link": "#"
     },
@@ -761,6 +722,7 @@
       "badge": "EPSI Rennes",
       "icon": "Laptop",
       "tags": [
+        "Python",
         "Flask",
         "Django",
         "PHP"
@@ -786,14 +748,10 @@
       "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
-        "Arduino MEGA",
+        "Arduino",
         "C",
-        "HC-SR04",
-        "Servomotor",
-        "Photoresistor",
-        "FSM",
-        "Arduino IDE",
-        "Embedded Systems"
+        "Embedded Systems",
+        "Finite State Machine (FSM)"
       ],
       "link": "#"
     },
@@ -804,14 +762,10 @@
       "badge": "Prépa · Yaoundé",
       "icon": "Cpu",
       "tags": [
-        "Arduino Nano",
+        "Arduino",
         "C",
-        "NRF24L01",
-        "RF 2.4GHz",
-        "ADXL335",
-        "L298N",
-        "DC Motors",
-        "Embedded"
+        "Embedded Systems",
+        "RF 2.4GHz"
       ],
       "link": "#"
     },
@@ -822,13 +776,11 @@
       "badge": "EPITA SCIA-G",
       "icon": "Sparkles",
       "tags": [
-        "Python",
         "PyTorch",
-        "DDPM",
         "Diffusion Models",
-        "Image Generation",
+        "DDPM",
         "Deep Learning",
-        "CUDA"
+        "Python"
       ],
       "link": "#"
     },
@@ -839,12 +791,10 @@
       "badge": "EPITA SCIA-G",
       "icon": "Users",
       "tags": [
-        "Python",
         "LLM",
-        "Ollama",
         "Multi-Agent Systems",
-        "Social Simulation",
-        "PyYAML"
+        "Ollama",
+        "Python"
       ],
       "link": "#"
     },
@@ -855,15 +805,12 @@
       "badge": "EPITA SCIA-G",
       "icon": "Share2",
       "tags": [
-        "Python",
-        "PyKEEN",
-        "RDF",
         "Knowledge Graphs",
+        "RDF",
+        "PyKEEN",
         "TransE",
         "RotatE",
-        "rdflib",
-        "OWLRL",
-        "t-SNE"
+        "Python"
       ],
       "link": "#"
     },
@@ -874,14 +821,13 @@
       "badge": "EPITA SCIA-G",
       "icon": "Shield",
       "tags": [
-        "Python",
         "Cybersecurity",
         "Anomaly Detection",
         "Isolation Forest",
         "Autoencoder",
-        "SWaT",
+        "One-Class SVM",
         "Time Series",
-        "One-Class SVM"
+        "Python"
       ],
       "link": "#"
     },
@@ -892,13 +838,12 @@
       "badge": "EPITA SCIA-G",
       "icon": "Radio",
       "tags": [
-        "Python",
-        "SimPy",
         "WSN",
         "LEACH",
         "Distributed Algorithms",
         "Energy Optimization",
-        "K-Means"
+        "K-Means",
+        "Python"
       ],
       "link": "#"
     },
@@ -912,11 +857,8 @@
         "JavaScript",
         "Node.js",
         "Socket.io",
-        "JWT",
-        "WebSocket",
-        "Vite.js",
         "Docker",
-        "Real-time"
+        "JWT"
       ],
       "link": "#"
     },
@@ -927,13 +869,13 @@
       "badge": "EPITA SCIA-G",
       "icon": "TrendingUp",
       "tags": [
-        "Python",
         "GNN",
         "Graph Transformer",
-        "PyTorch",
         "Quantitative Finance",
-        "Time Series Forecasting",
-        "Risk Management"
+        "Risk Management",
+        "PyTorch",
+        "Time Series",
+        "Python"
       ],
       "link": "https://medium.com/stanford-cs224w/stock-market-forecasting-with-differential-graph-transformer-62d095ebc821"
     },
@@ -943,19 +885,15 @@
       "school": "Personal Project",
       "icon": "TrendingUp",
       "tags": [
-        "Python",
-        "PyTorch",
-        "PyTorch Geometric",
         "GNN",
         "Graph Attention Network",
-        "Graph Transformer",
         "PPO / SAC",
-        "FinBERT",
-        "Financial NLP",
         "Quantitative Finance",
-        "Time Series",
+        "PyTorch Geometric",
+        "FinBERT",
         "Risk Management",
-        "XAI"
+        "XAI",
+        "Python"
       ],
       "link": "#"
     }
