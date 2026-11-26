@@ -20,7 +20,9 @@ function pourLangue(docs, l) {
             linkedin: p.linkedin,
             github: p.github,
             cvLink: p.cvUrl[l],
-            search: p.recherche[l],
+            // Texte du badge de disponibilite (vide = pas de badge).
+            availability: p.recherche?.[l] ?? '',
+            languages: p.langues?.[l] ?? '',
             link_picture: p.photoUrl,
             typewriter_roles: p.rolesTypewriter[l],
         },
@@ -64,11 +66,20 @@ function pourLangue(docs, l) {
             link: pr.lien ?? '#',
             status: pr.statut,
             noeuds: pr.noeuds,
+            domain: pr.domaine ?? null,
+            personal: Boolean(pr.personnel),
+        })),
+        certifications: [...(docs.certifications ?? [])].sort(parOrdre).map(c => ({
+            id: c._id,
+            name: c.nom,
+            issuer: c.organisme,
+            date: c.date ? new Date(c.date).toISOString().slice(0, 10) : null,
+            link: c.lien ?? null,
         })),
     }
 }
 
-// docs : {profil, experiences, formations, projets, competences} -> {fr, en}
+// docs : {profil, experiences, formations, projets, competences, certifications} -> {fr, en}
 export function versAffichage(docs) {
     return {fr: pourLangue(docs, 'fr'), en: pourLangue(docs, 'en')}
 }

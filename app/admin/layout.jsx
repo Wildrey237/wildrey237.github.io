@@ -24,6 +24,7 @@ export default async function AdminLayout({children}) {
                         <Link href="/admin/formations">Formations</Link>
                         <Link href="/admin/projets">Projets</Link>
                         <Link href="/admin/competences">Competences</Link>
+                        <Link href="/admin/certifications">Certifications</Link>
                         <Link href="/admin/noeuds">Noeuds</Link>
                         <Link href="/admin/journal">Journal</Link>
                         <Link href="/" target="_blank" rel="noreferrer">Voir le site</Link>

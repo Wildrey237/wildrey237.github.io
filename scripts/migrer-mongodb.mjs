@@ -15,12 +15,15 @@
 //   dates, tags...) est ecrase ; les champs
 //   d'etat (etat des noeuds, historique, statut et noeuds des projets, noeuds des competences)
 //   restent intacts dans tous les cas.
-// - Les validateurs $jsonSchema et les index sont crees, ou mis a jour s'ils ont change.
+// - Les validateurs $jsonSchema et les index sont crees, ou mis a jour s'ils ont change
+//   (par collMod, ou par reconstruction de la collection si Atlas refuse collMod).
+// - Puis les correctifs de src/lib/donnees/correctifs.js non encore appliques (journal _migrations).
 
 import fs from 'node:fs'
 import {MongoClient} from 'mongodb'
 import {construireDocuments, CHAMPS_ETAT} from '../src/lib/donnees/depuisJson.js'
 import {COLLECTIONS} from '../src/lib/donnees/schemas.js'
+import {CORRECTIFS} from '../src/lib/donnees/correctifs.js'
 import * as carte from '../src/components/PrereqMap/prereqMapData.js'
 
 const racine = new URL('..', import.meta.url)
@@ -49,6 +52,45 @@ if (!process.env.MONGODB_URI) {
 
 const client = new MongoClient(process.env.MONGODB_URI, {appName: 'portfolio-migration'})
 const nomBase = process.env.MONGODB_DB || 'portfolio'
+// Test uniquement : force le chemin de reconstruction meme quand collMod est autorise.
+const forcerReconstruction = process.argv.includes('--forcer-reconstruction')
+const OPTIONS_VALIDATION = {validationLevel: 'strict', validationAction: 'error'}
+
+// Remplace le validateur d'une collection existante sans le droit collMod :
+// copie dans une collection temporaire dotee du nouveau validateur, puis renommage par-dessus
+// l'ancienne (renameCollection et dropCollection font partie du role readWrite d'Atlas).
+// Les documents existants doivent deja respecter le nouveau validateur (nouveaux champs optionnels).
+async function reconstruire(db, nom, validateur, index) {
+    const tmp = `${nom}__reconstruction`
+    if (await db.listCollections({name: tmp}, {nameOnly: true}).hasNext()) await db.collection(tmp).drop()
+    await db.createCollection(tmp, {validator: validateur, ...OPTIONS_VALIDATION})
+    const docs = await db.collection(nom).find().toArray()
+    if (docs.length) await db.collection(tmp).insertMany(docs, {ordered: true})
+    for (const {cle, options} of index) await db.collection(tmp).createIndex(cle, options ?? {})
+    const copies = await db.collection(tmp).countDocuments()
+    if (copies !== docs.length) throw new Error(`${nom} : ${copies} copie(s) pour ${docs.length} document(s), reconstruction annulee`)
+    await db.collection(tmp).rename(nom, {dropTarget: true})
+    return docs.length
+}
+
+async function synchroniserValidateur(db, nom, {validateur, index}, existantes) {
+    if (!existantes.has(nom)) {
+        await db.createCollection(nom, {validator: validateur, ...OPTIONS_VALIDATION})
+        return 'creee'
+    }
+    if (JSON.stringify(existantes.get(nom)) === JSON.stringify(validateur) && !forcerReconstruction) return null
+    if (!forcerReconstruction) {
+        try {
+            await db.command({collMod: nom, validator: validateur, ...OPTIONS_VALIDATION})
+            return 'validateur mis a jour'
+        } catch (e) {
+            // Atlas refuse collMod a l'utilisateur de l'integration Vercel : on reconstruit.
+            if (e.code !== 8000 && e.codeName !== 'Unauthorized') throw e
+        }
+    }
+    const n = await reconstruire(db, nom, validateur, index)
+    return `validateur mis a jour par reconstruction (${n} document(s) recopie(s))`
+}
 
 try {
     await client.connect()
@@ -58,32 +100,17 @@ try {
     const initialisee = existantes.has('profil') && (await db.collection('profil').countDocuments({_id: 'profil'})) > 0
     const ecrireContenu = !initialisee || resync
     if (!ecrireContenu) {
-        console.log('Base deja initialisee : contenu laisse intact (le modifier dans /admin, ou relancer avec --resync).')
+        console.log('Base deja initialisee : contenu des JSON non reapplique (modifier dans /admin, ou relancer avec --resync).')
     }
 
-    for (const [nom, {validateur, index}] of Object.entries(COLLECTIONS)) {
-        // Validateur : cree avec la collection, ou mis a jour (collMod) seulement s'il a change.
-        // L'utilisateur Atlas fourni par l'integration Vercel n'a pas toujours le droit collMod :
-        // dans ce cas on le signale et on continue (le contenu reste synchronise).
-        if (existantes.has(nom)) {
-            if (JSON.stringify(existantes.get(nom)) !== JSON.stringify(validateur)) {
-                try {
-                    await db.command({collMod: nom, validator: validateur, validationLevel: 'strict', validationAction: 'error'})
-                    console.log(`${nom.padEnd(12)} validateur mis a jour`)
-                } catch (e) {
-                    if (e.code !== 8000 && e.codeName !== 'Unauthorized') throw e
-                    console.warn(`! ${nom} : validateur modifie mais droit collMod refuse par Atlas (${e.errmsg ?? e.message}).`
-                        + ' Donner le role dbAdmin a l\'utilisateur, ou modifier le validateur dans l\'interface Atlas.')
-                }
-            }
-        } else {
-            await db.createCollection(nom, {validator: validateur, validationLevel: 'strict', validationAction: 'error'})
-        }
-        for (const {cle, options} of index) await db.collection(nom).createIndex(cle, options ?? {})
+    // 1. Validateurs, index et contenu initial.
+    for (const [nom, definition] of Object.entries(COLLECTIONS)) {
+        const changement = await synchroniserValidateur(db, nom, definition, existantes)
+        for (const {cle, options} of definition.index) await db.collection(nom).createIndex(cle, options ?? {})
 
         const docs = ecrireContenu ? (documents[nom] ?? []) : []
         if (!docs.length) {
-            console.log(`${nom.padEnd(12)} validateur et index a jour`)
+            console.log(`${nom.padEnd(14)} ${changement ?? 'validateur et index a jour'}`)
             continue
         }
         const etat = CHAMPS_ETAT[nom] ?? []
@@ -97,8 +124,20 @@ try {
             return {updateOne: {filter: {_id}, update, upsert: true}}
         })
         const r = await db.collection(nom).bulkWrite(operations, {ordered: false})
-        console.log(`${nom.padEnd(12)} ${r.upsertedCount} cree(s), ${r.modifiedCount} mis a jour, ${r.matchedCount - r.modifiedCount} inchange(s)`)
+        console.log(`${nom.padEnd(14)} ${changement ? `${changement}, ` : ''}${r.upsertedCount} cree(s), ${r.modifiedCount} mis a jour, ${r.matchedCount - r.modifiedCount} inchange(s)`)
     }
+
+    // 2. Correctifs versionnes : une seule fois chacun (rejoues tous apres un --resync,
+    //    puisque le contenu vient d'etre reecrit depuis les JSON).
+    const journal = db.collection('_migrations')
+    const appliques = new Set((await journal.find({}, {projection: {_id: 1}}).toArray()).map(m => m._id))
+    for (const correctif of CORRECTIFS) {
+        if (appliques.has(correctif.id) && !resync) continue
+        const resultat = await correctif.appliquer(db)
+        await journal.updateOne({_id: correctif.id}, {$set: {description: correctif.description, appliqueLe: new Date(), resultat}}, {upsert: true})
+        console.log(`correctif     ${correctif.id} : ${resultat}`)
+    }
+
     console.log(`\nMigration terminee dans la base "${nomBase}"${resync ? ' (contenu resynchronise depuis les JSON)' : ''}.`)
 } catch (e) {
     console.error('Echec de la migration :', e.errInfo ? JSON.stringify(e.errInfo, null, 2) : e)

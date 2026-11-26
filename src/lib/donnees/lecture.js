@@ -16,15 +16,16 @@ function depuisJson() {
 
 async function depuisMongo() {
     const db = await getDb()
-    const [profil, experiences, formations, projets, competences] = await Promise.all([
+    const [profil, experiences, formations, projets, competences, certifications] = await Promise.all([
         db.collection('profil').findOne({_id: 'profil'}),
         db.collection('experiences').find().sort({ordre: 1}).toArray(),
         db.collection('formations').find().sort({ordre: 1}).toArray(),
         db.collection('projets').find().sort({ordre: 1}).toArray(),
         db.collection('competences').find().sort({categorie: 1, ordre: 1}).toArray(),
+        db.collection('certifications').find().sort({ordre: 1}).toArray(),
     ])
     if (!profil) return null
-    return {profil, experiences, formations, projets, competences}
+    return {profil, experiences, formations, projets, competences, certifications}
 }
 
 // Renvoie {fr, en, source}, chaque langue au format attendu par les composants.

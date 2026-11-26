@@ -5,6 +5,8 @@
 export const ETATS_NOEUD = ['non commence', 'en cours', 'maitrise']
 export const STATUTS_PROJET = ['a faire', 'en cours', 'livre']
 export const BANDES = ['math', 'ml', 'graph', 'algo', 'data', 'proj']
+// Domaines des projets du CV (filtres de l'accueil). "Personnel" est un indicateur a part.
+export const DOMAINES_PROJET = ['ia-data', 'systemes', 'web']
 // Ordre d'affichage des categories de competences sur l'accueil.
 export const CATEGORIES_COMPETENCES = [
     'ai', 'data_engineering', 'software_engineering', 'cloud_mlops',
@@ -47,7 +49,12 @@ export const COLLECTIONS = {
                 linkedin: chaine, github: chaine,
                 // Un CV par langue : l'URL est donc traduisible.
                 cvUrl: texte,
-                photoUrl: chaine, recherche: texte, rolesTypewriter: listeTexte,
+                photoUrl: chaine,
+                // Badge de disponibilite du hero (vide = masque).
+                recherche: texte,
+                rolesTypewriter: listeTexte,
+                // Encart "Langues" du hero.
+                langues: texte,
             },
         ),
         index: [],
@@ -86,6 +93,8 @@ export const COLLECTIONS = {
                 badge: chaineOuNull, icone: chaine, tags: listeTexte, lien: chaineOuNull,
                 statut: {enum: STATUTS_PROJET},
                 noeuds: ids,
+                domaine: {enum: DOMAINES_PROJET},
+                personnel: {bsonType: 'bool'},
             },
         ),
         index: [{cle: {noeuds: 1}}, {cle: {ordre: 1}}],
@@ -99,6 +108,18 @@ export const COLLECTIONS = {
             },
         ),
         index: [{cle: {categorie: 1, ordre: 1}}, {cle: {noeuds: 1}}],
+    },
+    certifications: {
+        validateur: schema(
+            ['ordre', 'nom', 'organisme', 'date', 'lien'],
+            {
+                ordre: entier, nom: chaine, organisme: chaine,
+                // Date d'obtention, inconnue pour l'instant (null).
+                date: dateOuNull,
+                lien: chaineOuNull,
+            },
+        ),
+        index: [{cle: {ordre: 1}}],
     },
     noeuds: {
         validateur: schema(

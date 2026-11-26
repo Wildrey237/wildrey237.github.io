@@ -1,62 +1,65 @@
 import {extendTheme} from '@chakra-ui/react'
 
+// Mode de couleur : choix memorise dans un cookie (chakra-ui-color-mode), sinon preference
+// systeme (prefers-color-scheme). Le script ColorModeScript (type "cookie") pose la classe
+// avant le premier affichage : pas de flash, et la page reste statique (ISR).
 const config = {
-    initialColorMode: 'dark',
+    initialColorMode: 'system',
     useSystemColorMode: false,
+    disableTransitionOnChange: true,
 }
 
-// Primary accent — an electric periwinkle blue (functions/links in a code theme).
+// Accent de la charte (echelle pour colorScheme).
 const brand = {
-    50:  '#eef1ff',
-    100: '#dbe2ff',
-    200: '#b9c6ff',
-    300: '#8fa2ff',
-    400: '#6d82ff',
-    500: '#4f66f5',
-    600: '#3d51db',
-    700: '#3040ad',
-    800: '#28368a',
-    900: '#232f6e',
+    50: '#EEF1FD',
+    100: '#D9E0FB',
+    200: '#B4C2FF',
+    300: '#8EA2FF',
+    400: '#5F78F0',
+    500: '#1F3FD1',
+    600: '#1A35B0',
+    700: '#152B8F',
+    800: '#10216E',
+    900: '#0B174D',
 }
 
 const theme = extendTheme({
     config,
     fonts: {
-        heading: "'Space Grotesk', system-ui, sans-serif",
-        body: "'IBM Plex Sans', system-ui, -apple-system, sans-serif",
-        mono: "'JetBrains Mono', ui-monospace, monospace",
+        heading: "var(--font-space-grotesk), system-ui, sans-serif",
+        body: "var(--font-inter), system-ui, -apple-system, sans-serif",
+        mono: "var(--font-jetbrains-mono), ui-monospace, monospace",
     },
-    colors: {
-        brand,
-    },
+    colors: {brand},
     semanticTokens: {
         colors: {
-            // Surfaces — deep ink terminal in dark, clean light IDE in light.
-            canvas:            {default: '#f6f7fb', _dark: '#0b0d14'},
-            'canvas.alt':      {default: '#eef0f7', _dark: '#0f1220'},
-            surface:           {default: '#ffffff', _dark: '#151826'},
-            'surface.raised':  {default: '#ffffff', _dark: '#1b1f30'},
-            // Hairlines
-            'line.subtle':     {default: '#e4e7f0', _dark: 'rgba(255,255,255,0.08)'},
-            'line.strong':     {default: '#d3d7e6', _dark: 'rgba(255,255,255,0.15)'},
-            // Text
-            'fg.default':      {default: '#171a26', _dark: '#e8e9f4'},
-            'fg.muted':        {default: '#565b73', _dark: '#9497b3'},
-            'fg.faint':        {default: '#8b8fa8', _dark: '#5f6480'},
-            // Primary accent
-            accent:            {default: '#3d51db', _dark: 'brand.300'},
-            'accent.soft':     {default: 'rgba(79,102,245,0.10)', _dark: 'rgba(143,162,255,0.14)'},
-            'accent.line':     {default: 'rgba(79,102,245,0.30)', _dark: 'rgba(143,162,255,0.34)'},
-            // Curated syntax palette — joyful but assigned by role, like code highlighting.
-            'syntax.green':    {default: '#1a7f37', _dark: '#7ee787'},
-            'syntax.blue':     {default: '#0969da', _dark: '#79b8ff'},
-            'syntax.purple':   {default: '#8250df', _dark: '#c297ff'},
-            'syntax.amber':    {default: '#bc4c00', _dark: '#ffbf5f'},
-            'syntax.pink':     {default: '#bf3989', _dark: '#ff9ec7'},
-            'syntax.cyan':     {default: '#1b7c83', _dark: '#66d9e8'},
-            'syntax.red':      {default: '#cf222e', _dark: '#ff7b72'},
-            // Translucent chrome (navbar / footer)
-            'chrome.bg':       {default: 'rgba(246,247,251,0.82)', _dark: 'rgba(11,13,20,0.82)'},
+            // Fonds et surfaces
+            canvas: {default: '#F6F5F1', _dark: '#0F1115'},
+            surface: {default: '#FFFFFF', _dark: '#171A21'},
+            // Bordures (line.strong) et separateurs (line.subtle)
+            'line.strong': {default: '#E2E0D8', _dark: '#2A2E38'},
+            'line.subtle': {default: '#ECEAE3', _dark: '#22262F'},
+            // Texte : principal, secondaire, discret
+            'fg.default': {default: '#15161A', _dark: '#EDEDEA'},
+            'fg.muted': {default: '#3D3F47', _dark: '#B7B9C1'},
+            'fg.faint': {default: '#6B6D75', _dark: '#8E919B'},
+            // Accent, et texte pose sur l'accent
+            accent: {default: '#1F3FD1', _dark: '#8EA2FF'},
+            'accent.contrast': {default: '#FFFFFF', _dark: '#0F1115'},
+            'accent.hover': {default: '#1A35B0', _dark: '#A9B8FF'},
+            // Puces (tags)
+            'chip.bg': {default: '#EEF1FD', _dark: '#1E2542'},
+            'chip.fg': {default: '#1F3FD1', _dark: '#B4C2FF'},
+            // Badge vert (disponibilite)
+            'success.bg': {default: '#E3F1E8', _dark: '#12321F'},
+            'success.fg': {default: '#1D6B45', _dark: '#8FDCAE'},
+            // En-tete translucide
+            'chrome.bg': {default: 'rgba(246,245,241,0.88)', _dark: 'rgba(15,17,21,0.88)'},
+            // Compatibilite avec les pages non refondues (404)
+            'canvas.alt': {default: '#FFFFFF', _dark: '#171A21'},
+            'surface.raised': {default: '#FFFFFF', _dark: '#171A21'},
+            'accent.soft': {default: '#EEF1FD', _dark: '#1E2542'},
+            'accent.line': {default: '#B4C2FF', _dark: '#3A4677'},
         },
     },
     styles: {
@@ -65,29 +68,43 @@ const theme = extendTheme({
                 bg: 'canvas',
                 color: 'fg.default',
             },
-            '::placeholder': {
-                color: 'fg.faint',
-            },
+            '::placeholder': {color: 'fg.faint'},
+            // Ancres : compense l'en-tete collant.
+            'section[id], footer[id]': {scrollMarginTop: '80px'},
         },
     },
     components: {
         Heading: {
-            baseStyle: {
-                fontWeight: '600',
-                letterSpacing: '-0.02em',
-            },
+            baseStyle: {fontWeight: '700', letterSpacing: '-0.02em', color: 'fg.default'},
         },
         Button: {
-            baseStyle: {
-                fontWeight: '500',
+            baseStyle: {fontWeight: '600', borderRadius: '10px'},
+            sizes: {
+                // Cibles tactiles >= 44px
+                md: {h: '44px', minW: '44px', px: 5, fontSize: '15px'},
+                lg: {h: '48px', minW: '48px', px: 6, fontSize: '16px'},
             },
-            defaultProps: {
-                colorScheme: 'brand',
+            variants: {
+                plein: {
+                    bg: 'accent', color: 'accent.contrast',
+                    _hover: {bg: 'accent.hover'},
+                    _active: {bg: 'accent.hover'},
+                },
+                contour: {
+                    bg: 'transparent', color: 'fg.default', border: '1px solid', borderColor: 'line.strong',
+                    _hover: {borderColor: 'accent', color: 'accent'},
+                },
+                discret: {
+                    bg: 'transparent', color: 'fg.muted',
+                    _hover: {bg: 'chip.bg', color: 'accent'},
+                },
             },
+            defaultProps: {variant: 'plein', size: 'md'},
         },
         Link: {
             baseStyle: {
-                _hover: {textDecoration: 'none'},
+                color: 'accent',
+                _hover: {textDecoration: 'underline', textUnderlineOffset: '3px'},
             },
         },
     },
