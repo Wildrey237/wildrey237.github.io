@@ -19,10 +19,13 @@ export default async function AdminLayout({children}) {
                     <strong>Admin</strong>
                     <nav>
                         <Link href="/admin">Tableau de bord</Link>
-                        <Link href="/admin/noeuds">Noeuds</Link>
-                        <Link href="/admin/journal">Journal</Link>
+                        <Link href="/admin/profil">Profil</Link>
+                        <Link href="/admin/experiences">Experiences</Link>
+                        <Link href="/admin/formations">Formations</Link>
                         <Link href="/admin/projets">Projets</Link>
                         <Link href="/admin/competences">Competences</Link>
+                        <Link href="/admin/noeuds">Noeuds</Link>
+                        <Link href="/admin/journal">Journal</Link>
                         <Link href="/" target="_blank" rel="noreferrer">Voir le site</Link>
                     </nav>
                     <form action={seDeconnecter}>

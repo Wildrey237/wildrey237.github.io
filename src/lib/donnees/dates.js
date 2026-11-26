@@ -41,3 +41,21 @@ function formaterBorne(date, langue) {
 export function formaterPeriode(debut, fin, langue) {
     return `${formaterBorne(debut, langue)}${SEPARATEUR}${formaterBorne(fin, langue)}`
 }
+
+// Saisie de /admin : "AAAA" (annee seule) ou "AAAA-MM" (mois) -> Date ; vide -> null.
+// Rappel : "AAAA-01" et "AAAA" donnent la meme date et s'affichent comme une annee seule.
+export function lireSaisieDate(texte) {
+    const t = String(texte ?? '').trim()
+    if (!t) return null
+    const m = t.match(/^(\d{4})(?:-(0[1-9]|1[0-2]))?$/)
+    if (!m) throw new Error(`Date invalide : "${t}" (attendu AAAA ou AAAA-MM)`)
+    return new Date(Date.UTC(Number(m[1]), m[2] ? Number(m[2]) - 1 : 0, 1))
+}
+
+// Inverse de lireSaisieDate, pour pre-remplir les formulaires.
+export function versSaisieDate(date) {
+    if (!date) return ''
+    const d = new Date(date)
+    if (d.getUTCMonth() === 0) return String(d.getUTCFullYear())
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
+}
