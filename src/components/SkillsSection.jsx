@@ -12,8 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
 import {motion} from "framer-motion";
-import frData from "../data/data-fr.json";
-import enData from "../data/data-en.json";
+import {useDonnees} from "../data/DonneesContext";
 import SectionHeader from "./SectionHeader";
 import {
     FaBrain,
@@ -156,7 +155,7 @@ function CategoryRow({index, title, items, icon, color, idx}) {
 
 export default function SkillsSection() {
     const {t, i18n} = useTranslation();
-    const data = i18n.language === "fr" ? frData : enData;
+    const data = useDonnees();
     const isFr = i18n.language === "fr";
 
     const categoryLabels = {

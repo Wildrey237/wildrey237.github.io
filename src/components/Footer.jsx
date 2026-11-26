@@ -2,14 +2,13 @@ import {Box, HStack, IconButton, Button, Text} from "@chakra-ui/react";
 import {FaGithub, FaLinkedin, FaEnvelope} from "react-icons/fa";
 import {useTranslation} from "react-i18next";
 import {motion} from "framer-motion";
-import frData from "../data/data-fr.json";
-import enData from "../data/data-en.json";
+import {useDonnees} from "../data/DonneesContext";
 
 const MotionIconButton = motion(IconButton);
 
 export default function Footer() {
     const {t, i18n} = useTranslation();
-    const data = i18n.language === "fr" ? frData : enData;
+    const data = useDonnees();
 
     const cvLink = i18n.language === "fr" ? "/cv/cv-francais.pdf" : "/cv/cv-anglais.pdf";
 
