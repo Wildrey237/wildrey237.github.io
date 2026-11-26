@@ -45,6 +45,8 @@ Set `NEXT_PUBLIC_SITE_URL` in the Vercel project env to the production URL (driv
 - `src/lib/donnees/versAffichage.js` — converts documents to the legacy per-language shape consumed by components via `useDonnees()` (`src/data/DonneesContext.jsx`).
 - `npm run migrer` (`scripts/migrer-mongodb.mjs`, `--essai` for a dry run) — idempotent upsert by `_id`; content fields are re-synced, state fields (node `etat`/`historique`, project `statut`/`noeuds`, skill `noeuds`) are only set on insert.
 
+**Admin (`/admin`):** private back-office (server-rendered HTML forms + Server Actions in `app/admin/actions.js`, works without JS). Protected by `middleware.js` (matcher `/admin/:path*`): an HMAC-SHA256 token signed with `ADMIN_PASSWORD`, stored in the httpOnly `admin_session` cookie (path `/admin`, 8 h, `sameSite: strict`); every action re-checks the session (`src/lib/admin/garde.js`). Changing `ADMIN_PASSWORD` invalidates all sessions; if it is unset, access is denied. Pages: node state (`etat` + `historique`), daily `journal` (one doc per date, upsert), edit `projets` and `competences`. Mutations call `revalidatePath` on public pages. `/admin` is disallowed in `robots.js`, absent from `sitemap.js`, and sent with `X-Robots-Tag: noindex`.
+
 The `/ml-map` page and the homepage are separate: map project cells (`bande: "proj"`) live in `noeuds`, never in `projets`.
 
 **i18n (`src/i18n.js`):** Uses i18next + browser language detector. Detection order: querystring → localStorage → cookie → navigator. Fallback language is English. UI strings (navbar labels, button text, section titles) live in `src/i18n.js` resources; profile/skills/experience data lives in the JSON files.

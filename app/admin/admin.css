@@ -1,0 +1,61 @@
+/* Styles de l'espace d'administration : simples, lisibles, sans JavaScript. */
+.admin {
+  --a-fond: #0f1117;
+  --a-carte: #171a22;
+  --a-bord: #2a2f3a;
+  --a-texte: #e6e6e6;
+  --a-doux: #9aa0ab;
+  --a-accent: #8fa2ff;
+  --a-ok: #4ade80;
+  --a-erreur: #f87171;
+  min-height: 100dvh;
+  background: var(--a-fond);
+  color: var(--a-texte);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 15px;
+}
+.admin a { color: var(--a-accent); }
+.admin-entete {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  padding: 12px 24px; border-bottom: 1px solid var(--a-bord);
+}
+.admin-entete nav { display: flex; flex-wrap: wrap; gap: 14px; flex: 1; }
+.admin-entete strong { font-family: "Space Grotesk", sans-serif; }
+.admin-contenu { max-width: 1100px; margin: 0 auto; padding: 24px; }
+.admin h1 { font-family: "Space Grotesk", sans-serif; font-size: 1.6rem; margin: 0 0 16px; }
+.admin h2 { font-size: 1.1rem; margin: 28px 0 10px; color: var(--a-doux); text-transform: uppercase; letter-spacing: .04em; }
+.admin-carte { background: var(--a-carte); border: 1px solid var(--a-bord); border-radius: 8px; padding: 16px; }
+.admin-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.admin-chiffre { font-size: 1.8rem; font-weight: 600; display: block; }
+.admin table { width: 100%; border-collapse: collapse; }
+.admin th, .admin td { text-align: left; padding: 8px; border-bottom: 1px solid var(--a-bord); vertical-align: middle; }
+.admin th { color: var(--a-doux); font-weight: 500; font-size: .85rem; }
+.admin code { font-family: "JetBrains Mono", monospace; font-size: .85em; color: var(--a-doux); }
+.admin label { display: block; font-size: .85rem; color: var(--a-doux); margin: 12px 0 4px; }
+.admin input, .admin select, .admin textarea {
+  width: 100%; box-sizing: border-box; padding: 8px 10px; font: inherit;
+  background: var(--a-fond); color: var(--a-texte); border: 1px solid var(--a-bord); border-radius: 6px;
+}
+.admin textarea { min-height: 90px; resize: vertical; }
+.admin input[type="checkbox"] { width: auto; margin-right: 6px; }
+.admin button {
+  font: inherit; padding: 8px 14px; border-radius: 6px; cursor: pointer;
+  background: var(--a-accent); color: #0f1117; border: 0; font-weight: 600;
+}
+.admin button.secondaire { background: transparent; color: var(--a-doux); border: 1px solid var(--a-bord); font-weight: 400; }
+.admin button.danger { background: transparent; color: var(--a-erreur); border: 1px solid var(--a-erreur); font-weight: 400; }
+.admin-ligne { display: flex; gap: 8px; align-items: center; }
+.admin-ligne select { width: auto; }
+.admin-deux { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+@media (max-width: 700px) { .admin-deux { grid-template-columns: 1fr; } }
+.admin-cases { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2px 12px; }
+.admin-cases label { display: flex; align-items: center; margin: 2px 0; color: var(--a-texte); }
+.admin details { border: 1px solid var(--a-bord); border-radius: 6px; padding: 8px 12px; margin: 6px 0; }
+.admin summary { cursor: pointer; color: var(--a-doux); }
+.admin-message { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; }
+.admin-message.ok { border: 1px solid var(--a-ok); color: var(--a-ok); }
+.admin-message.erreur { border: 1px solid var(--a-erreur); color: var(--a-erreur); }
+.admin-etat { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .8rem; border: 1px solid var(--a-bord); }
+.admin-etat.en-cours { color: #fbbf24; border-color: #fbbf24; }
+.admin-etat.maitrise { color: var(--a-ok); border-color: var(--a-ok); }
+.admin-doux { color: var(--a-doux); font-size: .85rem; }
