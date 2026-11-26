@@ -47,12 +47,24 @@ const nomBase = process.env.MONGODB_DB || 'portfolio'
 try {
     await client.connect()
     const db = client.db(nomBase)
-    const existantes = new Set((await db.listCollections({}, {nameOnly: true}).toArray()).map(c => c.name))
+    // Validateur actuel de chaque collection existante, pour ne le modifier que s'il a change.
+    const existantes = new Map((await db.listCollections().toArray()).map(c => [c.name, c.options?.validator]))
 
     for (const [nom, {validateur, index}] of Object.entries(COLLECTIONS)) {
-        // Validateur : cree avec la collection, ou mis a jour (collMod) si elle existe deja.
+        // Validateur : cree avec la collection, ou mis a jour (collMod) seulement s'il a change.
+        // L'utilisateur Atlas fourni par l'integration Vercel n'a pas toujours le droit collMod :
+        // dans ce cas on le signale et on continue (le contenu reste synchronise).
         if (existantes.has(nom)) {
-            await db.command({collMod: nom, validator: validateur, validationLevel: 'strict', validationAction: 'error'})
+            if (JSON.stringify(existantes.get(nom)) !== JSON.stringify(validateur)) {
+                try {
+                    await db.command({collMod: nom, validator: validateur, validationLevel: 'strict', validationAction: 'error'})
+                    console.log(`${nom.padEnd(12)} validateur mis a jour`)
+                } catch (e) {
+                    if (e.code !== 8000 && e.codeName !== 'Unauthorized') throw e
+                    console.warn(`! ${nom} : validateur modifie mais droit collMod refuse par Atlas (${e.errmsg ?? e.message}).`
+                        + ' Donner le role dbAdmin a l\'utilisateur, ou modifier le validateur dans l\'interface Atlas.')
+                }
+            }
         } else {
             await db.createCollection(nom, {validator: validateur, validationLevel: 'strict', validationAction: 'error'})
         }
