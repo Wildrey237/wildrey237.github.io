@@ -101,6 +101,9 @@ export const COLLECTIONS = {
                 noeuds: ids,
                 domaine: {enum: DOMAINES_PROJET},
                 personnel: {bsonType: 'bool'},
+                // Projet d'apprentissage de la carte dont ce projet du CV est issu (action manuelle
+                // explicite dans /admin) ; absent pour les projets saisis directement.
+                noeudOrigine: chaineOuNull,
             },
         ),
         index: [{cle: {noeuds: 1}}, {cle: {ordre: 1}}],

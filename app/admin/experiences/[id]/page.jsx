@@ -21,8 +21,8 @@ export default async function FicheExperience({params, searchParams}) {
     if (!e) notFound()
     return (
         <>
-            <p><Link href="/admin/experiences">&larr; Experiences</Link></p>
-            <h1>{nouveau ? 'Nouvelle experience' : e.poste.fr}</h1>
+            <p><Link href="/admin/experiences">&larr; Expériences</Link></p>
+            <h1>{nouveau ? 'Nouvelle expérience' : e.poste.fr}</h1>
             <Message ok={ok} erreur={erreur}/>
             <form action={enregistrerExperience} className="admin-carte">
                 <input type="hidden" name="id" value={nouveau ? '' : e._id}/>
@@ -36,7 +36,7 @@ export default async function FicheExperience({params, searchParams}) {
                         <input id="ville" name="ville" defaultValue={e.ville ?? ''} required/>
                     </div>
                     <div>
-                        <label htmlFor="ordre">Ordre d&apos;affichage (0 = en haut)</label>
+                        <label htmlFor="ordre">Ordre d’affichage (0 = en haut)</label>
                         <input id="ordre" name="ordre" type="number" min="0" defaultValue={e.ordre} required/>
                     </div>
                     <div>
@@ -46,9 +46,9 @@ export default async function FicheExperience({params, searchParams}) {
                 </div>
                 <ChampLogo valeur={e.logo}/>
                 <ChampBilingue nom="description" libelle="Description" valeur={e.description} long/>
-                <ChampBilingue nom="descriptionDetail" libelle="Detail (bouton Voir le detail)" valeur={e.descriptionDetail} long requis={false}/>
+                <ChampBilingue nom="descriptionDetail" libelle="Détail (bouton « Voir le détail »)" valeur={e.descriptionDetail} long requis={false}/>
                 <ChampBilingue nom="tags" libelle="Tags" valeur={e.tags} liste/>
-                <p><button type="submit">{nouveau ? 'Creer' : 'Enregistrer'}</button></p>
+                <p><button type="submit">{nouveau ? 'Créer' : 'Enregistrer'}</button></p>
             </form>
             {!nouveau && <Suppression collection="experiences" id={e._id} libelle={`"${e.poste.fr}"`}/>}
         </>

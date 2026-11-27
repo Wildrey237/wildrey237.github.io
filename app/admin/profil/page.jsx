@@ -20,15 +20,15 @@ export default async function AdminProfil({searchParams}) {
             <Message ok={ok} erreur={erreur}/>
             <form action={modifierProfil} className="admin-carte">
                 <div className="admin-deux">
-                    {simple('nom', 'Nom affiche')}
+                    {simple('nom', 'Nom affiché')}
                     {simple('localisation', 'Localisation')}
-                    {simple('email', 'Email', 'email')}
+                    {simple('email', 'Adresse e-mail', 'email')}
                     {simple('photoUrl', 'Photo (URL ou /fichier du site)')}
                     {simple('linkedin', 'LinkedIn (URL)')}
                     {simple('github', 'GitHub (URL)')}
                 </div>
                 <ChampBilingue nom="titre" libelle="Titre" valeur={p.titre}/>
-                <ChampBilingue nom="resume" libelle="Resume" valeur={p.resume} long/>
+                <ChampBilingue nom="resume" libelle="Résumé" valeur={p.resume} long/>
                 <ChampBilingue nom="cvUrl" libelle="Lien du CV" valeur={p.cvUrl}/>
                 <ChampBilingue nom="recherche" libelle="Badge de disponibilité (vide = masqué)" valeur={p.recherche} requis={false}/>
                 <ChampBilingue nom="langues" libelle="Langues (encart du hero)" valeur={p.langues} requis={false}/>

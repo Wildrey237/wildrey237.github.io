@@ -5,7 +5,7 @@ export default function ChampPeriode({debut, fin}) {
     return (
         <div className="admin-deux">
             <div>
-                <label htmlFor="debut">Debut (AAAA-MM, ou AAAA pour l&apos;annee seule)</label>
+                <label htmlFor="debut">Début (AAAA-MM, ou AAAA pour l’année seule)</label>
                 <input id="debut" name="debut" defaultValue={versSaisieDate(debut)} pattern="\d{4}(-(0[1-9]|1[0-2]))?" placeholder="2024-09" required/>
             </div>
             <div>

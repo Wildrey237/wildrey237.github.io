@@ -7,7 +7,7 @@ export default function Suppression({collection, id, libelle}) {
             <input type="hidden" name="collection" value={collection}/>
             <input type="hidden" name="id" value={id}/>
             <label style={{display: 'flex', alignItems: 'center', margin: '0 0 10px'}}>
-                <input type="checkbox" name="confirmer" required/> Je confirme la suppression definitive de {libelle}
+                <input type="checkbox" name="confirmer" required/> Je confirme la suppression définitive de {libelle}
             </label>
             <button type="submit" className="danger">Supprimer</button>
         </form>

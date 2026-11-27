@@ -3,7 +3,7 @@ import {sessionValide} from '../../../src/lib/admin/garde'
 
 const ERREURS = {
     motdepasse: 'Mot de passe incorrect.',
-    config: 'ADMIN_PASSWORD n\'est pas configuree sur ce deploiement.',
+    config: 'ADMIN_PASSWORD n’est pas configurée sur ce déploiement.',
 }
 
 export default async function Connexion({searchParams}) {

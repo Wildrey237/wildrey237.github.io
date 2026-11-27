@@ -29,27 +29,27 @@ const bilingue = (fd, nom) => ({fr: texte(fd, `${nom}_fr`), en: texte(fd, `${nom
 const bilingueLignes = (fd, nom) => ({fr: lignes(fd, `${nom}_fr`), en: lignes(fd, `${nom}_en`)})
 
 function obligatoire(valeur, nom) {
-    if (!valeur) throw new ErreurSaisie(`"${nom}" est obligatoire`)
+    if (!valeur) throw new ErreurSaisie(`« ${nom} » est obligatoire`)
     return valeur
 }
 
 // Texte traduisible obligatoire dans les deux langues (FR et EN gardes synchrones).
 function bilingueObligatoire(fd, nom) {
     const v = bilingue(fd, nom)
-    if (!v.fr || !v.en) throw new ErreurSaisie(`"${nom}" est obligatoire en FR et en EN`)
+    if (!v.fr || !v.en) throw new ErreurSaisie(`« ${nom} » est obligatoire en FR et en EN`)
     return v
 }
 
 function entier(fd, nom, {min = 0, max = 100000} = {}) {
     const v = Number(texte(fd, nom))
-    if (!Number.isInteger(v) || v < min || v > max) throw new ErreurSaisie(`"${nom}" doit etre un entier entre ${min} et ${max}`)
+    if (!Number.isInteger(v) || v < min || v > max) throw new ErreurSaisie(`« ${nom} » doit être un entier entre ${min} et ${max}`)
     return v
 }
 
 function url(fd, nom) {
     const v = texte(fd, nom)
     if (v && !/^https?:\/\//.test(v) && !v.startsWith('/')) {
-        throw new ErreurSaisie(`"${nom}" doit commencer par https://, http:// ou / (fichier du site)`)
+        throw new ErreurSaisie(`« ${nom} » doit commencer par https://, http:// ou / (fichier du site)`)
     }
     return v || null
 }
@@ -58,7 +58,7 @@ function date(fd, nom) {
     try {
         return lireSaisieDate(texte(fd, nom))
     } catch (e) {
-        throw new ErreurSaisie(`"${nom}" : ${e.message}`)
+        throw new ErreurSaisie(`« ${nom} » : ${e.message}`)
     }
 }
 
@@ -66,7 +66,7 @@ function date(fd, nom) {
 function periode(fd) {
     const debut = obligatoire(date(fd, 'debut'), 'debut')
     const fin = date(fd, 'fin')
-    if (fin && fin < debut) throw new ErreurSaisie('La fin est anterieure au debut')
+    if (fin && fin < debut) throw new ErreurSaisie('La fin est antérieure au début')
     return {debut, fin}
 }
 
@@ -77,7 +77,7 @@ async function noeudsValides(db, fd) {
     const existants = await db.collection('noeuds').find({_id: {$in: demandes}}, {projection: {_id: 1}}).toArray()
     const ok = new Set(existants.map(n => n._id))
     const inconnus = demandes.filter(id => !ok.has(id))
-    if (inconnus.length) throw new ErreurSaisie(`Noeuds inconnus : ${inconnus.join(', ')}`)
+    if (inconnus.length) throw new ErreurSaisie(`Nœuds inconnus : ${inconnus.join(', ')}`)
     return demandes
 }
 
@@ -100,7 +100,7 @@ async function executer(chemin, ecriture) {
         resultat = await ecriture()
     } catch (e) {
         if (e instanceof ErreurSaisie || e instanceof ErreurTeleversement) redirect(avecMessage(chemin, 'erreur', e.message))
-        if (e?.code === 121) redirect(avecMessage(chemin, 'erreur', 'Refuse par le validateur MongoDB (champ manquant ou valeur interdite)'))
+        if (e?.code === 121) redirect(avecMessage(chemin, 'erreur', 'Refusé par le validateur MongoDB (champ manquant ou valeur interdite)'))
         throw e
     }
     redirect(avecMessage(resultat.chemin ?? chemin, 'ok', resultat.message))
@@ -140,11 +140,11 @@ export async function modifierProfil(formData) {
             langues: bilingue(formData, 'langues'),
             rolesTypewriter: bilingueLignes(formData, 'rolesTypewriter'),
         }
-        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(champs.email)) throw new ErreurSaisie('Email invalide')
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(champs.email)) throw new ErreurSaisie('Adresse e-mail invalide')
         const db = await getDb()
         await db.collection('profil').updateOne({_id: 'profil'}, {$set: champs}, {upsert: true})
         rafraichirSite()
-        return {message: 'Profil enregistre'}
+        return {message: 'Profil enregistré'}
     })
 }
 
@@ -191,11 +191,11 @@ export async function enregistrerExperience(formData) {
         if (!id) {
             const _id = await nouvelId(col, `${champs.entreprise.fr}-${champs.debut.getUTCFullYear()}`)
             await col.insertOne({_id, ...champs})
-            return {message: 'Experience creee', chemin: `/admin/experiences/${encodeURIComponent(_id)}`}
+            return {message: 'Expérience créée', chemin: `/admin/experiences/${encodeURIComponent(_id)}`}
         }
         const r = await col.updateOne({_id: id}, {$set: champs})
-        if (!r.matchedCount) throw new ErreurSaisie(`Experience inconnue : ${id}`)
-        return {message: 'Experience enregistree'}
+        if (!r.matchedCount) throw new ErreurSaisie(`Expérience inconnue : ${id}`)
+        return {message: 'Expérience enregistrée'}
     })
 }
 
@@ -225,11 +225,11 @@ export async function enregistrerFormation(formData) {
         if (!id) {
             const _id = await nouvelId(col, `${champs.ecole.fr}-${champs.debut.getUTCFullYear()}`)
             await col.insertOne({_id, ...champs})
-            return {message: 'Formation creee', chemin: `/admin/formations/${encodeURIComponent(_id)}`}
+            return {message: 'Formation créée', chemin: `/admin/formations/${encodeURIComponent(_id)}`}
         }
         const r = await col.updateOne({_id: id}, {$set: champs})
         if (!r.matchedCount) throw new ErreurSaisie(`Formation inconnue : ${id}`)
-        return {message: 'Formation enregistree'}
+        return {message: 'Formation enregistrée'}
     })
 }
 
@@ -248,7 +248,7 @@ export async function enregistrerProjet(formData) {
             description: bilingueObligatoire(formData, 'description'),
             cadre: bilingueObligatoire(formData, 'cadre'),
             badge: texteOuNull(formData, 'badge'),
-            icone: obligatoire(texte(formData, 'icone'), 'icone (nom Lucide, ex. "Brain")'),
+            icone: obligatoire(texte(formData, 'icone'), 'icône (nom Lucide, ex. « Brain »)'),
             tags: bilingueLignes(formData, 'tags'),
             lien: url(formData, 'lien'),
             statut,
@@ -260,14 +260,22 @@ export async function enregistrerProjet(formData) {
         const col = db.collection('projets')
         rafraichirSite()
         if (!id) {
+            // Issu d'un projet d'apprentissage de la carte : verifie le noeud et l'absence de doublon.
+            const origine = texte(formData, 'noeudOrigine')
+            if (origine) {
+                const noeud = await db.collection('noeuds').findOne({_id: origine}, {projection: {bande: 1}})
+                if (noeud?.bande !== 'proj') throw new ErreurSaisie(`« ${origine} » n’est pas un projet d’apprentissage de la carte`)
+                const existant = await col.findOne({noeudOrigine: origine}, {projection: {_id: 1}})
+                if (existant) throw new ErreurSaisie(`Ce projet d’apprentissage est déjà dans le CV : ${existant._id}`)
+            }
             const _id = await nouvelId(col, champs.titre.fr)
-            await col.insertOne({_id, ...champs, ...(domaine ? {domaine} : {})})
-            return {message: 'Projet cree', chemin: `/admin/projets/${encodeURIComponent(_id)}`}
+            await col.insertOne({_id, ...champs, ...(domaine ? {domaine} : {}), ...(origine ? {noeudOrigine: origine} : {})})
+            return {message: 'Projet créé', chemin: `/admin/projets/${encodeURIComponent(_id)}`}
         }
         // Domaine vide = retire (le projet n'apparait alors que sous "Tous").
         const r = await col.updateOne({_id: id}, domaine ? {$set: {...champs, domaine}} : {$set: champs, $unset: {domaine: ''}})
         if (!r.matchedCount) throw new ErreurSaisie(`Projet inconnu : ${id}`)
-        return {message: 'Projet enregistre'}
+        return {message: 'Projet enregistré'}
     })
 }
 
@@ -278,7 +286,7 @@ export async function enregistrerCompetence(formData) {
     const id = texte(formData, 'id')
     await executer(`/admin/competences/${encodeURIComponent(id || 'nouveau')}`, async () => {
         const categorie = texte(formData, 'categorie')
-        if (!CATEGORIES_COMPETENCES.includes(categorie)) throw new ErreurSaisie(`Categorie inconnue : ${categorie}`)
+        if (!CATEGORIES_COMPETENCES.includes(categorie)) throw new ErreurSaisie(`Catégorie inconnue : ${categorie}`)
         const db = await getDb()
         const champs = {
             categorie,
@@ -292,11 +300,11 @@ export async function enregistrerCompetence(formData) {
         if (!id) {
             const _id = await nouvelId(col, `${categorie}-${champs.nom.fr}`)
             await col.insertOne({_id, ...champs})
-            return {message: 'Competence creee', chemin: `/admin/competences/${encodeURIComponent(_id)}`}
+            return {message: 'Compétence créée', chemin: `/admin/competences/${encodeURIComponent(_id)}`}
         }
         const r = await col.updateOne({_id: id}, {$set: champs})
-        if (!r.matchedCount) throw new ErreurSaisie(`Competence inconnue : ${id}`)
-        return {message: 'Competence enregistree'}
+        if (!r.matchedCount) throw new ErreurSaisie(`Compétence inconnue : ${id}`)
+        return {message: 'Compétence enregistrée'}
     })
 }
 
@@ -318,18 +326,18 @@ export async function enregistrerCertification(formData) {
         if (!id) {
             const _id = await nouvelId(col, champs.nom)
             await col.insertOne({_id, ...champs})
-            return {message: 'Certification creee', chemin: `/admin/certifications/${encodeURIComponent(_id)}`}
+            return {message: 'Certification créée', chemin: `/admin/certifications/${encodeURIComponent(_id)}`}
         }
         const r = await col.updateOne({_id: id}, {$set: champs})
         if (!r.matchedCount) throw new ErreurSaisie(`Certification inconnue : ${id}`)
-        return {message: 'Certification enregistree'}
+        return {message: 'Certification enregistrée'}
     })
 }
 
 // ---------- suppression (experiences, formations, projets, competences, certifications) ----------
 
 const SUPPRIMABLES = {
-    experiences: 'Experience', formations: 'Formation', projets: 'Projet', competences: 'Competence',
+    experiences: 'Expérience', formations: 'Formation', projets: 'Projet', competences: 'Compétence',
     certifications: 'Certification',
 }
 
@@ -340,15 +348,17 @@ export async function supprimerElement(formData) {
     if (!SUPPRIMABLES[collection]) throw new Error(`Collection non supprimable : ${collection}`)
     await executer(`/admin/${collection}/${encodeURIComponent(id)}`, async () => {
         // Confirmation sans JavaScript : case a cocher obligatoire.
-        if (formData.get('confirmer') !== 'on') throw new ErreurSaisie('Coche la case de confirmation pour supprimer')
+        if (formData.get('confirmer') !== 'on') throw new ErreurSaisie('Cochez la case de confirmation pour supprimer')
         const r = await (await getDb()).collection(collection).deleteOne({_id: id})
         if (!r.deletedCount) throw new ErreurSaisie(`${SUPPRIMABLES[collection]} introuvable : ${id}`)
         rafraichirSite()
-        return {message: `${SUPPRIMABLES[collection]} "${id}" supprime(e)`, chemin: `/admin/${collection}`}
+        return {message: `${SUPPRIMABLES[collection]} « ${id} » supprimé(e)`, chemin: `/admin/${collection}`}
     })
 }
 
 // ---------- noeuds : changement d'etat ----------
+
+const LIBELLES_ETAT = {'non commence': 'non commencé', 'en cours': 'en cours', maitrise: 'maîtrisé'}
 
 export async function changerEtatNoeud(formData) {
     await exigerSession()
@@ -362,9 +372,9 @@ export async function changerEtatNoeud(formData) {
             if (e instanceof ErreurEtat) throw new ErreurSaisie(e.message)
             throw e
         }
-        if (!resultat.change) return {message: `${id} : deja "${etat}"`}
+        if (!resultat.change) return {message: `${id} : déjà « ${LIBELLES_ETAT[etat]} »`}
         revalidatePath('/parcours')
-        return {message: `${id} : "${etat}"`}
+        return {message: `${id} : « ${LIBELLES_ETAT[etat]} »`}
     })
 }
 
@@ -384,7 +394,7 @@ export async function enregistrerJournal(formData) {
         // Un document par jour : une nouvelle saisie pour la meme date remplace la precedente.
         const r = await db.collection('journal').replaceOne({_id: jour}, {minutes, noeuds, commentaire}, {upsert: true})
         rafraichirSite()
-        return {message: r.upsertedCount ? `Journal du ${jour} ajoute` : `Journal du ${jour} remplace`}
+        return {message: r.upsertedCount ? `Journal du ${jour} ajouté` : `Journal du ${jour} remplacé`}
     })
 }
 
@@ -393,8 +403,8 @@ export async function supprimerJournal(formData) {
     const jour = texte(formData, 'date')
     await executer('/admin/journal', async () => {
         const r = await (await getDb()).collection('journal').deleteOne({_id: jour})
-        if (!r.deletedCount) throw new ErreurSaisie(`Aucune entree pour ${jour}`)
+        if (!r.deletedCount) throw new ErreurSaisie(`Aucune entrée pour ${jour}`)
         rafraichirSite()
-        return {message: `Journal du ${jour} supprime`}
+        return {message: `Journal du ${jour} supprimé`}
     })
 }

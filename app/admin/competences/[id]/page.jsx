@@ -24,8 +24,8 @@ export default async function FicheCompetence({params, searchParams}) {
     if (!s) notFound()
     return (
         <>
-            <p><Link href="/admin/competences">&larr; Competences</Link></p>
-            <h1>{nouveau ? 'Nouvelle competence' : s.nom.fr}</h1>
+            <p><Link href="/admin/competences">&larr; Compétences</Link></p>
+            <h1>{nouveau ? 'Nouvelle compétence' : s.nom.fr}</h1>
             <Message ok={ok} erreur={erreur}/>
             <form action={enregistrerCompetence} className="admin-carte">
                 <input type="hidden" name="id" value={nouveau ? '' : s._id}/>
@@ -34,19 +34,19 @@ export default async function FicheCompetence({params, searchParams}) {
                 <ChampBilingue nom="description" libelle="Description" valeur={s.description} long/>
                 <div className="admin-deux">
                     <div>
-                        <label htmlFor="categorie">Categorie</label>
+                        <label htmlFor="categorie">Catégorie</label>
                         <select id="categorie" name="categorie" defaultValue={s.categorie}>
                             {CATEGORIES_COMPETENCES.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="ordre">Ordre dans la categorie</label>
+                        <label htmlFor="ordre">Ordre dans la catégorie</label>
                         <input id="ordre" name="ordre" type="number" min="0" defaultValue={s.ordre} required/>
                     </div>
                 </div>
-                <label>Noeuds qui prouvent cette competence</label>
+                <label>Nœuds qui prouvent cette compétence</label>
                 <CasesNoeuds noeuds={noeuds} coches={s.noeuds}/>
-                <p><button type="submit">{nouveau ? 'Creer' : 'Enregistrer'}</button></p>
+                <p><button type="submit">{nouveau ? 'Créer' : 'Enregistrer'}</button></p>
             </form>
             {!nouveau && <Suppression collection="competences" id={s._id} libelle={`"${s.nom.fr}"`}/>}
         </>

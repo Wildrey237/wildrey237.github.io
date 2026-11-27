@@ -1,7 +1,8 @@
-import Link from 'next/link'
 import './admin.css'
+import Link from 'next/link'
 import {sessionValide} from '../../src/lib/admin/garde'
 import {seDeconnecter} from './actions'
+import NavAdmin from './NavAdmin'
 
 // Espace prive : jamais indexe, jamais mis en cache, rendu a chaque requete.
 export const metadata = {
@@ -10,33 +11,38 @@ export const metadata = {
 }
 export const dynamic = 'force-dynamic'
 
+// Contenu de la barre laterale ; "Conteneur" : <aside> sur grand ecran, <div> dans le menu mobile.
+function Laterale({Conteneur = 'div', ...props}) {
+    return (
+        <Conteneur className="admin-laterale" {...props}>
+            <div className="admin-marque">Administration<small>Portfolio</small></div>
+            <NavAdmin/>
+            <div className="admin-pied">
+                <Link className="admin-lien" href="/" target="_blank" rel="noreferrer">Voir le site ↗</Link>
+                <form action={seDeconnecter}>
+                    <button type="submit">Se déconnecter</button>
+                </form>
+            </div>
+        </Conteneur>
+    )
+}
+
 export default async function AdminLayout({children}) {
     const connecte = await sessionValide()
+    if (!connecte) {
+        return <div className="admin"><main className="admin-contenu" style={{margin: '0 auto'}}>{children}</main></div>
+    }
     return (
         <div className="admin">
-            {connecte && (
-                <header className="admin-entete">
-                    <strong>Admin</strong>
-                    <nav>
-                        <Link href="/admin">Tableau de bord</Link>
-                        <Link href="/admin/organisation">Organisation</Link>
-                        <Link href="/admin/profil">Profil</Link>
-                        <Link href="/admin/experiences">Experiences</Link>
-                        <Link href="/admin/formations">Formations</Link>
-                        <Link href="/admin/projets">Projets</Link>
-                        <Link href="/admin/competences">Competences</Link>
-                        <Link href="/admin/certifications">Certifications</Link>
-                        <Link href="/admin/noeuds">Noeuds</Link>
-                        <Link href="/admin/journal">Journal</Link>
-                        <Link href="/parcours">Parcours</Link>
-                        <Link href="/" target="_blank" rel="noreferrer">Voir le site</Link>
-                    </nav>
-                    <form action={seDeconnecter}>
-                        <button type="submit" className="secondaire">Se deconnecter</button>
-                    </form>
-                </header>
-            )}
-            <main className="admin-contenu">{children}</main>
+            {/* Mobile : barre laterale repliee dans un menu (sans JavaScript). */}
+            <details className="admin-menu-mobile">
+                <summary><span className="admin-marque">Administration</span></summary>
+                <Laterale/>
+            </details>
+            <div className="admin-cadre">
+                <Laterale Conteneur="aside" aria-label="Navigation de l’administration"/>
+                <main className="admin-contenu">{children}</main>
+            </div>
         </div>
     )
 }

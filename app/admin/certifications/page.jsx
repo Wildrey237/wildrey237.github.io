@@ -12,7 +12,7 @@ export default async function AdminCertifications({searchParams}) {
             <h1>Certifications</h1>
             <Message ok={ok} erreur={erreur}/>
             <p><Link href="/admin/certifications/nouveau">+ Nouvelle certification</Link></p>
-            <table>
+            <div className="admin-table-cadre"><table>
                 <thead><tr><th>#</th><th>Certification</th><th>Organisme</th><th>Lien</th></tr></thead>
                 <tbody>
                 {liste.map(c => (
@@ -24,7 +24,7 @@ export default async function AdminCertifications({searchParams}) {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table></div>
         </>
     )
 }
