@@ -53,7 +53,7 @@ const sansAccents = s => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLow
 
 // ---------- barre d'outils ----------
 
-function FiltreBandes({bandes, basculer, tout, externes, setExternes}) {
+function FiltreBandes({bandes, basculer, tout, externes, setExternes, nbProjets}) {
     const pastille = (actif, libelle, onClick, couleur) => (
         <Button key={libelle} variant="unstyled" onClick={onClick} aria-pressed={actif} display="inline-flex" alignItems="center"
                 gap="6px" h={{base: "44px", lg: "30px"}} px={{base: 4, lg: "10px"}} borderRadius="999px" border="1px solid"
@@ -68,7 +68,9 @@ function FiltreBandes({bandes, basculer, tout, externes, setExternes}) {
         <>
             <Flex role="group" aria-label="Filtrer la carte par bande" gap="6px" wrap={{base: "wrap", lg: "nowrap"}}>
                 {pastille(bandes.length === 0, "Tout", tout)}
-                {BANDES_CARTE.map(b => pastille(bandes.includes(b.id), b.court, () => basculer(b.id), `bande.${b.id}`))}
+                {/* "Projets" : nombre de projets visibles (rattaches aux bandes choisies). */}
+                {BANDES_CARTE.map(b => pastille(bandes.includes(b.id), b.id === "proj" ? `${b.court} · ${nbProjets}` : b.court,
+                    () => basculer(b.id), `bande.${b.id}`))}
             </Flex>
             {/* Toujours active ; decochee par defaut : les autres bandes disparaissent completement. */}
             <Checkbox isChecked={externes} onChange={e => setExternes(e.target.checked)} minH={{base: "44px", lg: "30px"}}
@@ -365,6 +367,9 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
         return filtrerParBandes(modele, base, bandes, {externes});
     }, [vue, autour, noeuds, modele, bandes, externes]);
     const disposition = useMemo(() => disposerFlux(modele, affiches.ids, {fantomes: affiches.fantomes}), [modele, affiches]);
+    // Projets visibles (hors fantomes), pour le compteur de la pastille "Projets".
+    const nbProjets = useMemo(() => affiches.ids.filter(id => !affiches.fantomes.has(id) && modele.parId.get(id).bande === "proj").length,
+        [affiches, modele]);
     // Mobile : liste par bande (meme filtre, sans fantomes).
     const idsListe = useMemo(() => affiches.ids.filter(id => !affiches.fantomes.has(id)), [affiches]);
 
@@ -499,7 +504,8 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
                         </Button>
                     ))}
                 </Box>
-                <FiltreBandes bandes={bandes} basculer={basculer} tout={() => setBandes([])} externes={externes} setExternes={setExternes}/>
+                <FiltreBandes bandes={bandes} basculer={basculer} tout={() => setBandes([])} externes={externes} setExternes={setExternes}
+                              nbProjets={nbProjets}/>
                 <Box ml={{lg: "auto"}} w={{base: "100%", lg: "auto"}}><Recherche noeuds={noeuds} aller={aller}/></Box>
             </Flex>
 

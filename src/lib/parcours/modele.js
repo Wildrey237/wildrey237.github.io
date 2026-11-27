@@ -116,13 +116,35 @@ export function avancement(modele, rail) {
     return {total: tous.length, maitrises: compte('maitrise'), enCours: compte('en-cours'), prochaine}
 }
 
+// Bandes de rattachement d'un projet d'apprentissage : celles de ses prerequis directs (hors
+// projets). Ex. Fraude v0 (ML2, ML3, ML4, D1) -> ml et data.
+export function rattachement(modele, id) {
+    const bandes = new Set()
+    for (const p of modele.parId.get(id).prerequis) {
+        const b = modele.parId.get(p)?.bande
+        if (b && b !== 'proj') bandes.add(b)
+    }
+    return bandes
+}
+
 // Filtre par bande : seuls les noeuds des bandes choisies (les autres bandes disparaissent).
-// externes = true : leurs prerequis directs venus d'autres bandes sont ajoutes en "fantomes",
+// Projets : "Projets" seul = tous les projets ; "Projets" + d'autres bandes = seulement les projets
+// rattaches a l'une d'elles ; une bande sans "Projets" = aucun projet.
+// externes = true : les prerequis directs venus de bandes non choisies sont ajoutes en "fantomes",
 // sans le reste de leur bande. bandes = null ou vide : pas de filtre.
 export function filtrerParBandes(modele, ids, bandes, {externes = false} = {}) {
     if (!bandes?.length) return {ids, fantomes: new Set()}
     const choix = new Set(bandes)
-    const visibles = ids.filter(id => choix.has(modele.parId.get(id).bande))
+    const autres = [...choix].filter(b => b !== 'proj')
+    const garde = id => {
+        const {bande} = modele.parId.get(id)
+        if (bande !== 'proj') return choix.has(bande)
+        if (!choix.has('proj')) return false
+        if (!autres.length) return true
+        const r = rattachement(modele, id)
+        return autres.some(b => r.has(b))
+    }
+    const visibles = ids.filter(garde)
     const fantomes = new Set()
     if (!externes) return {ids: visibles, fantomes}
     for (const id of visibles) {
