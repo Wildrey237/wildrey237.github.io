@@ -39,3 +39,8 @@ CLAUDE.md
 
 # Internal
 assets/
+
+# Variables d environnement locales (secrets : MONGODB_URI...)
+.env
+.env*.local
+.vercel

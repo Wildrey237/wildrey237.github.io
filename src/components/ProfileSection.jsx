@@ -14,8 +14,7 @@ import {
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {motion, AnimatePresence} from "framer-motion";
-import frData from "../data/data-fr.json";
-import enData from "../data/data-en.json";
+import {useDonnees} from "../data/DonneesContext";
 import LogoMark from "./LogoMark";
 
 const MotionBox = motion(Box);
@@ -79,7 +78,7 @@ function MetaLink({href, children, onClick, isExternal}) {
 
 export default function ProfileSection() {
     const {t, i18n} = useTranslation();
-    const data = i18n.language === "fr" ? frData : enData;
+    const data = useDonnees();
     const toast = useToast();
 
     const {profile} = data;

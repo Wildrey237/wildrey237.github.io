@@ -35,8 +35,7 @@ import * as LucideIcons from "lucide-react";
 import {ArrowUpRight, ChevronLeft, ChevronRight, Search, ChevronDown} from "lucide-react";
 import {motion, AnimatePresence} from "framer-motion";
 import {useTranslation} from "react-i18next";
-import dataFr from "../data/data-fr.json";
-import dataEn from "../data/data-en.json";
+import {useDonnees} from "../data/DonneesContext";
 import SectionHeader from "./SectionHeader";
 
 const MotionBox = motion(Box);
@@ -176,7 +175,7 @@ const slideVariants = {
 
 const ProjectsSection = () => {
     const {t, i18n} = useTranslation();
-    const data = i18n.language === "fr" ? dataFr : dataEn;
+    const data = useDonnees();
     const isFr = i18n.language === "fr";
 
     const [schoolFilter, setSchoolFilter] = useState("");

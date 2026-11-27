@@ -1,16 +1,11 @@
-'use client'
+import AccueilClient from './AccueilClient'
+import {lireDonneesAccueil} from '../src/lib/donnees/lecture'
 
-import {useEffect} from 'react'
-import App from '../src/App'
-import i18n from '../src/i18n'
+// Page regeneree au plus toutes les heures (ISR) : les modifications faites en base
+// apparaissent sans redeploiement. L'etape /admin declenchera aussi revalidatePath('/').
+export const revalidate = 3600
 
-export default function Page() {
-    // Le HTML est rendu cote serveur en francais (lng fixe dans src/i18n.js), donc lisible
-    // sans JavaScript. Apres montage, changeLanguage() sans argument relance le detecteur
-    // (querystring, localStorage, cookie, navigateur) et bascule si besoin vers l'anglais.
-    useEffect(() => {
-        i18n.changeLanguage()
-    }, [])
-
-    return <App/>
+export default async function Page() {
+    const {fr, en} = await lireDonneesAccueil()
+    return <AccueilClient donnees={{fr, en}}/>
 }

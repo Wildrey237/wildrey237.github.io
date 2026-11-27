@@ -636,8 +636,8 @@
     {
       "title": "Classification de Données Médicales",
       "description": "Modèles supervisés pour données médicales anonymisées.",
-      "school": "EPITA – Le Kremlin-Bicêtre",
-      "badge": "EPITA",
+      "school": "EPITA – Spécialisation SCIA-G (Campus de Lyon)",
+      "badge": "EPITA SCIA-G",
       "icon": "HeartPulse",
       "tags": [
         "Machine Learning",

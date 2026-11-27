@@ -38,11 +38,14 @@ Set `NEXT_PUBLIC_SITE_URL` in the Vercel project env to the production URL (driv
 
 **`src/App.jsx`** composes the full page: `ScrollProgressBar` → `Navbar` → five `MotionBox`-wrapped sections (Profile, Skills, Experience, Education, Projects) → `Footer`. Each section animates in on scroll via a shared Framer Motion `whileInView` config.
 
-**Data layer:** All content lives in two JSON files:
-- `src/data/data-fr.json` — French content
-- `src/data/data-en.json` — English content
+**Data layer:** Content lives in **MongoDB Atlas** (`MONGODB_URI`, provisioned via the Vercel Marketplace; optional `MONGODB_DB`, default `portfolio`). Collections: `profil`, `experiences`, `formations`, `projets`, `competences`, `noeuds` (the 74 cells of the `/ml-map` map), `journal`. Translatable text is stored as `{fr, en}` in the same document; links are by `_id`; computed values are never stored.
+- `src/lib/donnees/schemas.js` — `$jsonSchema` validators, indexes and enums.
+- `src/lib/donnees/depuisJson.js` — builds documents from the legacy `src/data/data-fr.json` / `data-en.json` + `prereqMapData.js` (still the migration source).
+- `src/lib/donnees/lecture.js` — server-side read used by `app/page.jsx` (ISR, `revalidate = 3600`); falls back to the JSON files only when `MONGODB_URI` is absent or the DB is not migrated yet.
+- `src/lib/donnees/versAffichage.js` — converts documents to the legacy per-language shape consumed by components via `useDonnees()` (`src/data/DonneesContext.jsx`).
+- `npm run migrer` (`scripts/migrer-mongodb.mjs`, `--essai` for a dry run) — idempotent upsert by `_id`; content fields are re-synced, state fields (node `etat`/`historique`, project `statut`/`noeuds`, skill `noeuds`) are only set on insert.
 
-Components import both files and select the active one based on the current i18next language. **Keep both files structurally in sync** when adding or removing fields.
+The `/ml-map` page and the homepage are separate: map project cells (`bande: "proj"`) live in `noeuds`, never in `projets`.
 
 **i18n (`src/i18n.js`):** Uses i18next + browser language detector. Detection order: querystring → localStorage → cookie → navigator. Fallback language is English. UI strings (navbar labels, button text, section titles) live in `src/i18n.js` resources; profile/skills/experience data lives in the JSON files.
 

@@ -14,8 +14,7 @@ import {
 import {ExternalLinkIcon, ChevronDownIcon, ChevronUpIcon} from "@chakra-ui/icons";
 import {useTranslation} from "react-i18next";
 import {motion} from "framer-motion";
-import frData from "../data/data-fr.json";
-import enData from "../data/data-en.json";
+import {useDonnees} from "../data/DonneesContext";
 import SectionHeader from "./SectionHeader";
 
 const MotionBox = motion(Box);
@@ -216,7 +215,7 @@ function EducationCard({edu, idx, lang, color}) {
 
 export default function EducationSection() {
     const {t, i18n} = useTranslation();
-    const data = i18n.language === "fr" ? frData : enData;
+    const data = useDonnees();
     const isFr = i18n.language === "fr";
 
     return (

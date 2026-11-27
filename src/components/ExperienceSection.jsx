@@ -14,8 +14,7 @@ import {
 import {ExternalLinkIcon, AddIcon, MinusIcon} from "@chakra-ui/icons";
 import {useState} from "react";
 import {motion} from "framer-motion";
-import frData from "../data/data-fr.json";
-import enData from "../data/data-en.json";
+import {useDonnees} from "../data/DonneesContext";
 import {useTranslation} from "react-i18next";
 import {MdLocationOn} from "react-icons/md";
 import SectionHeader from "./SectionHeader";
@@ -205,7 +204,7 @@ function ExperienceEntry({exp, idx, color}) {
 
 export default function ExperienceSection() {
     const {t, i18n} = useTranslation();
-    const data = i18n.language === "fr" ? frData : enData;
+    const data = useDonnees();
     const isFr = i18n.language === "fr";
 
     return (
