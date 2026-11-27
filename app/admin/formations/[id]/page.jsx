@@ -27,15 +27,15 @@ export default async function FicheFormation({params, searchParams}) {
             <form action={enregistrerFormation} className="admin-carte">
                 <input type="hidden" name="id" value={nouveau ? '' : f._id}/>
                 {!nouveau && <p className="admin-doux">Identifiant : <code>{f._id}</code></p>}
-                <ChampBilingue nom="ecole" libelle="Ecole" valeur={f.ecole}/>
-                <ChampBilingue nom="diplome" libelle="Diplome" valeur={f.diplome}/>
+                <ChampBilingue nom="ecole" libelle="École" valeur={f.ecole}/>
+                <ChampBilingue nom="diplome" libelle="Diplôme" valeur={f.diplome}/>
                 <ChampPeriode debut={f.debut} fin={f.fin}/>
                 <label style={{display: 'flex', alignItems: 'center'}}>
                     <input type="checkbox" name="enCours" defaultChecked={f.enCours}/> Formation en cours
                 </label>
                 <div className="admin-deux">
                     <div>
-                        <label htmlFor="ordre">Ordre d&apos;affichage (0 = en haut)</label>
+                        <label htmlFor="ordre">Ordre d’affichage (0 = en haut)</label>
                         <input id="ordre" name="ordre" type="number" min="0" defaultValue={f.ordre} required/>
                     </div>
                     <div>
@@ -44,8 +44,8 @@ export default async function FicheFormation({params, searchParams}) {
                     </div>
                 </div>
                 <ChampLogo valeur={f.logo}/>
-                <ChampBilingue nom="details" libelle="Details" valeur={f.details} long/>
-                <p><button type="submit">{nouveau ? 'Creer' : 'Enregistrer'}</button></p>
+                <ChampBilingue nom="details" libelle="Détails" valeur={f.details} long/>
+                <p><button type="submit">{nouveau ? 'Créer' : 'Enregistrer'}</button></p>
             </form>
             {!nouveau && <Suppression collection="formations" id={f._id} libelle={`"${f.ecole.fr}"`}/>}
         </>

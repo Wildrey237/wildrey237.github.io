@@ -13,8 +13,8 @@ export default async function AdminFormations({searchParams}) {
             <h1>Formations</h1>
             <Message ok={ok} erreur={erreur}/>
             <p><Link href="/admin/formations/nouveau">+ Nouvelle formation</Link></p>
-            <table>
-                <thead><tr><th>#</th><th>Ecole</th><th>Diplome</th><th>Periode</th></tr></thead>
+            <div className="admin-table-cadre"><table>
+                <thead><tr><th>#</th><th>École</th><th>Diplôme</th><th>Période</th></tr></thead>
                 <tbody>
                 {liste.map(f => (
                     <tr key={f._id}>
@@ -25,7 +25,7 @@ export default async function AdminFormations({searchParams}) {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table></div>
         </>
     )
 }

@@ -21,29 +21,29 @@ export default async function AdminJournal({searchParams}) {
             <h1>Journal</h1>
             <Message ok={ok} erreur={erreur}/>
             <form action={enregistrerJournal} className="admin-carte">
-                <p className="admin-doux">Une entree par jour : une nouvelle saisie sur une date existante la remplace.</p>
+                <p className="admin-doux">Une entrée par jour : une nouvelle saisie sur une date existante la remplace.</p>
                 <div className="admin-deux">
                     <div>
                         <label htmlFor="date">Date</label>
                         <input id="date" name="date" type="date" defaultValue={aujourdhui()} required/>
                     </div>
                     <div>
-                        <label htmlFor="minutes">Minutes travaillees</label>
+                        <label htmlFor="minutes">Minutes travaillées</label>
                         <input id="minutes" name="minutes" type="number" min="0" max="1440" step="5" required/>
                     </div>
                 </div>
-                <label>Noeuds travailles</label>
+                <label>Nœuds travaillés</label>
                 <CasesNoeuds noeuds={noeuds}/>
-                <label htmlFor="commentaire">Commentaire (prive)</label>
+                <label htmlFor="commentaire">Commentaire (privé)</label>
                 <textarea id="commentaire" name="commentaire"/>
                 <p><button type="submit">Enregistrer</button></p>
             </form>
 
-            <h2>60 dernieres entrees</h2>
-            <table>
-                <thead><tr><th>Date</th><th>Minutes</th><th>Noeuds</th><th>Commentaire</th><th></th></tr></thead>
+            <h2>60 dernières entrées</h2>
+            <div className="admin-table-cadre"><table>
+                <thead><tr><th>Date</th><th>Minutes</th><th>Nœuds</th><th>Commentaire</th><th></th></tr></thead>
                 <tbody>
-                {entrees.length === 0 && <tr><td colSpan={5} className="admin-doux">Aucune entree.</td></tr>}
+                {entrees.length === 0 && <tr><td colSpan={5} className="admin-doux">Aucune entrée.</td></tr>}
                 {entrees.map(e => (
                     <tr key={e._id}>
                         <td><code>{e._id}</code></td>
@@ -59,7 +59,7 @@ export default async function AdminJournal({searchParams}) {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table></div>
         </>
     )
 }

@@ -11,13 +11,13 @@ export default async function AdminCompetences({searchParams}) {
     const competences = await db.collection('competences').find().sort({categorie: 1, ordre: 1}).toArray()
     return (
         <>
-            <h1>Competences</h1>
+            <h1>Compétences</h1>
             <Message ok={ok} erreur={erreur}/>
             {CATEGORIES_COMPETENCES.map(c => (
                 <section key={c}>
                     <h2>{c} <Link href={`/admin/competences/nouveau?categorie=${c}`} style={{fontSize: '.8rem', textTransform: 'none'}}>+ ajouter</Link></h2>
-                    <table>
-                        <thead><tr><th>#</th><th>Competence</th><th>Noeuds qui la prouvent</th></tr></thead>
+                    <div className="admin-table-cadre"><table>
+                        <thead><tr><th>#</th><th>Compétence</th><th>Nœuds qui la prouvent</th></tr></thead>
                         <tbody>
                         {competences.filter(s => s.categorie === c).map(s => (
                             <tr key={s._id}>
@@ -27,7 +27,7 @@ export default async function AdminCompetences({searchParams}) {
                             </tr>
                         ))}
                         </tbody>
-                    </table>
+                    </table></div>
                 </section>
             ))}
         </>

@@ -1,72 +1,214 @@
-/* Styles de l'espace d'administration : simples, lisibles, sans JavaScript. */
+/* Espace d'administration : charte du site (clair / sombre selon le theme memorise),
+   barre laterale toujours sombre, cibles tactiles de 44px minimum. Fonctionne sans JavaScript. */
 .admin {
-  --a-fond: #0f1117;
-  --a-carte: #171a22;
-  --a-bord: #2a2f3a;
-  --a-texte: #e6e6e6;
-  --a-doux: #9aa0ab;
-  --a-accent: #8fa2ff;
-  --a-ok: #4ade80;
-  --a-erreur: #f87171;
+  --a-fond: #F6F5F1;
+  --a-carte: #FFFFFF;
+  --a-bord: #E2E0D8;
+  --a-sep: #ECEAE3;
+  --a-texte: #15161A;
+  --a-doux: #3D3F47;
+  --a-discret: #6B6D75;
+  --a-accent: #1F3FD1;
+  --a-accent-texte: #FFFFFF;
+  --a-puce-fond: #EEF1FD;
+  --a-puce: #1F3FD1;
+  --a-ok-fond: #E3F1E8;
+  --a-ok: #1D6B45;
+  --a-erreur-fond: #FDECEA;
+  --a-erreur: #B42318;
+  --a-jaune-fond: #FDF0D5;
+  --a-jaune: #7A5207;
+  /* Barre laterale : sombre dans les deux modes */
+  --a-lat-fond: #0F1115;
+  --a-lat-bord: #22262F;
+  --a-lat-texte: #EDEDEA;
+  --a-lat-discret: #8E919B;
+  --a-lat-actif-fond: #1E2542;
+  --a-lat-actif: #B4C2FF;
+
   min-height: 100dvh;
   background: var(--a-fond);
   color: var(--a-texte);
-  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 15px;
+  line-height: 1.5;
 }
+.chakra-ui-dark .admin {
+  --a-fond: #0F1115;
+  --a-carte: #171A21;
+  --a-bord: #2A2E38;
+  --a-sep: #22262F;
+  --a-texte: #EDEDEA;
+  --a-doux: #B7B9C1;
+  --a-discret: #8E919B;
+  --a-accent: #8EA2FF;
+  --a-accent-texte: #0F1115;
+  --a-puce-fond: #1E2542;
+  --a-puce: #B4C2FF;
+  --a-ok-fond: #12321F;
+  --a-ok: #8FDCAE;
+  --a-erreur-fond: #3A1A17;
+  --a-erreur: #F97066;
+  --a-jaune-fond: #3A2E12;
+  --a-jaune: #F5C76B;
+}
+
+/* ---------- mise en page : barre laterale + contenu ---------- */
+.admin-cadre { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100dvh; }
+.admin-contenu { min-width: 0; }
+.admin-laterale {
+  position: sticky; top: 0; height: 100dvh; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 24px; padding: 20px 14px;
+  background: var(--a-lat-fond); color: var(--a-lat-texte); border-right: 1px solid var(--a-lat-bord);
+}
+.admin-marque { font-family: var(--font-space-grotesk), sans-serif; font-weight: 700; font-size: 17px; padding: 0 10px; }
+.admin-marque small { display: block; font-family: var(--font-jetbrains-mono), monospace; font-weight: 500; font-size: 11px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--a-lat-discret); margin-top: 2px; }
+.admin-groupe h2 { margin: 0 0 6px; padding: 0 10px; font-family: var(--font-jetbrains-mono), monospace; font-size: 11px;
+  font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--a-lat-discret); }
+.admin-groupe ul { list-style: none; margin: 0; padding: 0; }
+.admin .admin-lien {
+  display: flex; align-items: center; min-height: 44px; padding: 0 10px; border-radius: 8px;
+  color: var(--a-lat-texte); text-decoration: none; font-weight: 500;
+}
+.admin .admin-lien:hover { background: #171A21; }
+.admin .admin-lien[aria-current="page"] { background: var(--a-lat-actif-fond); color: var(--a-lat-actif); font-weight: 600; }
+.admin-lien:focus-visible, .admin-laterale button:focus-visible { outline: 2px solid var(--a-lat-actif); outline-offset: 2px; }
+.admin-pied { margin-top: auto; border-top: 1px solid var(--a-lat-bord); padding-top: 12px; }
+.admin-pied form { margin: 0; }
+.admin .admin-pied button {
+  width: 100%; min-height: 44px; text-align: left; padding: 0 10px; border-radius: 8px; border: 0;
+  background: transparent; color: var(--a-lat-texte); font: inherit; font-weight: 500; cursor: pointer;
+}
+.admin .admin-pied button:hover { background: #171A21; }
+
+/* Mobile : la barre laterale devient un en-tete avec menu repliable (details/summary). */
+.admin-menu-mobile { display: none; }
+@media (max-width: 959px) {
+  .admin-cadre { grid-template-columns: minmax(0, 1fr); }
+  .admin-menu-mobile .admin-marque { display: none; }
+  .admin-laterale { display: none; }
+  .admin-menu-mobile { display: block; position: sticky; top: 0; z-index: 10; background: var(--a-lat-fond);
+    color: var(--a-lat-texte); border-bottom: 1px solid var(--a-lat-bord); }
+  .admin-menu-mobile > summary { list-style: none; display: flex; align-items: center; justify-content: space-between;
+    min-height: 56px; padding: 0 16px; cursor: pointer; }
+  .admin-menu-mobile > summary::-webkit-details-marker { display: none; }
+  .admin-menu-mobile > summary::after { content: "Menu"; font-size: 14px; color: var(--a-lat-actif);
+    border: 1px solid var(--a-lat-bord); border-radius: 8px; padding: 8px 12px; }
+  .admin-menu-mobile[open] > summary::after { content: "Fermer"; }
+  .admin-menu-mobile .admin-laterale { display: flex; position: static; height: auto; border-right: 0; padding-top: 0; }
+}
+
+.admin-contenu { padding: 32px clamp(16px, 4vw, 48px) 64px; max-width: 1180px; width: 100%; }
+
+/* ---------- typographie ---------- */
+.admin h1 { font-family: var(--font-space-grotesk), sans-serif; font-size: 30px; line-height: 1.2; letter-spacing: -.02em; margin: 0 0 20px; }
+.admin h2.admin-titre-section { font-family: var(--font-space-grotesk), sans-serif; font-size: 18px; margin: 32px 0 12px; }
 .admin a { color: var(--a-accent); }
-.admin-entete {
-  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
-  padding: 12px 24px; border-bottom: 1px solid var(--a-bord);
-}
-.admin-entete nav { display: flex; flex-wrap: wrap; gap: 14px; flex: 1; }
-.admin-entete strong { font-family: "Space Grotesk", sans-serif; }
-.admin-contenu { max-width: 1100px; margin: 0 auto; padding: 24px; }
-.admin h1 { font-family: "Space Grotesk", sans-serif; font-size: 1.6rem; margin: 0 0 16px; }
-.admin h2 { font-size: 1.1rem; margin: 28px 0 10px; color: var(--a-doux); text-transform: uppercase; letter-spacing: .04em; }
-.admin-carte { background: var(--a-carte); border: 1px solid var(--a-bord); border-radius: 8px; padding: 16px; }
-.admin-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-.admin-chiffre { font-size: 1.8rem; font-weight: 600; display: block; }
+.admin code { font-family: var(--font-jetbrains-mono), monospace; font-size: .85em; color: var(--a-discret); }
+.admin-doux { color: var(--a-discret); font-size: 14px; }
+.admin-etiquette { font-family: var(--font-jetbrains-mono), monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--a-discret); }
+
+/* ---------- surfaces ---------- */
+.admin-carte { background: var(--a-carte); border: 1px solid var(--a-bord); border-radius: 14px; padding: 20px; }
+.admin-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; align-items: start; }
+.admin-chiffre { font-family: var(--font-space-grotesk), sans-serif; font-size: 34px; font-weight: 700; line-height: 1.1; display: block; margin: 6px 0 4px; }
+.admin-liste-simple { list-style: none; padding: 0; margin: 8px 0 0; }
+.admin-liste-simple li { padding: 6px 0; border-top: 1px solid var(--a-sep); font-size: 14px; }
+.admin-liste-simple li:first-child { border-top: 0; }
+
+/* Barres du journal (30 jours) */
+.admin-barres { display: flex; align-items: flex-end; gap: 3px; height: 56px; margin-top: 10px; }
+.admin-barres span { flex: 1; background: var(--a-accent); border-radius: 2px 2px 0 0; min-height: 2px; }
+.admin-barres span[data-vide] { background: var(--a-sep); }
+
+/* ---------- tableaux ---------- */
+.admin-table-cadre { overflow-x: auto; background: var(--a-carte); border: 1px solid var(--a-bord); border-radius: 14px; }
 .admin table { width: 100%; border-collapse: collapse; }
-.admin th, .admin td { text-align: left; padding: 8px; border-bottom: 1px solid var(--a-bord); vertical-align: middle; }
-.admin th { color: var(--a-doux); font-weight: 500; font-size: .85rem; }
-.admin code { font-family: "JetBrains Mono", monospace; font-size: .85em; color: var(--a-doux); }
-.admin label { display: block; font-size: .85rem; color: var(--a-doux); margin: 12px 0 4px; }
+.admin th, .admin td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--a-sep); vertical-align: middle; }
+.admin tr:last-child td { border-bottom: 0; }
+.admin th { color: var(--a-discret); font-weight: 500; font-size: 13px; }
+
+/* ---------- formulaires ---------- */
+.admin label { display: block; font-size: 14px; font-weight: 500; color: var(--a-doux); margin: 14px 0 6px; }
 .admin input, .admin select, .admin textarea {
-  width: 100%; box-sizing: border-box; padding: 8px 10px; font: inherit;
-  background: var(--a-fond); color: var(--a-texte); border: 1px solid var(--a-bord); border-radius: 6px;
+  width: 100%; box-sizing: border-box; min-height: 44px; padding: 10px 12px; font: inherit;
+  background: var(--a-carte); color: var(--a-texte); border: 1px solid var(--a-bord); border-radius: 10px;
 }
-.admin textarea { min-height: 90px; resize: vertical; }
-.admin input[type="checkbox"] { width: auto; margin-right: 6px; }
+.admin input:focus-visible, .admin select:focus-visible, .admin textarea:focus-visible, .admin button:focus-visible {
+  outline: 2px solid var(--a-accent); outline-offset: 2px;
+}
+.admin textarea { min-height: 110px; resize: vertical; }
+.admin input[type="checkbox"] { width: 20px; min-height: 20px; height: 20px; margin: 0 10px 0 0; accent-color: var(--a-accent); }
+.admin input[type="file"] { padding: 8px; }
 .admin button {
-  font: inherit; padding: 8px 14px; border-radius: 6px; cursor: pointer;
-  background: var(--a-accent); color: #0f1117; border: 0; font-weight: 600;
+  font: inherit; min-height: 44px; padding: 0 18px; border-radius: 10px; cursor: pointer;
+  background: var(--a-accent); color: var(--a-accent-texte); border: 0; font-weight: 600;
 }
-.admin button.secondaire { background: transparent; color: var(--a-doux); border: 1px solid var(--a-bord); font-weight: 400; }
-.admin button.danger { background: transparent; color: var(--a-erreur); border: 1px solid var(--a-erreur); font-weight: 400; }
-.admin-ligne { display: flex; gap: 8px; align-items: center; }
-.admin-ligne select { width: auto; }
+.admin button.secondaire { background: transparent; color: var(--a-texte); border: 1px solid var(--a-bord); font-weight: 500; }
+.admin button.secondaire:hover { border-color: var(--a-accent); color: var(--a-accent); }
+.admin button.danger { background: transparent; color: var(--a-erreur); border: 1px solid var(--a-erreur); font-weight: 500; }
+.admin button:disabled { opacity: .5; cursor: not-allowed; }
+.admin-bouton-lien { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px;
+  background: var(--a-accent); color: var(--a-accent-texte) !important; text-decoration: none; font-weight: 600; }
+.admin-bouton-lien.secondaire { background: transparent; color: var(--a-texte) !important; border: 1px solid var(--a-bord); font-weight: 500; }
+.admin-ligne { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .admin-deux { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
 @media (max-width: 700px) { .admin-deux { grid-template-columns: 1fr; } }
-.admin-cases { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2px 12px; }
-.admin-cases label { display: flex; align-items: center; margin: 2px 0; color: var(--a-texte); }
-.admin details { border: 1px solid var(--a-bord); border-radius: 6px; padding: 8px 12px; margin: 6px 0; }
-.admin summary { cursor: pointer; color: var(--a-doux); }
-.admin-message { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; }
-.admin-message.ok { border: 1px solid var(--a-ok); color: var(--a-ok); }
-.admin-message.erreur { border: 1px solid var(--a-erreur); color: var(--a-erreur); }
-.admin-etat { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .8rem; border: 1px solid var(--a-bord); }
-.admin-etat.en-cours { color: #fbbf24; border-color: #fbbf24; }
-.admin-etat.maitrise { color: var(--a-ok); border-color: var(--a-ok); }
-.admin-doux { color: var(--a-doux); font-size: .85rem; }
+.admin-cases { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 12px; }
+.admin-cases label { display: flex; align-items: center; min-height: 40px; margin: 0; color: var(--a-texte); font-weight: 400; }
+.admin details.admin-repli { border: 1px solid var(--a-bord); border-radius: 10px; padding: 0 12px; margin: 8px 0; background: var(--a-carte); }
+.admin details.admin-repli > summary { cursor: pointer; color: var(--a-doux); min-height: 44px; display: flex; align-items: center; }
+
+/* ---------- etats et messages ---------- */
+.admin-message { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-weight: 500; }
+.admin-message.ok { background: var(--a-ok-fond); color: var(--a-ok); }
+.admin-message.erreur { background: var(--a-erreur-fond); color: var(--a-erreur); }
+.admin-pastille { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  background: var(--a-sep); color: var(--a-doux); }
+.admin-pastille.en-cours { background: var(--a-jaune-fond); color: var(--a-jaune); }
+.admin-pastille.maitrise { background: var(--a-ok-fond); color: var(--a-ok); }
+.admin-pastille.accent { background: var(--a-puce-fond); color: var(--a-puce); }
+
+/* Bouton segmente a 3 choix (etat d'un noeud) */
+.admin-segmente { display: inline-flex; border: 1px solid var(--a-bord); border-radius: 10px; overflow: hidden; }
+.admin .admin-segmente button {
+  border-radius: 0; background: transparent; color: var(--a-doux); font-weight: 500; padding: 0 14px; font-size: 14px;
+}
+.admin .admin-segmente button + button { border-left: 1px solid var(--a-bord); }
+.admin .admin-segmente button[aria-pressed="true"] { background: var(--a-accent); color: var(--a-accent-texte); font-weight: 600; }
+.admin .admin-segmente button:not([aria-pressed="true"]):hover { background: var(--a-puce-fond); color: var(--a-puce); }
+.admin-statut { font-size: 13px; color: var(--a-discret); min-height: 20px; }
+
 /* Organisation de l'accueil */
 .admin-ordre { list-style: none; padding: 0; margin: 16px 0; max-width: 640px; }
 .admin-ordre-ligne {
   display: flex; align-items: center; gap: 10px; padding: 8px 10px; margin-bottom: 8px;
-  background: var(--a-carte); border: 1px solid var(--a-bord); border-radius: 8px;
+  background: var(--a-carte); border: 1px solid var(--a-bord); border-radius: 10px;
 }
-.admin-ordre-fixe { opacity: .7; }
-.admin-ordre-glisse { position: relative; z-index: 2; box-shadow: 0 8px 24px rgba(0,0,0,.35); border-color: var(--a-accent); }
-.admin-ordre-poignee { min-width: 44px; min-height: 44px; cursor: grab; touch-action: none; font-size: 18px; text-align: center; }
-.admin-ordre-ligne button { min-height: 44px; }
-.admin-ordre-ligne button:disabled { opacity: .4; cursor: not-allowed; }
+.admin-ordre-fixe { opacity: .75; }
+.admin-ordre-glisse { position: relative; z-index: 2; box-shadow: 0 8px 24px rgba(21,22,26,.18); border-color: var(--a-accent); }
+.admin .admin-ordre-poignee { min-width: 44px; cursor: grab; touch-action: none; font-size: 18px; text-align: center; padding: 0; }
+
+/* Titres de section des pages de liste */
+.admin-contenu h2 { font-family: var(--font-space-grotesk), sans-serif; font-size: 18px; margin: 28px 0 12px; }
+.admin-contenu section h2 code { font-size: 13px; }
+
+/* Petits ecrans : les tableaux deviennent des lignes empilees (pas de debordement horizontal). */
+@media (max-width: 700px) {
+  .admin-table-cadre { overflow-x: visible; }
+  .admin-table-cadre table, .admin-table-cadre tbody, .admin-table-cadre tr, .admin-table-cadre td { display: block; width: 100%; box-sizing: border-box; }
+  .admin-table-cadre thead { display: none; }
+  .admin-table-cadre tr { border-bottom: 1px solid var(--a-sep); padding: 10px 0; }
+  .admin-table-cadre tr:last-child { border-bottom: 0; }
+  .admin-table-cadre td { border-bottom: 0; padding: 4px 14px; }
+  .admin-segmente { display: flex; width: 100%; }
+  .admin .admin-segmente button { flex: 1; padding: 0 6px; font-size: 13px; }
+}
+@media (max-width: 700px) {
+  /* Organisation : nom de la section sur sa ligne, boutons dessous. */
+  .admin-ordre-ligne { flex-wrap: wrap; }
+  .admin-ordre-ligne > span { flex: 1 1 calc(100% - 64px) !important; }
+  .admin-ordre-ligne > button:not(.admin-ordre-poignee) { flex: 1; }
+}

@@ -10,11 +10,11 @@ export default async function AdminExperiences({searchParams}) {
     const liste = await (await getDb()).collection('experiences').find().sort({ordre: 1}).toArray()
     return (
         <>
-            <h1>Experiences</h1>
+            <h1>Expériences</h1>
             <Message ok={ok} erreur={erreur}/>
-            <p><Link href="/admin/experiences/nouveau">+ Nouvelle experience</Link></p>
-            <table>
-                <thead><tr><th>#</th><th>Poste</th><th>Entreprise</th><th>Periode</th></tr></thead>
+            <p><Link href="/admin/experiences/nouveau">+ Nouvelle expérience</Link></p>
+            <div className="admin-table-cadre"><table>
+                <thead><tr><th>#</th><th>Poste</th><th>Entreprise</th><th>Période</th></tr></thead>
                 <tbody>
                 {liste.map(e => (
                     <tr key={e._id}>
@@ -25,7 +25,7 @@ export default async function AdminExperiences({searchParams}) {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table></div>
         </>
     )
 }
