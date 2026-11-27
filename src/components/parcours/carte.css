@@ -1,0 +1,33 @@
+/* Carte du parcours (React Flow) : couleurs reprises du theme Chakra (variables CSS), donc
+   correctes en clair et en sombre sans JavaScript. */
+.parcours-flux .react-flow {
+    --xy-background-color: var(--chakra-colors-canvas);
+    --xy-minimap-background-color: var(--chakra-colors-surface);
+    --xy-minimap-mask-background-color: color-mix(in srgb, var(--chakra-colors-canvas) 65%, transparent);
+    --xy-minimap-mask-stroke-color: var(--chakra-colors-accent);
+    --xy-minimap-mask-stroke-width: 2;
+    --xy-attribution-background-color: color-mix(in srgb, var(--chakra-colors-surface) 70%, transparent);
+    font-family: inherit;
+}
+.parcours-flux .react-flow__minimap {
+    border: 1px solid var(--chakra-colors-line-strong);
+    border-radius: 10px;
+    overflow: hidden;
+}
+/* Ports invisibles : les liens partent du bord droit et arrivent au bord gauche des cartes. */
+.parcours-flux .react-flow__handle {
+    width: 2px;
+    height: 2px;
+    min-width: 0;
+    min-height: 0;
+    border: 0;
+    background: transparent;
+}
+.parcours-flux .react-flow__attribution a {
+    color: var(--chakra-colors-fg-faint);
+}
+@media (prefers-reduced-motion: reduce) {
+    .parcours-flux .react-flow__edge-path {
+        animation: none !important;
+    }
+}

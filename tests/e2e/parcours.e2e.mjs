@@ -1,4 +1,4 @@
-// Tests en navigateur du parcours (/parcours), a 1440px (plein ecran : carte deplacable et zoomable).
+// Tests en navigateur du parcours (/parcours), a 1440px (plein ecran, carte React Flow).
 // Prerequis : Google Chrome installe, un site lance (npm run build && npm start, ou une preview).
 // Usage : BASE_URL=http://localhost:3000 ADMIN_PASSWORD=... npm run test:e2e
 // Preview protegee : ajouter VERCEL_OIDC_TOKEN (ex. via "vercel env run -- npm run test:e2e").
@@ -51,7 +51,7 @@ describe('visiteur sans session', () => {
         assert.equal(await page.getByRole('group', {name: 'État du nœud'}).count(), 0)
     })
 
-    test('plein ecran : aucune barre de defilement de page, carte jusqu au bas de la fenetre, zoom 50-200 %', {skip: sauter}, async () => {
+    test('plein ecran : aucune barre de defilement de page, carte >= 85 % de l ecran, zoom 30-200 %', {skip: sauter}, async () => {
         for (const [w, h] of [[1440, 900], [1920, 1080], [2560, 1440]]) {
             await page.setViewportSize({width: w, height: h})
             await page.waitForTimeout(200)
@@ -59,21 +59,43 @@ describe('visiteur sans session', () => {
                 const d = document.documentElement
                 const cadre = document.querySelector('[data-carte-cadre]').getBoundingClientRect()
                 return {defile: d.scrollHeight > d.clientHeight || d.scrollWidth > d.clientWidth,
-                    largeur: Math.round(cadre.width), bas: Math.round(cadre.bottom)}
+                    largeur: Math.round(cadre.width), bas: Math.round(cadre.bottom), hauteur: cadre.height}
             })
             assert.equal(r.defile, false, `${w}x${h} : la page defile`)
             assert.equal(r.largeur, w, `${w}x${h} : la carte n occupe pas toute la largeur`)
             assert.equal(r.bas, h, `${w}x${h} : la carte ne descend pas jusqu au bas de la fenetre`)
+            assert.ok(r.hauteur / h >= 0.85, `${w}x${h} : la carte n occupe que ${Math.round(100 * r.hauteur / h)} % de la hauteur`)
         }
         await page.setViewportSize({width: 1440, height: 1000})
         const zoom = page.getByRole('group', {name: 'Zoom de la carte'})
-        // Clics jusqu'a la butee : le bouton se desactive a 200 % (puis a 50 %).
-        for (const [nom, butee] of [['Zoomer', /200 %/], ['Dézoomer', /50 %/]]) {
+        // Clics jusqu'a la butee : le bouton se desactive a 200 % (puis a 30 %).
+        for (const [nom, butee] of [['Zoomer', /200 %/], ['Dézoomer', /30 %/]]) {
             const bouton = zoom.getByRole('button', {name: nom, exact: true})
-            for (let i = 0; i < 12 && await bouton.isEnabled(); i++) await bouton.click()
+            for (let i = 0; i < 25 && await bouton.isEnabled(); i++) { await bouton.click(); await page.waitForTimeout(250) }
             assert.match(await zoom.textContent(), butee)
         }
         await zoom.getByRole('button', {name: 'Ajuster'}).click()
+    })
+
+    test('recherche "ML1" : centre et selectionne le noeud, Echap annule', {skip: sauter}, async () => {
+        const champ = page.getByRole('combobox', {name: 'Rechercher un nœud'})
+        await champ.fill('ML1')
+        await champ.press('Enter')
+        await page.waitForFunction(() => new URL(location.href).searchParams.get('noeud') === 'ml1')
+        assert.equal(await page.locator('#fiche-titre').textContent(), 'Apprendre des données')
+        await page.waitForTimeout(600)
+        // Le noeud est visible dans la carte (recadrage), et selectionne.
+        const r = await page.evaluate(() => {
+            const c = document.querySelector('[data-carte-cadre]').getBoundingClientRect()
+            const n = document.querySelector('[data-carte-cadre] [data-noeud="ml1"]')
+            const b = n.getBoundingClientRect()
+            return {visible: b.left >= c.left && b.right <= c.right && b.top >= c.top && b.bottom <= c.bottom, presse: n.getAttribute('aria-pressed')}
+        })
+        assert.ok(r.visible, 'ML1 hors champ apres la recherche')
+        assert.equal(r.presse, 'true')
+        await page.keyboard.press('Escape')
+        await page.waitForFunction(() => !new URL(location.href).searchParams.get('noeud'))
+        assert.equal(await page.locator('[data-panneau][data-ouvert]').count(), 0)
     })
 
     test('POST de changement d etat sans session : 401', {skip: sauter}, async () => {
@@ -130,7 +152,7 @@ describe('filtre Maths + Projets et prerequis externes', () => {
     })
 
     test('case cochee : seuls les prerequis directs apparaissent en fantome', {skip: sauter}, async () => {
-        await page.getByRole('checkbox', {name: 'Afficher les prérequis externes'}).check({force: true})
+        await page.getByRole('checkbox', {name: 'Prérequis externes'}).check({force: true})
         await page.waitForSelector('[data-carte-cadre] [data-fantome]')
         const cartes = await page.$$eval('[data-carte-cadre] [data-noeud]', els => els.map(e => ({id: e.dataset.noeud, fantome: e.hasAttribute('data-fantome')})))
         const carte = await import('../../src/components/PrereqMap/prereqMapData.js')
@@ -140,7 +162,7 @@ describe('filtre Maths + Projets et prerequis externes', () => {
             assert.ok(!['math', 'proj'].includes(tk[c.id]), `${c.id} fantome alors qu il est dans le filtre`)
             assert.ok(visibles.some(v => prerequis.get(v).includes(c.id)), `${c.id} n est pas un prerequis direct d un noeud affiche`)
         }
-        await page.getByRole('checkbox', {name: 'Afficher les prérequis externes'}).uncheck({force: true})
+        await page.getByRole('checkbox', {name: 'Prérequis externes'}).uncheck({force: true})
     })
 
     test('surbrillance au clic, panneau lateral, URL ?noeud=, Echap', {skip: sauter}, async () => {
