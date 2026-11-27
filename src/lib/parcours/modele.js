@@ -71,6 +71,7 @@ export function construireModele(noeuds) {
 
 // "Autour de moi" : noeuds en cours, ce qu'ils debloquent et leurs prerequis directs.
 // Sans noeud en cours : les noeuds "Ensuite" (points d'entree) et ce qu'ils debloquent.
+// Renvoie aussi les centres (noeuds autour desquels la vue est construite).
 export function autourDeMoi(modele) {
     const {noeuds, statuts, successeurs, parId} = modele
     let centre = noeuds.filter(n => statuts.get(n.id) === 'en-cours').map(n => n.id)
@@ -81,7 +82,7 @@ export function autourDeMoi(modele) {
         for (const s of successeurs.get(id)) ids.add(s)
         if (!sansEnCours) for (const p of parId.get(id).prerequis) ids.add(p)
     }
-    return {ids: [...ids], sansEnCours}
+    return {ids: [...ids], centres: centre, sansEnCours}
 }
 
 // Noeuds d'un rail ayant un statut donne, dans l'ordre de lecture.
@@ -93,8 +94,9 @@ export function noeudsDuRail(modele, rail, statut) {
 }
 
 // Avancement d'un rail : maitrises / total, en cours, prochaine seance (en cours, sinon premier "Ensuite").
+// Seuls les noeuds de cours comptent : les projets d'apprentissage (bande "proj") sont exclus.
 export function avancement(modele, rail) {
-    const tous = noeudsDuRail(modele, rail)
+    const tous = noeudsDuRail(modele, rail).filter(id => modele.parId.get(id).bande !== 'proj')
     const compte = s => tous.filter(id => modele.statuts.get(id) === s).length
     const prochaine = noeudsDuRail(modele, rail, 'en-cours')[0] ?? noeudsDuRail(modele, rail, 'ensuite')[0] ?? null
     return {total: tous.length, maitrises: compte('maitrise'), enCours: compte('en-cours'), prochaine}

@@ -7,7 +7,7 @@ import {useEffect, useMemo, useRef, useState, useTransition} from "react";
 import {Box, Button, Container, Flex, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {RAILS, autourDeMoi, avancement, construireModele, decouperTitre, noeudsDuRail} from "../../lib/parcours/modele";
-import {CARTE, disposer} from "../../lib/parcours/disposition";
+import {CARTE, disposer, disposerAutour} from "../../lib/parcours/disposition";
 import {definirEtat} from "../../../app/parcours/actions";
 
 const ETATS = [
@@ -26,7 +26,7 @@ function styleCarte(statut, estProjet, selection) {
     const base = {
         "en-cours": {bg: JAUNE.fond, color: "#15161A", border: `2px solid ${JAUNE.bord}`, boxShadow: `0 0 0 5px ${JAUNE.halo}`},
         ensuite: {bg: "surface", color: "fg.default", border: "2px solid", borderColor: "accent"},
-        "plus-tard": {bg: "canvas", color: "fg.faint", border: "1px solid", borderColor: "line.strong"},
+        "plus-tard": {bg: "plustard.bg", color: "plustard.fg", border: "1px solid", borderColor: "plustard.bord"},
         maitrise: {bg: "surface", color: "fg.default", border: `2px solid ${VERT}`},
     }[statut];
     return {
@@ -41,7 +41,7 @@ function Pastille({statut}) {
     const couleurs = {
         "en-cours": {bg: JAUNE.fond, color: "#7A5207", borderColor: JAUNE.bord},
         ensuite: {bg: "chip.bg", color: "chip.fg", borderColor: "accent"},
-        "plus-tard": {bg: "canvas", color: "fg.faint", borderColor: "line.strong"},
+        "plus-tard": {bg: "plustard.bg", color: "plustard.fg", borderColor: "plustard.bord"},
         maitrise: {bg: "success.bg", color: "success.fg", borderColor: VERT},
     }[statut];
     return (
@@ -54,12 +54,14 @@ function Pastille({statut}) {
 
 // ---------- graphe ----------
 
-function Graphe({modele, ids, selection, choisir, cadreRef}) {
-    const d = useMemo(() => disposer(modele, ids), [modele, ids]);
+function Graphe({modele, ids, centres, selection, choisir, cadreRef}) {
+    // "Autour de moi" : grappes a liens directs ; carte complete : toutes les dependances.
+    const d = useMemo(() => (centres ? disposerAutour(modele, centres) : disposer(modele, ids)), [modele, ids, centres]);
     const chemin = pts => pts.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join(" ");
     return (
-        <Box ref={cadreRef} overflow="auto" maxH={{base: "70vh", md: "72vh"}} border="1px solid" borderColor="line.strong"
-             borderRadius="14px" bg="canvas" sx={{overscrollBehavior: "contain"}}>
+        // Hauteur naturelle (suit la page) : seul le defilement horizontal est autorise.
+        <Box ref={cadreRef} data-carte-cadre="" overflowX="auto" overflowY="hidden" border="1px solid" borderColor="line.strong"
+             borderRadius="14px" bg="canvas">
             <Box position="relative" w={`${d.largeur}px`} h={`${d.hauteur}px`}>
                 {/* Bandes : une par rail */}
                 {d.bandes.map(b => (
@@ -82,7 +84,7 @@ function Graphe({modele, ids, selection, choisir, cadreRef}) {
                         ))}
                     </defs>
                     {d.aretes.map(a => (
-                        <path key={`${a.de}-${a.vers}`} d={chemin(a.points)} fill="none"
+                        <path key={a.cle} d={chemin(a.points)} fill="none" opacity={a.attenue ? 0.35 : 1}
                               stroke={a.accent ? "var(--chakra-colors-accent)" : "var(--chakra-colors-line-strong)"}
                               strokeWidth={a.accent ? 2 : 1.5} strokeLinejoin="round"
                               markerEnd={`url(#fleche-${a.accent ? "accent" : "gris"})`}/>
@@ -93,11 +95,11 @@ function Graphe({modele, ids, selection, choisir, cadreRef}) {
                     const {code, nom} = decouperTitre(n.titre);
                     const estProjet = n.bande === "proj";
                     return (
-                        <Box key={c.id} as="button" type="button" data-noeud={c.id} onClick={() => choisir(c.id)}
+                        <Box key={c.cle} as="button" type="button" data-noeud={c.id} onClick={() => choisir(c.id)}
                              aria-pressed={selection === c.id}
                              aria-label={`${n.titre} – ${LIBELLES_STATUT[c.statut]}${estProjet ? ", projet d’apprentissage" : ""}`}
                              position="absolute" left={`${c.x}px`} top={`${c.y}px`} w={`${CARTE.largeur}px`}
-                             h={`${CARTE.hauteur}px`} borderRadius="10px" px={3} py={2} textAlign="left"
+                             h={`${c.h}px`} borderRadius="10px" px={3} py={2} textAlign="left" overflow="hidden"
                              transition="transform .12s ease" _hover={{transform: "translateY(-1px)"}}
                              {...styleCarte(c.statut, estProjet, selection === c.id)}>
                             <Flex justify="space-between" align="center" gap={2}>
@@ -112,7 +114,8 @@ function Graphe({modele, ids, selection, choisir, cadreRef}) {
                                     </Text>
                                 )}
                             </Flex>
-                            <Text as="span" display="block" mt="2px" fontSize="13px" fontWeight="600" lineHeight="1.25" noOfLines={2}>
+                            {/* Titre entier, jamais tronque (la carte est dimensionnee pour 2 lignes). */}
+                            <Text as="span" data-titre="" display="block" mt="2px" fontSize="13px" fontWeight="600" lineHeight="1.3">
                                 {nom}
                             </Text>
                         </Box>
@@ -281,10 +284,7 @@ export default function Parcours({noeudsInitiaux}) {
         const cadre = cadreRef.current;
         const carte = cadre?.querySelector(`[data-noeud="${selection}"]`) ?? cadre?.querySelector("[data-noeud]");
         if (!cadre || !carte) return;
-        cadre.scrollTo({
-            left: Math.max(0, carte.offsetLeft - cadre.clientWidth / 2 + CARTE.largeur / 2),
-            top: Math.max(0, carte.offsetTop - cadre.clientHeight / 3),
-        });
+        cadre.scrollTo({left: Math.max(0, carte.offsetLeft - cadre.clientWidth / 2 + CARTE.largeur / 2)});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vue]);
 
@@ -336,11 +336,11 @@ export default function Parcours({noeudsInitiaux}) {
                             <Box key={r.id} bg="surface" border="1px solid" borderColor="line.strong" borderRadius="14px" p={5}>
                                 <Flex justify="space-between" align="baseline">
                                     <Heading as="h2" fontSize="18px">{r.nom}</Heading>
-                                    <Text fontFamily="mono" fontSize="13px" color="fg.muted">{a.maitrises} / {a.total}</Text>
+                                    <Text fontFamily="mono" fontSize="13px" color="fg.muted" data-compteur={r.id}>{a.maitrises} / {a.total}</Text>
                                 </Flex>
                                 <Box mt={3} h="8px" bg="line.subtle" borderRadius="999px" overflow="hidden" role="progressbar"
                                      aria-valuemin={0} aria-valuemax={a.total} aria-valuenow={a.maitrises}
-                                     aria-label={`${r.nom} : ${a.maitrises} nœuds maîtrisés sur ${a.total}`}>
+                                     aria-label={`${r.nom} : ${a.maitrises} nœuds de cours maîtrisés sur ${a.total}`}>
                                     <Box h="100%" w={`${pct}%`} bg={VERT} borderRadius="999px"/>
                                 </Box>
                                 <Text mt={2} fontSize="13px" color="fg.faint">
@@ -389,7 +389,7 @@ export default function Parcours({noeudsInitiaux}) {
                             <ListeParRail modele={modele} ids={autour.ids} choisir={choisir} selection={selection}/>
                         </Box>
                         <Box display={{base: "none", md: "block"}}>
-                            <Graphe modele={modele} ids={ids} selection={selection} choisir={choisir} cadreRef={cadreRef}/>
+                            <Graphe modele={modele} ids={ids} centres={autour.centres} selection={selection} choisir={choisir} cadreRef={cadreRef}/>
                         </Box>
                     </>
                 ) : (
