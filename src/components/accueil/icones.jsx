@@ -68,6 +68,9 @@ const NOTIONS = [
     [/^seaborn/i, ChartArea],
 ];
 
+// Icones Lucide (trait) : trait epaissi pour peser autant que les logos pleins a 14px.
+const A_TRAIT = new Set(NOTIONS.map(([, icone]) => icone))
+
 const chercher = (liste, nom) => liste.find(([motif]) => motif.test(nom.trim()))?.[1] ?? null;
 
 export function iconePour(nom) {
@@ -84,7 +87,8 @@ export function IconeTechno({icone, taille = 14}) {
     // Composant React (Lucide, react-icons) plutot qu'un trace simple-icons.
     if (!icone.path) {
         const Icone = icone;
-        return <Icone size={taille} aria-hidden="true" focusable="false" style={{flexShrink: 0}}/>;
+        return <Icone size={taille} aria-hidden="true" focusable="false" style={{flexShrink: 0}}
+                      {...(A_TRAIT.has(icone) ? {strokeWidth: 2.6} : {})}/>;
     }
     return (
         <svg viewBox="0 0 24 24" width={taille} height={taille} fill="currentColor" aria-hidden="true"
