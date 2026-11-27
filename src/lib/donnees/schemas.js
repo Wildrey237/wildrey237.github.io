@@ -104,6 +104,8 @@ export const COLLECTIONS = {
                 // Projet d'apprentissage de la carte dont ce projet du CV est issu (action manuelle
                 // explicite dans /admin) ; absent pour les projets saisis directement.
                 noeudOrigine: chaineOuNull,
+                // Projet phare : affiche dans le carrousel en tete de la section Projets.
+                phare: {bsonType: 'bool'},
             },
         ),
         index: [{cle: {noeuds: 1}}, {cle: {ordre: 1}}],

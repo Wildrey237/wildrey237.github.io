@@ -15,6 +15,7 @@ import {APPARITION, Section} from "./communs";
 import {IconeTechno, iconePour} from "./icones";
 
 const DELAI_SURVOL = 150;
+const VISIBLES = 8;
 const MARGE = 8;
 const LARGEUR_MAX = 320;
 
@@ -27,8 +28,10 @@ function Pastille({competence, ouverte, ouvrir, fermer}) {
     const pointeurAppuye = useRef(false);
     const [position, setPosition] = useState(null);
     const id = `bulle-${competence.id}`;
-    const explication = competence.desc?.trim();
-    const icone = iconePour(competence.name);
+    // Pastille "+N" : la bulle liste les competences restantes (avec leur explication).
+    const reste = competence.reste;
+    const explication = reste?.length ? "reste" : competence.desc?.trim();
+    const icone = reste ? null : iconePour(competence.name);
 
     const annuler = () => clearTimeout(minuterie.current);
 
@@ -77,7 +80,7 @@ function Pastille({competence, ouverte, ouvrir, fermer}) {
             <IconeTechno icone={icone}/>
             <span>{competence.name}</span>
             {/* Indicateur discret : cette pastille a une explication. */}
-            {explication && <Box as="span" w="5px" h="5px" borderRadius="full" bg="currentColor" opacity={0.45} aria-hidden="true"/>}
+            {explication && !reste && <Box as="span" w="5px" h="5px" borderRadius="full" bg="currentColor" opacity={0.45} aria-hidden="true"/>}
         </>
     );
     const styles = {
@@ -97,6 +100,7 @@ function Pastille({competence, ouverte, ouvrir, fermer}) {
                 ref={bouton}
                 aria-expanded={ouverte}
                 aria-describedby={id}
+                aria-label={reste ? `${competence.name} : ${reste.length} autre${reste.length > 1 ? "s" : ""} compétence${reste.length > 1 ? "s" : ""}` : undefined}
                 {...styles}
                 cursor="help"
                 transition="box-shadow .15s ease"
@@ -158,8 +162,23 @@ function Pastille({competence, ouverte, ouvrir, fermer}) {
                     if (e.pointerType === "mouse") minuterie.current = setTimeout(() => fermer(competence.id), 120);
                 }}
             >
-                <Box as="strong" display="block" color="fg.default" fontWeight="600" mb={1}>{competence.name}</Box>
-                {explication}
+                {reste ? (
+                    <Box as="ul" listStyleType="none" p={0} m={0} maxH="50vh" overflowY="auto">
+                        {reste.map(r => (
+                            <Box as="li" key={r.id ?? r.name} _notFirst={{mt: 3}}>
+                                <Box as="strong" display="flex" alignItems="center" gap="6px" color="fg.default" fontWeight="600">
+                                    <IconeTechno icone={iconePour(r.name)}/>{r.name}
+                                </Box>
+                                {r.desc}
+                            </Box>
+                        ))}
+                    </Box>
+                ) : (
+                    <>
+                        <Box as="strong" display="block" color="fg.default" fontWeight="600" mb={1}>{competence.name}</Box>
+                        {explication}
+                    </>
+                )}
             </Box>
         </Box>
     );
@@ -176,13 +195,24 @@ export default function Competences() {
 
     return (
         <Section id="competences" titre={t("skills.title")} intro={t("skills.intro")}>
-            <Grid templateColumns="repeat(auto-fill, minmax(260px, 1fr))" gap={4} alignItems="start">
+            {/* 1 colonne en mobile, 2 des 768px, 3 des 1024px, 4 des 1440px ; cartes d'une meme
+                rangee a la meme hauteur. */}
+            <Grid gap={4} alignItems="stretch" templateColumns="1fr" sx={{
+                "@media (min-width: 768px)": {gridTemplateColumns: "repeat(2, minmax(0, 1fr))"},
+                "@media (min-width: 1024px)": {gridTemplateColumns: "repeat(3, minmax(0, 1fr))"},
+                "@media (min-width: 1440px)": {gridTemplateColumns: "repeat(4, minmax(0, 1fr))"},
+            }}>
                 {categories.map(([categorie, liste]) => (
                     <Box key={categorie} as="article" bg="surface" border="1px solid" borderColor="line.strong"
                          borderRadius="14px" p={5} {...APPARITION}>
                         <Heading as="h3" fontSize="17px">{t(`skills.categories.${categorie}`)}</Heading>
                         <Box as="ul" listStyleType="none" display="flex" flexWrap="wrap" gap={2} p={0} m={0} mt={4}>
-                            {liste.map(s => (
+                            {/* 8 competences au plus ; au-dela, une pastille "+N" ouvre le reste dans une bulle. */}
+                            {[...liste.slice(0, VISIBLES),
+                                ...(liste.length > VISIBLES
+                                    ? [{id: `${categorie}-reste`, name: `+${liste.length - VISIBLES}`, reste: liste.slice(VISIBLES)}]
+                                    : []),
+                            ].map(s => (
                                 <Pastille key={s.id ?? s.name} competence={s} ouverte={ouverte === (s.id ?? s.name)}
                                           ouvrir={ouvrir} fermer={fermer}/>
                             ))}

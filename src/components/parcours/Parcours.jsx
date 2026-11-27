@@ -1,14 +1,17 @@
 'use client'
 
-// Parcours prive (/parcours) : avancement par rail, carte en graphe (vue "Autour de moi" ou
-// carte complete), prochains pas et fiche du noeud selectionne (etat modifiable en un clic).
+// Parcours (/parcours) : public mais non reference (noindex, hors sitemap et hors menu).
+// Avancement par rail, carte en graphe sur les bandes d'origine (vue "Autour de moi" ou carte
+// complete), filtre par bande (dans l'URL : ?bandes=math,ml), prochains pas et fiche du noeud.
+// Le changement d'etat est reserve a la session admin (route d'API protegee, 401 sinon).
 // Les projets de la carte sont des projets d'apprentissage, sans lien avec ceux du CV.
 import {useEffect, useMemo, useRef, useState, useTransition} from "react";
 import {Box, Button, Container, Flex, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
-import {RAILS, autourDeMoi, avancement, construireModele, decouperTitre, noeudsDuRail} from "../../lib/parcours/modele";
+import {
+    BANDES_CARTE, RAILS, autourDeMoi, avancement, construireModele, decouperTitre, filtrerParBandes, noeudsDuRail,
+} from "../../lib/parcours/modele";
 import {CARTE, disposer, disposerAutour} from "../../lib/parcours/disposition";
-import {definirEtat} from "../../../app/parcours/actions";
 
 const ETATS = [
     {valeur: "non commence", libelle: "Non commencé"},
@@ -22,7 +25,12 @@ const LIBELLES_STATUT = {"en-cours": "En cours", ensuite: "Ensuite", "plus-tard"
 const JAUNE = {fond: "#FDF0D5", bord: "#E2A42E", halo: "rgba(226,164,46,0.22)"};
 const VERT = "#1D8A55";
 
-function styleCarte(statut, estProjet, selection) {
+// Rail -> bandes, pour le filtre rapide des cartes de rail.
+const BANDES_DU_RAIL = Object.fromEntries(RAILS.map(r => [r.id, r.bandes]));
+const NOM_BANDE = Object.fromEntries(BANDES_CARTE.map(b => [b.id, b]));
+const memesBandes = (a, b) => a.length === b.length && a.every(x => b.includes(x));
+
+function styleCarte(statut, estProjet, selection, fantome) {
     const base = {
         "en-cours": {bg: JAUNE.fond, color: "#15161A", border: `2px solid ${JAUNE.bord}`, boxShadow: `0 0 0 5px ${JAUNE.halo}`},
         ensuite: {bg: "surface", color: "fg.default", border: "2px solid", borderColor: "accent"},
@@ -31,7 +39,9 @@ function styleCarte(statut, estProjet, selection) {
     }[statut];
     return {
         ...base,
-        borderStyle: estProjet ? "dashed" : "solid",
+        // Projet d'apprentissage ou prerequis fantome (autre bande) : bordure pointillee.
+        borderStyle: estProjet || fantome ? "dashed" : "solid",
+        ...(fantome ? {opacity: 0.35, boxShadow: "none"} : {}),
         // Anneau de selection uniquement sur la carte choisie.
         ...(selection ? {outline: "3px solid", outlineColor: "accent", outlineOffset: "3px"} : {outline: "0"}),
     };
@@ -54,22 +64,21 @@ function Pastille({statut}) {
 
 // ---------- graphe ----------
 
-function Graphe({modele, ids, centres, selection, choisir, cadreRef}) {
-    // "Autour de moi" : grappes a liens directs ; carte complete : toutes les dependances.
-    const d = useMemo(() => (centres ? disposerAutour(modele, centres) : disposer(modele, ids)), [modele, ids, centres]);
+function Graphe({modele, disposition: d, selection, choisir, cadreRef}) {
     const chemin = pts => pts.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join(" ");
     return (
         // Hauteur naturelle (suit la page) : seul le defilement horizontal est autorise.
         <Box ref={cadreRef} data-carte-cadre="" overflowX="auto" overflowY="hidden" border="1px solid" borderColor="line.strong"
              borderRadius="14px" bg="canvas">
             <Box position="relative" w={`${d.largeur}px`} h={`${d.hauteur}px`}>
-                {/* Bandes : une par rail */}
+                {/* Bandes d'origine, avec leur couleur */}
                 {d.bandes.map(b => (
-                    <Box key={b.rail} position="absolute" left={0} top={`${b.y}px`} w="100%" h={`${b.hauteur}px`}
-                         borderTop="1px solid" borderColor="line.subtle">
+                    <Box key={b.bande} data-bande={b.bande} position="absolute" left={0} top={`${b.y}px`} w="100%" h={`${b.hauteur}px`}
+                         borderTop="1px solid" borderColor="line.subtle" borderLeft="4px solid" borderLeftColor={`bande.${b.bande}`}
+                         opacity={b.fantome ? 0.6 : 1}>
                         <Text position="sticky" left={4} display="inline-block" mt={2} ml={4} fontFamily="mono"
-                              fontSize="12px" letterSpacing="0.08em" textTransform="uppercase" color="fg.faint">
-                            {b.nom}
+                              fontSize="12px" letterSpacing="0.08em" textTransform="uppercase" color={`bande.${b.bande}`} fontWeight="600">
+                            {b.nom}{b.fantome && " · prérequis"}
                         </Text>
                     </Box>
                 ))}
@@ -85,6 +94,7 @@ function Graphe({modele, ids, centres, selection, choisir, cadreRef}) {
                     </defs>
                     {d.aretes.map(a => (
                         <path key={a.cle} d={chemin(a.points)} fill="none" opacity={a.attenue ? 0.35 : 1}
+                              strokeDasharray={a.fantome ? "4 4" : undefined}
                               stroke={a.accent ? "var(--chakra-colors-accent)" : "var(--chakra-colors-line-strong)"}
                               strokeWidth={a.accent ? 2 : 1.5} strokeLinejoin="round"
                               markerEnd={`url(#fleche-${a.accent ? "accent" : "gris"})`}/>
@@ -95,18 +105,19 @@ function Graphe({modele, ids, centres, selection, choisir, cadreRef}) {
                     const {code, nom} = decouperTitre(n.titre);
                     const estProjet = n.bande === "proj";
                     return (
-                        <Box key={c.cle} as="button" type="button" data-noeud={c.id} onClick={() => choisir(c.id)}
-                             aria-pressed={selection === c.id}
-                             aria-label={`${n.titre} – ${LIBELLES_STATUT[c.statut]}${estProjet ? ", projet d’apprentissage" : ""}`}
+                        <Box key={c.cle} as="button" type="button" data-noeud={c.id} data-fantome={c.fantome ? "" : undefined}
+                             onClick={() => choisir(c.id)} aria-pressed={selection === c.id}
+                             aria-label={`${n.titre} – ${LIBELLES_STATUT[c.statut]}${estProjet ? ", projet d’apprentissage" : ""}${c.fantome ? `, prérequis venu de la bande ${NOM_BANDE[n.bande].nom}` : ""}`}
                              position="absolute" left={`${c.x}px`} top={`${c.y}px`} w={`${CARTE.largeur}px`}
                              h={`${c.h}px`} borderRadius="10px" px={3} py={2} textAlign="left" overflow="hidden"
+                             borderLeftWidth="4px" borderLeftColor={`bande.${n.bande}`}
                              transition="transform .12s ease" _hover={{transform: "translateY(-1px)"}}
-                             {...styleCarte(c.statut, estProjet, selection === c.id)}>
+                             {...styleCarte(c.statut, estProjet, selection === c.id, c.fantome)}>
                             <Flex justify="space-between" align="center" gap={2}>
                                 <Text as="span" fontFamily="mono" fontSize="11px" fontWeight="600" opacity={0.8}>
                                     {code}{estProjet && " · projet"}
                                 </Text>
-                                {ETIQUETTES[c.statut] && (
+                                {ETIQUETTES[c.statut] && !c.fantome && (
                                     <Text as="span" fontSize="10px" fontWeight="700" textTransform="uppercase"
                                           letterSpacing="0.04em"
                                           color={c.statut === "en-cours" ? "#7A5207" : c.statut === "maitrise" ? "success.fg" : "accent"}>
@@ -126,28 +137,49 @@ function Graphe({modele, ids, centres, selection, choisir, cadreRef}) {
     );
 }
 
-// ---------- liste par rail (mobile, vue "Autour de moi") ----------
+// ---------- filtre par bande ----------
 
-function ListeParRail({modele, ids, choisir, selection}) {
+function FiltreBandes({bandes, basculer, tout}) {
+    const pastille = (actif, libelle, onClick, couleur) => (
+        <Button key={libelle} variant="unstyled" onClick={onClick} aria-pressed={actif} display="inline-flex" alignItems="center"
+                gap={2} h="44px" px={4} borderRadius="999px" border="1px solid" fontSize="14px" fontWeight="600"
+                borderColor={actif ? (couleur ?? "accent") : "line.strong"} bg={actif ? "chip.bg" : "transparent"}
+                color={actif ? "fg.default" : "fg.muted"}>
+            {couleur && <Box as="span" w="10px" h="10px" borderRadius="full" bg={couleur} aria-hidden="true"/>}
+            {libelle}
+        </Button>
+    );
+    return (
+        <Flex role="group" aria-label="Filtrer la carte par bande" gap={2} wrap="wrap" mb={4}>
+            {pastille(bandes.length === 0, "Tout", tout)}
+            {BANDES_CARTE.map(b => pastille(bandes.includes(b.id), b.court, () => basculer(b.id), `bande.${b.id}`))}
+        </Flex>
+    );
+}
+
+// ---------- liste par bande (mobile, vue "Autour de moi") ----------
+
+function ListeParBande({modele, ids, choisir, selection}) {
     const ordreStatut = {"en-cours": 0, ensuite: 1, maitrise: 2, "plus-tard": 3};
     return (
         <Box>
-            {RAILS.map(r => {
-                const membres = ids.filter(id => modele.rails.get(id) === r.id)
-                    .sort((a, b) => ordreStatut[modele.statuts.get(a)] - ordreStatut[modele.statuts.get(b)] || modele.ordre(a, b));
+            {BANDES_CARTE.map(b => {
+                const membres = ids.filter(id => modele.parId.get(id).bande === b.id)
+                    .sort((x, y) => ordreStatut[modele.statuts.get(x)] - ordreStatut[modele.statuts.get(y)] || modele.ordre(x, y));
                 if (!membres.length) return null;
                 return (
-                    <Box key={r.id} as="section" mb={6}>
-                        <Heading as="h3" fontSize="15px" mb={2}>{r.nom}</Heading>
+                    <Box key={b.id} as="section" mb={6} data-liste-bande={b.id}>
+                        <Heading as="h3" fontSize="15px" mb={2} color={`bande.${b.id}`}>{b.nom}</Heading>
                         <Box as="ul" listStyleType="none" p={0} m={0}>
                             {membres.map(id => {
                                 const n = modele.parId.get(id);
                                 const statut = modele.statuts.get(id);
                                 return (
                                     <Box as="li" key={id} mb={2}>
-                                        <Box as="button" type="button" onClick={() => choisir(id)} w="100%" minH="56px"
+                                        <Box as="button" type="button" data-noeud={id} onClick={() => choisir(id)} w="100%" minH="56px"
                                              textAlign="left" px={3} py={2} borderRadius="10px" aria-pressed={selection === id}
-                                             {...styleCarte(statut, n.bande === "proj", selection === id)}>
+                                             borderLeftWidth="4px" borderLeftColor={`bande.${b.id}`}
+                                             {...styleCarte(statut, n.bande === "proj", selection === id, false)}>
                                             <Flex justify="space-between" gap={2} align="center">
                                                 <Text as="span" fontSize="14px" fontWeight="600">{n.titre}</Text>
                                                 <Pastille statut={statut}/>
@@ -180,44 +212,48 @@ function LienNoeud({id, modele, choisir}) {
     );
 }
 
-function Fiche({modele, id, choisir, changerEtat, enCours, message}) {
+function Fiche({modele, id, choisir, changerEtat, enCours, message, estAdmin}) {
     const n = modele.parId.get(id);
     if (!n) return null;
     const statut = modele.statuts.get(id);
     const successeurs = modele.successeurs.get(id);
-    const rail = RAILS.find(r => r.id === modele.rails.get(id));
     return (
         <Box as="section" aria-labelledby="fiche-titre" bg="surface" border="1px solid" borderColor="line.strong"
              borderRadius="14px" p={5}>
             <Flex justify="space-between" align="flex-start" gap={3} wrap="wrap">
                 <Box>
-                    <Text fontFamily="mono" fontSize="12px" color="fg.faint" textTransform="uppercase" letterSpacing="0.08em">
-                        {rail?.nom}{n.bande === "proj" && " · projet d’apprentissage"}
+                    <Text fontFamily="mono" fontSize="12px" color={`bande.${n.bande}`} fontWeight="600" textTransform="uppercase" letterSpacing="0.08em">
+                        {NOM_BANDE[n.bande].nom}{n.bande === "proj" && " · projet d’apprentissage"}
                     </Text>
                     <Heading as="h2" id="fiche-titre" fontSize="20px" mt={1}>{n.titre}</Heading>
                 </Box>
                 <Pastille statut={statut}/>
             </Flex>
 
-            <Box role="group" aria-label="État du nœud" display="inline-flex" mt={4} border="1px solid"
-                 borderColor="line.strong" borderRadius="10px" overflow="hidden">
-                {ETATS.map((e, i) => {
-                    const actif = n.etat === e.valeur;
-                    return (
-                        <Button key={e.valeur} variant="unstyled" h="44px" px={4} borderRadius={0} fontSize="14px"
-                                fontWeight="600" aria-pressed={actif} isDisabled={enCours}
-                                borderLeft={i ? "1px solid" : "none"} borderColor="line.strong"
-                                bg={actif ? "accent" : "transparent"} color={actif ? "accent.contrast" : "fg.muted"}
-                                _hover={actif ? {} : {bg: "chip.bg", color: "accent"}}
-                                onClick={() => !actif && changerEtat(id, e.valeur)}>
-                            {e.libelle}
-                        </Button>
-                    );
-                })}
-            </Box>
-            <Text role="status" aria-live="polite" fontSize="13px" color="fg.faint" mt={2} minH="20px">{message}</Text>
+            {/* Changement d'etat : session admin uniquement (boutons masques pour un visiteur). */}
+            {estAdmin && (
+                <>
+                    <Box role="group" aria-label="État du nœud" display="inline-flex" mt={4} border="1px solid"
+                         borderColor="line.strong" borderRadius="10px" overflow="hidden">
+                        {ETATS.map((e, i) => {
+                            const actif = n.etat === e.valeur;
+                            return (
+                                <Button key={e.valeur} variant="unstyled" h="44px" px={4} borderRadius={0} fontSize="14px"
+                                        fontWeight="600" aria-pressed={actif} isDisabled={enCours}
+                                        borderLeft={i ? "1px solid" : "none"} borderColor="line.strong"
+                                        bg={actif ? "accent" : "transparent"} color={actif ? "accent.contrast" : "fg.muted"}
+                                        _hover={actif ? {} : {bg: "chip.bg", color: "accent"}}
+                                        onClick={() => !actif && changerEtat(id, e.valeur)}>
+                                    {e.libelle}
+                                </Button>
+                            );
+                        })}
+                    </Box>
+                    <Text role="status" aria-live="polite" fontSize="13px" color="fg.faint" mt={2} minH="20px">{message}</Text>
+                </>
+            )}
 
-            <Grid templateColumns={{base: "1fr", md: "1fr 1fr"}} gap={6} mt={3}>
+            <Grid templateColumns={{base: "1fr", md: "1fr 1fr"}} gap={6} mt={4}>
                 <Box>
                     <Heading as="h3" fontSize="14px" mb={2}>Prérequis</Heading>
                     {n.prerequis.length ? (
@@ -265,11 +301,12 @@ function Fiche({modele, id, choisir, changerEtat, enCours, message}) {
 
 // ---------- page ----------
 
-export default function Parcours({noeudsInitiaux}) {
+export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitiales = []}) {
     const [noeuds, setNoeuds] = useState(noeudsInitiaux);
     const modele = useMemo(() => construireModele(noeuds), [noeuds]);
     const autour = useMemo(() => autourDeMoi(modele), [modele]);
     const [vue, setVue] = useState("autour");
+    const [bandes, setBandes] = useState(bandesInitiales);
     const premier = autour.ids.find(id => modele.statuts.get(id) === "en-cours") ?? autour.ids[0];
     const [selection, setSelection] = useState(premier);
     const [message, setMessage] = useState("");
@@ -277,9 +314,32 @@ export default function Parcours({noeudsInitiaux}) {
     const cadreRef = useRef(null);
     const ficheRef = useRef(null);
 
-    const ids = vue === "autour" ? autour.ids : noeuds.map(n => n.id);
+    // Disposition de la vue courante, combinee au filtre par bande.
+    const disposition = useMemo(() => {
+        if (vue === "autour") return disposerAutour(modele, autour.centres, {bandes});
+        const {ids, fantomes} = filtrerParBandes(modele, noeuds.map(n => n.id), bandes);
+        return disposer(modele, ids, {fantomes});
+    }, [vue, modele, autour, bandes, noeuds]);
+    const idsListe = useMemo(
+        () => autour.ids.filter(id => !bandes.length || bandes.includes(modele.parId.get(id).bande)),
+        [autour, bandes, modele],
+    );
 
-    // A l'ouverture d'une vue : centre le cadre sur le noeud selectionne (ou le premier en cours).
+    // Filtre dans l'URL (?bandes=math,ml) : partage et rechargement de la vue.
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        if (bandes.length) url.searchParams.set("bandes", bandes.join(","));
+        else url.searchParams.delete("bandes");
+        window.history.replaceState(window.history.state, "", url);
+    }, [bandes]);
+
+    const basculer = id => setBandes(liste => {
+        const nouvelle = liste.includes(id) ? liste.filter(b => b !== id) : [...liste, id];
+        return BANDES_CARTE.map(b => b.id).filter(b => nouvelle.includes(b));
+    });
+    const filtrerRail = rail => setBandes(liste => (memesBandes(liste, BANDES_DU_RAIL[rail]) ? [] : BANDES_DU_RAIL[rail]));
+
+    // A l'ouverture d'une vue : centre le cadre (horizontalement) sur le noeud selectionne.
     useEffect(() => {
         const cadre = cadreRef.current;
         const carte = cadre?.querySelector(`[data-noeud="${selection}"]`) ?? cadre?.querySelector("[data-noeud]");
@@ -295,13 +355,21 @@ export default function Parcours({noeudsInitiaux}) {
         if (window.matchMedia("(max-width: 767px)").matches) ficheRef.current?.scrollIntoView({behavior: "smooth", block: "start"});
     };
 
+    // Changement d'etat (admin) : route d'API protegee ; mise a jour optimiste, annulee en cas d'echec.
     const changerEtat = (id, etat) => {
         const avant = noeuds;
-        // Mise a jour optimiste, annulee en cas d'echec.
         setNoeuds(liste => liste.map(n => (n.id === id ? {...n, etat} : n)));
         setMessage("Enregistrement…");
         demarrer(async () => {
-            const r = await definirEtat(id, etat);
+            let r = null;
+            try {
+                const rep = await fetch("/api/parcours/etat", {
+                    method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({id, etat}),
+                });
+                r = await rep.json();
+            } catch {
+                r = {ok: false, erreur: "réseau indisponible"};
+            }
             if (r?.ok) {
                 setNoeuds(liste => liste.map(n => (n.id === id ? {...n, ...r.noeud} : n)));
                 setMessage("Enregistré.");
@@ -312,30 +380,42 @@ export default function Parcours({noeudsInitiaux}) {
         });
     };
 
+    const vide = disposition.cartes.length === 0;
+
     return (
         <Box as="main" minH="100dvh" pb={16}>
-            <Container maxW="1320px" px={{base: 5, md: 8}} pt={{base: 6, md: 10}}>
+            <Container maxW="1600px" px="clamp(24px, 5vw, 96px)" pt={{base: 6, md: 10}}>
                 <Flex justify="space-between" align="center" gap={3} wrap="wrap">
                     <Flex gap={4} fontSize="14px">
-                        <Link as={NextLink} href="/admin">← Admin</Link>
-                        <Link as={NextLink} href="/" target="_blank">Voir le site</Link>
+                        {estAdmin && <Link as={NextLink} href="/admin">← Admin</Link>}
+                        <Link as={NextLink} href="/">Voir le site</Link>
                     </Flex>
                     <Box as="span" fontFamily="mono" fontSize="12px" px={3} py={1} borderRadius="999px" bg="chip.bg" color="chip.fg">
-                        Privé · non indexé · hors CV
+                        Non référencé · hors CV{estAdmin ? " · mode édition" : ""}
                     </Box>
                 </Flex>
                 <Heading as="h1" mt={6} fontSize={{base: "36px", md: "48px"}}>Où j’en suis</Heading>
 
-                {/* Avancement par rail */}
+                {/* Avancement par rail ; un clic sur la carte filtre la carte sur ce rail. */}
                 <Grid mt={6} templateColumns={{base: "1fr", md: "repeat(3, 1fr)"}} gap={4}>
                     {RAILS.map(r => {
                         const a = avancement(modele, r.id);
                         const pct = a.total ? Math.round((100 * a.maitrises) / a.total) : 0;
                         const prochaine = a.prochaine && modele.parId.get(a.prochaine);
+                        const actif = memesBandes(bandes, BANDES_DU_RAIL[r.id]);
                         return (
-                            <Box key={r.id} bg="surface" border="1px solid" borderColor="line.strong" borderRadius="14px" p={5}>
+                            <Box key={r.id} position="relative" bg="surface" border="1px solid"
+                                 borderColor={actif ? "accent" : "line.strong"} borderRadius="14px" p={5}
+                                 _hover={{borderColor: "accent"}}>
                                 <Flex justify="space-between" align="baseline">
-                                    <Heading as="h2" fontSize="18px">{r.nom}</Heading>
+                                    {/* Bouton etire sur toute la carte (pseudo-element) : filtre sur ce rail. */}
+                                    <Box as="button" type="button" onClick={() => filtrerRail(r.id)} aria-pressed={actif}
+                                         aria-label={`Filtrer la carte sur ${r.nom}`} textAlign="left" fontFamily="heading"
+                                         fontWeight="700" fontSize="18px" color="fg.default"
+                                         _after={{content: '""', position: "absolute", inset: 0, borderRadius: "14px"}}
+                                         _focusVisible={{outline: "none", _after: {outline: "2px solid", outlineColor: "accent"}}}>
+                                        {r.nom}
+                                    </Box>
                                     <Text fontFamily="mono" fontSize="13px" color="fg.muted" data-compteur={r.id}>{a.maitrises} / {a.total}</Text>
                                 </Flex>
                                 <Box mt={3} h="8px" bg="line.subtle" borderRadius="999px" overflow="hidden" role="progressbar"
@@ -343,10 +423,8 @@ export default function Parcours({noeudsInitiaux}) {
                                      aria-label={`${r.nom} : ${a.maitrises} nœuds de cours maîtrisés sur ${a.total}`}>
                                     <Box h="100%" w={`${pct}%`} bg={VERT} borderRadius="999px"/>
                                 </Box>
-                                <Text mt={2} fontSize="13px" color="fg.faint">
-                                    {a.enCours} en cours · {pct} % maîtrisé
-                                </Text>
-                                <Text mt={3} fontSize="14px" color="fg.muted">
+                                <Text mt={2} fontSize="13px" color="fg.faint">{a.enCours} en cours · {pct} % maîtrisé</Text>
+                                <Text mt={3} fontSize="14px" color="fg.muted" position="relative" zIndex={1}>
                                     Prochaine séance :{" "}
                                     {prochaine ? (
                                         <Box as="button" type="button" color="accent" fontWeight="600" textAlign="left"
@@ -373,27 +451,30 @@ export default function Parcours({noeudsInitiaux}) {
                     </Box>
                     <Flex gap={3} wrap="wrap" fontSize="12px" color="fg.muted" align="center">
                         {["en-cours", "ensuite", "plus-tard", "maitrise"].map(s => <Pastille key={s} statut={s}/>)}
-                        <Box as="span" px={2} py="1px" border="1px dashed" borderColor="fg.faint" borderRadius="6px">projet d’apprentissage</Box>
+                        <Box as="span" px={2} py="1px" border="1px dashed" borderColor="fg.faint" borderRadius="6px">projet ou prérequis d’une autre bande</Box>
                     </Flex>
                 </Flex>
+                <FiltreBandes bandes={bandes} basculer={basculer} tout={() => setBandes([])}/>
                 {vue === "autour" && autour.sansEnCours && (
                     <Text mb={3} fontSize="14px" color="fg.muted">
                         Aucun nœud en cours : voici les points d’entrée et ce qu’ils débloquent.
                     </Text>
                 )}
 
-                {/* Mobile : la vue "Autour de moi" passe en liste par rail. */}
-                {vue === "autour" ? (
+                {vide ? (
+                    <Text py={8} color="fg.muted">Rien à afficher pour ce filtre dans cette vue.</Text>
+                ) : vue === "autour" ? (
                     <>
+                        {/* Mobile : la vue "Autour de moi" passe en liste par bande (meme filtre). */}
                         <Box display={{base: "block", md: "none"}}>
-                            <ListeParRail modele={modele} ids={autour.ids} choisir={choisir} selection={selection}/>
+                            <ListeParBande modele={modele} ids={idsListe} choisir={choisir} selection={selection}/>
                         </Box>
                         <Box display={{base: "none", md: "block"}}>
-                            <Graphe modele={modele} ids={ids} centres={autour.centres} selection={selection} choisir={choisir} cadreRef={cadreRef}/>
+                            <Graphe modele={modele} disposition={disposition} selection={selection} choisir={choisir} cadreRef={cadreRef}/>
                         </Box>
                     </>
                 ) : (
-                    <Graphe modele={modele} ids={ids} selection={selection} choisir={choisir} cadreRef={cadreRef}/>
+                    <Graphe modele={modele} disposition={disposition} selection={selection} choisir={choisir} cadreRef={cadreRef}/>
                 )}
 
                 {/* Prochains pas et fiche */}
@@ -417,7 +498,8 @@ export default function Parcours({noeudsInitiaux}) {
                         })}
                     </Box>
                     <Box ref={ficheRef} sx={{scrollMarginTop: "16px"}}>
-                        <Fiche modele={modele} id={selection} choisir={choisir} changerEtat={changerEtat} enCours={enCours} message={message}/>
+                        <Fiche modele={modele} id={selection} choisir={choisir} changerEtat={changerEtat} enCours={enCours}
+                               message={message} estAdmin={estAdmin}/>
                     </Box>
                 </Grid>
             </Container>

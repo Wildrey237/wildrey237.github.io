@@ -75,6 +75,7 @@ function pourLangue(docs, l) {
             link: pr.lien ?? '#',
             status: pr.statut,
             domain: pr.domaine ?? null,
+            featured: Boolean(pr.phare),
             personal: Boolean(pr.personnel),
         })),
         sections: ordreSections(p.ordreSections),

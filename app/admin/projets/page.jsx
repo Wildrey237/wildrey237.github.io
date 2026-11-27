@@ -9,16 +9,18 @@ export default async function AdminProjets({searchParams}) {
     await exigerSession()
     const {ok, erreur} = await searchParams
     const db = await getDb()
+    const nbPhares = await db.collection('projets').countDocuments({phare: true})
     const projets = await db.collection('projets')
-        .find({}, {projection: {titre: 1, cadre: 1, statut: 1, noeuds: 1, ordre: 1, noeudOrigine: 1}})
+        .find({}, {projection: {titre: 1, cadre: 1, statut: 1, noeuds: 1, ordre: 1, noeudOrigine: 1, phare: 1}})
         .sort({ordre: 1}).toArray()
     return (
         <>
             <h1>Projets du CV</h1>
             <Message ok={ok} erreur={erreur}/>
             <p><Link href="/admin/projets/nouveau">+ Nouveau projet</Link></p>
+            <p className="admin-doux">{nbPhares} projet(s) phare(s) dans le carrousel de l’accueil (6 à 8 conseillés).</p>
             <div className="admin-table-cadre"><table>
-                <thead><tr><th>#</th><th>Projet</th><th>Cadre</th><th>Statut</th><th>Nœuds</th><th>Origine</th></tr></thead>
+                <thead><tr><th>#</th><th>Projet</th><th>Cadre</th><th>Statut</th><th>Phare</th><th>Nœuds</th><th>Origine</th></tr></thead>
                 <tbody>
                 {projets.map(p => (
                     <tr key={p._id}>
@@ -26,6 +28,7 @@ export default async function AdminProjets({searchParams}) {
                         <td><Link href={`/admin/projets/${encodeURIComponent(p._id)}`}>{p.titre.fr}</Link></td>
                         <td className="admin-doux">{p.cadre.fr}</td>
                         <td>{STATUTS[p.statut] ?? p.statut}</td>
+                        <td>{p.phare ? 'oui' : ''}</td>
                         <td className="admin-doux">{p.noeuds.length}</td>
                         <td className="admin-doux">{p.noeudOrigine ? <code>{p.noeudOrigine}</code> : 'saisi'}</td>
                     </tr>

@@ -3,8 +3,9 @@
 // Briques communes de l'accueil : section, etiquette monospace, puces, texte riche, CV.
 import {Box, Container, Grid, Heading, Text} from "@chakra-ui/react";
 
-export const LARGEUR = "1200px";
-export const MARGES = {base: 5, md: 8};
+// Conteneur : 1600px maximum, marge laterale fluide.
+export const LARGEUR = "1600px";
+export const MARGES = "clamp(24px, 5vw, 96px)";
 
 // Etiquette en JetBrains Mono, petites capitales 11-12px.
 export function Etiquette({children, ...props}) {

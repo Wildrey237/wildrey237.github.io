@@ -5,7 +5,6 @@
 // Sans JavaScript : chaque choix est un bouton d'envoi du formulaire (action serveur classique).
 import {useState, useTransition} from 'react'
 import {changerEtatNoeud} from '../actions'
-import {definirEtat} from '../../parcours/actions'
 
 const CHOIX = [['non commence', 'Non commencé'], ['en cours', 'En cours'], ['maitrise', 'Maîtrisé']]
 
@@ -21,7 +20,16 @@ export default function EtatNoeud({id, titre, etatInitial}) {
         setEtat(valeur)
         setStatut('Enregistrement…')
         demarrer(async () => {
-            const r = await definirEtat(id, valeur)
+            // Route d'API protegee (401 sans session), partagee avec /parcours.
+            let r = null
+            try {
+                const rep = await fetch('/api/parcours/etat', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id, etat: valeur}),
+                })
+                r = await rep.json()
+            } catch {
+                r = {ok: false, erreur: 'réseau indisponible'}
+            }
             if (r?.ok) setStatut('Enregistré')
             else {
                 setEtat(avant)

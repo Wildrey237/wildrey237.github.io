@@ -254,4 +254,15 @@ export const CORRECTIFS = [
             return `${n} noeud(s) corrige(s)`
         },
     },
+    {
+        id: '2026-11-27-projets-phares',
+        description: 'Projets phares initiaux : les 6 premiers projets (IA et finance), si aucun n est encore phare',
+        async appliquer(db) {
+            const col = db.collection('projets')
+            if (await col.countDocuments({phare: true})) return 'projets phares deja choisis'
+            const premiers = await col.find({}, {projection: {_id: 1}}).sort({ordre: 1}).limit(6).toArray()
+            await col.updateMany({_id: {$in: premiers.map(p => p._id)}}, {$set: {phare: true}})
+            return `${premiers.length} projet(s) phare(s)`
+        },
+    },
 ]

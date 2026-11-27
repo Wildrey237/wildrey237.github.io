@@ -57,6 +57,14 @@ const theme = extendTheme({
             'plustard.bg': {default: '#F6F5F1', _dark: '#171A21'},
             'plustard.fg': {default: '#5E6068', _dark: '#A9ACB5'},
             'plustard.bord': {default: '#D9D6CC', _dark: '#3A3F4B'},
+            // Bandes de la carte du parcours (couleurs d'origine en sombre, assombries en clair
+            // pour rester lisibles comme texte sur fond clair)
+            'bande.math': {default: '#9A6510', _dark: '#E9B154'},
+            'bande.ml': {default: '#2C6AA8', _dark: '#5B9BD8'},
+            'bande.graph': {default: '#6A4FC2', _dark: '#9B7FE6'},
+            'bande.algo': {default: '#1B7F5E', _dark: '#4EC9A0'},
+            'bande.data': {default: '#B2532A', _dark: '#E5814F'},
+            'bande.proj': {default: '#B03B64', _dark: '#DD6A8B'},
             // En-tete translucide
             'chrome.bg': {default: 'rgba(246,245,241,0.88)', _dark: 'rgba(15,17,21,0.88)'},
             // Compatibilite avec les pages non refondues (404)

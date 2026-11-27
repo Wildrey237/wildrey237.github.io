@@ -254,6 +254,7 @@ export async function enregistrerProjet(formData) {
             statut,
             noeuds: await noeudsValides(db, formData),
             personnel: formData.get('personnel') === 'on',
+            phare: formData.get('phare') === 'on',
         }
         const domaine = texte(formData, 'domaine')
         if (domaine && !DOMAINES_PROJET.includes(domaine)) throw new ErreurSaisie(`Domaine inconnu : ${domaine}`)

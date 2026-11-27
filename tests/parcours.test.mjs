@@ -2,7 +2,7 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import * as carte from '../src/components/PrereqMap/prereqMapData.js'
-import {RAILS, autourDeMoi, avancement, construireModele} from '../src/lib/parcours/modele.js'
+import {IDS_BANDES, RAILS, autourDeMoi, avancement, construireModele, filtrerParBandes} from '../src/lib/parcours/modele.js'
 import {CARTE, disposer, disposerAutour} from '../src/lib/parcours/disposition.js'
 
 const ETATS = ['non commence', 'en cours', 'maitrise']
@@ -82,6 +82,89 @@ test('carte complete : aucune fleche ne traverse une carte ; liens hors en cours
             for (const s of segments(a.points)) for (const c of d.cartes) assert.ok(!traverse(s, c), `${a.cle} traverse ${c.id}`)
             const actif = id => ['en-cours', 'ensuite'].includes(m.statuts.get(id))
             assert.equal(a.attenue, !actif(a.de) && !actif(a.vers))
+        }
+    }
+})
+
+// ---------------------------------------------------------------------------------------------
+// Bandes d'origine et filtre par bande
+
+const tk = Object.fromEntries(carte.NODES.map(n => [n.id, n.tk]))
+
+// Chaque carte est dans la bande de son tk d'origine (geometriquement et par l'etiquette).
+function verifierBandes(d) {
+    for (const c of d.cartes) {
+        const b = d.bandes.find(x => c.y >= x.y && c.y + c.h <= x.y + x.hauteur)
+        assert.ok(b, `${c.cle} hors de toute bande`)
+        assert.equal(b.bande, tk[c.id], `${c.cle} (${tk[c.id]}) place dans la bande ${b.bande}`)
+    }
+    assert.ok(d.bandes.every(b => d.cartes.some(c => c.y >= b.y && c.y < b.y + b.hauteur)), 'bande vide affichee')
+}
+
+function verifierAucuneTraversee(d) {
+    for (const a of d.aretes) for (const s of segments(a.points)) for (const c of d.cartes) {
+        assert.ok(!traverse(s, c), `${a.cle} traverse ${c.cle}`)
+    }
+}
+
+test('bandes d origine : chaque noeud dans la bande de son tk (carte complete et Autour de moi)', () => {
+    for (let g = 0; g <= 15; g++) {
+        const m = construireModele(g ? etatsAleatoires(g) : base)
+        verifierBandes(disposer(m, base.map(n => n.id)))
+        verifierBandes(disposerAutour(m, autourDeMoi(m).centres))
+    }
+})
+
+test('donnees et mise en production : D1, D3, D4 et leurs liens d origine', () => {
+    const m = construireModele(base)
+    const d = disposer(m, base.map(n => n.id))
+    const bandeDe = id => d.bandes.find(b => b.membres.includes(id))?.nom
+    for (const id of ['d1', 'd2', 'mlops']) assert.equal(bandeDe(id), 'Données et mise en production')
+    const liens = new Set(d.aretes.map(a => `${a.de}>${a.vers}`))
+    // Liens d'origine de prereqMapData.js (aucun lien de D1/D3/D4 vers le filtre documentaire NLP
+    // n'existe dans les donnees : p_nlp ne depend que de nlp).
+    for (const l of ['d1>mlops', 'd1>d2', 'd2>pj_us', 'd1>p_fraud', 'd1>pj_eda']) assert.ok(liens.has(l), `lien ${l} absent`)
+})
+
+// Filtre : seuls les noeuds des bandes choisies, plus des fantomes qui sont de vrais prerequis.
+function verifierFiltre(m, d, bandes) {
+    const choix = new Set(bandes)
+    for (const c of d.cartes) {
+        if (choix.has(tk[c.id])) {
+            assert.ok(!c.fantome, `${c.cle} marque fantome alors qu il est dans le filtre`)
+        } else {
+            assert.ok(c.fantome, `${c.cle} (${tk[c.id]}) affiche hors filtre ${bandes}`)
+            const sert = d.cartes.some(v => !v.fantome && m.parId.get(v.id).prerequis.includes(c.id))
+            assert.ok(sert, `fantome ${c.cle} qui n est le prerequis d aucun noeud affiche`)
+        }
+    }
+    for (const a of d.aretes) {
+        const cible = a.versCle ? d.cartes.find(c => c.cle === a.versCle) : d.cartes.find(c => c.id === a.vers)
+        assert.ok(cible && !cible.fantome, `lien vers un fantome ${a.cle}`)
+    }
+    verifierAucuneTraversee(d)
+    verifierBandes(d)
+}
+
+const FILTRES = [...IDS_BANDES.map(b => [b]), ['math', 'ml']]
+
+test('filtre par bande, carte complete : chaque bande seule et Maths + ML / DL', () => {
+    for (let g = 0; g <= 10; g++) {
+        const m = construireModele(g ? etatsAleatoires(g) : base)
+        for (const bandes of FILTRES) {
+            const {ids, fantomes} = filtrerParBandes(m, base.map(n => n.id), bandes)
+            verifierFiltre(m, disposer(m, ids, {fantomes}), bandes)
+        }
+    }
+})
+
+test('filtre par bande, Autour de moi : chaque bande seule et Maths + ML / DL, 2 coudes max', () => {
+    for (let g = 1; g <= 20; g++) {
+        const m = construireModele(etatsAleatoires(g))
+        for (const bandes of FILTRES) {
+            const d = disposerAutour(m, autourDeMoi(m).centres, {bandes})
+            verifierFiltre(m, d, bandes)
+            for (const a of d.aretes) assert.ok(a.points.length - 2 <= 2, `plus de 2 coudes ${a.cle}`)
         }
     }
 })
