@@ -1,4 +1,4 @@
-// Tests en navigateur du parcours (/parcours), a 1440px.
+// Tests en navigateur du parcours (/parcours), a 1440px (plein ecran : carte deplacable et zoomable).
 // Prerequis : Google Chrome installe, un site lance (npm run build && npm start, ou une preview).
 // Usage : BASE_URL=http://localhost:3000 ADMIN_PASSWORD=... npm run test:e2e
 // Preview protegee : ajouter VERCEL_OIDC_TOKEN (ex. via "vercel env run -- npm run test:e2e").
@@ -49,6 +49,31 @@ describe('visiteur sans session', () => {
         assert.ok(await page.locator('[data-carte-cadre] [data-noeud]').first().isVisible())
         // Lecture seule : pas de boutons de changement d'etat.
         assert.equal(await page.getByRole('group', {name: 'État du nœud'}).count(), 0)
+    })
+
+    test('plein ecran : aucune barre de defilement de page, carte jusqu au bas de la fenetre, zoom 50-200 %', {skip: sauter}, async () => {
+        for (const [w, h] of [[1440, 900], [1920, 1080], [2560, 1440]]) {
+            await page.setViewportSize({width: w, height: h})
+            await page.waitForTimeout(200)
+            const r = await page.evaluate(() => {
+                const d = document.documentElement
+                const cadre = document.querySelector('[data-carte-cadre]').getBoundingClientRect()
+                return {defile: d.scrollHeight > d.clientHeight || d.scrollWidth > d.clientWidth,
+                    largeur: Math.round(cadre.width), bas: Math.round(cadre.bottom)}
+            })
+            assert.equal(r.defile, false, `${w}x${h} : la page defile`)
+            assert.equal(r.largeur, w, `${w}x${h} : la carte n occupe pas toute la largeur`)
+            assert.equal(r.bas, h, `${w}x${h} : la carte ne descend pas jusqu au bas de la fenetre`)
+        }
+        await page.setViewportSize({width: 1440, height: 1000})
+        const zoom = page.getByRole('group', {name: 'Zoom de la carte'})
+        // Clics jusqu'a la butee : le bouton se desactive a 200 % (puis a 50 %).
+        for (const [nom, butee] of [['Zoomer', /200 %/], ['Dézoomer', /50 %/]]) {
+            const bouton = zoom.getByRole('button', {name: nom, exact: true})
+            for (let i = 0; i < 12 && await bouton.isEnabled(); i++) await bouton.click()
+            assert.match(await zoom.textContent(), butee)
+        }
+        await zoom.getByRole('button', {name: 'Ajuster'}).click()
     })
 
     test('POST de changement d etat sans session : 401', {skip: sauter}, async () => {
@@ -120,6 +145,8 @@ describe('filtre Maths + Projets et prerequis externes', () => {
 
     test('surbrillance au clic, panneau lateral, URL ?noeud=, Echap', {skip: sauter}, async () => {
         await page.getByRole('button', {name: 'Tout', exact: true}).click()
+        await page.getByRole('button', {name: 'Ajuster'}).click()
+        await page.waitForTimeout(400)
         const cible = page.locator('[data-carte-cadre] [data-noeud="m2"]').first()
         await cible.click()
         await page.waitForFunction(() => new URL(location.href).searchParams.get('noeud') === 'm2')
@@ -172,12 +199,13 @@ describe('session admin', () => {
     })
 
     test('edition visible pour l admin (dans le panneau)', {skip: sauterAdmin}, async () => {
-        await page.locator('[data-carte-cadre] [data-noeud]').first().click()
+        // Clic direct (le noeud peut etre hors champ ou sous une surimpression selon le cadrage).
+        await page.locator('[data-carte-cadre] [data-noeud]').first().dispatchEvent('click')
         assert.equal(await page.getByRole('group', {name: 'État du nœud'}).count(), 1)
         await page.keyboard.press('Escape')
     })
 
-    // Aucune carte ni aucun titre coupe ; pas de defilement vertical interne a la carte.
+    // Aucune carte ni aucun titre coupe ; pas de defilement de la page.
     async function verifierTroncature(vue) {
         const r = await page.evaluate(() => {
             const problemes = []
@@ -188,13 +216,13 @@ describe('session admin', () => {
                     problemes.push(`${carte.dataset.noeud} (${titre.textContent})`)
                 }
             }
-            const cadre = document.querySelector('[data-carte-cadre]')
+            const d = document.documentElement
             return {problemes, cartes: document.querySelectorAll('[data-carte-cadre] [data-noeud]').length,
-                defilementVertical: cadre.scrollHeight > cadre.clientHeight + 1}
+                defilementVertical: d.scrollHeight > d.clientHeight + 1}
         })
         assert.ok(r.cartes > 0, `${vue} : aucune carte affichee`)
         assert.deepEqual(r.problemes, [], `${vue} : cartes tronquees`)
-        assert.equal(r.defilementVertical, false, `${vue} : defilement vertical interne`)
+        assert.equal(r.defilementVertical, false, `${vue} : la page defile`)
     }
 
     test('vue Autour de moi : aucune troncature a 1440px', {skip: sauterAdmin}, async () => {
