@@ -316,4 +316,17 @@ export const CORRECTIFS = [
             return `${r.deletedCount} competence(s) supprimee(s)`
         },
     },
+    {
+        id: '2026-11-27-logos-tda-innovatech-prepa-saint-jean',
+        description: 'Logos : TDA CERMAI (2 experiences), INNOVATECH, Prepa Saint Jean Yaounde (remplace l embleme seul)',
+        async appliquer(db) {
+            const exp = db.collection('experiences'), form = db.collection('formations')
+            const r = await Promise.all([
+                exp.updateMany({'entreprise.fr': {$regex: '^TDA CERMAI'}}, {$set: {logo: '/logos/tda-cermai.png'}}),
+                exp.updateMany({'entreprise.fr': {$regex: '^INNOVATECH'}}, {$set: {logo: '/logos/innovatech.png'}}),
+                form.updateMany({'ecole.fr': {$regex: '^Université Saint Jean'}}, {$set: {logo: '/logos/prepa-saint-jean-yaounde.png'}}),
+            ])
+            return `${r.reduce((n, x) => n + x.modifiedCount, 0)} logo(s) pose(s)`
+        },
+    },
 ]

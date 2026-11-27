@@ -67,6 +67,7 @@
       "company": "TDA CERMAI (Toullec Dancoing & Associates)",
       "city": "Villiers-le-Bel, Île-de-France",
       "website": "https://tdacermai.net/about",
+      "logo": "/logos/tda-cermai.png",
       "dates": "April 2023 – July 2023",
       "description": "Spearheaded the development and migration of a logistics tracking web application for air cargo.\n\nKey achievements:\n• Led the database migration from InterSystems Caché to InterSystems IRIS\n• Developed a full-stack solution with a JavaScript front-end and ObjectScript/Python back-end\n• Designed and integrated REST APIs for real-time air freight tracking\n• Administered and configured the InterSystems IRIS server\n• Authored comprehensive technical documentation for internal teams and clients",
       "tags": [
@@ -84,6 +85,7 @@
       "company": "TDA CERMAI Villiers-le-Bel",
       "city": "Villiers-le-Bel, Île-de-France",
       "website": "",
+      "logo": "/logos/tda-cermai.png",
       "dates": "May 2022 – June 2022",
       "description": "Participated in the creation of a web application displaying air freight flows, connected to a REST API. Dynamic data integration using JavaScript, interface readability improvement, functional testing, and contribution to technical documentation.",
       "tags": [
@@ -97,6 +99,7 @@
       "company": "INNOVATECH Yaoundé",
       "city": "Yaoundé, Cameroun",
       "website": "",
+      "logo": "/logos/innovatech.png",
       "dates": "June 2019 – August 2019",
       "description": "Arduino and mechatronics training, creation of a Smart Parking system and a remote-controlled car.",
       "tags": [
@@ -344,7 +347,7 @@
       "degree": "Preparatory Engineering Class",
       "years": "October 2020 – June 2021",
       "details": "The Université Saint Jean in Yaoundé offers a preparatory class for engineering schools, equivalent to the French CPGE system. This intensive year covers mathematics (algebra, calculus, analytic geometry, trigonometry), physics (mechanics, electricity, thermodynamics, optics), chemistry, and an introduction to robotics and electronics. The goal is to develop analytical rigor and scientific reasoning to gain entry into engineering schools in Europe or Africa. The demanding pace and high standards of this preparatory class provided an essential academic foundation for the rest of the engineering journey.",
-      "logo": "/logos/saint-jean.png",
+      "logo": "/logos/prepa-saint-jean-yaounde.png",
       "website": "https://institutsaintjean.org"
     }
   ],

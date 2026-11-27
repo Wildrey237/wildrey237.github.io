@@ -67,6 +67,7 @@
       "company": "TDA CERMAI (Toullec Dancoing & Associés)",
       "city": "Villiers-le-Bel, Île-de-France",
       "website": "https://tdacermai.net/about",
+      "logo": "/logos/tda-cermai.png",
       "dates": "Avril 2023 – Juillet 2023",
       "description": "J’ai mené le développement et la modernisation d’une application critique de suivi de fret aérien.\n\nRéalisations clés :\n• Pilotage de la migration de la base de données d’InterSystems Caché vers InterSystems IRIS\n• Développement full-stack : interface front-end réactive et back-end en ObjectScript/Python\n• Conception et intégration d’API REST pour l’affichage en temps réel des flux logistiques\n• Administration et configuration complète du serveur InterSystems IRIS\n• Rédaction de la documentation technique détaillée pour les équipes internes et les clients",
       "tags": [
@@ -84,6 +85,7 @@
       "company": "TDA CERMAI Villiers-le-Bel",
       "city": "Villiers-le-Bel, Île-de-France",
       "website": "",
+      "logo": "/logos/tda-cermai.png",
       "dates": "Mai 2022 – Juin 2022",
       "description": "Participation à la création d’une application web affichant les flux de fret aérien, connectée à une API REST. Intégration dynamique des données en JavaScript, amélioration de la lisibilité des interfaces, tests fonctionnels, et contribution à la documentation technique.",
       "tags": [
@@ -97,6 +99,7 @@
       "company": "INNOVATECH Yaoundé",
       "city": "Yaoundé, Cameroun",
       "website": "",
+      "logo": "/logos/innovatech.png",
       "dates": "Juin 2019 – Août 2019",
       "description": "Formation Arduino et mécatronique, réalisation d’un Smart Parking et d’une voiture télécommandée.",
       "tags": [
@@ -344,7 +347,7 @@
       "degree": "Classe préparatoire ingénieur",
       "years": "Octobre 2020 – Juin 2021",
       "details": "L’Université Saint Jean de Yaoundé propose une classe préparatoire aux grandes écoles d’ingénieurs, équivalente aux CPGE françaises. Cette année de formation intensive couvre les mathématiques (algèbre, analyse, géométrie analytique, trigonométrie), la physique (mécanique, électricité, thermodynamique, optique), la chimie et une initiation à la robotique et à l’électronique. L’objectif est de développer une rigueur analytique et une capacité de raisonnement scientifique permettant d’intégrer une école d’ingénieur en Europe ou en Afrique. Les méthodes de travail exigeantes et le rythme soutenu de cette prépa ont constitué un socle essentiel pour la suite du parcours académique.",
-      "logo": "/logos/saint-jean.png",
+      "logo": "/logos/prepa-saint-jean-yaounde.png",
       "website": "https://institutsaintjean.org"
     }
   ],
