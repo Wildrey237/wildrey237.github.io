@@ -308,4 +308,12 @@ export const CORRECTIFS = [
             return `${a.modifiedCount + b.modifiedCount} logo(s) pose(s)`
         },
     },
+    {
+        id: '2026-11-27-sans-ia-medicale',
+        description: 'Competences : retrait de "IA Medicale"',
+        async appliquer(db) {
+            const r = await db.collection('competences').deleteMany({'nom.fr': 'IA Médicale'})
+            return `${r.deletedCount} competence(s) supprimee(s)`
+        },
+    },
 ]

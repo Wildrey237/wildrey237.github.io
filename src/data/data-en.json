@@ -139,10 +139,6 @@
       {
         "name": "Multi-agent systems",
         "desc": "Designing and coordinating autonomous agents that collaborate on complex tasks (orchestration, communication, arbitration)."
-      },
-      {
-        "name": "Medical AI",
-        "desc": "Processing medical data (DICOM, METS), classification and segmentation with MONAI and PyTorch, domain metrics (Dice, Recall)."
       }
     ],
     "data_engineering": [

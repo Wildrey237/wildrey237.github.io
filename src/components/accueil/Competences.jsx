@@ -12,7 +12,7 @@ import {Box, Grid, Heading} from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
 import {APPARITION, Section} from "./communs";
-import {IconeTechno, iconePour} from "./icones";
+import {IconeTechno, iconeCompetence} from "./icones";
 
 const DELAI_SURVOL = 150;
 const VISIBLES = 8;
@@ -31,7 +31,7 @@ function Pastille({competence, ouverte, ouvrir, fermer}) {
     // Pastille "+N" : la bulle liste les competences restantes (avec leur explication).
     const reste = competence.reste;
     const explication = reste?.length ? "reste" : competence.desc?.trim();
-    const icone = reste ? null : iconePour(competence.name);
+    const icone = reste ? null : iconeCompetence(competence.name);
 
     const annuler = () => clearTimeout(minuterie.current);
 
@@ -167,7 +167,7 @@ function Pastille({competence, ouverte, ouvrir, fermer}) {
                         {reste.map(r => (
                             <Box as="li" key={r.id ?? r.name} _notFirst={{mt: 3}}>
                                 <Box as="strong" display="flex" alignItems="center" gap="6px" color="fg.default" fontWeight="600">
-                                    <IconeTechno icone={iconePour(r.name)}/>{r.name}
+                                    <IconeTechno icone={iconeCompetence(r.name)}/>{r.name}
                                 </Box>
                                 {r.desc}
                             </Box>
