@@ -2,11 +2,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://wilfriedbemelingue
 
 export default function robots() {
     return {
-        rules: {
-            userAgent: '*',
-            allow: '/',
-            disallow: '/ml-map',
-        },
+        rules: [
+            // Claude-User : recuperation a la demande d'un utilisateur (pas un crawler d'indexation),
+            // autorise partout, y compris /ml-map.
+            {userAgent: 'Claude-User', allow: '/'},
+            {userAgent: '*', allow: '/', disallow: '/ml-map'},
+        ],
         sitemap: `${SITE_URL}/sitemap.xml`,
         host: SITE_URL,
     }

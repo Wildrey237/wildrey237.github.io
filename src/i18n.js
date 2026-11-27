@@ -84,6 +84,12 @@ i18n
     .use(initReactI18next)
     .init({
         resources,
+        // Langue fixe au premier rendu : le serveur et le client produisent le meme HTML
+        // (pas d'erreur d'hydratation). La detection reelle est relancee apres montage
+        // dans app/page.jsx via i18n.changeLanguage().
+        lng: "fr",
+        supportedLngs: ["fr", "en"],
+        nonExplicitSupportedLngs: true,
         fallbackLng: "en",
         detection: {
             order: ["querystring", "localStorage", "cookie", "navigator", "htmlTag"],

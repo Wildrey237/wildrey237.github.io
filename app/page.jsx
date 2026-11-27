@@ -1,19 +1,16 @@
 'use client'
 
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import App from '../src/App'
+import i18n from '../src/i18n'
 
 export default function Page() {
-    // i18next detects the language on the client (navigator/localStorage). The
-    // server has no such context, so we render the translated tree only after
-    // mount to avoid a hydration mismatch. Matches the previous CSR behaviour.
-    const [mounted, setMounted] = useState(false)
-    useEffect(() => setMounted(true), [])
-
-    if (!mounted) {
-        // Dark canvas placeholder (matches initialColorMode 'dark') — no white flash.
-        return <div style={{minHeight: '100dvh', background: '#0b0d14'}} aria-hidden="true"/>
-    }
+    // Le HTML est rendu cote serveur en francais (lng fixe dans src/i18n.js), donc lisible
+    // sans JavaScript. Apres montage, changeLanguage() sans argument relance le detecteur
+    // (querystring, localStorage, cookie, navigateur) et bascule si besoin vers l'anglais.
+    useEffect(() => {
+        i18n.changeLanguage()
+    }, [])
 
     return <App/>
 }
