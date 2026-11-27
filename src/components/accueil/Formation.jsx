@@ -4,7 +4,7 @@
 import {Box, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
-import {Detail, Etiquette, Section, TexteRiche} from "./communs";
+import {APPARITION, Detail, Periode, Section, TexteRiche} from "./communs";
 
 export default function Formation() {
     const {t} = useTranslation();
@@ -14,11 +14,12 @@ export default function Formation() {
             <Box as="ol" listStyleType="none" p={0} m={0} borderTop="1px solid" borderColor="line.strong">
                 {education.map(f => (
                     <Grid as="li" key={f.id ?? f.school}
-                          templateColumns={{base: "1fr", md: "170px minmax(0, 1fr) minmax(0, 1.3fr)"}}
-                          gap={{base: 1, md: 8}} py={6} borderBottom="1px solid" borderColor="line.strong">
+                          templateColumns={{base: "1fr", md: "190px minmax(0, 1fr) minmax(0, 1.3fr)"}}
+                          gap={{base: 1, md: 6}} py={6} borderBottom="1px solid" borderColor="line.strong" {...APPARITION}>
                         <Box>
-                            <Etiquette as="p" lineHeight="1.6" pt={{md: "3px"}}>{f.years}</Etiquette>
-                            {f.current && (
+                            <Periode pt={{md: "2px"}}>{f.years}</Periode>
+                            {/* Pastille seulement si la periode ne dit pas deja "en cours". */}
+                            {f.current && !/(en cours|present)$/.test(f.years) && (
                                 <Text as="span" display="inline-block" mt={1} fontSize="12px" fontWeight="600"
                                       color="success.fg" bg="success.bg" px={2} py="1px" borderRadius="999px">
                                     {t("education.enCours")}

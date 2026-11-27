@@ -11,7 +11,7 @@ import {
 import {ArrowUpRight} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
-import {Etiquette, Puces, Section, TexteRiche} from "./communs";
+import {APPARITION, Etiquette, Puces, Section, TexteRiche} from "./communs";
 
 const FILTRES = ["tous", "ia-data", "systemes", "web", "personnel"];
 const VISIBLES = 6;
@@ -27,7 +27,7 @@ function CarteProjet({projet, masquee, onOuvrir}) {
     return (
         <Box as="li" display={masquee ? "none" : "flex"} flexDirection="column" bg="surface" border="1px solid"
              borderColor="line.strong" borderRadius="14px" p={5} transition="border-color .15s ease"
-             _hover={{borderColor: "accent"}}>
+             _hover={{borderColor: "accent"}} {...APPARITION}>
             <Etiquette as="p">{projet.school}</Etiquette>
             <Heading as="h3" mt={2} fontSize="18px" lineHeight="1.35">{projet.title}</Heading>
             {/* Description complete dans le HTML, tronquee a l'ecran. */}

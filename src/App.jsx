@@ -14,6 +14,7 @@ import Formation from "./components/accueil/Formation";
 import Certifications from "./components/accueil/Certifications";
 import Projets from "./components/accueil/Projets";
 import PiedDePage from "./components/accueil/PiedDePage";
+import {useApparition} from "./lib/apparition";
 
 function RetourEnHaut() {
     const {t} = useTranslation();
@@ -37,6 +38,7 @@ function RetourEnHaut() {
 
 export default function App() {
     const {t} = useTranslation();
+    useApparition();
     return (
         <>
             <Link href="#contenu" position="absolute" left="-9999px" top={2} zIndex={200} bg="accent" color="accent.contrast"

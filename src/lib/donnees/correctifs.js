@@ -197,4 +197,38 @@ export const CORRECTIFS = [
             return `${ORDRE_PROJETS.length + autres.length} projet(s) ordonne(s)`
         },
     },
+    {
+        id: '2026-11-27-scia-g-en-cours',
+        description: 'Formation SCIA-G : fin inconnue (null), affichee "2024 – en cours"',
+        async appliquer(db) {
+            const r = await db.collection('formations').updateOne(
+                {'ecole.fr': {$regex: '^EPITA – Spécialisation SCIA'}},
+                {$set: {fin: null, enCours: true}},
+            )
+            return r.matchedCount ? 'formation mise a jour' : 'formation SCIA-G introuvable'
+        },
+    },
+    {
+        id: '2026-11-27-doublon-prevision-boursiere',
+        description: 'Suppression du doublon "Prevision boursiere et gestion du risque par GNN" (garde la description la plus complete)',
+        async appliquer(db) {
+            const col = db.collection('projets')
+            const doublons = await col.find({_id: {$in: [
+                'prevision-boursiere-et-gestion-du-risque-par-gnn',
+                'prevision-boursiere-gestion-du-risque-par-gnn',
+            ]}}).toArray()
+            if (doublons.length < 2) return 'plus de doublon'
+            // La plus complete : la description FR + EN la plus longue.
+            const longueur = p => p.description.fr.length + p.description.en.length
+            doublons.sort((a, b) => longueur(b) - longueur(a))
+            const [garde, retire] = doublons
+            // Le projet garde reprend la place la plus haute des deux, et les noeuds lies a l'autre.
+            await col.updateOne({_id: garde._id}, {
+                $set: {ordre: Math.min(garde.ordre, retire.ordre)},
+                $addToSet: {noeuds: {$each: retire.noeuds ?? []}},
+            })
+            await col.deleteOne({_id: retire._id})
+            return `garde ${garde._id} (${longueur(garde)} car.), supprime ${retire._id} (${longueur(retire)} car.)`
+        },
+    },
 ]

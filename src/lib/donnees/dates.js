@@ -7,7 +7,14 @@ const MOIS = {
     fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
     en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 }
+// Affichage : mois abreges ("sept. 2026 – en cours").
+const MOIS_COURTS = {
+    fr: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+    en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+}
+// "En cours" : forme lue dans les JSON historiques ; en_cours : forme affichee.
 const EN_COURS = {fr: 'En cours', en: 'Present'}
+const EN_COURS_AFFICHE = {fr: 'en cours', en: 'present'}
 const SEPARATEUR = ' – '
 
 function lireBorne(texte) {
@@ -31,10 +38,10 @@ export function lirePeriode(texte) {
 }
 
 function formaterBorne(date, langue) {
-    if (date === null) return EN_COURS[langue]
+    if (date === null || date === undefined) return EN_COURS_AFFICHE[langue]
     const d = new Date(date)
     if (d.getUTCMonth() === 0 && d.getUTCDate() === 1) return String(d.getUTCFullYear())
-    return `${MOIS[langue][d.getUTCMonth()]} ${d.getUTCFullYear()}`
+    return `${MOIS_COURTS[langue][d.getUTCMonth()]} ${d.getUTCFullYear()}`
 }
 
 // Inverse de lirePeriode, dans la langue demandee.

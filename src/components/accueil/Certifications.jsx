@@ -5,7 +5,7 @@ import {Box, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import {ArrowUpRight} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
-import {Etiquette, Section} from "./communs";
+import {APPARITION, Etiquette, Section} from "./communs";
 
 export default function Certifications() {
     const {t, i18n} = useTranslation();
@@ -17,7 +17,7 @@ export default function Certifications() {
             <Grid as="ul" listStyleType="none" p={0} m={0} templateColumns="repeat(auto-fill, minmax(260px, 1fr))" gap={4}>
                 {certifications.map(c => (
                     <Box as="li" key={c.id} bg="surface" border="1px solid" borderColor="line.strong" borderRadius="14px"
-                         p={5} display="flex" flexDirection="column">
+                         p={5} display="flex" flexDirection="column" {...APPARITION}>
                         <Etiquette as="p">{c.issuer}</Etiquette>
                         <Heading as="h3" mt={2} fontSize="18px">{c.name}</Heading>
                         {c.date && <Text mt={1} fontSize="14px" color="fg.faint">{formatDate(c.date)}</Text>}

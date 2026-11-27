@@ -16,6 +16,19 @@ export function Etiquette({children, ...props}) {
     );
 }
 
+// Periode (experiences, formation) : monospace, minuscules, sur une ligne a partir de md.
+export function Periode({children, ...props}) {
+    return (
+        <Text as="p" fontFamily="mono" fontSize="13px" color="fg.faint" lineHeight="1.6"
+              whiteSpace={{md: "nowrap"}} {...props}>
+            {children}
+        </Text>
+    );
+}
+
+// Attribut des elements animes a l'apparition (voir src/lib/apparition.js).
+export const APPARITION = {"data-apparition": ""};
+
 // Liste de puces (tags).
 export function Puces({items, ...props}) {
     if (!items?.length) return null;
@@ -84,7 +97,7 @@ export function Detail({libelle, children}) {
 // Section de l'accueil. colonnes : titre a gauche (colle en haut), contenu a droite.
 export function Section({id, titre, intro, colonnes = false, children, ...props}) {
     const entete = (
-        <Box mb={colonnes ? 0 : {base: 8, md: 10}} maxW="60ch">
+        <Box mb={colonnes ? 0 : {base: 8, md: 10}} maxW="60ch" {...APPARITION}>
             <Heading as="h2" id={`${id}-titre`} fontSize={{base: "28px", md: "36px"}} lineHeight="1.15">
                 {titre}
             </Heading>

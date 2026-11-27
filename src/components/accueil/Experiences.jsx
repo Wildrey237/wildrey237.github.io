@@ -5,16 +5,20 @@
 import {Box, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
-import {Detail, Etiquette, Puces, Section, TexteRiche, couper} from "./communs";
+import {APPARITION, Detail, Periode, Puces, Section, TexteRiche, couper} from "./communs";
+
+const TAGS_VISIBLES = 6;
 
 function Experience({exp}) {
     const {t} = useTranslation();
     const {resume, suite} = couper(exp.description);
     const detail = [suite, exp.descriptionMore].filter(Boolean).join("\n\n");
+    const tags = exp.tags ?? [];
+    const tagsCaches = tags.slice(TAGS_VISIBLES);
     return (
-        <Grid as="li" templateColumns={{base: "1fr", md: "170px minmax(0, 1fr)"}} gap={{base: 2, md: 8}}
-              py={8} borderTop="1px solid" borderColor="line.subtle" _first={{borderTop: "none", pt: 0}}>
-            <Etiquette as="p" pt={{md: "5px"}} lineHeight="1.6">{exp.dates}</Etiquette>
+        <Grid as="li" templateColumns={{base: "1fr", md: "190px minmax(0, 1fr)"}} gap={{base: 2, md: 6}}
+              py={8} borderTop="1px solid" borderColor="line.subtle" _first={{borderTop: "none", pt: 0}} {...APPARITION}>
+            <Periode pt={{md: "3px"}}>{exp.dates}</Periode>
             <Box>
                 <Heading as="h3" fontSize="20px" lineHeight="1.3">{exp.title}</Heading>
                 <Text mt={1} color="fg.muted" fontSize="15px">
@@ -26,12 +30,13 @@ function Experience({exp}) {
                     {exp.city && <> · {exp.city}</>}
                 </Text>
                 <TexteRiche texte={resume} mt={3}/>
-                {detail && (
+                <Puces items={tags.slice(0, TAGS_VISIBLES)} mt={4}/>
+                {(detail || tagsCaches.length > 0) && (
                     <Detail libelle={t("experiences.seeDetail")}>
-                        <TexteRiche texte={detail}/>
+                        {detail && <TexteRiche texte={detail}/>}
+                        <Puces items={tagsCaches} mt={detail ? 4 : 1}/>
                     </Detail>
                 )}
-                <Puces items={exp.tags} mt={4}/>
             </Box>
         </Grid>
     );
