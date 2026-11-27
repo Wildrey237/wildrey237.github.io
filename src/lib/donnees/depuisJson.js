@@ -102,6 +102,7 @@ export function construireDocuments(fr, en, carte) {
             enCours: Boolean(identique(ctx, 'current', f.current ?? false, e.current ?? false)),
             details: bilingue(f.details, e.details),
             siteWeb: identique(ctx, 'website', f.website, e.website) || null,
+            logo: identique(ctx, 'logo', f.logo, e.logo) || null,
         }
     })
 

@@ -314,8 +314,9 @@
       "degree": "Major in Smart Computing for Artificial Graphs (4th and 5th years, final year in progress, CTI accredited)",
       "years": "2024 – 2025",
       "current": true,
-      "details": "EPITA is ranked among the top French engineering schools specializing in computer science and AI (Top 5 in IT-focused schools, CTI accredited). The SCIA‑G (Smart Computing for Artificial Graphs) major is one of its most advanced specializations, training engineers to design intelligent architectures on graph-structured data with a strong research and industry focus. The curriculum covers: graph neural networks (GNN, Graph Transformer, GCN, GAT), explainable AI (XAI), reinforcement learning (DQN, PPO, A3C), quantitative finance (stochastic modeling, Wiener processes, Black-Scholes), medical and biological data processing, MLOps (Docker, CI/CD, model deployment), convex and non-convex optimization, and natural language processing (NLP/LLMs). The pedagogy relies on research projects, competitive challenges, and real-world industrial use cases.",
-      "website": "https://www.epita.fr"
+      "details": "EPITA is ranked among the top French engineering schools specializing in computer science and AI (Top 5 in IT-focused schools, CTI accredited). The SCIA‑G (Smart Computing for Artificial Graphs) major is one of its most advanced specializations, training engineers to design intelligent architectures on graph-structured data with a strong research and industry focus. The curriculum covers: graph neural networks (GNN, Graph Transformer, GCN, GAT), explainable AI (XAI), reinforcement learning (DQN, PPO, A3C), stochastic modeling applied to machine learning, medical and biological data processing, MLOps (Docker, CI/CD, model deployment), convex and non-convex optimization, and natural language processing (NLP/LLMs). The pedagogy relies on research projects, competitive challenges, and real-world industrial use cases.",
+      "website": "https://www.epita.fr",
+      "logo": "/logos/epita.png"
     },
     {
       "school": "EPITA – Le Kremlin-Bicêtre",
@@ -323,13 +324,15 @@
       "years": "September 2023 – 2024",
       "current": false,
       "details": "EPITA is ranked among the top French engineering schools specialized in computer science (Top 5, CTI accredited). The 3rd year forms the core common curriculum before specialization, and its reputation is largely built on the infamous 'piscines' — intensive 3 to 5-day deep dives where students are literally immersed in code, often coding late into the night. During a piscine, a single theme (algorithmics, C systems programming, networking, compilation, databases) is worked on continuously, with progressive exercises, mini-projects due each evening, and constant collective pressure. There is no room for distraction: logic, syntactic precision, and stress management are tested simultaneously. On top of these, 'rush' projects push teams to deliver a functional piece of software in 48 to 72 hours. This year builds rare technical resilience, an intense relationship with code, and the ability to perform in high-demand professional environments.",
-      "website": "https://www.epita.fr"
+      "website": "https://www.epita.fr",
+      "logo": "/logos/epita.png"
     },
     {
       "school": "ECE Paris",
       "degree": "2nd Year of RNCP Bachelor",
       "years": "September 2022 – April 2023",
       "details": "ECE Paris is a generalist engineering school founded in 1919, ranked among the top 20 French post-bac schools (L'Étudiant ranking) and CTI accredited. Its RNCP Bachelor (Level 6) prepares students for careers in digital technology and engineering. In the 2nd year, the curriculum covers: object-oriented programming (Java, Python), algorithms and data structures, relational databases (SQL), networking and protocols (TCP/IP, HTTP), web development (HTML, CSS, JavaScript), applied mathematics (linear algebra, calculus, probability), and an introduction to embedded systems. Courses are built around multidisciplinary team projects that develop project management skills and professional application of technical knowledge.",
+      "logo": "/logos/ece.png",
       "website": "https://www.ece.fr"
     },
     {
@@ -337,6 +340,7 @@
       "degree": "1st Year of RNCP Bachelor",
       "years": "September 2021 – April 2022",
       "details": "EPSI (École Professionnelle des Sciences Informatiques) is a school specializing in digital technology, offering RNCP-accredited programs. The 1st year of the Bachelor lays the foundations of software development: basic algorithmics, front-end web development (HTML, CSS, JavaScript), object-oriented programming (Java, PHP), database management (SQL, MySQL), introduction to Linux systems and local networking. The pedagogy is project-driven from day one, with real team deliverables that simulate production conditions and professional workflows.",
+      "logo": "/logos/epsi.png",
       "website": "https://www.epsi.fr"
     },
     {
