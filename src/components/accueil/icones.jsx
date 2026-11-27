@@ -1,7 +1,13 @@
-// Icones de technologies (simple-icons, licence CC0), en une seule couleur qui suit le texte.
-// Correspondance explicite nom de competence -> icone. Rien pour les notions abstraites
-// (GNN, XAI, Optimisation...) ni pour les marques absentes de simple-icons (AWS, Tableau,
-// Power BI, Matplotlib, Seaborn) : pas d'icone plutot qu'une icone inventee.
+// Icones de technologies, en une seule couleur qui suit le texte.
+// - iconePour : logo de la marque (simple-icons, licence CC0 ; AWS via react-icons), sinon rien.
+// - iconeCompetence : logo de la marque, sinon une icone generique Lucide qui evoque la notion
+//   (GNN, XAI, Optimisation...) ou l'usage (Tableau, Power BI, Matplotlib, Seaborn n'ont pas de
+//   logo disponible : icone de graphique, jamais un faux logo).
+import {
+    Activity, Bot, Braces, Brain, ChartArea, ChartBar, ChartColumn, ChartLine, ChartScatter, Database, Dices, Eye,
+    Grid3x3, Infinity as Boucle, Languages, MessageSquareText, Network, Sparkles, Target, TrendingDown, Workflow,
+} from "lucide-react";
+import {FaAws} from "react-icons/fa6";
 import {
     siApacheairflow, siApachespark, siDataiku, siDocker, siGit, siGitlab, siGnubash, siHuggingface, siJupyter,
     siKubernetes, siLanggraph, siLinux, siMlflow, siMongodb, siMysql, siNeo4j, siPostgresql, siPython, siPytorch, siR,
@@ -34,15 +40,52 @@ const CORRESPONDANCES = [
     [/^langgraph/i, siLanggraph],
     [/^streamlit/i, siStreamlit],
     [/^dataiku/i, siDataiku],
+    [/^aws$/i, FaAws],
 ];
 
+// Notions sans marque (FR ou EN) -> icone generique.
+const NOTIONS = [
+    [/^machine learning/i, Brain],
+    [/^graph neural/i, Network],
+    [/^reinforcement/i, Target],
+    [/^explainable|^ia explicable/i, Eye],
+    [/^gan$/i, Sparkles],
+    [/^llm/i, MessageSquareText],
+    [/^nlp/i, Languages],
+    [/multi-agent/i, Bot],
+    [/^mlops/i, Boucle],
+    [/^sql$/i, Database],
+    [/pipelines|etl/i, Workflow],
+    [/^alg[eè]bre lin|^linear algebra/i, Grid3x3],
+    [/probabilit/i, Dices],
+    [/^optimi[sz]ation/i, TrendingDown],
+    [/stochasti/i, Activity],
+    [/^s[eé]ries temporelles|^time series/i, ChartLine],
+    [/^api rest|^rest api/i, Braces],
+    [/^tableau$/i, ChartBar],
+    [/^power bi/i, ChartColumn],
+    [/^matplotlib/i, ChartScatter],
+    [/^seaborn/i, ChartArea],
+];
+
+const chercher = (liste, nom) => liste.find(([motif]) => motif.test(nom.trim()))?.[1] ?? null;
+
 export function iconePour(nom) {
-    return CORRESPONDANCES.find(([motif]) => motif.test(nom.trim()))?.[1] ?? null;
+    return chercher(CORRESPONDANCES, nom);
+}
+
+export function iconeCompetence(nom) {
+    return iconePour(nom) ?? chercher(NOTIONS, nom);
 }
 
 // Icone SVG monochrome (couleur du texte), decorative.
 export function IconeTechno({icone, taille = 14}) {
     if (!icone) return null;
+    // Composant React (Lucide, react-icons) plutot qu'un trace simple-icons.
+    if (!icone.path) {
+        const Icone = icone;
+        return <Icone size={taille} aria-hidden="true" focusable="false" style={{flexShrink: 0}}/>;
+    }
     return (
         <svg viewBox="0 0 24 24" width={taille} height={taille} fill="currentColor" aria-hidden="true"
              focusable="false" style={{flexShrink: 0}}>

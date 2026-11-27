@@ -139,10 +139,6 @@
       {
         "name": "Systèmes multi-agents",
         "desc": "Conception et coordination d’agents autonomes qui collaborent pour résoudre des tâches complexes (orchestration, communication, arbitrage)."
-      },
-      {
-        "name": "IA Médicale",
-        "desc": "Traitement de données médicales (DICOM, METS), classification et segmentation avec MONAI et PyTorch, métriques spécifiques (Dice, Recall)."
       }
     ],
     "data_engineering": [
