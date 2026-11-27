@@ -24,6 +24,11 @@ async function contexte() {
     return c
 }
 
+// Pastille de filtre d'une bande ("Projets" porte un compteur : "Projets · 9").
+const NOMS = {math: 'Maths', ml: 'ML / DL', graph: 'Graphes', algo: 'Algo', data: 'Données', proj: /^Projets · \d+$/}
+const pastille = (page, b) => page.getByRole('group', {name: 'Filtrer la carte par bande'})
+    .getByRole('button', typeof NOMS[b] === 'string' ? {name: NOMS[b], exact: true} : {name: NOMS[b]})
+
 before(async () => {
     if (sauter) return
     navigateur = await chromium.launch({channel: 'chrome'})
@@ -111,8 +116,7 @@ describe('visiteur sans session', () => {
         for (const bandes of [['math'], ['ml'], ['graph'], ['algo'], ['data'], ['proj'], ['math', 'ml']]) {
             await page.getByRole('button', {name: 'Tout', exact: true}).click()
             for (const b of bandes) {
-                const nom = {math: 'Maths', ml: 'ML / DL', graph: 'Graphes', algo: 'Algo', data: 'Données', proj: 'Projets'}[b]
-                await page.getByRole('group', {name: 'Filtrer la carte par bande'}).getByRole('button', {name: nom, exact: true}).click()
+                await pastille(page, b).click()
             }
             await page.waitForFunction(attendu => new URL(location.href).searchParams.get('bandes') === attendu, bandes.join(','))
             const cartes = await page.$$eval('[data-carte-cadre] [data-noeud]', els => els.map(e => ({id: e.dataset.noeud, fantome: e.hasAttribute('data-fantome')})))
@@ -149,6 +153,30 @@ describe('filtre Maths + Projets et prerequis externes', () => {
         for (const libelle of ['Machine / Deep Learning', 'Graphes', 'Algorithmique', 'Données et mise en production']) {
             assert.ok(!r.texte.includes(libelle), `libelle de bande ${libelle} dans le DOM`)
         }
+    })
+
+    test('Projets combine : seulement les projets rattaches aux bandes choisies ; Projets seul = 32 ; compteur', {skip: sauter}, async () => {
+        const carte = await import('../../src/components/PrereqMap/prereqMapData.js')
+        const prerequis = new Map(carte.NODES.map(n => [n.id, n.p ?? []]))
+        const lire = () => page.$$eval('[data-carte-cadre] [data-noeud]', els => els.map(e => ({id: e.dataset.noeud, fantome: e.hasAttribute('data-fantome')})))
+        for (const [bandes, autre] of [[['ml', 'proj'], 'ml'], [['math', 'proj'], 'math'], [['proj'], null]]) {
+            await page.getByRole('button', {name: 'Tout', exact: true}).click()
+            for (const b of bandes) await pastille(page, b).click()
+            await page.waitForFunction(attendu => new URL(location.href).searchParams.get('bandes') === attendu, bandes.join(','))
+            await page.waitForTimeout(300)
+            const projets = (await lire()).filter(c => tk[c.id] === 'proj' && !c.fantome).map(c => c.id)
+            if (autre) {
+                assert.ok(projets.length > 0, `aucun projet pour ${bandes}`)
+                for (const id of projets) assert.ok(prerequis.get(id).some(p => tk[p] === autre), `${id} affiche avec ${bandes} sans prerequis ${autre}`)
+            } else {
+                assert.equal(projets.length, 32, 'Projets seul : 32 projets attendus')
+            }
+            assert.match(await pastille(page, 'proj').textContent(), new RegExp(`Projets · ${projets.length}$`))
+        }
+        // Retour au filtre Maths + Projets pour les tests suivants.
+        await page.getByRole('button', {name: 'Tout', exact: true}).click()
+        for (const b of ['math', 'proj']) await pastille(page, b).click()
+        await page.waitForFunction(() => new URL(location.href).searchParams.get('bandes') === 'math,proj')
     })
 
     test('case cochee : seuls les prerequis directs apparaissent en fantome', {skip: sauter}, async () => {

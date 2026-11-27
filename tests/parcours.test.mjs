@@ -2,7 +2,7 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import * as carte from '../src/components/PrereqMap/prereqMapData.js'
-import {BANDES_CARTE, IDS_BANDES, RAILS, autourDeMoi, avancement, construireModele, filtrerParBandes, voisinage} from '../src/lib/parcours/modele.js'
+import {BANDES_CARTE, IDS_BANDES, RAILS, autourDeMoi, avancement, construireModele, filtrerParBandes, rattachement, voisinage} from '../src/lib/parcours/modele.js'
 import {CARTE, cibleInitiale, disposerFlux, englobant, hauteurPort, vuePour, vueSelection} from '../src/lib/parcours/flux.js'
 
 const ETATS = ['non commence', 'en cours', 'maitrise']
@@ -126,6 +126,32 @@ test('filtre par bande (carte complete et Autour de moi) : chaque bande seule et
             verifierFiltre(m, disposerFlux(m, avec.ids, {fantomes: avec.fantomes}), bandes)
         }
     }
+})
+
+test('filtre Projets : seul = 32 projets ; avec d autres bandes = projets rattaches ; sans Projets = aucun', () => {
+    const m = construireModele(base)
+    const projets = ids => ids.filter(id => tk[id] === 'proj')
+    assert.equal(projets(filtrerParBandes(m, tous, ['proj']).ids).length, 32)
+    // Fraude v0 (ML2, ML3, ML4, D1) : avec ML / DL et avec Donnees, pas avec Maths.
+    assert.deepEqual([...rattachement(m, 'p_fraud')].sort(), ['data', 'ml'])
+    assert.ok(filtrerParBandes(m, tous, ['ml', 'proj']).ids.includes('p_fraud'))
+    assert.ok(filtrerParBandes(m, tous, ['data', 'proj']).ids.includes('p_fraud'))
+    assert.ok(!filtrerParBandes(m, tous, ['math', 'proj']).ids.includes('p_fraud'))
+    for (const autres of [['ml'], ['math'], ['graph'], ['data'], ['algo'], ['math', 'ml'], ['graph', 'data']]) {
+        const {ids} = filtrerParBandes(m, tous, [...autres, 'proj'])
+        const attendus = base.filter(n => n.bande === 'proj' && n.prerequis.some(p => autres.includes(tk[p]))).map(n => n.id).sort()
+        assert.deepEqual(projets(ids).sort(), attendus, `projets pour ${autres} + Projets`)
+        // Sans "Projets" : aucun projet.
+        assert.equal(projets(filtrerParBandes(m, tous, autres).ids).length, 0, `projet affiche sans Projets (${autres})`)
+        // Prerequis externes : seulement des prerequis directs de bandes non choisies, en fantome.
+        const avec = filtrerParBandes(m, tous, [...autres, 'proj'], {externes: true})
+        for (const f of avec.fantomes) assert.ok(![...autres, 'proj'].includes(tk[f]), `fantome ${f} dans une bande choisie`)
+        const d = disposerFlux(m, avec.ids, {fantomes: avec.fantomes})
+        const visibles = new Set(avec.ids)
+        for (const l of d.liens) assert.ok(visibles.has(l.source) && visibles.has(l.target), `lien vers un noeud masque ${l.id}`)
+    }
+    // Maths + Projets : 10 projets (dont Diffusion, M5 + gen, et Trader, rattache a plusieurs bandes).
+    assert.equal(projets(filtrerParBandes(m, tous, ['math', 'proj']).ids).length, 10)
 })
 
 test('cadrage initial : noeuds en cours et voisins, sinon premiere colonne ; zoom jamais sous 80 %', () => {
