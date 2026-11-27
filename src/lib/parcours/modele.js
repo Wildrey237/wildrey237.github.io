@@ -116,13 +116,15 @@ export function avancement(modele, rail) {
     return {total: tous.length, maitrises: compte('maitrise'), enCours: compte('en-cours'), prochaine}
 }
 
-// Filtre par bande : noeuds des bandes choisies, plus leurs prerequis venus d'autres bandes
-// en version "fantome" (contexte). bandes = null ou vide : pas de filtre.
-export function filtrerParBandes(modele, ids, bandes) {
+// Filtre par bande : seuls les noeuds des bandes choisies (les autres bandes disparaissent).
+// externes = true : leurs prerequis directs venus d'autres bandes sont ajoutes en "fantomes",
+// sans le reste de leur bande. bandes = null ou vide : pas de filtre.
+export function filtrerParBandes(modele, ids, bandes, {externes = false} = {}) {
     if (!bandes?.length) return {ids, fantomes: new Set()}
     const choix = new Set(bandes)
     const visibles = ids.filter(id => choix.has(modele.parId.get(id).bande))
     const fantomes = new Set()
+    if (!externes) return {ids: visibles, fantomes}
     for (const id of visibles) {
         for (const p of modele.parId.get(id).prerequis) {
             if (modele.parId.has(p) && !choix.has(modele.parId.get(p).bande)) fantomes.add(p)
@@ -135,4 +137,23 @@ export function filtrerParBandes(modele, ids, bandes) {
 export function lireBandes(texte) {
     const demandees = new Set(String(texte ?? '').split(',').map(b => b.trim()))
     return IDS_BANDES.filter(b => demandees.has(b))
+}
+
+// Voisinage d'un noeud pour la surbrillance : prerequis (amont) et noeuds debloques (aval).
+// chaine = true : tous les prerequis en amont et tout ce qui est debloque en aval.
+export function voisinage(modele, id, chaine = false) {
+    const amont = new Set(), aval = new Set()
+    if (!modele.parId.has(id)) return {amont, aval}
+    const parcourir = (depart, suivants, ensemble) => {
+        const pile = [...suivants(depart)]
+        while (pile.length) {
+            const n = pile.pop()
+            if (ensemble.has(n) || n === id || !modele.parId.has(n)) continue
+            ensemble.add(n)
+            if (chaine) pile.push(...suivants(n))
+        }
+    }
+    parcourir(id, n => modele.parId.get(n).prerequis, amont)
+    parcourir(id, n => modele.successeurs.get(n) ?? [], aval)
+    return {amont, aval}
 }
