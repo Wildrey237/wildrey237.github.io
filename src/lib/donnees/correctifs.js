@@ -265,4 +265,47 @@ export const CORRECTIFS = [
             return `${premiers.length} projet(s) phare(s)`
         },
     },
+    {
+        id: '2026-11-27-epita-stochastique-logo',
+        description: 'Formations EPITA : "finance quantitative" remplace par la modelisation stochastique pour le ML, logo EPITA',
+        async appliquer(db) {
+            const col = db.collection('formations')
+            let n = 0
+            for (const f of await col.find({'ecole.fr': {$regex: '^EPITA'}}).toArray()) {
+                const details = {
+                    fr: f.details.fr.replace(/la finance quantitative \([^)]*\)/, 'la modélisation stochastique appliquée au machine learning'),
+                    en: f.details.en.replace(/quantitative finance \([^)]*\)/, 'stochastic modeling applied to machine learning'),
+                }
+                await col.updateOne({_id: f._id}, {$set: {details, logo: f.logo || '/logos/epita.png'}})
+                n++
+            }
+            return `${n} formation(s) EPITA mise(s) a jour`
+        },
+    },
+    {
+        id: '2026-11-27-logos-ca-ece-epsi',
+        description: 'Logos : Credit Agricole CIB (experience), ECE et EPSI (formations), si aucun logo n est defini',
+        async appliquer(db) {
+            const poser = (col, filtre, logo) => db.collection(col).updateMany(
+                {...filtre, $or: [{logo: null}, {logo: ''}, {logo: {$exists: false}}]}, {$set: {logo}})
+            const r = await Promise.all([
+                poser('experiences', {'entreprise.fr': {$regex: '^Crédit Agricole'}}, '/logos/credit-agricole-cib.png'),
+                poser('formations', {'ecole.fr': {$regex: '^ECE'}}, '/logos/ece.png'),
+                poser('formations', {'ecole.fr': {$regex: '^EPSI'}}, '/logos/epsi.png'),
+            ])
+            return `${r.reduce((n, x) => n + x.modifiedCount, 0)} logo(s) pose(s)`
+        },
+    },
+    {
+        id: '2026-11-27-logos-comutitres-saint-jean',
+        description: 'Logos : Comutitres en local (remplace le SVG distant), Universite Saint Jean',
+        async appliquer(db) {
+            const a = await db.collection('experiences').updateMany(
+                {'entreprise.fr': {$regex: '^COMUTITRES'}}, {$set: {logo: '/logos/comutitres.png'}})
+            const b = await db.collection('formations').updateMany(
+                {'ecole.fr': {$regex: '^Université Saint Jean'}, $or: [{logo: null}, {logo: ''}, {logo: {$exists: false}}]},
+                {$set: {logo: '/logos/saint-jean.png'}})
+            return `${a.modifiedCount + b.modifiedCount} logo(s) pose(s)`
+        },
+    },
 ]
