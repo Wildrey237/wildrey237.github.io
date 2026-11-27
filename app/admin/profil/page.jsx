@@ -30,8 +30,9 @@ export default async function AdminProfil({searchParams}) {
                 <ChampBilingue nom="titre" libelle="Titre" valeur={p.titre}/>
                 <ChampBilingue nom="resume" libelle="Resume" valeur={p.resume} long/>
                 <ChampBilingue nom="cvUrl" libelle="Lien du CV" valeur={p.cvUrl}/>
-                <ChampBilingue nom="recherche" libelle="Recherche en cours" valeur={p.recherche} requis={false}/>
-                <ChampBilingue nom="rolesTypewriter" libelle="Roles animes" valeur={p.rolesTypewriter} liste/>
+                <ChampBilingue nom="recherche" libelle="Badge de disponibilité (vide = masqué)" valeur={p.recherche} requis={false}/>
+                <ChampBilingue nom="langues" libelle="Langues (encart du hero)" valeur={p.langues} requis={false}/>
+                <ChampBilingue nom="rolesTypewriter" libelle="Rôles (non affichés depuis la refonte)" valeur={p.rolesTypewriter} liste/>
                 <p><button type="submit">Enregistrer</button></p>
             </form>
         </>

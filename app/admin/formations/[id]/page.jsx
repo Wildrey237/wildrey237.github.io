@@ -8,6 +8,7 @@ import Message from '../../Message'
 import ChampBilingue from '../../ChampBilingue'
 import ChampPeriode from '../../ChampPeriode'
 import Suppression from '../../Suppression'
+import ChampLogo from '../../ChampLogo'
 
 export default async function FicheFormation({params, searchParams}) {
     await exigerSession()
@@ -42,6 +43,7 @@ export default async function FicheFormation({params, searchParams}) {
                         <input id="siteWeb" name="siteWeb" defaultValue={f.siteWeb ?? ''}/>
                     </div>
                 </div>
+                <ChampLogo valeur={f.logo}/>
                 <ChampBilingue nom="details" libelle="Details" valeur={f.details} long/>
                 <p><button type="submit">{nouveau ? 'Creer' : 'Enregistrer'}</button></p>
             </form>

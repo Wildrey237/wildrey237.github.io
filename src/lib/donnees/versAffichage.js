@@ -3,9 +3,15 @@
 // Les dates sont formatees ici : seuls des objets simples sont transmis au client.
 
 import {formaterPeriode} from './dates.js'
-import {CATEGORIES_COMPETENCES} from './schemas.js'
+import {CATEGORIES_COMPETENCES, SECTIONS_ACCUEIL} from './schemas.js'
 
 const parOrdre = (a, b) => a.ordre - b.ordre
+
+// Ordre des sections : celui du profil, complete par les sections manquantes (ordre par defaut).
+function ordreSections(ordre) {
+    const connues = (ordre ?? []).filter(s => SECTIONS_ACCUEIL.includes(s))
+    return [...new Set([...connues, ...SECTIONS_ACCUEIL])]
+}
 
 function pourLangue(docs, l) {
     const p = docs.profil
@@ -20,7 +26,9 @@ function pourLangue(docs, l) {
             linkedin: p.linkedin,
             github: p.github,
             cvLink: p.cvUrl[l],
-            search: p.recherche[l],
+            // Texte du badge de disponibilite (vide = pas de badge).
+            availability: p.recherche?.[l] ?? '',
+            languages: p.langues?.[l] ?? '',
             link_picture: p.photoUrl,
             typewriter_roles: p.rolesTypewriter[l],
         },
@@ -50,6 +58,7 @@ function pourLangue(docs, l) {
             degree: f.diplome[l],
             years: formaterPeriode(f.debut, f.fin, l),
             current: f.enCours,
+            logo: f.logo ?? null,
             details: f.details[l],
             website: f.siteWeb ?? '',
         })),
@@ -64,11 +73,21 @@ function pourLangue(docs, l) {
             link: pr.lien ?? '#',
             status: pr.statut,
             noeuds: pr.noeuds,
+            domain: pr.domaine ?? null,
+            personal: Boolean(pr.personnel),
+        })),
+        sections: ordreSections(p.ordreSections),
+        certifications: [...(docs.certifications ?? [])].sort(parOrdre).map(c => ({
+            id: c._id,
+            name: c.nom,
+            issuer: c.organisme,
+            date: c.date ? new Date(c.date).toISOString().slice(0, 10) : null,
+            link: c.lien ?? null,
         })),
     }
 }
 
-// docs : {profil, experiences, formations, projets, competences} -> {fr, en}
+// docs : {profil, experiences, formations, projets, competences, certifications} -> {fr, en}
 export function versAffichage(docs) {
     return {fr: pourLangue(docs, 'fr'), en: pourLangue(docs, 'en')}
 }

@@ -3,7 +3,9 @@ import {notFound} from 'next/navigation'
 import {getDb} from '../../../../src/lib/mongodb'
 import {exigerSession} from '../../../../src/lib/admin/garde'
 import {listeNoeuds, ordreSuivant} from '../../../../src/lib/admin/pages'
-import {STATUTS_PROJET} from '../../../../src/lib/donnees/schemas'
+import {DOMAINES_PROJET, STATUTS_PROJET} from '../../../../src/lib/donnees/schemas'
+
+const NOMS_DOMAINES = {'ia-data': 'IA & Data', systemes: 'Systèmes', web: 'Web'}
 import {enregistrerProjet} from '../../actions'
 import Message from '../../Message'
 import ChampBilingue from '../../ChampBilingue'
@@ -44,6 +46,18 @@ export default async function FicheProjet({params, searchParams}) {
                     <div>
                         <label htmlFor="ordre">Ordre d&apos;affichage (0 = en premier)</label>
                         <input id="ordre" name="ordre" type="number" min="0" defaultValue={p.ordre} required/>
+                    </div>
+                    <div>
+                        <label htmlFor="domaine">Domaine (filtre de l’accueil)</label>
+                        <select id="domaine" name="domaine" defaultValue={p.domaine ?? ''}>
+                            <option value="">Aucun (seulement sous « Tous »)</option>
+                            {DOMAINES_PROJET.map(d => <option key={d} value={d}>{NOMS_DOMAINES[d]}</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <label style={{display: 'flex', alignItems: 'center', marginTop: 34}}>
+                            <input type="checkbox" name="personnel" defaultChecked={Boolean(p.personnel)}/> Projet personnel (filtre « Personnel »)
+                        </label>
                     </div>
                     <div>
                         <label htmlFor="badge">Badge (vide = aucun)</label>

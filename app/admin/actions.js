@@ -11,9 +11,10 @@ import {revalidatePath} from 'next/cache'
 import {getDb} from '../../src/lib/mongodb'
 import {exigerSession} from '../../src/lib/admin/garde'
 import {COOKIE_SESSION, DUREE_SESSION, creerJeton, egaliteSure} from '../../src/lib/admin/session'
-import {CATEGORIES_COMPETENCES, ETATS_NOEUD, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
+import {CATEGORIES_COMPETENCES, DOMAINES_PROJET, ETATS_NOEUD, SECTIONS_ACCUEIL, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
 import {lireSaisieDate} from '../../src/lib/donnees/dates'
 import {slug} from '../../src/lib/donnees/depuisJson'
+import {ErreurTeleversement, televerserLogo} from '../../src/lib/admin/televersement'
 
 // ---------- utilitaires de saisie ----------
 
@@ -97,7 +98,7 @@ async function executer(chemin, ecriture) {
     try {
         resultat = await ecriture()
     } catch (e) {
-        if (e instanceof ErreurSaisie) redirect(avecMessage(chemin, 'erreur', e.message))
+        if (e instanceof ErreurSaisie || e instanceof ErreurTeleversement) redirect(avecMessage(chemin, 'erreur', e.message))
         if (e?.code === 121) redirect(avecMessage(chemin, 'erreur', 'Refuse par le validateur MongoDB (champ manquant ou valeur interdite)'))
         throw e
     }
@@ -159,6 +160,7 @@ export async function modifierProfil(formData) {
             cvUrl: bilingueObligatoire(formData, 'cvUrl'),
             photoUrl: obligatoire(url(formData, 'photoUrl'), 'photoUrl'),
             recherche: bilingue(formData, 'recherche'),
+            langues: bilingue(formData, 'langues'),
             rolesTypewriter: bilingueLignes(formData, 'rolesTypewriter'),
         }
         if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(champs.email)) throw new ErreurSaisie('Email invalide')
@@ -167,6 +169,21 @@ export async function modifierProfil(formData) {
         rafraichirSite()
         return {message: 'Profil enregistre'}
     })
+}
+
+// ---------- organisation de l'accueil ----------
+
+// Appelee depuis le composant client de /admin/organisation (glisser-deposer ou boutons).
+// Renvoie un resultat au lieu de rediriger : l'enregistrement est automatique.
+export async function enregistrerOrdreSections(ordre) {
+    await exigerSession()
+    const valide = Array.isArray(ordre) && ordre.length === SECTIONS_ACCUEIL.length
+        && SECTIONS_ACCUEIL.every(s => ordre.includes(s))
+    if (!valide) return {ok: false, erreur: 'Ordre invalide'}
+    const db = await getDb()
+    await db.collection('profil').updateOne({_id: 'profil'}, {$set: {ordreSections: ordre}})
+    rafraichirSite()
+    return {ok: true}
 }
 
 // ---------- experiences ----------
@@ -191,6 +208,7 @@ export async function enregistrerExperience(formData) {
     const id = texte(formData, 'id')
     await executer(`/admin/experiences/${encodeURIComponent(id || 'nouveau')}`, async () => {
         const champs = champsExperience(formData)
+        champs.logo = (await televerserLogo(formData.get('fichierLogo'), slug(champs.entreprise.fr))) ?? champs.logo
         const col = (await getDb()).collection('experiences')
         rafraichirSite()
         if (!id) {
@@ -215,6 +233,7 @@ function champsFormation(fd) {
         enCours: fd.get('enCours') === 'on',
         details: bilingueObligatoire(fd, 'details'),
         siteWeb: url(fd, 'siteWeb'),
+        logo: url(fd, 'logo'),
     }
 }
 
@@ -223,6 +242,7 @@ export async function enregistrerFormation(formData) {
     const id = texte(formData, 'id')
     await executer(`/admin/formations/${encodeURIComponent(id || 'nouveau')}`, async () => {
         const champs = champsFormation(formData)
+        champs.logo = (await televerserLogo(formData.get('fichierLogo'), slug(champs.ecole.fr))) ?? champs.logo
         const col = (await getDb()).collection('formations')
         rafraichirSite()
         if (!id) {
@@ -256,15 +276,19 @@ export async function enregistrerProjet(formData) {
             lien: url(formData, 'lien'),
             statut,
             noeuds: await noeudsValides(db, formData),
+            personnel: formData.get('personnel') === 'on',
         }
+        const domaine = texte(formData, 'domaine')
+        if (domaine && !DOMAINES_PROJET.includes(domaine)) throw new ErreurSaisie(`Domaine inconnu : ${domaine}`)
         const col = db.collection('projets')
         rafraichirSite()
         if (!id) {
             const _id = await nouvelId(col, champs.titre.fr)
-            await col.insertOne({_id, ...champs})
+            await col.insertOne({_id, ...champs, ...(domaine ? {domaine} : {})})
             return {message: 'Projet cree', chemin: `/admin/projets/${encodeURIComponent(_id)}`}
         }
-        const r = await col.updateOne({_id: id}, {$set: champs})
+        // Domaine vide = retire (le projet n'apparait alors que sous "Tous").
+        const r = await col.updateOne({_id: id}, domaine ? {$set: {...champs, domaine}} : {$set: champs, $unset: {domaine: ''}})
         if (!r.matchedCount) throw new ErreurSaisie(`Projet inconnu : ${id}`)
         return {message: 'Projet enregistre'}
     })
@@ -299,10 +323,37 @@ export async function enregistrerCompetence(formData) {
     })
 }
 
-// ---------- suppression (experiences, formations, projets, competences) ----------
+// ---------- certifications ----------
+
+export async function enregistrerCertification(formData) {
+    await exigerSession()
+    const id = texte(formData, 'id')
+    await executer(`/admin/certifications/${encodeURIComponent(id || 'nouveau')}`, async () => {
+        const champs = {
+            ordre: entier(formData, 'ordre'),
+            nom: obligatoire(texte(formData, 'nom'), 'nom'),
+            organisme: obligatoire(texte(formData, 'organisme'), 'organisme'),
+            date: date(formData, 'date'),
+            lien: url(formData, 'lien'),
+        }
+        const col = (await getDb()).collection('certifications')
+        rafraichirSite()
+        if (!id) {
+            const _id = await nouvelId(col, champs.nom)
+            await col.insertOne({_id, ...champs})
+            return {message: 'Certification creee', chemin: `/admin/certifications/${encodeURIComponent(_id)}`}
+        }
+        const r = await col.updateOne({_id: id}, {$set: champs})
+        if (!r.matchedCount) throw new ErreurSaisie(`Certification inconnue : ${id}`)
+        return {message: 'Certification enregistree'}
+    })
+}
+
+// ---------- suppression (experiences, formations, projets, competences, certifications) ----------
 
 const SUPPRIMABLES = {
     experiences: 'Experience', formations: 'Formation', projets: 'Projet', competences: 'Competence',
+    certifications: 'Certification',
 }
 
 export async function supprimerElement(formData) {

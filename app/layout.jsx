@@ -1,9 +1,15 @@
+import {Inter, JetBrains_Mono, Space_Grotesk} from 'next/font/google'
 import {Providers} from './providers'
 import {GoogleAnalytics} from '@next/third-parties/google'
 import {Analytics} from '@vercel/analytics/react'
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import '../src/index.css'
 import '../src/App.css'
+
+// Polices de la charte, auto-hebergees par next/font (pas de requete vers Google au chargement).
+const spaceGrotesk = Space_Grotesk({subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-space-grotesk', display: 'swap'})
+const inter = Inter({subsets: ['latin'], variable: '--font-inter', display: 'swap'})
+const jetbrainsMono = JetBrains_Mono({subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-jetbrains-mono', display: 'swap'})
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://wilfriedbemelingue.vercel.app'
 const GA_ID = 'G-QSFT7C8DBJ'
@@ -60,7 +66,10 @@ export const metadata = {
 }
 
 export const viewport = {
-    themeColor: '#0b0d14',
+    themeColor: [
+        {media: '(prefers-color-scheme: light)', color: '#F6F5F1'},
+        {media: '(prefers-color-scheme: dark)', color: '#0F1115'},
+    ],
     width: 'device-width',
     initialScale: 1,
 }
@@ -104,20 +113,14 @@ const personJsonLd = {
 
 export default function RootLayout({children}) {
     return (
-        <html lang="fr" suppressHydrationWarning>
+        <html lang="fr" className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
         <head>
-            <link rel="preconnect" href="https://fonts.googleapis.com"/>
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
-            <link
-                href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-                rel="stylesheet"/>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{__html: JSON.stringify(personJsonLd)}}
             />
         </head>
         <body suppressHydrationWarning>
-        <noscript>Vous devez activer JavaScript pour voir ce site.</noscript>
         <Providers>{children}</Providers>
         <Analytics/>
         <SpeedInsights/>

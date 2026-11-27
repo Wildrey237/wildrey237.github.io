@@ -77,3 +77,14 @@ time,
   white-space: nowrap;
   border: 0;
 }
+
+/* Apparition au defilement (src/lib/apparition.js) : 0,3 s, rien si mouvement reduit. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-apparition] {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+  [data-apparition][data-apparition-etat="attente"] {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
