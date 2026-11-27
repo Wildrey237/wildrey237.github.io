@@ -6,8 +6,12 @@
 // fiche du noeud en panneau lateral (feuille en bas sur mobile). Etat dans l'URL :
 // ?bandes=math,ml&noeud=ml1. Le changement d'etat est reserve a la session admin (401 sinon).
 // Les projets de la carte sont des projets d'apprentissage, sans lien avec ceux du CV.
-import {useCallback, useEffect, useMemo, useRef, useState, useTransition} from "react";
-import {Box, Button, Checkbox, CloseButton, Container, Flex, Grid, Heading, Link, Text} from "@chakra-ui/react";
+//
+// Ordinateur (>= 1024px) : plein ecran. La page ne defile pas ; la carte occupe toute la place
+// sous l'en-tete et la bande des rails, et se deplace (glisser) et se zoome (molette, pincement,
+// boutons, 50 % a 200 %). Controles en surimpression. Mobile : liste par bande, sans pan/zoom.
+import {memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition} from "react";
+import {Box, Button, Checkbox, CloseButton, Flex, Heading, Link, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {
     BANDES_CARTE, RAILS, autourDeMoi, avancement, construireModele, decouperTitre, filtrerParBandes, noeudsDuRail,
@@ -29,6 +33,17 @@ const VERT = "#1D8A55";
 const AMBRE = "#E2A42E";                 // liens et noeuds en amont (prerequis)
 const ACCENT = "var(--chakra-colors-accent)"; // liens et noeuds en aval (ce que le noeud debloque)
 const LARGEUR_PANNEAU = 400;
+const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 2;
+const ZOOM_CADRAGE_MAX = 1.25; // cadrage automatique : pas de gros plan demesure sur 2 ou 3 noeuds
+const MARGE_ZONE = 12;         // marge entre les controles en surimpression et les noeuds cadres
+// Fond des controles en surimpression : semi-opaque, flou derriere.
+const VERRE = {
+    bg: "color-mix(in srgb, var(--chakra-colors-surface) 84%, transparent)",
+    backdropFilter: "blur(10px)", border: "1px solid", borderColor: "line.strong", borderRadius: "12px",
+    boxShadow: "0 4px 16px rgba(21,22,26,.08)",
+};
+const borner = (v, min, max) => Math.min(max, Math.max(min, v));
 
 const BANDES_DU_RAIL = Object.fromEntries(RAILS.map(r => [r.id, r.bandes]));
 const NOM_BANDE = Object.fromEntries(BANDES_CARTE.map(b => [b.id, b]));
@@ -83,21 +98,18 @@ function roleLien(a, focus) {
 
 // ---------- graphe ----------
 
-function Graphe({modele, disposition: d, selection, focus, choisir, survoler, vider, cadreRef}) {
+// Contenu de la carte a sa taille naturelle (le cadre l'agrandit / le deplace par transform).
+// Memorise : deplacer ou zoomer ne redessine pas les 74 noeuds.
+const Graphe = memo(function Graphe({modele, disposition: d, selection, focus, choisir, survoler}) {
     const chemin = pts => pts.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join(" ");
     const attenuation = focus ? (focus.leger ? 0.45 : 0.2) : null;
     return (
-        // Hauteur naturelle (suit la page) : seul le defilement horizontal est autorise.
-        <Box ref={cadreRef} data-carte-cadre="" overflowX="auto" overflowY="hidden" border="1px solid" borderColor="line.strong"
-             borderRadius="14px" bg="canvas">
-            {/* Clic dans le vide (hors carte) : annule la selection. */}
-            <Box position="relative" w={`${d.largeur}px`} h={`${d.hauteur}px`}
-                 onClick={e => { if (!e.target.closest("[data-noeud]")) vider(); }}>
+            <Box position="relative" w={`${d.largeur}px`} h={`${d.hauteur}px`}>
                 {d.bandes.map(b => (
                     <Box key={b.bande} data-bande={b.bande} position="absolute" left={0} top={`${b.y}px`} w="100%" h={`${b.hauteur}px`}
                          borderTop="1px solid" borderColor="line.subtle" borderLeft="4px solid" borderLeftColor={`bande.${b.bande}`}
                          opacity={b.fantome ? 0.6 : 1}>
-                        <Text position="sticky" left={4} display="inline-block" mt={2} ml={4} fontFamily="mono"
+                        <Text display="inline-block" mt={2} ml={4} fontFamily="mono"
                               fontSize="12px" letterSpacing="0.08em" textTransform="uppercase" color={`bande.${b.bande}`} fontWeight="600">
                             {b.fantome ? `Prérequis externes · ${b.nom}` : b.nom}
                         </Text>
@@ -167,16 +179,16 @@ function Graphe({modele, disposition: d, selection, focus, choisir, survoler, vi
                     );
                 })}
             </Box>
-        </Box>
     );
-}
+});
 
 // ---------- filtre par bande ----------
 
 function FiltreBandes({bandes, basculer, tout, externes, setExternes}) {
     const pastille = (actif, libelle, onClick, couleur) => (
         <Button key={libelle} variant="unstyled" onClick={onClick} aria-pressed={actif} display="inline-flex" alignItems="center"
-                gap={2} h="44px" px={4} borderRadius="999px" border="1px solid" fontSize="14px" fontWeight="600"
+                gap={2} h={{base: "44px", lg: "36px"}} px={{base: 4, lg: 3}} borderRadius="999px" border="1px solid"
+                fontSize={{base: "14px", lg: "13px"}} fontWeight="600"
                 borderColor={actif ? (couleur ?? "accent") : "line.strong"} bg={actif ? "chip.bg" : "transparent"}
                 color={actif ? "fg.default" : "fg.muted"}>
             {couleur && <Box as="span" w="10px" h="10px" borderRadius="full" bg={couleur} aria-hidden="true"/>}
@@ -184,14 +196,14 @@ function FiltreBandes({bandes, basculer, tout, externes, setExternes}) {
         </Button>
     );
     return (
-        <Flex gap={4} wrap="wrap" align="center" mb={4}>
-            <Flex role="group" aria-label="Filtrer la carte par bande" gap={2} wrap="wrap">
+        <Flex gap={{base: 4, lg: 3}} wrap="wrap" align="center">
+            <Flex role="group" aria-label="Filtrer la carte par bande" gap={{base: 2, lg: "6px"}} wrap="wrap">
                 {pastille(bandes.length === 0, "Tout", tout)}
                 {BANDES_CARTE.map(b => pastille(bandes.includes(b.id), b.court, () => basculer(b.id), `bande.${b.id}`))}
             </Flex>
             {/* Decochee par defaut : les autres bandes disparaissent completement. */}
             <Checkbox isChecked={externes} onChange={e => setExternes(e.target.checked)} isDisabled={!bandes.length}
-                      minH="44px" colorScheme="brand">
+                      minH={{base: "44px", lg: "36px"}} colorScheme="brand" fontSize="14px">
                 Afficher les prérequis externes
             </Checkbox>
         </Flex>
@@ -268,11 +280,11 @@ function Panneau({modele, id, ouvert, fermer, choisir, changerEtat, enCours, mes
              position="fixed" zIndex={50} bg="surface" borderColor="line.strong" boxShadow="0 10px 40px rgba(21,22,26,.18)"
              transition="transform .2s ease" visibility={ouvert ? "visible" : "hidden"}
              // Ordinateur : panneau a droite, pleine hauteur. Mobile : feuille qui monte du bas (80 %).
-             top={{base: "auto", md: 0}} bottom={0} right={0} left={{base: 0, md: "auto"}}
-             w={{base: "100%", md: `${LARGEUR_PANNEAU}px`}} h={{base: "80dvh", md: "100dvh"}}
-             borderLeft={{md: "1px solid"}} borderTop={{base: "1px solid", md: "none"}}
-             borderTopRadius={{base: "18px", md: 0}}
-             transform={ouvert ? "translate(0, 0)" : {base: "translateY(100%)", md: "translateX(100%)"}}
+             top={{base: "auto", lg: 0}} bottom={0} right={0} left={{base: 0, lg: "auto"}}
+             w={{base: "100%", lg: `${LARGEUR_PANNEAU}px`}} h={{base: "80dvh", lg: "100dvh"}}
+             borderLeft={{lg: "1px solid"}} borderTop={{base: "1px solid", lg: "none"}}
+             borderTopRadius={{base: "18px", lg: 0}}
+             transform={ouvert ? "translate(0, 0)" : {base: "translateY(100%)", lg: "translateX(100%)"}}
              display="flex" flexDirection="column">
             {n && (
                 <>
@@ -368,6 +380,273 @@ function Panneau({modele, id, ouvert, fermer, choisir, changerEtat, enCours, mes
     );
 }
 
+// ---------- deplacement et zoom de la carte (ordinateur) ----------
+
+// Rectangle englobant des cartes dont l'id est dans `ids` (toutes si ids est absent).
+function englobant(disposition, ids) {
+    const cartes = disposition.cartes.filter(c => !ids || ids.has(c.id));
+    if (!cartes.length) return null;
+    return {
+        x0: Math.min(...cartes.map(c => c.x)), y0: Math.min(...cartes.map(c => c.y)),
+        x1: Math.max(...cartes.map(c => c.x + CARTE.largeur)), y1: Math.max(...cartes.map(c => c.y + c.h)),
+    };
+}
+
+// Transformation {x, y, k} du contenu dans le cadre : glisser, molette, pincement, boutons.
+// `zone()` donne la partie du cadre non couverte par les controles en surimpression.
+function usePanZoom(cadreRef, taille, zone) {
+    const [t, setT] = useState({x: 0, y: 0, k: 1});
+    const [anime, setAnime] = useState(false);
+
+    // Le contenu ne sort jamais entierement du cadre (80px restent visibles).
+    const limiter = useCallback(({x, y, k}) => {
+        const el = cadreRef.current;
+        if (!el) return {x, y, k};
+        const m = 80;
+        return {k, x: borner(x, m - taille.largeur * k, el.clientWidth - m), y: borner(y, m - taille.hauteur * k, el.clientHeight - m)};
+    }, [cadreRef, taille.largeur, taille.hauteur]);
+
+    const appliquer = useCallback((suivant, animer = false) => {
+        setAnime(animer);
+        setT(c => limiter(typeof suivant === "function" ? suivant(c) : suivant));
+    }, [limiter]);
+
+    // Zoom autour d'un point du cadre (px, py), qui reste fixe a l'ecran.
+    const zoomer = useCallback((facteur, px, py, animer = false) => appliquer(c => {
+        const k = borner(c.k * facteur, ZOOM_MIN, ZOOM_MAX);
+        return {k, x: px - ((px - c.x) * k) / c.k, y: py - ((py - c.y) * k) / c.k};
+    }, animer), [appliquer]);
+
+    const zoomerCentre = useCallback(facteur => {
+        const z = zone();
+        if (z) zoomer(facteur, z.gauche + z.l / 2, z.haut + z.h / 2, true);
+    }, [zone, zoomer]);
+
+    // Cadre un rectangle du contenu dans la zone libre. Trop grand meme a 50 % : aligne en haut a
+    // gauche (sens de lecture), sinon centre.
+    const cadrer = useCallback((r, {kMax = ZOOM_CADRAGE_MAX, animer = true} = {}) => {
+        const z = zone();
+        if (!z || !r) return;
+        const pad = 24;
+        const bw = r.x1 - r.x0 + 2 * pad, bh = r.y1 - r.y0 + 2 * pad;
+        const k = borner(Math.min(z.l / bw, z.h / bh, kMax), ZOOM_MIN, ZOOM_MAX);
+        const x = z.gauche + Math.max((z.l - bw * k) / 2, 0) - (r.x0 - pad) * k;
+        const y = z.haut + Math.max((z.h - bh * k) / 2, 0) - (r.y0 - pad) * k;
+        appliquer({x, y, k}, animer);
+    }, [zone, appliquer]);
+
+    // Garde un rectangle visible dans la zone libre (sans changer le zoom) : recentre s'il en sort.
+    const montrer = useCallback(r => {
+        if (!r) return;
+        appliquer(c => {
+            const z = zone();
+            if (!z) return c;
+            const sx0 = r.x0 * c.k + c.x, sx1 = r.x1 * c.k + c.x, sy0 = r.y0 * c.k + c.y, sy1 = r.y1 * c.k + c.y;
+            const dedans = sx0 >= z.gauche && sx1 <= z.gauche + z.l && sy0 >= z.haut && sy1 <= z.haut + z.h;
+            if (dedans) return c;
+            return {
+                k: c.k,
+                x: z.gauche + z.l / 2 - ((r.x0 + r.x1) / 2) * c.k,
+                y: z.haut + z.h / 2 - ((r.y0 + r.y1) / 2) * c.k,
+            };
+        }, true);
+    }, [zone, appliquer]);
+
+    // Gestes : glisser (souris, doigt, stylet), pincement a deux doigts, molette / pave tactile.
+    const gestes = useRef({});
+    gestes.current = {appliquer, zoomer};
+    useEffect(() => {
+        const el = cadreRef.current;
+        if (!el) return undefined;
+        const pointeurs = new Map();
+        let glisse = false, depart = null, pincement = null, ignorerClic = false;
+        const pos = e => {
+            const r = el.getBoundingClientRect();
+            return {x: e.clientX - r.left, y: e.clientY - r.top};
+        };
+        const mesure = () => {
+            const [a, b] = [...pointeurs.values()];
+            return {d: Math.hypot(a.x - b.x, a.y - b.y) || 1, c: {x: (a.x + b.x) / 2, y: (a.y + b.y) / 2}};
+        };
+        const bas = e => {
+            if (e.pointerType === "mouse" && e.button !== 0) return;
+            ignorerClic = false;
+            pointeurs.set(e.pointerId, pos(e));
+            if (pointeurs.size === 1) {
+                depart = pos(e);
+                glisse = false;
+            } else if (pointeurs.size === 2) {
+                pincement = mesure();
+                glisse = true;
+            }
+        };
+        const deplacement = e => {
+            if (!pointeurs.has(e.pointerId)) return;
+            const p = pos(e), avant = pointeurs.get(e.pointerId);
+            pointeurs.set(e.pointerId, p);
+            if (pointeurs.size === 1) {
+                // Seuil de 4px : en dessous, c'est un clic (selection d'un noeud).
+                if (!glisse && Math.hypot(p.x - depart.x, p.y - depart.y) > 4) {
+                    glisse = true;
+                    el.setPointerCapture?.(e.pointerId);
+                }
+                if (glisse) gestes.current.appliquer(c => ({...c, x: c.x + p.x - avant.x, y: c.y + p.y - avant.y}));
+            } else if (pointeurs.size === 2 && pincement) {
+                const m = mesure(), prec = pincement;
+                pincement = m;
+                gestes.current.appliquer(c => {
+                    const k = borner((c.k * m.d) / prec.d, ZOOM_MIN, ZOOM_MAX);
+                    return {k, x: m.c.x - ((prec.c.x - c.x) * k) / c.k, y: m.c.y - ((prec.c.y - c.y) * k) / c.k};
+                });
+            }
+        };
+        const haut = e => {
+            if (!pointeurs.delete(e.pointerId)) return;
+            if (pointeurs.size < 2) pincement = null;
+            if (pointeurs.size === 1) depart = [...pointeurs.values()][0];
+            if (!pointeurs.size && glisse) ignorerClic = true;
+        };
+        // Apres un glisser, le clic qui suit n'est pas une selection.
+        const clic = e => {
+            if (!ignorerClic) return;
+            ignorerClic = false;
+            e.stopPropagation();
+            e.preventDefault();
+        };
+        const molette = e => {
+            e.preventDefault();
+            const unite = e.deltaMode === 1 ? 16 : 1;
+            // Pincement sur pave tactile = molette avec ctrlKey (pas plus fins).
+            const facteur = Math.exp(-e.deltaY * unite * (e.ctrlKey ? 0.01 : 0.0015));
+            const p = pos(e);
+            gestes.current.zoomer(facteur, p.x, p.y);
+        };
+        // Focus clavier sur un noeud hors champ : le navigateur fait defiler le cadre ; on convertit
+        // ce defilement en deplacement de la carte.
+        const defilement = () => {
+            const {scrollLeft: sl, scrollTop: st} = el;
+            if (!sl && !st) return;
+            el.scrollLeft = 0;
+            el.scrollTop = 0;
+            gestes.current.appliquer(c => ({...c, x: c.x - sl, y: c.y - st}));
+        };
+        el.addEventListener("pointerdown", bas);
+        el.addEventListener("pointermove", deplacement);
+        el.addEventListener("pointerup", haut);
+        el.addEventListener("pointercancel", haut);
+        el.addEventListener("click", clic, true);
+        el.addEventListener("wheel", molette, {passive: false});
+        el.addEventListener("scroll", defilement);
+        return () => {
+            el.removeEventListener("pointerdown", bas);
+            el.removeEventListener("pointermove", deplacement);
+            el.removeEventListener("pointerup", haut);
+            el.removeEventListener("pointercancel", haut);
+            el.removeEventListener("click", clic, true);
+            el.removeEventListener("wheel", molette);
+            el.removeEventListener("scroll", defilement);
+        };
+    }, [cadreRef]);
+
+    return {t, anime, cadrer, montrer, zoomerCentre};
+}
+
+// Taille courante d'un element (ResizeObserver).
+function useTaille(ref) {
+    const [taille, setTaille] = useState({l: 0, h: 0});
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return undefined;
+        const ro = new ResizeObserver(([e]) => setTaille({l: Math.round(e.contentRect.width), h: Math.round(e.contentRect.height)}));
+        ro.observe(el);
+        return () => ro.disconnect();
+    }, [ref]);
+    return taille;
+}
+
+// ---------- bande des rails ----------
+
+// Une ligne par rail : nom (clic = filtre), compteur, barre fine, prochaine seance. Repliable.
+function BandeRails({modele, bandes, filtrerRail, choisir}) {
+    const [ouverte, setOuverte] = useState(true);
+    const lignes = RAILS.map(r => {
+        const a = avancement(modele, r.id);
+        return {r, a, pct: a.total ? Math.round((100 * a.maitrises) / a.total) : 0, actif: memesBandes(bandes, BANDES_DU_RAIL[r.id])};
+    });
+    return (
+        <Box as="section" aria-label="Avancement par rail" borderTop="1px solid" borderBottom="1px solid" borderColor="line.subtle"
+             px="clamp(16px, 2.5vw, 40px)" py={1}>
+            <Flex align="center" gap={3}>
+                <Button variant="unstyled" display="inline-flex" alignItems="center" gap={2} h="28px" fontSize="12px"
+                        fontFamily="mono" textTransform="uppercase" letterSpacing="0.08em" color="fg.muted"
+                        aria-expanded={ouverte} aria-controls="rails-detail" onClick={() => setOuverte(o => !o)}>
+                    <Box as="span" aria-hidden="true" display="inline-block" transition="transform .15s ease"
+                         transform={ouverte ? "rotate(90deg)" : "none"}>›</Box>
+                    Avancement
+                </Button>
+                {/* Repliee : resume en une ligne. */}
+                {!ouverte && (
+                    <Text fontSize="13px" color="fg.muted" fontFamily="mono">
+                        {lignes.map(({r, a}) => `${r.nom} ${a.maitrises}/${a.total}`).join(" · ")}
+                    </Text>
+                )}
+            </Flex>
+            <Box id="rails-detail" hidden={!ouverte} as="ul" listStyleType="none" p={0} m={0} pb={1}>
+                {lignes.map(({r, a, pct, actif}) => {
+                    const prochaine = a.prochaine && modele.parId.get(a.prochaine);
+                    return (
+                        <Box as="li" key={r.id} display="grid" alignItems="center" columnGap={4} rowGap={1} py={{base: "6px", lg: "1px"}}
+                             gridTemplateColumns={{base: "minmax(0, 1fr) auto", lg: "120px 64px minmax(120px, 280px) minmax(0, 1fr)"}}>
+                            <Box as="button" type="button" onClick={() => filtrerRail(r.id)} aria-pressed={actif}
+                                 aria-label={`Filtrer la carte sur ${r.nom}`} textAlign="left" fontFamily="heading" fontWeight="700"
+                                 fontSize="14px" minH="28px" color={actif ? "accent" : "fg.default"} _hover={{color: "accent"}}
+                                 textDecoration={actif ? "underline" : "none"} textUnderlineOffset="4px">
+                                {r.nom}
+                            </Box>
+                            <Text fontFamily="mono" fontSize="13px" color="fg.muted" data-compteur={r.id}>{a.maitrises} / {a.total}</Text>
+                            <Box h="4px" bg="line.subtle" borderRadius="999px" overflow="hidden" role="progressbar"
+                                 gridColumn={{base: "1 / -1", lg: "auto"}}
+                                 aria-valuemin={0} aria-valuemax={a.total} aria-valuenow={a.maitrises}
+                                 aria-label={`${r.nom} : ${a.maitrises} nœuds de cours maîtrisés sur ${a.total}`}>
+                                <Box h="100%" w={`${pct}%`} bg={VERT} borderRadius="999px"/>
+                            </Box>
+                            <Text fontSize="13px" color="fg.muted" gridColumn={{base: "1 / -1", lg: "auto"}} noOfLines={1}>
+                                Prochaine séance :{" "}
+                                {prochaine ? (
+                                    <Box as="button" type="button" color="accent" fontWeight="600" textAlign="left"
+                                         onClick={() => choisir(a.prochaine, {garder: true})}>{prochaine.titre}</Box>
+                                ) : "rien de débloqué"}
+                                <Box as="span" color="fg.faint"> · {a.enCours} en cours · {pct} %</Box>
+                            </Text>
+                        </Box>
+                    );
+                })}
+            </Box>
+        </Box>
+    );
+}
+
+// ---------- legende ----------
+
+function Legende() {
+    return (
+        <Box as="details" open fontSize="12px" color="fg.muted">
+            <Box as="summary" cursor="pointer" fontFamily="mono" textTransform="uppercase" letterSpacing="0.08em" minH="28px"
+                 display="flex" alignItems="center">
+                Légende
+            </Box>
+            <Flex gap={2} wrap="wrap" align="center" mt={2}>
+                {["en-cours", "ensuite", "plus-tard", "maitrise"].map(s => <Pastille key={s} statut={s}/>)}
+                <Box as="span" px={2} py="1px" border="1px dashed" borderColor="fg.faint" borderRadius="6px">projet d’apprentissage</Box>
+            </Flex>
+            <Flex gap={4} wrap="wrap" align="center" mt={2}>
+                <Flex as="span" align="center" gap={2}><Box as="span" w="16px" h="3px" bg={AMBRE} borderRadius="2px"/>prérequis</Flex>
+                <Flex as="span" align="center" gap={2}><Box as="span" w="16px" h="3px" bg="accent" borderRadius="2px"/>débloque</Flex>
+            </Flex>
+        </Box>
+    );
+}
+
 // ---------- page ----------
 
 export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitiales = [], noeudInitial = null}) {
@@ -383,6 +662,9 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
     const [message, setMessage] = useState("");
     const [enCours, demarrer] = useTransition();
     const cadreRef = useRef(null);
+    const hautRef = useRef(null);
+    const legendeRef = useRef(null);
+    const zoomRef = useRef(null);
 
     // Disposition de la vue courante, combinee au filtre par bande.
     const disposition = useMemo(() => {
@@ -390,10 +672,11 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
         const {ids, fantomes} = filtrerParBandes(modele, noeuds.map(n => n.id), bandes, {externes});
         return disposer(modele, ids, {fantomes});
     }, [vue, modele, autour, bandes, externes, noeuds]);
-    const idsListe = useMemo(
-        () => autour.ids.filter(id => !bandes.length || bandes.includes(modele.parId.get(id).bande)),
-        [autour, bandes, modele],
-    );
+    // Mobile : liste par bande (meme filtre), "Autour de moi" ou toute la carte.
+    const idsListe = useMemo(() => {
+        const base = vue === "autour" ? autour.ids : noeuds.map(n => n.id);
+        return base.filter(id => !bandes.length || bandes.includes(modele.parId.get(id).bande));
+    }, [vue, autour, noeuds, bandes, modele]);
 
     // Surbrillance : selection (pleine) ou survol (legere).
     const focus = useMemo(() => {
@@ -421,15 +704,47 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
         return () => document.removeEventListener("keydown", surTouche);
     }, [vider]);
 
-    // Noeud selectionne : reste visible a cote du panneau (defilement automatique si besoin).
+    // ----- deplacement / zoom -----
+    const tailleCadre = useTaille(cadreRef);
+    // Zone libre du cadre : sans la surimpression du haut (filtres) ni celles du bas (legende, zoom).
+    const zone = useCallback(() => {
+        const el = cadreRef.current;
+        if (!el || !el.clientWidth) return null;
+        const r = el.getBoundingClientRect();
+        const haut = hautRef.current ? hautRef.current.getBoundingClientRect().bottom - r.top + MARGE_ZONE : MARGE_ZONE;
+        const bas = Math.max(MARGE_ZONE, ...[legendeRef, zoomRef].map(ref => (ref.current ? r.bottom - ref.current.getBoundingClientRect().top + MARGE_ZONE : 0)));
+        return {gauche: MARGE_ZONE, haut, l: r.width - 2 * MARGE_ZONE, h: Math.max(r.height - haut - bas, 80)};
+    }, []);
+    const taille = useMemo(() => ({largeur: disposition.largeur, hauteur: disposition.hauteur}), [disposition]);
+    const {t, anime, cadrer, montrer, zoomerCentre} = usePanZoom(cadreRef, taille, zone);
+
+    // Cadrage automatique (chargement, changement de vue ou de filtre) : noeuds en cours et ce
+    // qu'ils debloquent ; sinon toute la carte. Le noeud de l'URL (?noeud=) est inclus.
+    const cible = useMemo(() => {
+        const ids = new Set();
+        for (const n of noeuds) {
+            if (modele.statuts.get(n.id) !== "en-cours") continue;
+            ids.add(n.id);
+            for (const s of modele.successeurs.get(n.id)) ids.add(s);
+        }
+        return englobant(disposition, ids) ?? englobant(disposition);
+    }, [noeuds, modele, disposition]);
+    const cleCadrage = `${vue}|${bandes.join(",")}|${externes}`;
+    const dernierCadrage = useRef(null);
+    useLayoutEffect(() => {
+        if (!tailleCadre.l || dernierCadrage.current === cleCadrage) return;
+        const premier = dernierCadrage.current === null;
+        dernierCadrage.current = cleCadrage;
+        cadrer(cible, {animer: !premier});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cleCadrage, tailleCadre.l]);
+
+    // Noeud selectionne : reste visible a cote du panneau (la carte se recadre si besoin).
     useEffect(() => {
-        if (!selection) return;
-        const id = requestAnimationFrame(() => {
-            const carte = cadreRef.current?.querySelector(`[data-noeud="${selection}"]`);
-            carte?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
-        });
-        return () => cancelAnimationFrame(id);
-    }, [selection, vue, bandes]);
+        if (!selection || !tailleCadre.l) return;
+        montrer(englobant(disposition, new Set([selection])));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selection, tailleCadre.l, tailleCadre.h, cleCadrage]);
 
     const basculer = id => setBandes(liste => {
         const nouvelle = liste.includes(id) ? liste.filter(b => b !== id) : [...liste, id];
@@ -438,10 +753,10 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
     const filtrerRail = rail => setBandes(liste => (memesBandes(liste, BANDES_DU_RAIL[rail]) ? [] : BANDES_DU_RAIL[rail]));
 
     // Clic sur un noeud : selectionne ; re-cliquer annule. Depuis le panneau, on garde la selection.
-    const choisir = (id, {garder = false} = {}) => {
+    const choisir = useCallback((id, {garder = false} = {}) => {
         setMessage("");
         setSelection(courante => (courante === id && !garder ? null : id));
-    };
+    }, []);
 
     // Changement d'etat (admin) : route d'API protegee ; mise a jour optimiste, annulee en cas d'echec.
     const changerEtat = (id, etat) => {
@@ -470,15 +785,20 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
 
     const ouvert = Boolean(selection);
     const vide = disposition.cartes.length === 0;
-    const proprietesGraphe = {modele, disposition, selection, focus, choisir, survoler: setSurvol, vider, cadreRef};
+    const boutonZoom = {variant: "unstyled", h: "36px", minW: "36px", px: 2, fontSize: "16px", fontWeight: "600",
+        display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: "8px", _hover: {bg: "chip.bg"}};
 
     return (
-        // Panneau ouvert (ordinateur) : la page se reduit pour lui laisser la place, sans recouvrement.
-        <Box as="main" minH="100dvh" pb={ouvert ? {base: "82dvh", md: 16} : 16}
-             pr={{md: ouvert ? `${LARGEUR_PANNEAU}px` : 0}} transition="padding .2s ease">
-            <Container maxW="1600px" px="clamp(24px, 5vw, 96px)" pt={{base: 6, md: 10}}>
-                <Flex justify="space-between" align="center" gap={3} wrap="wrap">
-                    <Flex gap={4} fontSize="14px">
+        // Ordinateur : exactement la hauteur de la fenetre, sans defilement de page. Panneau ouvert :
+        // la page se reduit pour lui laisser la place (pas de recouvrement).
+        <Box as="main" display="flex" flexDirection="column" minH="100dvh" h={{lg: "100dvh"}} overflow={{lg: "hidden"}}
+             pb={{base: ouvert ? "82dvh" : 16, lg: 0}} pr={{lg: ouvert ? `${LARGEUR_PANNEAU}px` : 0}}>
+            {/* En-tete : une ligne sur ordinateur. */}
+            <Flex as="header" px="clamp(16px, 2.5vw, 40px)" pt={{base: 6, lg: 3}} pb={{base: 4, lg: 3}} gap={3}
+                  direction={{base: "column-reverse", lg: "row"}} align={{base: "stretch", lg: "center"}} justify="space-between">
+                <Heading as="h1" fontSize={{base: "36px", lg: "24px"}}>Où j’en suis</Heading>
+                <Flex justify="space-between" align="center" gap={4} wrap="wrap" fontSize="14px">
+                    <Flex gap={4}>
                         {estAdmin && <Link as={NextLink} href="/admin">← Admin</Link>}
                         <Link as={NextLink} href="/">Voir le site</Link>
                     </Flex>
@@ -486,108 +806,106 @@ export default function Parcours({noeudsInitiaux, estAdmin = false, bandesInitia
                         Non référencé · hors CV{estAdmin ? " · mode édition" : ""}
                     </Box>
                 </Flex>
-                <Heading as="h1" mt={6} fontSize={{base: "36px", md: "48px"}}>Où j’en suis</Heading>
+            </Flex>
 
-                {/* Avancement par rail ; un clic sur la carte filtre la carte sur ce rail. */}
-                <Grid mt={6} templateColumns={{base: "1fr", lg: "repeat(3, 1fr)"}} gap={4}>
-                    {RAILS.map(r => {
-                        const a = avancement(modele, r.id);
-                        const pct = a.total ? Math.round((100 * a.maitrises) / a.total) : 0;
-                        const prochaine = a.prochaine && modele.parId.get(a.prochaine);
-                        const actif = memesBandes(bandes, BANDES_DU_RAIL[r.id]);
-                        return (
-                            <Box key={r.id} position="relative" bg="surface" border="1px solid"
-                                 borderColor={actif ? "accent" : "line.strong"} borderRadius="14px" p={5}
-                                 _hover={{borderColor: "accent"}}>
-                                <Flex justify="space-between" align="baseline">
-                                    <Box as="button" type="button" onClick={() => filtrerRail(r.id)} aria-pressed={actif}
-                                         aria-label={`Filtrer la carte sur ${r.nom}`} textAlign="left" fontFamily="heading"
-                                         fontWeight="700" fontSize="18px" color="fg.default"
-                                         _after={{content: '""', position: "absolute", inset: 0, borderRadius: "14px"}}
-                                         _focusVisible={{outline: "none", _after: {outline: "2px solid", outlineColor: "accent"}}}>
-                                        {r.nom}
-                                    </Box>
-                                    <Text fontFamily="mono" fontSize="13px" color="fg.muted" data-compteur={r.id}>{a.maitrises} / {a.total}</Text>
-                                </Flex>
-                                <Box mt={3} h="8px" bg="line.subtle" borderRadius="999px" overflow="hidden" role="progressbar"
-                                     aria-valuemin={0} aria-valuemax={a.total} aria-valuenow={a.maitrises}
-                                     aria-label={`${r.nom} : ${a.maitrises} nœuds de cours maîtrisés sur ${a.total}`}>
-                                    <Box h="100%" w={`${pct}%`} bg={VERT} borderRadius="999px"/>
-                                </Box>
-                                <Text mt={2} fontSize="13px" color="fg.faint">{a.enCours} en cours · {pct} % maîtrisé</Text>
-                                <Text mt={3} fontSize="14px" color="fg.muted" position="relative" zIndex={1}>
-                                    Prochaine séance :{" "}
-                                    {prochaine ? (
-                                        <Box as="button" type="button" color="accent" fontWeight="600" textAlign="left"
-                                             onClick={() => choisir(a.prochaine, {garder: true})}>{prochaine.titre}</Box>
-                                    ) : "rien de débloqué"}
-                                </Text>
-                            </Box>
-                        );
-                    })}
-                </Grid>
+            <BandeRails modele={modele} bandes={bandes} filtrerRail={filtrerRail} choisir={choisir}/>
 
-                {/* Choix de la vue */}
-                <Flex mt={8} mb={4} justify="space-between" align="center" gap={3} wrap="wrap">
-                    <Box role="group" aria-label="Vue de la carte" display="inline-flex" border="1px solid" borderColor="line.strong"
-                         borderRadius="10px" overflow="hidden">
-                        {[["autour", "Autour de moi"], ["complete", `Carte complète · ${noeuds.length}`]].map(([v, libelle], i) => (
-                            <Button key={v} variant="unstyled" h="44px" px={4} borderRadius={0} fontSize="14px" fontWeight="600"
-                                    aria-pressed={vue === v} onClick={() => setVue(v)} borderLeft={i ? "1px solid" : "none"}
-                                    borderColor="line.strong" bg={vue === v ? "accent" : "transparent"}
-                                    color={vue === v ? "accent.contrast" : "fg.muted"}>
-                                {libelle}
-                            </Button>
-                        ))}
-                    </Box>
-                    <Flex gap={3} wrap="wrap" fontSize="12px" color="fg.muted" align="center">
-                        {["en-cours", "ensuite", "plus-tard", "maitrise"].map(s => <Pastille key={s} statut={s}/>)}
-                        <Box as="span" px={2} py="1px" border="1px dashed" borderColor="fg.faint" borderRadius="6px">projet d’apprentissage</Box>
-                    </Flex>
-                </Flex>
-                <FiltreBandes bandes={bandes} basculer={basculer} tout={() => setBandes([])} externes={externes} setExternes={setExternes}/>
-                {vue === "autour" && autour.sansEnCours && (
-                    <Text mb={3} fontSize="14px" color="fg.muted">
-                        Aucun nœud en cours : voici les points d’entrée et ce qu’ils débloquent.
-                    </Text>
-                )}
-
-                {vide ? (
-                    <Text py={8} color="fg.muted">Rien à afficher pour ce filtre dans cette vue.</Text>
-                ) : vue === "autour" ? (
-                    <>
-                        {/* Mobile : la vue "Autour de moi" passe en liste par bande (meme filtre). */}
-                        <Box display={{base: "block", md: "none"}}>
-                            <ListeParBande modele={modele} ids={idsListe} choisir={choisir} selection={selection}/>
+            {/* Zone de la carte : tout le reste de la fenetre (ordinateur). */}
+            <Box position="relative" flex={{lg: "1"}} minH={0} display="flex" flexDirection="column"
+                 px={{base: "clamp(16px, 2.5vw, 40px)", lg: 0}}>
+                {/* Surimpression haut-gauche : vue et filtres. */}
+                <Box ref={hautRef} data-surimpression="" position={{lg: "absolute"}} top={3} left={3} zIndex={5}
+                     maxW={{lg: "calc(100% - 24px)"}} mt={{base: 4, lg: 0}} p={{lg: 3}}
+                     sx={{"@media (min-width: 1024px)": VERRE}}>
+                    <Flex gap={3} wrap="wrap" align="center">
+                        <Box role="group" aria-label="Vue de la carte" display="inline-flex" border="1px solid" borderColor="line.strong"
+                             borderRadius="10px" overflow="hidden" flexShrink={0}>
+                            {[["autour", "Autour de moi"], ["complete", `Carte complète · ${noeuds.length}`]].map(([v, libelle], i) => (
+                                <Button key={v} variant="unstyled" h={{base: "44px", lg: "36px"}} px={{base: 4, lg: 3}} borderRadius={0}
+                                        fontSize={{base: "14px", lg: "13px"}} fontWeight="600"
+                                        aria-pressed={vue === v} onClick={() => setVue(v)} borderLeft={i ? "1px solid" : "none"}
+                                        borderColor="line.strong" bg={vue === v ? "accent" : "transparent"}
+                                        color={vue === v ? "accent.contrast" : "fg.muted"}>
+                                    {libelle}
+                                </Button>
+                            ))}
                         </Box>
-                        <Box display={{base: "none", md: "block"}}><Graphe {...proprietesGraphe}/></Box>
-                    </>
-                ) : (
-                    <Graphe {...proprietesGraphe}/>
-                )}
-
-                {/* Prochains pas */}
-                <Box as="section" aria-labelledby="prochains-pas" mt={8}>
-                    <Heading as="h2" id="prochains-pas" fontSize="20px" mb={4}>Prochains pas</Heading>
-                    <Grid templateColumns={{base: "1fr", md: "repeat(3, 1fr)"}} gap={6}>
-                        {RAILS.map(r => {
-                            const suivants = noeudsDuRail(modele, r.id, "ensuite").slice(0, 5);
-                            return (
-                                <Box key={r.id}>
-                                    <Text fontFamily="mono" fontSize="12px" color="fg.faint" textTransform="uppercase" letterSpacing="0.08em" mb={2}>
-                                        {r.nom}
-                                    </Text>
-                                    {suivants.length ? (
-                                        <Box as="ul" listStyleType="none" p={0} m={0}>
-                                            {suivants.map(id => <LienNoeud key={id} id={id} modele={modele} choisir={choisir}/>)}
-                                        </Box>
-                                    ) : <Text fontSize="14px" color="fg.faint">Rien de débloqué pour l’instant.</Text>}
-                                </Box>
-                            );
-                        })}
-                    </Grid>
+                        <FiltreBandes bandes={bandes} basculer={basculer} tout={() => setBandes([])} externes={externes} setExternes={setExternes}/>
+                    </Flex>
+                    {vue === "autour" && autour.sansEnCours && (
+                        <Text mt={2} fontSize="13px" color="fg.muted">
+                            Aucun nœud en cours : voici les points d’entrée et ce qu’ils débloquent.
+                        </Text>
+                    )}
                 </Box>
-            </Container>
+
+                {/* Legende : en bas a gauche sur ordinateur, sous les filtres sur mobile. */}
+                <Box ref={legendeRef} data-surimpression="" position={{lg: "absolute"}} bottom={3} left={3} zIndex={5}
+                     maxW={{lg: "min(520px, calc(100% - 200px))"}} mt={{base: 3, lg: 0}} px={{lg: 3}} py={{lg: 2}}
+                     sx={{"@media (min-width: 1024px)": VERRE}}>
+                    <Legende/>
+                </Box>
+
+                {/* Carte deplacable (ordinateur). */}
+                <Box ref={cadreRef} data-carte-cadre="" display={{base: "none", lg: "block"}} position="absolute" inset={0}
+                     overflow="hidden" bg="canvas" cursor="grab" _active={{cursor: "grabbing"}}
+                     sx={{touchAction: "none", overscrollBehavior: "contain"}}
+                     onClick={e => { if (!e.target.closest("[data-noeud]")) vider(); }}>
+                    {vide ? (
+                        <Flex h="100%" align="center" justify="center">
+                            <Text color="fg.muted">Rien à afficher pour ce filtre dans cette vue.</Text>
+                        </Flex>
+                    ) : (
+                        <Box data-carte-contenu="" position="absolute" top={0} left={0} transformOrigin="0 0"
+                             style={{
+                                 transform: `translate(${t.x}px, ${t.y}px) scale(${t.k})`,
+                                 transition: anime ? "transform .25s ease" : "none",
+                                 willChange: "transform",
+                             }}>
+                            <Graphe modele={modele} disposition={disposition} selection={selection} focus={focus}
+                                    choisir={choisir} survoler={setSurvol}/>
+                        </Box>
+                    )}
+                </Box>
+
+                {/* Zoom : en bas a droite. */}
+                <Flex ref={zoomRef} data-surimpression="" display={{base: "none", lg: "flex"}} position="absolute" bottom={3} right={3}
+                      zIndex={5} align="center" gap={1} p={1} role="group" aria-label="Zoom de la carte" {...VERRE}>
+                    <Button {...boutonZoom} onClick={() => zoomerCentre(1 / 1.25)} aria-label="Dézoomer" isDisabled={t.k <= ZOOM_MIN + 0.001}>−</Button>
+                    <Text as="span" fontFamily="mono" fontSize="12px" minW="44px" textAlign="center" color="fg.muted" aria-live="polite">
+                        {Math.round(t.k * 100)} %
+                    </Text>
+                    <Button {...boutonZoom} onClick={() => zoomerCentre(1.25)} aria-label="Zoomer" isDisabled={t.k >= ZOOM_MAX - 0.001}>+</Button>
+                    <Button {...boutonZoom} px={3} fontSize="13px" onClick={() => cadrer(englobant(disposition), {kMax: 1})}>Ajuster</Button>
+                </Flex>
+
+                {/* Mobile : liste par bande, sans deplacement ni zoom. */}
+                <Box display={{base: "block", lg: "none"}} mt={6}>
+                    {idsListe.length
+                        ? <ListeParBande modele={modele} ids={idsListe} choisir={choisir} selection={selection}/>
+                        : <Text py={8} color="fg.muted">Rien à afficher pour ce filtre dans cette vue.</Text>}
+                </Box>
+            </Box>
+
+            {/* Prochains pas (mobile ; sur ordinateur, la bande des rails donne la prochaine seance). */}
+            <Box as="section" aria-labelledby="prochains-pas" mt={8} px="clamp(16px, 2.5vw, 40px)" display={{base: "block", lg: "none"}}>
+                <Heading as="h2" id="prochains-pas" fontSize="20px" mb={4}>Prochains pas</Heading>
+                {RAILS.map(r => {
+                    const suivants = noeudsDuRail(modele, r.id, "ensuite").slice(0, 5);
+                    return (
+                        <Box key={r.id} mb={6}>
+                            <Text fontFamily="mono" fontSize="12px" color="fg.faint" textTransform="uppercase" letterSpacing="0.08em" mb={2}>
+                                {r.nom}
+                            </Text>
+                            {suivants.length ? (
+                                <Box as="ul" listStyleType="none" p={0} m={0}>
+                                    {suivants.map(id => <LienNoeud key={id} id={id} modele={modele} choisir={choisir}/>)}
+                                </Box>
+                            ) : <Text fontSize="14px" color="fg.faint">Rien de débloqué pour l’instant.</Text>}
+                        </Box>
+                    );
+                })}
+            </Box>
 
             <Panneau modele={modele} id={selection} ouvert={ouvert} fermer={vider} choisir={choisir} changerEtat={changerEtat}
                      enCours={enCours} message={message} estAdmin={estAdmin} chaine={chaine} setChaine={setChaine}/>
