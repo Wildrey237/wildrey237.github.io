@@ -46,6 +46,8 @@ const ORDRE_PROJETS = [
     ['applications-flask-php-python', web],
 ]
 
+import {restaurerAccents} from './accents.js'
+
 // Emojis (dont les drapeaux) : interdits par la charte.
 const EMOJI = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu
 
@@ -229,6 +231,27 @@ export const CORRECTIFS = [
             })
             await col.deleteOne({_id: retire._id})
             return `garde ${garde._id} (${longueur(garde)} car.), supprime ${retire._id} (${longueur(retire)} car.)`
+        },
+    },
+    {
+        id: '2026-11-27-accents-carte',
+        description: 'Carte : accents et apostrophes retablis dans les titres, notions et livrables des 74 noeuds',
+        async appliquer(db) {
+            const col = db.collection('noeuds')
+            const bi = v => ({fr: restaurerAccents(v.fr), en: restaurerAccents(v.en)})
+            const biListe = v => ({fr: v.fr.map(restaurerAccents), en: v.en.map(restaurerAccents)})
+            let n = 0
+            for (const noeud of await col.find().toArray()) {
+                const champs = {
+                    titre: bi(noeud.titre),
+                    notions: biListe(noeud.notions),
+                    livrables: noeud.livrables.map(l => ({nom: bi(l.nom), detail: bi(l.detail)})),
+                }
+                if (JSON.stringify(champs) === JSON.stringify({titre: noeud.titre, notions: noeud.notions, livrables: noeud.livrables})) continue
+                await col.updateOne({_id: noeud._id}, {$set: champs})
+                n++
+            }
+            return `${n} noeud(s) corrige(s)`
         },
     },
 ]

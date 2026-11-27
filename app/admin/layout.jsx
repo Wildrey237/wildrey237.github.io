@@ -28,6 +28,7 @@ export default async function AdminLayout({children}) {
                         <Link href="/admin/certifications">Certifications</Link>
                         <Link href="/admin/noeuds">Noeuds</Link>
                         <Link href="/admin/journal">Journal</Link>
+                        <Link href="/parcours">Parcours</Link>
                         <Link href="/" target="_blank" rel="noreferrer">Voir le site</Link>
                     </nav>
                     <form action={seDeconnecter}>
