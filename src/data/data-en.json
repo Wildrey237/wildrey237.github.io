@@ -48,7 +48,7 @@
       "company": "COMUTITRES (Île-de-France Mobilités)",
       "city": "Paris, Île-de-France",
       "website": "https://www.comutitres.fr/",
-      "logo": "https://www.comutitres.fr/wp-content/uploads/2024/06/logo.svg",
+      "logo": "/logos/comutitres.png",
       "dates": "September 2024 – February 2025",
       "description": "Intern in the DataFactory team at COMUTITRES (Île-de-France Mobilités). I architected and migrated legacy ETL data pipelines to Apache Airflow on AWS, significantly improving processing efficiency.\n\nKey achievements:\n• Engineered and migrated Python/SQL scripts to Airflow/AWS environment\n• Developed automated retry mechanisms using JSON configurations to enhance pipeline reliability\n• Designed and deployed KPI dashboards to support Business Intelligence decision-making\n• Optimized SQL queries and Python processing scripts\n• Strengthened CI/CD pipelines using GitLab for automated deployment",
       "tags": [
@@ -348,6 +348,7 @@
       "degree": "Preparatory Engineering Class",
       "years": "October 2020 – June 2021",
       "details": "The Université Saint Jean in Yaoundé offers a preparatory class for engineering schools, equivalent to the French CPGE system. This intensive year covers mathematics (algebra, calculus, analytic geometry, trigonometry), physics (mechanics, electricity, thermodynamics, optics), chemistry, and an introduction to robotics and electronics. The goal is to develop analytical rigor and scientific reasoning to gain entry into engineering schools in Europe or Africa. The demanding pace and high standards of this preparatory class provided an essential academic foundation for the rest of the engineering journey.",
+      "logo": "/logos/saint-jean.png",
       "website": "https://institutsaintjean.org"
     }
   ],

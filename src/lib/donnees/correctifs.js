@@ -296,4 +296,16 @@ export const CORRECTIFS = [
             return `${r.reduce((n, x) => n + x.modifiedCount, 0)} logo(s) pose(s)`
         },
     },
+    {
+        id: '2026-11-27-logos-comutitres-saint-jean',
+        description: 'Logos : Comutitres en local (remplace le SVG distant), Universite Saint Jean',
+        async appliquer(db) {
+            const a = await db.collection('experiences').updateMany(
+                {'entreprise.fr': {$regex: '^COMUTITRES'}}, {$set: {logo: '/logos/comutitres.png'}})
+            const b = await db.collection('formations').updateMany(
+                {'ecole.fr': {$regex: '^Université Saint Jean'}, $or: [{logo: null}, {logo: ''}, {logo: {$exists: false}}]},
+                {$set: {logo: '/logos/saint-jean.png'}})
+            return `${a.modifiedCount + b.modifiedCount} logo(s) pose(s)`
+        },
+    },
 ]
