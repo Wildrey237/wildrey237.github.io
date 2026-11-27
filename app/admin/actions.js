@@ -10,11 +10,12 @@ import {redirect} from 'next/navigation'
 import {revalidatePath} from 'next/cache'
 import {getDb} from '../../src/lib/mongodb'
 import {exigerSession} from '../../src/lib/admin/garde'
-import {COOKIE_SESSION, DUREE_SESSION, creerJeton, egaliteSure} from '../../src/lib/admin/session'
-import {CATEGORIES_COMPETENCES, DOMAINES_PROJET, ETATS_NOEUD, SECTIONS_ACCUEIL, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
+import {COOKIE_SESSION} from '../../src/lib/admin/session'
+import {CATEGORIES_COMPETENCES, DOMAINES_PROJET, SECTIONS_ACCUEIL, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
 import {lireSaisieDate} from '../../src/lib/donnees/dates'
 import {slug} from '../../src/lib/donnees/depuisJson'
 import {ErreurTeleversement, televerserLogo} from '../../src/lib/admin/televersement'
+import {ErreurEtat, appliquerEtat} from '../../src/lib/donnees/noeuds'
 
 // ---------- utilitaires de saisie ----------
 
@@ -112,34 +113,10 @@ function rafraichirSite() {
 
 // ---------- connexion ----------
 
-export async function seConnecter(formData) {
-    const motDePasse = String(formData.get('motDePasse') ?? '')
-    const suiteDemandee = String(formData.get('suite') ?? '')
-    // Redirection interne a /admin uniquement (pas de redirection ouverte).
-    const suite = /^\/admin(\/[\w\-\/]*)?$/.test(suiteDemandee) && suiteDemandee !== '/admin/connexion' ? suiteDemandee : '/admin'
-
-    const attendu = process.env.ADMIN_PASSWORD
-    if (!attendu) redirect('/admin/connexion?erreur=config')
-
-    if (!motDePasse || !(await egaliteSure(motDePasse, attendu))) {
-        // Ralentit les essais en serie.
-        await new Promise(r => setTimeout(r, 1000))
-        redirect(`/admin/connexion?${new URLSearchParams({erreur: 'motdepasse', suite})}`)
-    }
-
-    const jar = await cookies()
-    jar.set(COOKIE_SESSION, await creerJeton(attendu), {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        path: '/admin',
-        maxAge: DUREE_SESSION,
-    })
-    redirect(suite)
-}
-
 export async function seDeconnecter() {
     const jar = await cookies()
+    jar.delete({name: COOKIE_SESSION, path: '/'})
+    // Anciennes sessions, posees avant l'extension du cookie a tout le site.
     jar.delete({name: COOKIE_SESSION, path: '/admin'})
     redirect('/admin/connexion')
 }
@@ -378,21 +355,15 @@ export async function changerEtatNoeud(formData) {
     const id = texte(formData, 'id')
     const etat = texte(formData, 'etat')
     await executer('/admin/noeuds', async () => {
-        if (!ETATS_NOEUD.includes(etat)) throw new ErreurSaisie(`Etat inconnu : ${etat}`)
-        const db = await getDb()
-        const maintenant = new Date()
-        // Le filtre sur l'etat evite d'empiler un historique quand rien ne change.
-        const r = await db.collection('noeuds').updateOne(
-            {_id: id, etat: {$ne: etat}},
-            {$set: {etat, etatModifieLe: maintenant}, $push: {historique: {etat, date: maintenant}}},
-        )
-        if (!r.matchedCount) {
-            const existe = await db.collection('noeuds').countDocuments({_id: id})
-            if (!existe) throw new ErreurSaisie(`Noeud inconnu : ${id}`)
-            return {message: `${id} : deja "${etat}"`}
+        let resultat
+        try {
+            resultat = await appliquerEtat(await getDb(), id, etat)
+        } catch (e) {
+            if (e instanceof ErreurEtat) throw new ErreurSaisie(e.message)
+            throw e
         }
-        revalidatePath('/ml-map')
-        rafraichirSite()
+        if (!resultat.change) return {message: `${id} : deja "${etat}"`}
+        revalidatePath('/parcours')
         return {message: `${id} : "${etat}"`}
     })
 }

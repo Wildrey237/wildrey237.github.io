@@ -1,13 +1,14 @@
 import {NextResponse} from 'next/server'
 import {COOKIE_SESSION, jetonValide} from './src/lib/admin/session'
 
-// Protection de /admin : toute page (et toute action serveur, postee sur l'URL de la page)
-// exige un cookie de session valide, sauf la page de connexion.
+// Protection de /admin et du parcours prive (/parcours) : toute page (et toute action serveur,
+// postee sur l'URL de la page) exige un cookie de session valide, sauf la page de connexion.
 // Sans ADMIN_PASSWORD configuree, l'acces est refuse (echec ferme).
 export async function middleware(requete) {
     const {pathname} = requete.nextUrl
 
-    if (pathname !== '/admin/connexion') {
+    // Page de connexion et sa route de validation : accessibles sans session.
+    if (pathname !== '/admin/connexion' && pathname !== '/admin/connexion/valider') {
         const valide = await jetonValide(requete.cookies.get(COOKIE_SESSION)?.value, process.env.ADMIN_PASSWORD)
         if (!valide) {
             const url = requete.nextUrl.clone()
@@ -27,5 +28,5 @@ export async function middleware(requete) {
 }
 
 export const config = {
-    matcher: ['/admin', '/admin/:path*'],
+    matcher: ['/admin', '/admin/:path*', '/parcours', '/parcours/:path*'],
 }

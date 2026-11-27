@@ -53,6 +53,10 @@ const theme = extendTheme({
             // Badge vert (disponibilite)
             'success.bg': {default: '#E3F1E8', _dark: '#12321F'},
             'success.fg': {default: '#1D6B45', _dark: '#8FDCAE'},
+            // Parcours : noeuds "Plus tard" (texte >= 4,5:1, bordure visible en sombre)
+            'plustard.bg': {default: '#F6F5F1', _dark: '#171A21'},
+            'plustard.fg': {default: '#5E6068', _dark: '#A9ACB5'},
+            'plustard.bord': {default: '#D9D6CC', _dark: '#3A3F4B'},
             // En-tete translucide
             'chrome.bg': {default: 'rgba(246,245,241,0.88)', _dark: 'rgba(15,17,21,0.88)'},
             // Compatibilite avec les pages non refondues (404)
