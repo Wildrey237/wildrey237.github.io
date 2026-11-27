@@ -1,3 +1,5 @@
+// La carte du parcours (/parcours) est privee et separee de l'accueil : aucune donnee qui la
+// concerne (noeuds lies, noeud d'origine) n'est transmise a la page publique.
 // Convertit les documents MongoDB vers la forme attendue par les composants de l'accueil
 // (meme structure que les anciens data-fr.json / data-en.json), pour une langue donnee.
 // Les dates sont formatees ici : seuls des objets simples sont transmis au client.
@@ -48,7 +50,7 @@ function pourLangue(docs, l) {
             CATEGORIES_COMPETENCES.map(c => [
                 c,
                 competences.filter(s => s.categorie === c).map(s => ({
-                    id: s._id, name: s.nom[l], desc: s.description[l], noeuds: s.noeuds,
+                    id: s._id, name: s.nom[l], desc: s.description[l],
                 })),
             ]),
         ),
@@ -72,7 +74,6 @@ function pourLangue(docs, l) {
             tags: pr.tags[l],
             link: pr.lien ?? '#',
             status: pr.statut,
-            noeuds: pr.noeuds,
             domain: pr.domaine ?? null,
             featured: Boolean(pr.phare),
             personal: Boolean(pr.personnel),
