@@ -2,14 +2,15 @@
 
 // En-tete collant : nom, liens de section (le lien actif suit la section visible),
 // bouton theme, bascule FR/EN, bouton "Telecharger le CV", menu repliable sur mobile.
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {Box, Button, Container, Flex, IconButton, Link, useColorMode, useDisclosure} from "@chakra-ui/react";
 import {Download, Menu, Moon, Sun, X} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
 import {LARGEUR, MARGES, lienCv, suivreCv} from "./communs";
 
-export const SECTIONS = ["experiences", "competences", "formation", "certifications", "projets", "contact"];
+// Ordre par defaut ; l'ordre reel vient du profil (donnees.sections), contact toujours en dernier.
+export const SECTIONS = ["experiences", "formation", "competences", "certifications", "projets", "contact"];
 const CLES = {
     experiences: "nav.experiences", competences: "nav.skills", formation: "nav.education",
     certifications: "nav.certifications", projets: "nav.projects", contact: "nav.contact",
@@ -18,7 +19,7 @@ const CLES = {
 // Section active : la derniere dont le haut a depasse la ligne de lecture (sous l'en-tete).
 // Calcul direct a chaque defilement, plus fiable qu'un IntersectionObserver pour des
 // sections de hauteurs tres differentes.
-function useSectionActive() {
+function useSectionActive(sections) {
     const [active, setActive] = useState(null);
     useEffect(() => {
         let attente = null;
@@ -26,7 +27,7 @@ function useSectionActive() {
             attente = null;
             const ligne = window.innerHeight * 0.3;
             let courante = null;
-            for (const id of SECTIONS) {
+            for (const id of sections) {
                 const el = document.getElementById(id);
                 if (el && el.getBoundingClientRect().top <= ligne) courante = id;
             }
@@ -45,7 +46,7 @@ function useSectionActive() {
             window.removeEventListener("resize", surDefilement);
             if (attente) cancelAnimationFrame(attente);
         };
-    }, []);
+    }, [sections]);
     return active;
 }
 
@@ -104,8 +105,9 @@ function BoutonTheme() {
 
 export default function Entete() {
     const {t, i18n} = useTranslation();
-    const {profile} = useDonnees();
-    const active = useSectionActive();
+    const {profile, sections: ordre} = useDonnees();
+    const sections = useMemo(() => [...(ordre ?? SECTIONS.slice(0, -1)), "contact"], [ordre]);
+    const active = useSectionActive(sections);
     const menu = useDisclosure();
     const langue = i18n.language === "fr" ? "fr" : "en";
 
@@ -128,7 +130,7 @@ export default function Entete() {
                     </Link>
 
                     <Flex as="nav" aria-label={t("nav.principale")} display={{base: "none", xl: "flex"}} flex="1" justify="center">
-                        {SECTIONS.map(id => <LienSection key={id} id={id} actif={active === id}/>)}
+                        {sections.map(id => <LienSection key={id} id={id} actif={active === id}/>)}
                     </Flex>
 
                     <Flex align="center" gap={1} ml="auto">
@@ -156,7 +158,7 @@ export default function Entete() {
                 <Box id="menu-mobile" display={{xl: "none"}} borderTop="1px solid" borderColor="line.subtle" bg="canvas">
                     <Container maxW={LARGEUR} px={MARGES} py={4}>
                         <Flex as="nav" aria-label={t("nav.principale")} direction="column">
-                            {SECTIONS.map(id => (
+                            {sections.map(id => (
                                 <LienSection key={id} id={id} actif={active === id} mobile onClick={menu.onClose}/>
                             ))}
                         </Flex>

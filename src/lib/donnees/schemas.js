@@ -7,6 +7,8 @@ export const STATUTS_PROJET = ['a faire', 'en cours', 'livre']
 export const BANDES = ['math', 'ml', 'graph', 'algo', 'data', 'proj']
 // Domaines des projets du CV (filtres de l'accueil). "Personnel" est un indicateur a part.
 export const DOMAINES_PROJET = ['ia-data', 'systemes', 'web']
+// Sections deplacables de l'accueil (le hero reste en premier, le contact en dernier).
+export const SECTIONS_ACCUEIL = ['experiences', 'formation', 'competences', 'certifications', 'projets']
 // Ordre d'affichage des categories de competences sur l'accueil.
 export const CATEGORIES_COMPETENCES = [
     'ai', 'data_engineering', 'software_engineering', 'cloud_mlops',
@@ -55,6 +57,8 @@ export const COLLECTIONS = {
                 rolesTypewriter: listeTexte,
                 // Encart "Langues" du hero.
                 langues: texte,
+                // Ordre des sections de l'accueil (modifie dans /admin/organisation).
+                ordreSections: {bsonType: 'array', items: {enum: SECTIONS_ACCUEIL}},
             },
         ),
         index: [],
@@ -81,6 +85,8 @@ export const COLLECTIONS = {
                 ordre: entier, ecole: texte, diplome: texte,
                 debut: {bsonType: 'date'}, fin: dateOuNull, enCours: {bsonType: 'bool'},
                 details: texte, siteWeb: chaineOuNull,
+                // Logo de l'ecole : /logos/... ou URL Vercel Blob (null = monogramme).
+                logo: chaineOuNull,
             },
         ),
         index: [{cle: {ordre: 1}}],

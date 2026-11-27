@@ -1,8 +1,9 @@
 'use client'
 
 // Certifications : une carte par certification, lien de verification externe.
-import {Box, Grid, Heading, Link, Text} from "@chakra-ui/react";
-import {ArrowUpRight} from "lucide-react";
+import {Box, Flex, Grid, Heading, Link, Text} from "@chakra-ui/react";
+import {ArrowUpRight, BadgeCheck} from "lucide-react";
+import {IconeTechno, iconePour} from "./icones";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
 import {APPARITION, Etiquette, Section} from "./communs";
@@ -18,7 +19,11 @@ export default function Certifications() {
                 {certifications.map(c => (
                     <Box as="li" key={c.id} bg="surface" border="1px solid" borderColor="line.strong" borderRadius="14px"
                          p={5} display="flex" flexDirection="column" {...APPARITION}>
-                        <Etiquette as="p">{c.issuer}</Etiquette>
+                        <Flex align="center" gap={2} color="fg.faint">
+                            {/* Logo de l'organisme s'il existe dans simple-icons, sinon un badge. */}
+                            {iconePour(c.issuer) ? <IconeTechno icone={iconePour(c.issuer)} taille={16}/> : <BadgeCheck size={16} aria-hidden="true"/>}
+                            <Etiquette as="p">{c.issuer}</Etiquette>
+                        </Flex>
                         <Heading as="h3" mt={2} fontSize="18px">{c.name}</Heading>
                         {c.date && <Text mt={1} fontSize="14px" color="fg.faint">{formatDate(c.date)}</Text>}
                         {c.link && (

@@ -11,9 +11,10 @@ import {revalidatePath} from 'next/cache'
 import {getDb} from '../../src/lib/mongodb'
 import {exigerSession} from '../../src/lib/admin/garde'
 import {COOKIE_SESSION, DUREE_SESSION, creerJeton, egaliteSure} from '../../src/lib/admin/session'
-import {CATEGORIES_COMPETENCES, DOMAINES_PROJET, ETATS_NOEUD, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
+import {CATEGORIES_COMPETENCES, DOMAINES_PROJET, ETATS_NOEUD, SECTIONS_ACCUEIL, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
 import {lireSaisieDate} from '../../src/lib/donnees/dates'
 import {slug} from '../../src/lib/donnees/depuisJson'
+import {ErreurTeleversement, televerserLogo} from '../../src/lib/admin/televersement'
 
 // ---------- utilitaires de saisie ----------
 
@@ -97,7 +98,7 @@ async function executer(chemin, ecriture) {
     try {
         resultat = await ecriture()
     } catch (e) {
-        if (e instanceof ErreurSaisie) redirect(avecMessage(chemin, 'erreur', e.message))
+        if (e instanceof ErreurSaisie || e instanceof ErreurTeleversement) redirect(avecMessage(chemin, 'erreur', e.message))
         if (e?.code === 121) redirect(avecMessage(chemin, 'erreur', 'Refuse par le validateur MongoDB (champ manquant ou valeur interdite)'))
         throw e
     }
@@ -170,6 +171,21 @@ export async function modifierProfil(formData) {
     })
 }
 
+// ---------- organisation de l'accueil ----------
+
+// Appelee depuis le composant client de /admin/organisation (glisser-deposer ou boutons).
+// Renvoie un resultat au lieu de rediriger : l'enregistrement est automatique.
+export async function enregistrerOrdreSections(ordre) {
+    await exigerSession()
+    const valide = Array.isArray(ordre) && ordre.length === SECTIONS_ACCUEIL.length
+        && SECTIONS_ACCUEIL.every(s => ordre.includes(s))
+    if (!valide) return {ok: false, erreur: 'Ordre invalide'}
+    const db = await getDb()
+    await db.collection('profil').updateOne({_id: 'profil'}, {$set: {ordreSections: ordre}})
+    rafraichirSite()
+    return {ok: true}
+}
+
 // ---------- experiences ----------
 
 function champsExperience(fd) {
@@ -192,6 +208,7 @@ export async function enregistrerExperience(formData) {
     const id = texte(formData, 'id')
     await executer(`/admin/experiences/${encodeURIComponent(id || 'nouveau')}`, async () => {
         const champs = champsExperience(formData)
+        champs.logo = (await televerserLogo(formData.get('fichierLogo'), slug(champs.entreprise.fr))) ?? champs.logo
         const col = (await getDb()).collection('experiences')
         rafraichirSite()
         if (!id) {
@@ -216,6 +233,7 @@ function champsFormation(fd) {
         enCours: fd.get('enCours') === 'on',
         details: bilingueObligatoire(fd, 'details'),
         siteWeb: url(fd, 'siteWeb'),
+        logo: url(fd, 'logo'),
     }
 }
 
@@ -224,6 +242,7 @@ export async function enregistrerFormation(formData) {
     const id = texte(formData, 'id')
     await executer(`/admin/formations/${encodeURIComponent(id || 'nouveau')}`, async () => {
         const champs = champsFormation(formData)
+        champs.logo = (await televerserLogo(formData.get('fichierLogo'), slug(champs.ecole.fr))) ?? champs.logo
         const col = (await getDb()).collection('formations')
         rafraichirSite()
         if (!id) {

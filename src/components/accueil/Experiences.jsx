@@ -2,9 +2,10 @@
 
 // Experiences : titre a gauche, liste a droite, dates en monospace dans une colonne fixe.
 // Resume court (premier paragraphe) + "Voir le detail" qui deplie le texte complet.
-import {Box, Grid, Heading, Link, Text} from "@chakra-ui/react";
+import {Box, Flex, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
+import Logo from "./Logo";
 import {APPARITION, Detail, Periode, Puces, Section, TexteRiche, couper} from "./communs";
 
 const TAGS_VISIBLES = 6;
@@ -20,15 +21,20 @@ function Experience({exp}) {
               py={8} borderTop="1px solid" borderColor="line.subtle" _first={{borderTop: "none", pt: 0}} {...APPARITION}>
             <Periode pt={{md: "3px"}}>{exp.dates}</Periode>
             <Box>
-                <Heading as="h3" fontSize="20px" lineHeight="1.3">{exp.title}</Heading>
-                <Text mt={1} color="fg.muted" fontSize="15px">
-                    {exp.website ? (
-                        <Link href={exp.website} isExternal fontWeight="600">{exp.company}</Link>
-                    ) : (
-                        <Box as="span" fontWeight="600" color="fg.default">{exp.company}</Box>
-                    )}
-                    {exp.city && <> · {exp.city}</>}
-                </Text>
+                <Flex gap={4} align="flex-start">
+                    <Logo src={exp.logo} nom={exp.company}/>
+                    <Box minW={0}>
+                        <Heading as="h3" fontSize="20px" lineHeight="1.3">{exp.title}</Heading>
+                        <Text mt={1} color="fg.muted" fontSize="15px">
+                            {exp.website ? (
+                                <Link href={exp.website} isExternal fontWeight="600">{exp.company}</Link>
+                            ) : (
+                                <Box as="span" fontWeight="600" color="fg.default">{exp.company}</Box>
+                            )}
+                            {exp.city && <> · {exp.city}</>}
+                        </Text>
+                    </Box>
+                </Flex>
                 <TexteRiche texte={resume} mt={3}/>
                 <Puces items={tags.slice(0, TAGS_VISIBLES)} mt={4}/>
                 {(detail || tagsCaches.length > 0) && (

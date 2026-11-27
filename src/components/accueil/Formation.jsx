@@ -1,9 +1,10 @@
 'use client'
 
 // Formation : lignes date / ecole / diplome, details depliables.
-import {Box, Grid, Heading, Link, Text} from "@chakra-ui/react";
+import {Box, Flex, Grid, Heading, Link, Text} from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
 import {useDonnees} from "../../data/DonneesContext";
+import Logo from "./Logo";
 import {APPARITION, Detail, Periode, Section, TexteRiche} from "./communs";
 
 export default function Formation() {
@@ -26,9 +27,12 @@ export default function Formation() {
                                 </Text>
                             )}
                         </Box>
-                        <Heading as="h3" fontSize="17px" lineHeight="1.4">
-                            {f.website ? <Link href={f.website} isExternal color="fg.default">{f.school}</Link> : f.school}
-                        </Heading>
+                        <Flex gap={3} align="flex-start">
+                            <Logo src={f.logo} nom={f.school}/>
+                            <Heading as="h3" fontSize="17px" lineHeight="1.4" pt="8px">
+                                {f.website ? <Link href={f.website} isExternal color="fg.default">{f.school}</Link> : f.school}
+                            </Heading>
+                        </Flex>
                         <Box>
                             <Text color="fg.muted" fontSize="15px" lineHeight="1.6">{f.degree}</Text>
                             {f.details && (

@@ -3,9 +3,15 @@
 // Les dates sont formatees ici : seuls des objets simples sont transmis au client.
 
 import {formaterPeriode} from './dates.js'
-import {CATEGORIES_COMPETENCES} from './schemas.js'
+import {CATEGORIES_COMPETENCES, SECTIONS_ACCUEIL} from './schemas.js'
 
 const parOrdre = (a, b) => a.ordre - b.ordre
+
+// Ordre des sections : celui du profil, complete par les sections manquantes (ordre par defaut).
+function ordreSections(ordre) {
+    const connues = (ordre ?? []).filter(s => SECTIONS_ACCUEIL.includes(s))
+    return [...new Set([...connues, ...SECTIONS_ACCUEIL])]
+}
 
 function pourLangue(docs, l) {
     const p = docs.profil
@@ -52,6 +58,7 @@ function pourLangue(docs, l) {
             degree: f.diplome[l],
             years: formaterPeriode(f.debut, f.fin, l),
             current: f.enCours,
+            logo: f.logo ?? null,
             details: f.details[l],
             website: f.siteWeb ?? '',
         })),
@@ -69,6 +76,7 @@ function pourLangue(docs, l) {
             domain: pr.domaine ?? null,
             personal: Boolean(pr.personnel),
         })),
+        sections: ordreSections(p.ordreSections),
         certifications: [...(docs.certifications ?? [])].sort(parOrdre).map(c => ({
             id: c._id,
             name: c.nom,

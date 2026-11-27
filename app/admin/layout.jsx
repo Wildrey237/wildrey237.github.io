@@ -19,6 +19,7 @@ export default async function AdminLayout({children}) {
                     <strong>Admin</strong>
                     <nav>
                         <Link href="/admin">Tableau de bord</Link>
+                        <Link href="/admin/organisation">Organisation</Link>
                         <Link href="/admin/profil">Profil</Link>
                         <Link href="/admin/experiences">Experiences</Link>
                         <Link href="/admin/formations">Formations</Link>

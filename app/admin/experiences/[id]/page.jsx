@@ -8,6 +8,7 @@ import Message from '../../Message'
 import ChampBilingue from '../../ChampBilingue'
 import ChampPeriode from '../../ChampPeriode'
 import Suppression from '../../Suppression'
+import ChampLogo from '../../ChampLogo'
 
 export default async function FicheExperience({params, searchParams}) {
     await exigerSession()
@@ -42,11 +43,8 @@ export default async function FicheExperience({params, searchParams}) {
                         <label htmlFor="siteWeb">Site web (vide = aucun)</label>
                         <input id="siteWeb" name="siteWeb" defaultValue={e.siteWeb ?? ''}/>
                     </div>
-                    <div>
-                        <label htmlFor="logo">Logo (/logos/xxx.png ou URL)</label>
-                        <input id="logo" name="logo" defaultValue={e.logo ?? ''}/>
-                    </div>
                 </div>
+                <ChampLogo valeur={e.logo}/>
                 <ChampBilingue nom="description" libelle="Description" valeur={e.description} long/>
                 <ChampBilingue nom="descriptionDetail" libelle="Detail (bouton Voir le detail)" valeur={e.descriptionDetail} long requis={false}/>
                 <ChampBilingue nom="tags" libelle="Tags" valeur={e.tags} liste/>
