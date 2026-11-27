@@ -43,7 +43,9 @@ Set `NEXT_PUBLIC_SITE_URL` in the Vercel project env to the production URL (driv
 - `src/lib/donnees/depuisJson.js` — builds documents from the legacy `src/data/data-fr.json` / `data-en.json` + `prereqMapData.js` (still the migration source).
 - `src/lib/donnees/lecture.js` — server-side read used by `app/page.jsx` (ISR, `revalidate = 3600`); falls back to the JSON files only when `MONGODB_URI` is absent or the DB is not migrated yet.
 - `src/lib/donnees/versAffichage.js` — converts documents to the legacy per-language shape consumed by components via `useDonnees()` (`src/data/DonneesContext.jsx`).
-- `npm run migrer` (`scripts/migrer-mongodb.mjs`, `--essai` for a dry run) — idempotent upsert by `_id`; content fields are re-synced, state fields (node `etat`/`historique`, project `statut`/`noeuds`, skill `noeuds`) are only set on insert.
+- `npm run migrer` (`scripts/migrer-mongodb.mjs`, `--essai` dry run) — initializes an empty DB from the JSON files; once the `profil` doc exists it only updates validators/indexes and leaves content alone (MongoDB is the source of truth, content is edited in `/admin`). `--resync` forces content back from the JSON (recreating deleted items); state fields (node `etat`/`historique`, project `statut`/`noeuds`, skill `noeuds`) are never overwritten.
+
+**Admin (`/admin`):** private back-office (server-rendered HTML forms + Server Actions in `app/admin/actions.js`, works without JS). Protected by `middleware.js` (matcher `/admin/:path*`): an HMAC-SHA256 token signed with `ADMIN_PASSWORD`, stored in the httpOnly `admin_session` cookie (path `/admin`, 8 h, `sameSite: strict`); every action re-checks the session (`src/lib/admin/garde.js`). Changing `ADMIN_PASSWORD` invalidates all sessions; if it is unset, access is denied. Pages: profile, experiences, education, projects, skills (create / edit / delete with a confirmation checkbox), node state (`etat` + `historique`), daily `journal` (one doc per date, upsert). Dates are typed as `AAAA` or `AAAA-MM` (January 1st renders as a year only). Mutations call `revalidatePath` on public pages. `/admin` is disallowed in `robots.js`, absent from `sitemap.js`, and sent with `X-Robots-Tag: noindex`.
 
 The `/ml-map` page and the homepage are separate: map project cells (`bande: "proj"`) live in `noeuds`, never in `projets`.
 
@@ -58,7 +60,7 @@ The `/ml-map` page and the homepage are separate: map project cells (`bande: "pr
 ## Adding a New Section
 
 1. Create `src/components/NewSection.jsx` using Chakra UI layout primitives.
-2. Add content to both `data-fr.json` and `data-en.json`.
+2. Add a collection (validator in `src/lib/donnees/schemas.js`, reader in `src/lib/donnees/lecture.js`) and an `/admin` page to edit it; translatable text as `{fr, en}`.
 3. Add UI string keys to both `fr` and `en` translation objects in `src/i18n.js`.
 4. Import and insert a `<MotionBox {...sectionAnim}>` block in `src/App.jsx`.
 5. Add a nav anchor in `Navbar.jsx` if the section needs a navbar link.
