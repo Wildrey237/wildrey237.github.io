@@ -25,10 +25,15 @@ function Experience({exp}) {
               templateAreas={{
                   base: `"date date" "logo titre" "corps corps" "tags tags"`,
                   md: `"date logo titre" ". corps corps" ". tags tags"`,
-                  xl: `"date titre tags" "logo corps tags"`,
+                  xl: `"date titre tags" "date corps tags"`,
               }}>
-            <Periode gridArea="date" pt={{md: "3px"}}>{exp.dates}</Periode>
-            <Box gridArea="logo" mt={{xl: 3}}><Logo src={exp.logo} nom={exp.company}/></Box>
+            {/* A partir de 1280px, le logo est sous la date (meme cellule) ; avant, a cote du titre.
+                Logo decoratif (alt vide) : sa presence en double dans le HTML est sans effet. */}
+            <Box gridArea="date">
+                <Periode pt={{md: "3px"}}>{exp.dates}</Periode>
+                <Box display={{base: "none", xl: "block"}} mt={3}><Logo src={exp.logo} nom={exp.company}/></Box>
+            </Box>
+            <Box gridArea="logo" display={{base: "block", xl: "none"}}><Logo src={exp.logo} nom={exp.company}/></Box>
             <Box gridArea="titre" minW={0}>
                 <Heading as="h3" fontSize="20px" lineHeight="1.3">{exp.title}</Heading>
                 <Text mt={1} color="fg.muted" fontSize="15px">
