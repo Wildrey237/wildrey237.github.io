@@ -1,16 +1,18 @@
 import {getDb} from '../../src/lib/mongodb'
-import {exigerSession} from '../../src/lib/admin/garde'
+import {sessionValide} from '../../src/lib/admin/garde'
+import {lireBandes} from '../../src/lib/parcours/modele'
 import Parcours from '../../src/components/parcours/Parcours'
 
-// Parcours prive : protege par la session de /admin (middleware), jamais indexe.
+// Parcours : public en lecture mais non reference (noindex ici et en-tete X-Robots-Tag dans
+// next.config.mjs, hors sitemap, hors menu public). L'edition reste reservee a la session admin.
 export const metadata = {
-    title: 'Où j’en suis – parcours privé',
+    title: 'Où j’en suis – parcours',
     robots: {index: false, follow: false, nocache: true, googleBot: {index: false, follow: false}},
 }
 export const dynamic = 'force-dynamic'
 
-export default async function PageParcours() {
-    await exigerSession()
+export default async function PageParcours({searchParams}) {
+    const [{bandes}, estAdmin] = await Promise.all([searchParams, sessionValide()])
     const docs = await (await getDb()).collection('noeuds')
         .find({}, {projection: {historique: 0}})
         .toArray()
@@ -27,5 +29,5 @@ export default async function PageParcours() {
         etat: n.etat,
         etatModifieLe: n.etatModifieLe ? n.etatModifieLe.toISOString() : null,
     }))
-    return <Parcours noeudsInitiaux={noeuds}/>
+    return <Parcours noeudsInitiaux={noeuds} estAdmin={estAdmin} bandesInitiales={lireBandes(bandes)}/>
 }

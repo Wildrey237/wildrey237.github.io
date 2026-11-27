@@ -1,8 +1,9 @@
 import {NextResponse} from 'next/server'
 import {COOKIE_SESSION, jetonValide} from './src/lib/admin/session'
 
-// Protection de /admin et du parcours prive (/parcours) : toute page (et toute action serveur,
-// postee sur l'URL de la page) exige un cookie de session valide, sauf la page de connexion.
+// Protection de /admin : toute page (et toute action serveur, postee sur l'URL de la page) exige
+// un cookie de session valide, sauf la page de connexion. /parcours est public en lecture
+// (son edition passe par /api/parcours/etat, qui verifie la session lui-meme).
 // Sans ADMIN_PASSWORD configuree, l'acces est refuse (echec ferme).
 export async function middleware(requete) {
     const {pathname} = requete.nextUrl
@@ -28,5 +29,5 @@ export async function middleware(requete) {
 }
 
 export const config = {
-    matcher: ['/admin', '/admin/:path*', '/parcours', '/parcours/:path*'],
+    matcher: ['/admin', '/admin/:path*'],
 }

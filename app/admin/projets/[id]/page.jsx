@@ -96,6 +96,9 @@ export default async function FicheProjet({params, searchParams}) {
                         <label style={{display: 'flex', alignItems: 'center', marginTop: 40}}>
                             <input type="checkbox" name="personnel" defaultChecked={Boolean(p.personnel)}/> Projet personnel (filtre « Personnel »)
                         </label>
+                        <label style={{display: 'flex', alignItems: 'center'}}>
+                            <input type="checkbox" name="phare" defaultChecked={Boolean(p.phare)}/> Projet phare (carrousel, 6 à 8 conseillés)
+                        </label>
                     </div>
                     <div>
                         <label htmlFor="badge">Badge (vide = aucun)</label>

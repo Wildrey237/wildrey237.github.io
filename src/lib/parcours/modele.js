@@ -2,6 +2,20 @@
 // a partir des noeuds (seul l'etat de chaque noeud est stocke en base).
 // Module pur, utilise cote serveur et cote client.
 
+// Bandes de la carte : celles de prereqMapData.js (TRACKS), dans leur ordre d'origine.
+// Ce sont elles qui placent les noeuds, dans les deux vues.
+export const BANDES_CARTE = [
+    {id: 'math', nom: 'Mathématiques', court: 'Maths'},
+    {id: 'ml', nom: 'Machine / Deep Learning', court: 'ML / DL'},
+    {id: 'graph', nom: 'Graphes', court: 'Graphes'},
+    {id: 'algo', nom: 'Algorithmique', court: 'Algo'},
+    {id: 'data', nom: 'Données et mise en production', court: 'Données'},
+    {id: 'proj', nom: 'Projets', court: 'Projets'},
+]
+export const IDS_BANDES = BANDES_CARTE.map(b => b.id)
+
+// Rails : regroupements utilises UNIQUEMENT pour les 3 cartes du haut (compteurs, prochaine
+// seance, filtre rapide), jamais pour placer les noeuds sur la carte.
 export const RAILS = [
     {id: 'ia', nom: 'IA & ML', bandes: ['ml', 'graph', 'data']},
     {id: 'maths', nom: 'Maths', bandes: ['math']},
@@ -100,4 +114,25 @@ export function avancement(modele, rail) {
     const compte = s => tous.filter(id => modele.statuts.get(id) === s).length
     const prochaine = noeudsDuRail(modele, rail, 'en-cours')[0] ?? noeudsDuRail(modele, rail, 'ensuite')[0] ?? null
     return {total: tous.length, maitrises: compte('maitrise'), enCours: compte('en-cours'), prochaine}
+}
+
+// Filtre par bande : noeuds des bandes choisies, plus leurs prerequis venus d'autres bandes
+// en version "fantome" (contexte). bandes = null ou vide : pas de filtre.
+export function filtrerParBandes(modele, ids, bandes) {
+    if (!bandes?.length) return {ids, fantomes: new Set()}
+    const choix = new Set(bandes)
+    const visibles = ids.filter(id => choix.has(modele.parId.get(id).bande))
+    const fantomes = new Set()
+    for (const id of visibles) {
+        for (const p of modele.parId.get(id).prerequis) {
+            if (modele.parId.has(p) && !choix.has(modele.parId.get(p).bande)) fantomes.add(p)
+        }
+    }
+    return {ids: [...visibles, ...fantomes], fantomes}
+}
+
+// Lecture de ?bandes=math,ml (valeurs inconnues ignorees, ordre d'origine).
+export function lireBandes(texte) {
+    const demandees = new Set(String(texte ?? '').split(',').map(b => b.trim()))
+    return IDS_BANDES.filter(b => demandees.has(b))
 }

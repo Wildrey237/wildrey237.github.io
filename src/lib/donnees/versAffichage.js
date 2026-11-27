@@ -74,6 +74,7 @@ function pourLangue(docs, l) {
             status: pr.statut,
             noeuds: pr.noeuds,
             domain: pr.domaine ?? null,
+            featured: Boolean(pr.phare),
             personal: Boolean(pr.personnel),
         })),
         sections: ordreSections(p.ordreSections),

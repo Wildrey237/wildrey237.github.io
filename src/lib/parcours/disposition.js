@@ -1,11 +1,12 @@
 // Disposition de la carte du parcours (module pur).
-// - Une bande horizontale par rail, lecture de gauche a droite (colonne = profondeur).
+// - Une bande horizontale par bande d'origine de prereqMapData.js (math, ml, graph, algo, data,
+//   proj), lecture de gauche a droite (colonne = profondeur). Les rails ne servent jamais ici.
 // - Les cartes occupent une grille reguliere : toutes les colonnes d'une bande partagent les
 //   memes rangees. Les fleches ne circulent que dans les couloirs (entre deux colonnes, ou entre
 //   deux rangees) : elles ne traversent donc jamais une carte.
 // - Fleches a angles droits : sortie a droite de la source, couloir vertical, couloir horizontal
 //   au-dessus de la rangee de la cible, couloir vertical avant la cible, entree a gauche.
-import {RAILS} from './modele.js'
+import {BANDES_CARTE} from './modele.js'
 
 // Taille d'une carte : 2 lignes de titre tiennent sans coupe (titre le plus long : 44 caracteres).
 export const CARTE = {largeur: 240, hauteur: 76}
@@ -21,9 +22,10 @@ function decalage(k, pas, max) {
     return rang * pas
 }
 
-export function disposer(modele, ids) {
+// fantomes : prerequis venus d'une bande filtree, affiches en contexte (sans leurs propres liens).
+export function disposer(modele, ids, {fantomes = new Set()} = {}) {
     const garde = new Set(ids)
-    const {parId, rails, statuts, ordre} = modele
+    const {parId, statuts, ordre} = modele
 
     // Colonnes : profondeur recalculee dans le sous-ensemble, puis compactee (pas de colonne vide).
     const prof = new Map()
@@ -42,8 +44,9 @@ export function disposer(modele, ids) {
     const rangee = new Map()
     const bandes = []
     let y = MARGE
-    for (const rail of RAILS) {
-        const membres = ids.filter(id => rails.get(id) === rail.id).sort(ordre)
+    for (const b of BANDES_CARTE) {
+        // Pas de bande vide : seules les bandes qui ont des noeuds a afficher sont dessinees.
+        const membres = ids.filter(id => parId.get(id).bande === b.id).sort(ordre)
         if (!membres.length) continue
         const parColonne = new Map()
         for (const id of membres) {
@@ -54,7 +57,7 @@ export function disposer(modele, ids) {
         }
         const nbRangees = Math.max(...parColonne.values())
         const hauteur = ENTETE_BANDE + nbRangees * CARTE.hauteur + (nbRangees - 1) * ECART_RANG + ECART_RANG
-        bandes.push({rail: rail.id, nom: rail.nom, y, hauteur, membres})
+        bandes.push({bande: b.id, nom: b.nom, y, hauteur, membres, fantome: membres.every(id => fantomes.has(id))})
         for (const id of membres) rangee.set(id, {bande: bandes.length - 1, r: rangee.get(id)})
         y += hauteur + ECART_BANDE
     }
@@ -64,7 +67,7 @@ export function disposer(modele, ids) {
         const {bande, r} = rangee.get(id)
         return {x: xCol(colonne.get(id)), y: bandes[bande].y + ENTETE_BANDE + r * (CARTE.hauteur + ECART_RANG)}
     }
-    const cartes = ids.map(id => ({cle: id, id, ...position(id), h: CARTE.hauteur, statut: statuts.get(id)}))
+    const cartes = ids.map(id => ({cle: id, id, ...position(id), h: CARTE.hauteur, statut: statuts.get(id), fantome: fantomes.has(id)}))
 
     // Fleches prerequis -> noeud (dans le sous-ensemble).
     const usageCouloir = new Map()
@@ -75,6 +78,8 @@ export function disposer(modele, ids) {
     }
     const aretes = []
     for (const id of ids) {
+        // Un fantome n'a pas de liens entrants : seul son lien vers le noeud filtre est trace.
+        if (fantomes.has(id)) continue
         for (const p of parId.get(id).prerequis) {
             if (!garde.has(p)) continue
             const a = position(p), b = position(id)
@@ -97,7 +102,8 @@ export function disposer(modele, ids) {
             }
             // Lien attenue s'il ne touche ni un noeud en cours ni un noeud "Ensuite".
             const actif = s => ['en-cours', 'ensuite'].includes(statuts.get(s))
-            aretes.push({cle: `${p}-${id}`, de: p, vers: id, points, accent: statuts.get(id) === 'ensuite', attenue: !actif(p) && !actif(id)})
+            aretes.push({cle: `${p}-${id}`, de: p, vers: id, points, accent: statuts.get(id) === 'ensuite',
+                attenue: (!actif(p) && !actif(id)) || fantomes.has(p), fantome: fantomes.has(p)})
         }
     }
     // Fleches d'accent dessinees en dernier (au-dessus des grises).
@@ -112,99 +118,166 @@ export function disposer(modele, ids) {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Vue "Autour de moi" : une grappe par noeud central (en cours, ou point d'entree "Ensuite").
-// Prerequis a gauche, noeud central au milieu, ce qu'il debloque a droite. Seuls les liens
-// directs sont traces (prerequis -> centre, centre -> debloque) : chaque lien n'enjambe qu'un
-// couloir, avec au plus 2 coudes, sur un couloir vertical qui lui est propre (aucun "bus").
-// Un noeud partage par deux centres apparait dans chacune des deux grappes.
+// Vue "Autour de moi" : trois colonnes (prerequis | noeuds centraux | ce qu'ils debloquent),
+// chaque noeud dans la bande de son tk d'origine. Seuls les liens directs sont traces
+// (prerequis -> centre, centre -> debloque). Chaque lien reste dans le couloir entre deux
+// colonnes : sortie horizontale, couloir vertical propre au lien, entree horizontale (2 coudes
+// au plus) ; il ne traverse donc jamais une carte. Points de sortie / d'entree espaces de 12px
+// sur les cartes, couloirs espaces de 14px, ordonnes pour qu'aucun lien n'en longe un autre a
+// moins de 12px. Un noeud peut figurer dans deux colonnes (ex. centre et prerequis d'un autre).
 
-const PAS_PORT = 12      // ecart entre deux points d'arrivee sur le bord du centre
-const PAS_COULOIR = 14   // ecart entre deux couloirs verticaux
+const PAS_PORT = 12
+const PAS_COULOIR = 14
 const MARGE_PORT = 8
-const ECART_GRAPPE = 40
+const ECART_PILE = 28
 
-// Hauteur du centre : assez de points d'arrivee/depart, espaces de PAS_PORT.
-function hauteurCentre(n) {
-    return Math.max(CARTE.hauteur, 2 * MARGE_PORT + (n - 1) * PAS_PORT)
-}
+const hauteurPour = n => Math.max(CARTE.hauteur, 2 * MARGE_PORT + (n - 1) * PAS_PORT)
 
-// Liens d'un cote : sources (ordonnees ys) vers une cible (bord vertical x = xb, de ty a ty + th),
-// en partant du bord x = xa. Points d'arrivee repartis autour du centre de la cible, dans l'ordre
-// des sources (pas de croisement) ; couloir propre a chaque lien, le plus eloigne pres de la cible
-// (liens imbriques). Un lien deja aligne reste droit (0 coude).
-function eventail(ys, xa, xb, ty, th) {
-    const ordre = ys.map((y, i) => ({y, i})).sort((a, b) => a.y - b.y)
-    const n = ordre.length
-    const milieu = ty + th / 2
-    const ports = ordre.map((_, k) => milieu + (k - (n - 1) / 2) * PAS_PORT)
-    const liens = ordre.map((o, k) => ({i: o.i, y: o.y, port: ports[k], dist: Math.abs(o.y - ports[k])}))
-    const coudes = liens.filter(l => l.dist > 0.5).sort((a, b) => b.dist - a.dist)
-    coudes.forEach((l, j) => { l.x = xb - PAS_COULOIR - j * PAS_COULOIR })
-    const resultat = []
-    for (const l of liens) {
-        resultat[l.i] = l.dist <= 0.5
-            ? [[xa, l.y], [xb, l.y]]
-            : [[xa, l.y], [l.x, l.y], [l.x, l.port], [xb, l.port]]
-    }
-    return {points: resultat, couloirs: coudes.length}
-}
-
-export function disposerAutour(modele, centres) {
-    const {parId, rails, statuts, successeurs, ordre} = modele
-    const grappes = [...centres].sort((a, b) => {
-        const ra = RAILS.findIndex(r => r.id === rails.get(a)), rb = RAILS.findIndex(r => r.id === rails.get(b))
-        return ra - rb || ordre(a, b)
-    }).map(c => ({
-        centre: c,
-        rail: rails.get(c),
-        gauche: parId.get(c).prerequis.filter(p => parId.has(p)).sort(ordre),
-        droite: [...successeurs.get(c)].sort(ordre),
-    }))
-
-    // Largeur des couloirs : assez pour un couloir par lien (le plus charge de tous).
-    const largeurCouloir = n => Math.max(ECART_COL, 2 * PAS_COULOIR + n * PAS_COULOIR)
-    const cg = largeurCouloir(Math.max(0, ...grappes.map(g => g.gauche.length)))
-    const cd = largeurCouloir(Math.max(0, ...grappes.map(g => g.droite.length)))
-    const x0 = MARGE, x1 = x0 + CARTE.largeur + cg, x2 = x1 + CARTE.largeur + cd
-    const pile = n => n * CARTE.hauteur + Math.max(0, n - 1) * ECART_RANG
-
-    const cartes = [], aretes = [], bandes = []
-    let y = MARGE
-    for (const rail of RAILS) {
-        const duRail = grappes.filter(g => g.rail === rail.id)
-        if (!duRail.length) continue
-        const debut = y
-        y += ENTETE_BANDE
-        for (const g of duRail) {
-            const hc = hauteurCentre(Math.max(g.gauche.length, g.droite.length, 1))
-            const hg = Math.max(pile(g.gauche.length), pile(g.droite.length), hc)
-            const yc = y + (hg - hc) / 2
-            cartes.push({cle: `${g.centre}@${g.centre}`, id: g.centre, x: x1, y: yc, h: hc, statut: statuts.get(g.centre)})
-            const placer = (liste, x) => {
-                const haut = y + (hg - pile(liste.length)) / 2
-                return liste.map((id, k) => {
-                    const c = {cle: `${id}@${g.centre}`, id, x, y: haut + k * (CARTE.hauteur + ECART_RANG), h: CARTE.hauteur, statut: statuts.get(id)}
-                    cartes.push(c)
-                    return c
-                })
-            }
-            const gauche = placer(g.gauche, x0)
-            const droite = placer(g.droite, x2)
-            const milieu = c => c.y + CARTE.hauteur / 2
-            // Prerequis -> centre
-            const eg = eventail(gauche.map(milieu), x0 + CARTE.largeur, x1, yc, hc)
-            gauche.forEach((c, k) => aretes.push({cle: `${c.cle}>${g.centre}`, de: c.id, vers: g.centre, points: eg.points[k],
-                accent: statuts.get(g.centre) === 'ensuite', attenue: false}))
-            // Centre -> ce qu'il debloque : meme calcul en miroir (x inverses), puis remis a l'endroit.
-            const ed = eventail(droite.map(milieu), -x2, -(x1 + CARTE.largeur), yc, hc)
-            droite.forEach((c, k) => aretes.push({cle: `${g.centre}>${c.cle}`, de: g.centre, vers: c.id,
-                points: ed.points[k].map(([px, py]) => [-px, py]).reverse(),
-                accent: statuts.get(c.id) === 'ensuite', attenue: false}))
-            y += hg + ECART_GRAPPE
+// Ordonne les couloirs d'un canal. Contrainte : si le segment de sortie de A et le segment
+// d'entree de B sont a moins de 12px en hauteur, le couloir de A doit etre a gauche de celui de B
+// (sinon ils se recouvrent). Tri topologique ; a egalite, les liens les plus longs vers la cible.
+function ordonnerCouloirs(liens) {
+    const n = liens.length
+    const avant = Array.from({length: n}, () => new Set())
+    const degre = new Array(n).fill(0)
+    for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) {
+        if (a !== b && Math.abs(liens[a].ySortie - liens[b].yEntree) < PAS_PORT && !avant[a].has(b)) {
+            avant[a].add(b)
+            degre[b]++
         }
-        y += ECART_BANDE - ECART_GRAPPE + ECART_RANG
-        bandes.push({rail: rail.id, nom: rail.nom, y: debut, hauteur: y - debut - ECART_BANDE})
     }
+    const longueur = i => Math.abs(liens[i].yEntree - liens[i].ySortie)
+    const restants = new Set(liens.keys())
+    const ordre = []
+    while (restants.size) {
+        let prets = [...restants].filter(i => degre[i] === 0)
+        // Cycle (tres rare) : on le rompt sur le lien le plus court.
+        if (!prets.length) prets = [[...restants].sort((a, b) => longueur(a) - longueur(b))[0]]
+        prets.sort((a, b) => longueur(a) - longueur(b))
+        const i = prets[0]
+        restants.delete(i)
+        ordre.push(i)
+        for (const b of avant[i]) degre[b]--
+    }
+    return ordre
+}
+
+export function disposerAutour(modele, centres, {bandes: filtre = null} = {}) {
+    const {parId, statuts, successeurs, ordre} = modele
+    const choix = filtre?.length ? new Set(filtre) : null
+    const garde = id => !choix || choix.has(parId.get(id).bande)
+
+    // Liens directs : prerequis -> centre (prerequis hors filtre : fantomes), centre -> debloque.
+    const centresGardes = [...centres].filter(garde)
+    const liensG = [], liensD = []
+    for (const c of centresGardes) {
+        for (const p of parId.get(c).prerequis) if (parId.has(p)) liensG.push({de: p, vers: c})
+        for (const s of successeurs.get(c)) if (garde(s)) liensD.push({de: c, vers: s})
+    }
+    const colonnes = [
+        [...new Set(liensG.map(l => l.de))],
+        centresGardes,
+        [...new Set(liensD.map(l => l.vers))],
+    ]
+    // Nombre de liens par cote de carte, pour dimensionner sa hauteur (points espaces de 12px).
+    const compte = new Map()
+    const ajouter = (cle, n = 1) => compte.set(cle, (compte.get(cle) ?? 0) + n)
+    for (const l of liensG) { ajouter(`0:${l.de}`); ajouter(`1:${l.vers}:g`) }
+    for (const l of liensD) { ajouter(`1:${l.de}:d`); ajouter(`2:${l.vers}`) }
+    // Cartes qui recoivent des liens : deux pas de plus, pour pouvoir decaler les points d'entree.
+    const hauteurCarte = (k, id) => hauteurPour(k === 1
+        ? Math.max((compte.get(`1:${id}:g`) ?? 0) * 2 + 1, compte.get(`1:${id}:d`) ?? 0, 1)
+        : k === 2 ? (compte.get(`2:${id}`) ?? 1) * 2 + 1 : (compte.get(`0:${id}`) ?? 1))
+
+    // Largeur des canaux : un couloir par lien.
+    const largeurCanal = n => Math.max(ECART_COL, 2 * PAS_COULOIR + n * PAS_COULOIR)
+    const x = [MARGE]
+    x[1] = x[0] + CARTE.largeur + largeurCanal(liensG.length)
+    x[2] = x[1] + CARTE.largeur + largeurCanal(liensD.length)
+
+    // Bandes d'origine : dans chaque bande, chaque colonne empile ses noeuds de cette bande.
+    const cartes = [], bandes = [], parCle = new Map()
+    let y = MARGE
+    for (const b of BANDES_CARTE) {
+        const parColonne = colonnes.map(col => col.filter(id => parId.get(id).bande === b.id).sort(ordre))
+        if (!parColonne.some(c => c.length)) continue
+        const debut = y
+        let hauteurBande = 0
+        parColonne.forEach((liste, k) => {
+            let yk = debut + ENTETE_BANDE
+            for (const id of liste) {
+                const h = hauteurCarte(k, id)
+                const carte = {cle: `${id}#${k}`, id, x: x[k], y: yk, h, statut: statuts.get(id), fantome: !garde(id)}
+                cartes.push(carte)
+                parCle.set(carte.cle, carte)
+                yk += h + ECART_PILE
+            }
+            hauteurBande = Math.max(hauteurBande, yk - ECART_PILE - debut)
+        })
+        const toutFantome = parColonne.flat().every(id => !garde(id))
+        bandes.push({bande: b.id, nom: b.nom, y: debut, hauteur: hauteurBande + ECART_RANG, fantome: toutFantome})
+        y = debut + hauteurBande + ECART_RANG + ECART_BANDE
+    }
+
+    // Points de sortie puis d'entree, dans l'ordre de l'autre extremite. Les points d'entree sont
+    // places a au moins 12px de tous les points de sortie du meme couloir : un segment d'entree ne
+    // peut alors jamais longer un segment de sortie, quel que soit l'ordre des couloirs.
+    function ports(liens, cleSource, cleCible) {
+        const sorties = new Map(), entrees = new Map()
+        const grouper = (m, cle, e) => { if (!m.has(cle)) m.set(cle, []); m.get(cle).push(e) }
+        for (const l of liens) {
+            l.source = parCle.get(cleSource(l))
+            l.cible = parCle.get(cleCible(l))
+            grouper(sorties, l.source.cle, l)
+            grouper(entrees, l.cible.cle, l)
+        }
+        const milieu = c => c.y + c.h / 2
+        for (const [cle, liste] of sorties) {
+            const carte = parCle.get(cle)
+            liste.sort((a, b) => milieu(a.cible) - milieu(b.cible))
+            liste.forEach((l, i) => { l.ySortie = milieu(carte) + (i - (liste.length - 1) / 2) * PAS_PORT })
+        }
+        const ysSortie = liens.map(l => l.ySortie)
+        const libre = (y, pris) => ysSortie.every(o => Math.abs(o - y) >= PAS_PORT) && pris.every(o => Math.abs(o - y) >= PAS_PORT)
+        for (const [cle, liste] of entrees) {
+            const carte = parCle.get(cle)
+            liste.sort((a, b) => milieu(a.source) - milieu(b.source))
+            const pris = []
+            liste.forEach((l, i) => {
+                const ideal = milieu(carte) + (i - (liste.length - 1) / 2) * PAS_PORT
+                const haut = carte.y + MARGE_PORT, bas = carte.y + carte.h - MARGE_PORT
+                // Candidats de plus en plus eloignes de la position ideale, par pas de 2px.
+                let y = ideal
+                for (let d = 0; d <= carte.h; d += 2) {
+                    const c = [ideal + d, ideal - d].find(v => v >= haut && v <= bas && libre(v, pris))
+                    if (c !== undefined) { y = c; break }
+                }
+                pris.push(y)
+                l.yEntree = y
+            })
+        }
+    }
+    ports(liensG, l => `${l.de}#0`, l => `${l.vers}#1`)
+    ports(liensD, l => `${l.de}#1`, l => `${l.vers}#2`)
+
+    const aretes = []
+    const tracer = (liens, xa, xb) => {
+        const ordreCouloirs = ordonnerCouloirs(liens)
+        ordreCouloirs.forEach((i, rang) => { liens[i].xCouloir = xa + PAS_COULOIR * (rang + 1) })
+        for (const l of liens) {
+            // Toujours via son couloir (meme aligne) : la regle d'ordre des couloirs s'applique a tous.
+            const points = Math.abs(l.ySortie - l.yEntree) < 0.5
+                ? [[xa, l.ySortie], [l.xCouloir, l.ySortie], [xb, l.yEntree]]
+                : [[xa, l.ySortie], [l.xCouloir, l.ySortie], [l.xCouloir, l.yEntree], [xb, l.yEntree]]
+            aretes.push({cle: `${l.source.cle}>${l.cible.cle}`, de: l.de, vers: l.vers, versCle: l.cible.cle, points,
+                accent: statuts.get(l.vers) === 'ensuite', attenue: l.source.fantome, fantome: l.source.fantome})
+        }
+    }
+    tracer(liensG, x[0] + CARTE.largeur, x[1])
+    tracer(liensD, x[1] + CARTE.largeur, x[2])
     aretes.sort((a, b) => Number(a.accent) - Number(b.accent))
-    return {largeur: x2 + CARTE.largeur + MARGE, hauteur: y - ECART_BANDE + MARGE, cartes, aretes, bandes}
+
+    // Colonnes vides (ex. aucun prerequis) : la largeur suit les colonnes reellement utilisees.
+    const derniere = colonnes[2].length ? 2 : colonnes[1].length ? 1 : 0
+    return {largeur: x[derniere] + CARTE.largeur + MARGE, hauteur: Math.max(y - ECART_BANDE, MARGE) + MARGE, cartes, aretes, bandes}
 }

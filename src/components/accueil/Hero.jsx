@@ -5,6 +5,7 @@
 import Image from "next/image";
 import {Box, Button, Container, Flex, Grid, Heading, Text} from "@chakra-ui/react";
 import {useTranslation} from "react-i18next";
+import Contacts from "./Contacts";
 import {useDonnees} from "../../data/DonneesContext";
 import {Etiquette, LARGEUR, MARGES} from "./communs";
 
@@ -24,9 +25,9 @@ export default function Hero() {
     const [ligne1, ...reste] = profile.name.split(" ");
 
     return (
-        <Box as="section" id="haut" aria-labelledby="hero-nom" pt={{base: 10, md: 16}} pb={{base: 14, md: 20}}>
+        <Box as="section" id="haut" aria-labelledby="hero-nom" pt={{base: 6, md: 12}} pb={{base: 14, md: 20}}>
             <Container maxW={LARGEUR} px={MARGES}>
-                <Grid templateColumns={{base: "1fr", lg: "minmax(0, 1.45fr) minmax(0, 1fr)"}}
+                <Grid templateColumns={{base: "1fr", lg: "minmax(0, 7fr) minmax(0, 5fr)"}}
                       gap={{base: 10, lg: 16}} alignItems="center">
                     <Box>
                         {profile.availability && (
@@ -36,7 +37,7 @@ export default function Hero() {
                                 {profile.availability}
                             </Flex>
                         )}
-                        <Heading as="h1" id="hero-nom" mt={6} fontSize={{base: "44px", md: "60px", lg: "72px"}}
+                        <Heading as="h1" id="hero-nom" mt={{base: 4, md: 6}} fontSize={{base: "44px", md: "60px", lg: "72px", "2xl": "88px"}}
                                  lineHeight="1.02" letterSpacing="-0.035em">
                             <Box as="span" display="block">{ligne1}</Box>
                             <Box as="span" display="block">{reste.join(" ")}</Box>
@@ -47,13 +48,15 @@ export default function Hero() {
                         <Text mt={5} fontSize={{base: "16px", md: "17px"}} lineHeight="1.7" color="fg.muted" maxW="60ch">
                             {profile.summary}
                         </Text>
-                        <Flex mt={8} gap={3} wrap="wrap">
+                        <Flex mt={{base: 6, md: 8}} gap={3} wrap="wrap">
                             <Button as="a" href="#projets" size="lg">{t("hero.seeProjects")}</Button>
                             <Button as="a" href="#contact" size="lg" variant="contour">{t("hero.contactMe")}</Button>
                         </Flex>
+                        {/* Contacts directs, visibles sans defiler. */}
+                        <Contacts/>
                     </Box>
 
-                    <Box maxW={{base: "420px", lg: "none"}} w="100%" mx={{base: "auto", lg: 0}}>
+                    <Box maxW={{base: "420px", lg: "480px"}} w="100%" mx={{base: "auto", lg: 0}} ml={{lg: "auto"}}>
                         {profile.link_picture && (
                             <Box position="relative" borderRadius="16px" overflow="hidden" border="1px solid"
                                  borderColor="line.strong" bg="surface" sx={{aspectRatio: "4 / 5"}}>

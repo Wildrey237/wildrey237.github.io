@@ -27,6 +27,10 @@ const resources = {
                 lieu: "Lieu",
                 langues: "Langues",
                 portrait: "Portrait de {{nom}}",
+                contacts: "Contacts directs",
+                copier: "Copier",
+                copie: "Copié",
+                copierEmail: "Copier l’adresse e-mail",
             },
             experiences: {
                 title: "Expériences",
@@ -75,6 +79,10 @@ const resources = {
                 lien: "Ouvrir le dépôt ou le site",
                 fermer: "Fermer",
                 aucun: "Aucun projet dans cette catégorie.",
+                phares: "Projets phares",
+                precedent: "Projets précédents",
+                suivant: "Projets suivants",
+                masquer: "Masquer la liste complète",
             },
             footer: {
                 title: "Travaillons ensemble",
@@ -108,6 +116,10 @@ const resources = {
                 lieu: "Location",
                 langues: "Languages",
                 portrait: "Portrait of {{nom}}",
+                contacts: "Direct contacts",
+                copier: "Copy",
+                copie: "Copied",
+                copierEmail: "Copy email address",
             },
             experiences: {
                 title: "Experience",
@@ -156,6 +168,10 @@ const resources = {
                 lien: "Open repository or website",
                 fermer: "Close",
                 aucun: "No project in this category.",
+                phares: "Featured projects",
+                precedent: "Previous projects",
+                suivant: "Next projects",
+                masquer: "Hide the full list",
             },
             footer: {
                 title: "Let’s work together",
