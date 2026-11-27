@@ -10,7 +10,7 @@ import {redirect} from 'next/navigation'
 import {revalidatePath} from 'next/cache'
 import {getDb} from '../../src/lib/mongodb'
 import {exigerSession} from '../../src/lib/admin/garde'
-import {COOKIE_SESSION, DUREE_SESSION, creerJeton, egaliteSure} from '../../src/lib/admin/session'
+import {COOKIE_SESSION} from '../../src/lib/admin/session'
 import {CATEGORIES_COMPETENCES, DOMAINES_PROJET, SECTIONS_ACCUEIL, STATUTS_PROJET} from '../../src/lib/donnees/schemas'
 import {lireSaisieDate} from '../../src/lib/donnees/dates'
 import {slug} from '../../src/lib/donnees/depuisJson'
@@ -112,33 +112,6 @@ function rafraichirSite() {
 }
 
 // ---------- connexion ----------
-
-export async function seConnecter(formData) {
-    const motDePasse = String(formData.get('motDePasse') ?? '')
-    const suiteDemandee = String(formData.get('suite') ?? '')
-    // Redirection interne a /admin ou /parcours uniquement (pas de redirection ouverte).
-    const suite = /^\/(admin|parcours)(\/[\w\-\/]*)?$/.test(suiteDemandee) && suiteDemandee !== '/admin/connexion' ? suiteDemandee : '/admin'
-
-    const attendu = process.env.ADMIN_PASSWORD
-    if (!attendu) redirect('/admin/connexion?erreur=config')
-
-    if (!motDePasse || !(await egaliteSure(motDePasse, attendu))) {
-        // Ralentit les essais en serie.
-        await new Promise(r => setTimeout(r, 1000))
-        redirect(`/admin/connexion?${new URLSearchParams({erreur: 'motdepasse', suite})}`)
-    }
-
-    const jar = await cookies()
-    jar.set(COOKIE_SESSION, await creerJeton(attendu), {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        // Chemin "/" : la session couvre /admin et /parcours.
-        path: '/',
-        maxAge: DUREE_SESSION,
-    })
-    redirect(suite)
-}
 
 export async function seDeconnecter() {
     const jar = await cookies()

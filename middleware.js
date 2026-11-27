@@ -7,7 +7,8 @@ import {COOKIE_SESSION, jetonValide} from './src/lib/admin/session'
 export async function middleware(requete) {
     const {pathname} = requete.nextUrl
 
-    if (pathname !== '/admin/connexion') {
+    // Page de connexion et sa route de validation : accessibles sans session.
+    if (pathname !== '/admin/connexion' && pathname !== '/admin/connexion/valider') {
         const valide = await jetonValide(requete.cookies.get(COOKIE_SESSION)?.value, process.env.ADMIN_PASSWORD)
         if (!valide) {
             const url = requete.nextUrl.clone()

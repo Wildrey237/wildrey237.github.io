@@ -1,6 +1,5 @@
 import {redirect} from 'next/navigation'
 import {sessionValide} from '../../../src/lib/admin/garde'
-import {seConnecter} from '../actions'
 
 const ERREURS = {
     motdepasse: 'Mot de passe incorrect.',
@@ -14,7 +13,7 @@ export default async function Connexion({searchParams}) {
         <div className="admin-carte" style={{maxWidth: 380, margin: '10vh auto'}}>
             <h1>Connexion</h1>
             {erreur && <p className="admin-message erreur" role="alert">{ERREURS[erreur] ?? 'Erreur.'}</p>}
-            <form action={seConnecter}>
+            <form method="post" action="/admin/connexion/valider">
                 <input type="hidden" name="suite" value={typeof suite === 'string' ? suite : '/admin'}/>
                 <label htmlFor="motDePasse">Mot de passe</label>
                 <input id="motDePasse" name="motDePasse" type="password" autoComplete="current-password" required autoFocus/>
