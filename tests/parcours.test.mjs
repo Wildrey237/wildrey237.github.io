@@ -2,7 +2,7 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import * as carte from '../src/components/PrereqMap/prereqMapData.js'
-import {IDS_BANDES, RAILS, autourDeMoi, avancement, construireModele, filtrerParBandes} from '../src/lib/parcours/modele.js'
+import {IDS_BANDES, RAILS, autourDeMoi, avancement, construireModele, filtrerParBandes, voisinage} from '../src/lib/parcours/modele.js'
 import {CARTE, disposer, disposerAutour} from '../src/lib/parcours/disposition.js'
 
 const ETATS = ['non commence', 'en cours', 'maitrise']
@@ -152,7 +152,14 @@ test('filtre par bande, carte complete : chaque bande seule et Maths + ML / DL',
     for (let g = 0; g <= 10; g++) {
         const m = construireModele(g ? etatsAleatoires(g) : base)
         for (const bandes of FILTRES) {
-            const {ids, fantomes} = filtrerParBandes(m, base.map(n => n.id), bandes)
+            // Par defaut : aucune autre bande, aucun fantome.
+            const sans = filtrerParBandes(m, base.map(n => n.id), bandes)
+            const d0 = disposer(m, sans.ids, {fantomes: sans.fantomes})
+            assert.ok(d0.cartes.every(c => bandes.includes(tk[c.id]) && !c.fantome), `noeud hors filtre ${bandes}`)
+            assert.ok(d0.bandes.every(b => bandes.includes(b.bande)), `bande hors filtre affichee pour ${bandes}`)
+            verifierFiltre(m, d0, bandes)
+            // Avec les prerequis externes : fantomes = prerequis directs uniquement.
+            const {ids, fantomes} = filtrerParBandes(m, base.map(n => n.id), bandes, {externes: true})
             verifierFiltre(m, disposer(m, ids, {fantomes}), bandes)
         }
     }
@@ -162,9 +169,24 @@ test('filtre par bande, Autour de moi : chaque bande seule et Maths + ML / DL, 2
     for (let g = 1; g <= 20; g++) {
         const m = construireModele(etatsAleatoires(g))
         for (const bandes of FILTRES) {
-            const d = disposerAutour(m, autourDeMoi(m).centres, {bandes})
+            const d0 = disposerAutour(m, autourDeMoi(m).centres, {bandes})
+            assert.ok(d0.cartes.every(c => bandes.includes(tk[c.id])), `Autour : noeud hors filtre ${bandes}`)
+            verifierFiltre(m, d0, bandes)
+            const d = disposerAutour(m, autourDeMoi(m).centres, {bandes, externes: true})
             verifierFiltre(m, d, bandes)
             for (const a of d.aretes) assert.ok(a.points.length - 2 <= 2, `plus de 2 coudes ${a.cle}`)
         }
     }
+})
+
+test('voisinage : liens directs, puis chaine complete en amont et en aval', () => {
+    const m = construireModele(base)
+    const direct = voisinage(m, 'ml3')
+    assert.deepEqual([...direct.amont].sort(), [...m.parId.get('ml3').prerequis].sort())
+    assert.deepEqual([...direct.aval].sort(), [...m.successeurs.get('ml3')].sort())
+    const chaine = voisinage(m, 'ml3', true)
+    // m1 est un prerequis indirect (ml1 -> ml3 via m1 -> ml1) ; p_trader est debloque indirectement.
+    assert.ok(chaine.amont.has('m1') && chaine.amont.size >= direct.amont.size)
+    assert.ok(chaine.aval.has('p_trader') && !direct.aval.has('p_trader'))
+    assert.ok(!chaine.amont.has('ml3') && !chaine.aval.has('ml3'))
 })

@@ -162,7 +162,7 @@ function ordonnerCouloirs(liens) {
     return ordre
 }
 
-export function disposerAutour(modele, centres, {bandes: filtre = null} = {}) {
+export function disposerAutour(modele, centres, {bandes: filtre = null, externes = false} = {}) {
     const {parId, statuts, successeurs, ordre} = modele
     const choix = filtre?.length ? new Set(filtre) : null
     const garde = id => !choix || choix.has(parId.get(id).bande)
@@ -171,7 +171,7 @@ export function disposerAutour(modele, centres, {bandes: filtre = null} = {}) {
     const centresGardes = [...centres].filter(garde)
     const liensG = [], liensD = []
     for (const c of centresGardes) {
-        for (const p of parId.get(c).prerequis) if (parId.has(p)) liensG.push({de: p, vers: c})
+        for (const p of parId.get(c).prerequis) if (parId.has(p) && (externes || garde(p))) liensG.push({de: p, vers: c})
         for (const s of successeurs.get(c)) if (garde(s)) liensD.push({de: c, vers: s})
     }
     const colonnes = [

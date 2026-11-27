@@ -12,7 +12,7 @@ export const metadata = {
 export const dynamic = 'force-dynamic'
 
 export default async function PageParcours({searchParams}) {
-    const [{bandes}, estAdmin] = await Promise.all([searchParams, sessionValide()])
+    const [{bandes, noeud}, estAdmin] = await Promise.all([searchParams, sessionValide()])
     const docs = await (await getDb()).collection('noeuds')
         .find({}, {projection: {historique: 0}})
         .toArray()
@@ -29,5 +29,6 @@ export default async function PageParcours({searchParams}) {
         etat: n.etat,
         etatModifieLe: n.etatModifieLe ? n.etatModifieLe.toISOString() : null,
     }))
-    return <Parcours noeudsInitiaux={noeuds} estAdmin={estAdmin} bandesInitiales={lireBandes(bandes)}/>
+    return <Parcours noeudsInitiaux={noeuds} estAdmin={estAdmin} bandesInitiales={lireBandes(bandes)}
+                     noeudInitial={typeof noeud === 'string' ? noeud : null}/>
 }

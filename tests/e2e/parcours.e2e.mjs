@@ -70,16 +70,86 @@ describe('visiteur sans session', () => {
             await page.waitForFunction(attendu => new URL(location.href).searchParams.get('bandes') === attendu, bandes.join(','))
             const cartes = await page.$$eval('[data-carte-cadre] [data-noeud]', els => els.map(e => ({id: e.dataset.noeud, fantome: e.hasAttribute('data-fantome')})))
             assert.ok(cartes.length > 0, `aucune carte pour ${bandes}`)
-            for (const c of cartes) {
-                if (c.fantome) assert.ok(!bandes.includes(tk[c.id]), `${c.id} fantome alors qu il est dans le filtre`)
-                else assert.ok(bandes.includes(tk[c.id]), `${c.id} (${tk[c.id]}) affiche hors filtre ${bandes}`)
-            }
+            // Par defaut, aucun prerequis externe : seuls les noeuds des bandes choisies.
+            for (const c of cartes) assert.ok(bandes.includes(tk[c.id]) && !c.fantome, `${c.id} (${tk[c.id]}) affiche hors filtre ${bandes}`)
         }
         // Rechargement : le filtre est relu depuis l'URL.
         await page.reload()
         await page.waitForSelector('[data-carte-cadre] [data-noeud]')
         const presses = await page.getByRole('group', {name: 'Filtrer la carte par bande'}).locator('[aria-pressed="true"]').allTextContents()
         assert.deepEqual(presses.map(s => s.trim()), ['Maths', 'ML / DL'])
+    })
+})
+
+describe('filtre Maths + Projets et prerequis externes', () => {
+    let page
+    before(async () => {
+        if (sauter) return
+        page = await (await contexte()).newPage()
+        await page.goto(`${BASE_URL}/parcours?bandes=math,proj`)
+        await page.getByRole('button', {name: /Carte complète/}).click()
+        await page.waitForSelector('[data-carte-cadre] [data-noeud]')
+    })
+
+    test('?bandes=math,proj : aucun noeud ni libelle des autres bandes dans le DOM', {skip: sauter}, async () => {
+        const r = await page.evaluate(() => ({
+            noeuds: [...document.querySelectorAll('[data-carte-cadre] [data-noeud]')].map(e => e.dataset.noeud),
+            bandes: [...document.querySelectorAll('[data-carte-cadre] [data-bande]')].map(e => e.dataset.bande),
+            texte: document.querySelector('[data-carte-cadre]').textContent,
+        }))
+        assert.deepEqual([...new Set(r.bandes)].sort(), ['math', 'proj'])
+        for (const id of r.noeuds) assert.ok(['math', 'proj'].includes(tk[id]), `${id} (${tk[id]}) dans le DOM`)
+        for (const libelle of ['Machine / Deep Learning', 'Graphes', 'Algorithmique', 'Données et mise en production']) {
+            assert.ok(!r.texte.includes(libelle), `libelle de bande ${libelle} dans le DOM`)
+        }
+    })
+
+    test('case cochee : seuls les prerequis directs apparaissent en fantome', {skip: sauter}, async () => {
+        await page.getByRole('checkbox', {name: 'Afficher les prérequis externes'}).check({force: true})
+        await page.waitForSelector('[data-carte-cadre] [data-fantome]')
+        const cartes = await page.$$eval('[data-carte-cadre] [data-noeud]', els => els.map(e => ({id: e.dataset.noeud, fantome: e.hasAttribute('data-fantome')})))
+        const carte = await import('../../src/components/PrereqMap/prereqMapData.js')
+        const prerequis = new Map(carte.NODES.map(n => [n.id, n.p ?? []]))
+        const visibles = cartes.filter(c => !c.fantome).map(c => c.id)
+        for (const c of cartes.filter(c => c.fantome)) {
+            assert.ok(!['math', 'proj'].includes(tk[c.id]), `${c.id} fantome alors qu il est dans le filtre`)
+            assert.ok(visibles.some(v => prerequis.get(v).includes(c.id)), `${c.id} n est pas un prerequis direct d un noeud affiche`)
+        }
+        await page.getByRole('checkbox', {name: 'Afficher les prérequis externes'}).uncheck({force: true})
+    })
+
+    test('surbrillance au clic, panneau lateral, URL ?noeud=, Echap', {skip: sauter}, async () => {
+        await page.getByRole('button', {name: 'Tout', exact: true}).click()
+        const cible = page.locator('[data-carte-cadre] [data-noeud="m2"]').first()
+        await cible.click()
+        await page.waitForFunction(() => new URL(location.href).searchParams.get('noeud') === 'm2')
+        assert.ok(await page.locator('[data-panneau][data-ouvert]').isVisible(), 'panneau ferme')
+        assert.equal(await page.locator('#fiche-titre').textContent(), 'Calcul différentiel')
+        // Attend que la surbrillance soit appliquee (styles calcules apres le rendu).
+        await page.waitForFunction(() => getComputedStyle(document.querySelector('[data-carte-cadre] [data-noeud="a_cx"]')).opacity === '0.2')
+        const roles = await page.$$eval('[data-carte-cadre] [data-noeud]', els => Object.fromEntries(els.map(e => [e.dataset.noeud, [e.dataset.role, getComputedStyle(e).opacity]])))
+        assert.equal(roles.m1[0], 'amont')                    // prerequis direct
+        assert.equal(roles.m4[0], 'aval')                     // debloque
+        assert.equal(roles.a_cx[0], 'autre')
+        assert.equal(Number(roles.a_cx[1]), 0.2)              // le reste a 20 %
+        assert.ok(await page.locator('path[data-role="amont"]').count() > 0 && await page.locator('path[data-role="aval"]').count() > 0)
+        // Chaine complete : s'etend en aval (ex. M5 via M3).
+        await page.getByRole('checkbox', {name: /Chaîne complète/}).check({force: true})
+        assert.equal(await page.locator('[data-carte-cadre] [data-noeud="m5"]').first().getAttribute('data-role'), 'aval')
+        // La carte se reduit : le panneau ne recouvre pas la carte.
+        const panneau = await page.locator('[data-panneau]').boundingBox()
+        const cadre = await page.locator('[data-carte-cadre]').boundingBox()
+        assert.ok(cadre.x + cadre.width <= panneau.x + 1, 'le panneau recouvre la carte')
+        await page.keyboard.press('Escape')
+        await page.waitForFunction(() => !new URL(location.href).searchParams.get('noeud'))
+        assert.equal(await page.locator('[data-panneau][data-ouvert]').count(), 0)
+        // Re-clic sur le meme noeud : annule aussi.
+        await cible.click(); await cible.click()
+        assert.equal(await page.locator('[data-panneau][data-ouvert]').count(), 0)
+        // Rechargement avec ?noeud= : panneau ouvert sur ce noeud.
+        await page.goto(`${BASE_URL}/parcours?noeud=ml1`)
+        await page.waitForSelector('[data-panneau][data-ouvert]')
+        assert.equal(await page.locator('#fiche-titre').textContent(), 'Apprendre des données')
     })
 })
 
@@ -101,8 +171,10 @@ describe('session admin', () => {
         assert.deepEqual(totaux, {ia: '24', maths: '7', algo: '11'})
     })
 
-    test('edition visible pour l admin', {skip: sauterAdmin}, async () => {
+    test('edition visible pour l admin (dans le panneau)', {skip: sauterAdmin}, async () => {
+        await page.locator('[data-carte-cadre] [data-noeud]').first().click()
         assert.equal(await page.getByRole('group', {name: 'État du nœud'}).count(), 1)
+        await page.keyboard.press('Escape')
     })
 
     // Aucune carte ni aucun titre coupe ; pas de defilement vertical interne a la carte.
